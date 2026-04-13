@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
+import { api, API_URL } from '../api';
 
 const FORMAT_OPTIONS = {
   'pdf-to-word': ['docx', 'doc', 'txt'],
@@ -56,9 +57,8 @@ export default function ToolPage() {
       formData.append('file', file);
       formData.append('outputFormat', outputFormat);
 
-      const res = await fetch('/api/convert', {
+      const res = await api('/api/convert', {
         method: 'POST',
-        credentials: 'include',
         body: formData,
       });
 
@@ -73,7 +73,7 @@ export default function ToolPage() {
       // 2. Poll for completion every 2 seconds
       pollRef.current = setInterval(async () => {
         try {
-          const jobRes = await fetch(`/api/jobs/${jobId}`, { credentials: 'include' });
+          const jobRes = await api(`/api/jobs/${jobId}`);
           if (!jobRes.ok) throw new Error('Failed to check status');
 
           const job = await jobRes.json();
@@ -140,7 +140,7 @@ export default function ToolPage() {
         <div className="convert-result">
           <p className="convert-success">Conversion complete!</p>
           <div className="convert-actions">
-            <a href={downloadUrl} className="btn-primary convert-btn" download>
+            <a href={`${API_URL}${downloadUrl}`} className="btn-primary convert-btn" download>
               Download
             </a>
             <button className="btn-ghost" onClick={handleReset}>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { api } from '../api';
 
 export default function Pricing() {
   const [loading, setLoading] = useState(false);
@@ -7,9 +8,8 @@ export default function Pricing() {
   async function handleGetPro() {
     setLoading(true);
     try {
-      const res = await fetch('/api/billing/create-checkout', {
+      const res = await api('/api/billing/create-checkout', {
         method: 'POST',
-        credentials: 'include',
       });
       const data = await res.json();
 

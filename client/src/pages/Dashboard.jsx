@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
+import { api } from '../api';
 
 export default function Dashboard() {
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
-    fetch('/api/jobs', { credentials: 'include' })
+    api('/api/jobs')
       .then((r) => (r.ok ? r.json() : []))
       .then((data) => { if (Array.isArray(data)) setJobs(data); })
       .catch(() => {});

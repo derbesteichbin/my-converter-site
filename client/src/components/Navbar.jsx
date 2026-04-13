@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { api } from '../api';
 
 export default function Navbar() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -8,14 +9,14 @@ export default function Navbar() {
 
   // Check auth status on mount and on route change
   useEffect(() => {
-    fetch('/api/auth/me', { credentials: 'include' })
+    api('/api/auth/me')
       .then((r) => r.json())
       .then((data) => setLoggedIn(!!data.user))
       .catch(() => setLoggedIn(false));
   }, [location.pathname]);
 
   async function handleLogout() {
-    await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+    await api('/api/auth/logout', { method: 'POST' });
     setLoggedIn(false);
     navigate('/login');
   }
