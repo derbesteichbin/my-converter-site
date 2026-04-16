@@ -15,13 +15,16 @@ export default function Login() {
     setLoading(true);
 
     try {
+      console.log('[Login] Calling POST /api/auth/login with email:', email);
       const res = await api('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
+      console.log('[Login] Response status:', res.status, res.statusText);
 
       const data = await res.json();
+      console.log('[Login] Response body:', data);
 
       if (!res.ok) {
         setError(data.error || 'Login failed');
@@ -29,7 +32,8 @@ export default function Login() {
       }
 
       navigate('/');
-    } catch {
+    } catch (err) {
+      console.error('[Login] Request failed:', err);
       setError('Could not connect to server');
     } finally {
       setLoading(false);
