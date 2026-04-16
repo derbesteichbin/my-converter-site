@@ -9,7 +9,7 @@ const convertRoutes = require('./routes/convert');
 const billingRoutes = require('./routes/billing');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 // CORS — allow the Vite dev server (port 5173) to talk to this API
 app.use(
