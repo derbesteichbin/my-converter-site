@@ -1,14 +1,31 @@
 const express = require('express');
+const Stripe = require('stripe');
 const prisma = require('../lib/prisma');
 const { protect } = require('../middleware/auth');
 
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-
 const router = express.Router();
+
+function getStripe() {
+  if (!process.env.STRIPE_SECRET_KEY) {
+    console.warn('[billing] WARNING: STRIPE_SECRET_KEY is not set — Stripe calls will fail');
+    return null;
+  }
+  try {
+    return new Stripe(process.env.STRIPE_SECRET_KEY);
+  } catch (err) {
+    console.warn('[billing] WARNING: Failed to initialize Stripe:', err.message);
+    return null;
+  }
+}
 
 // POST /api/billing/create-checkout — create a Stripe Checkout Session
 router.post('/create-checkout', protect, async (req, res) => {
   try {
+    const stripe = getStripe();
+    if (!stripe) {
+      return res.status(503).json({ error: 'Billing is not configured' });
+    }
+
     const user = await prisma.user.findUnique({ where: { id: req.userId } });
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
@@ -39,6 +56,10 @@ router.post('/create-checkout', protect, async (req, res) => {
 // POST /api/billing/webhook — handle Stripe webhook events
 // NOTE: this route needs the raw body, not JSON-parsed
 router.post('/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+  const stripe = getStripe();
+  if (!stripe) {
+    return res.status(503).json({ error: 'Billing is not configured' });
+  }
   const sig = req.headers['stripe-signature'];
   let event;
 
