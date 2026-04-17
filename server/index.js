@@ -11,10 +11,23 @@ const billingRoutes = require('./routes/billing');
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-// CORS — allow the Vite dev server (port 5173) to talk to this API
+// CORS — allow the frontend origin (Vercel in production, localhost in dev)
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  'http://localhost:5173',
+].filter(Boolean);
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    origin: function (origin, callback) {
+      // Allow requests with no origin (server-to-server, curl, etc.)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        console.log('[CORS] Blocked origin:', origin);
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true,
   })
 );
