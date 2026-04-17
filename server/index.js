@@ -11,20 +11,15 @@ const billingRoutes = require('./routes/billing');
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-// CORS — allow the frontend origin (Vercel in production, localhost in dev)
+// CORS — allow any Vercel subdomain and localhost
 const allowedOrigins = [
-  process.env.CLIENT_URL,
   'http://localhost:5173',
-  'https://my-converter-site.vercel.app',
-  'https://my-converter-site-git-main-derbesteichbin391-9585s-projects.vercel.app',
-  'https://my-converter-site-gav4214wy-derbesteichbin391-9585s-projects.vercel.app',
-].filter(Boolean);
+];
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Allow requests with no origin (server-to-server, curl, etc.)
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin || origin.endsWith('.vercel.app') || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
         console.log('[CORS] Blocked origin:', origin);
