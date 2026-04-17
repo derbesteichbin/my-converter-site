@@ -15,6 +15,9 @@ const PORT = process.env.PORT || 8080;
 const allowedOrigins = [
   process.env.CLIENT_URL,
   'http://localhost:5173',
+  'https://my-converter-site.vercel.app',
+  'https://my-converter-site-git-main-derbesteichbin391-9585s-projects.vercel.app',
+  'https://my-converter-site-gav4214wy-derbesteichbin391-9585s-projects.vercel.app',
 ].filter(Boolean);
 
 app.use(
