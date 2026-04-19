@@ -26,18 +26,70 @@ export default function Home() {
     <div className="page">
       <Helmet>
         <title>Converter - Free Online File Converter</title>
-        <meta name="description" content="Convert any file format online for free. PDF, images, video, audio, archives and more. Fast, secure, no signup required." />
+        <meta name="description" content="Convert any file format online for free. 50+ formats supported. PDF, images, video, audio, archives and more. Fast, secure, no signup required." />
       </Helmet>
+
+      {/* Hero */}
       <section className="hero">
-        <h1>{t('home.title')}</h1>
-        <p>{t('home.subtitle')}</p>
-        <Link to="/tools" className="btn-primary" style={{ display: 'inline-block', marginTop: '1rem' }}>
+        <h1 className="hero-gradient">{t('home.title')}</h1>
+        <p className="hero-subtitle">{t('home.subtitle')}</p>
+        <p className="hero-points">
+          <span>50+ formats supported</span>
+          <span className="hero-dot" />
+          <span>No installation needed</span>
+          <span className="hero-dot" />
+          <span>Files deleted after 24 hours</span>
+        </p>
+        <Link to="/tools" className="btn-primary hero-cta">
           {t('home.browse')}
         </Link>
       </section>
 
+      {/* Stats bar */}
+      <section className="stats-bar">
+        <div className="stat-item">
+          <span className="stat-icon">&#9998;</span>
+          <span className="stat-label">50+ Formats</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-icon">&#128274;</span>
+          <span className="stat-label">100% Secure</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-icon">&#128337;</span>
+          <span className="stat-label">Deleted in 24h</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-icon">&#10003;</span>
+          <span className="stat-label">Free to Start</span>
+        </div>
+      </section>
+
+      {/* How it works */}
+      <section className="how-it-works">
+        <h2>How it works</h2>
+        <div className="steps-grid">
+          <div className="step-card">
+            <span className="step-number">1</span>
+            <h3>Upload your file</h3>
+            <p>Drag and drop any file or click to browse. We support PDF, images, video, audio, archives, and documents up to 200 MB.</p>
+          </div>
+          <div className="step-card">
+            <span className="step-number">2</span>
+            <h3>Choose your format</h3>
+            <p>Select the output format you need. Adjust quality, resolution, or enable OCR with our advanced settings.</p>
+          </div>
+          <div className="step-card">
+            <span className="step-number">3</span>
+            <h3>Download instantly</h3>
+            <p>Your converted file is ready in seconds. Download it directly or share the link. Files are auto-deleted after 24 hours for your privacy.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Recently used */}
       {recentTools.length > 0 && (
-        <section className="recent-tools">
+        <section style={{ marginBottom: '2.5rem' }}>
           <h2>{t('home.recent')}</h2>
           <div className="tools-grid">
             {recentTools.map((t) => (
@@ -49,7 +101,8 @@ export default function Home() {
         </section>
       )}
 
-      <section className="popular-tools">
+      {/* Popular tools */}
+      <section style={{ marginBottom: '2.5rem' }}>
         <h2>{t('home.popular')}</h2>
         <div className="tools-grid">
           {POPULAR_TOOLS.map((t) => (

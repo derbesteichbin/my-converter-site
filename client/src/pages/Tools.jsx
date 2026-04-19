@@ -3,6 +3,16 @@ import { Link } from 'react-router-dom';
 import { TOOLS, getCategories, getToolBySlug } from '../toolsConfig';
 import { api } from '../api';
 
+const CATEGORY_DESCRIPTIONS = {
+  Document: 'Convert between PDF, Word, Excel, PowerPoint, and more with perfect formatting preserved.',
+  Image: 'Transform images between JPG, PNG, WebP, HEIC, SVG, and other formats with quality control.',
+  Video: 'Convert video files between MP4, AVI, MOV, MKV, WebM, and extract audio tracks.',
+  Audio: 'Transform audio between MP3, WAV, FLAC, AAC, OGG, and adjust bitrate and quality.',
+  Archive: 'Convert between ZIP, RAR, 7Z, TAR, and GZ archive formats.',
+  'PDF Tools': 'Merge, split, compress, rotate, protect, and unlock PDF files.',
+  Utilities: 'Inspect file metadata, dimensions, duration, and more.',
+};
+
 const CATEGORY_COLORS = {
   Document: '#3b82f6',
   Image: '#8b5cf6',
@@ -99,8 +109,11 @@ export default function Tools() {
         const tools = filteredTools.filter((t) => t.category === cat);
         if (tools.length === 0) return null;
         return (
-          <section key={cat} style={{ marginBottom: '2rem' }}>
+          <section key={cat} style={{ marginBottom: '2.5rem' }}>
             <h2>{cat}</h2>
+            {CATEGORY_DESCRIPTIONS[cat] && (
+              <p className="category-desc">{CATEGORY_DESCRIPTIONS[cat]}</p>
+            )}
             <div className="tools-grid">
               {tools.map((t) => (
                 <Link to={`/tools/${t.slug}`} className="tool-card" data-category={t.category} key={t.slug}>

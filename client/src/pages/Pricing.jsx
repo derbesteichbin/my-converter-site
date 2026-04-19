@@ -74,10 +74,13 @@ export default function Pricing() {
         <div className="pricing-card">
           <h2>{t('pricing.free')}</h2>
           <p className="pricing-price">&euro;0</p>
+          <p className="pricing-desc">Try it out with no commitment. Perfect for a quick one-time conversion.</p>
           <ul className="pricing-features">
-            <li>1 free conversion</li>
-            <li>All file formats</li>
-            <li>Max 200 MB files</li>
+            <li>1 free conversion credit</li>
+            <li>All 50+ file formats</li>
+            <li>Up to 200 MB per file</li>
+            <li>Files deleted after 24h</li>
+            <li>No credit card required</li>
           </ul>
           <Link to="/register" className="btn-primary" style={{ display: 'block', textAlign: 'center' }}>
             {t('pricing.getStarted')}
@@ -89,11 +92,19 @@ export default function Pricing() {
           <div className={`pricing-card ${pack.popular ? 'pricing-card-highlight' : ''}`} key={pack.id}>
             <h2>{pack.label}</h2>
             <p className="pricing-price">&euro;{pack.price}</p>
+            <p className="pricing-desc">
+              {pack.credits === 1 ? 'Need just one more conversion? Pay as you go.' :
+               pack.credits === 10 ? 'Best value for regular use. Credits never expire.' :
+               'Our best deal — ideal for batch projects and teams.'}
+            </p>
             <ul className="pricing-features">
               <li>{pack.credits} conversion credit{pack.credits > 1 ? 's' : ''}</li>
-              <li>All file formats</li>
-              <li>Max 200 MB files</li>
-              <li>Priority processing</li>
+              <li>All 50+ file formats</li>
+              <li>Up to 200 MB per file</li>
+              <li>Priority processing speed</li>
+              <li>Credits never expire</li>
+              {pack.credits >= 10 && <li>Batch convert multiple files</li>}
+              {pack.credits >= 30 && <li>Advanced settings (OCR, resize)</li>}
             </ul>
             <button
               className="btn-primary"

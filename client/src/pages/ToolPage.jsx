@@ -462,6 +462,38 @@ export default function ToolPage() {
       {offline && <div className="offline-banner" role="alert">You are offline. Please check your internet connection.</div>}
       <h1>{toolDef?.label || formatToolName(toolName)}</h1>
 
+      {/* Tool description */}
+      {toolDef && !toolDef.toolType && (
+        <p className="tool-description">
+          Convert {toolDef.inputFormats?.map((f) => '.' + f.toUpperCase()).join(', ')} files
+          to {toolDef.outputFormats?.map((f) => '.' + f.toUpperCase()).join(', ')} format.
+          Upload up to 200 MB per file. Drag and drop or click to browse.
+          Your files are processed securely and deleted automatically after 24 hours.
+        </p>
+      )}
+      {toolDef?.toolType === 'pdf-merge' && (
+        <p className="tool-description">
+          Combine multiple PDF files into a single document. Drag files in the order you want them merged.
+          Upload up to 20 files at once, 200 MB max per file.
+        </p>
+      )}
+      {toolDef?.toolType === 'pdf-compress' && (
+        <p className="tool-description">
+          Reduce the file size of your PDF without losing quality. Great for email attachments and uploads.
+          See the before/after size comparison when done.
+        </p>
+      )}
+      {toolDef?.toolType === 'pdf-split' && (
+        <p className="tool-description">
+          Extract specific pages from a PDF. Enter page ranges like "1-3, 5, 7-10" to create a new PDF with only those pages.
+        </p>
+      )}
+      {toolDef?.toolType === 'metadata' && (
+        <p className="tool-description">
+          Upload any file to inspect its metadata — dimensions, duration, author, camera info, codec, and more.
+        </p>
+      )}
+
       {/* Dropzone */}
       <div
         {...getRootProps()}
