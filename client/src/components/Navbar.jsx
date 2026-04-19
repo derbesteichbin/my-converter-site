@@ -1,14 +1,23 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { api } from '../api';
 
+const LANGUAGES = [
+  { code: 'en', label: 'English' },
+  { code: 'de', label: 'Deutsch' },
+  { code: 'es', label: 'Espanol' },
+  { code: 'fr', label: 'Francais' },
+  { code: 'it', label: 'Italiano' },
+];
+
 function getInitialTheme() {
-  try {
-    return localStorage.getItem('theme') || 'light';
-  } catch { return 'light'; }
+  try { return localStorage.getItem('theme') || 'light'; }
+  catch { return 'light'; }
 }
 
 export default function Navbar() {
+  const { t, i18n } = useTranslation();
   const [loggedIn, setLoggedIn] = useState(false);
   const [theme, setTheme] = useState(getInitialTheme);
   const navigate = useNavigate();
@@ -36,30 +45,43 @@ export default function Navbar() {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
   }
 
+  function changeLang(e) {
+    const lang = e.target.value;
+    i18n.changeLanguage(lang);
+    localStorage.setItem('lang', lang);
+  }
+
   return (
-    <nav className="navbar">
-      <Link to="/" className="navbar-logo">
+    <nav className="navbar" role="navigation" aria-label="Main navigation">
+      <Link to="/" className="navbar-logo" aria-label="Home">
         Converter
       </Link>
 
       <div className="navbar-links">
-        <Link to="/tools">Tools</Link>
-        <Link to="/pricing">Pricing</Link>
+        <Link to="/tools">{t('nav.tools')}</Link>
+        <Link to="/pricing">{t('nav.pricing')}</Link>
       </div>
 
       <div className="navbar-auth">
-        <button className="btn-ghost theme-toggle" onClick={toggleTheme} title="Toggle dark mode" type="button">
+        <select className="lang-select" value={i18n.language} onChange={changeLang} aria-label="Language">
+          {LANGUAGES.map((l) => (
+            <option key={l.code} value={l.code}>{l.label}</option>
+          ))}
+        </select>
+
+        <button className="btn-ghost theme-toggle" onClick={toggleTheme} title="Toggle dark mode" type="button" aria-label="Toggle dark mode">
           {theme === 'light' ? '\u263E' : '\u2600'}
         </button>
+
         {loggedIn ? (
           <>
-            <Link to="/dashboard" className="btn-ghost">Dashboard</Link>
-            <button className="btn-ghost" onClick={handleLogout}>Log out</button>
+            <Link to="/dashboard" className="btn-ghost">{t('nav.dashboard')}</Link>
+            <button className="btn-ghost" onClick={handleLogout} aria-label="Log out">{t('nav.logout')}</button>
           </>
         ) : (
           <>
-            <Link to="/login" className="btn-ghost">Log in</Link>
-            <Link to="/register" className="btn-primary">Register</Link>
+            <Link to="/login" className="btn-ghost">{t('nav.login')}</Link>
+            <Link to="/register" className="btn-primary">{t('nav.register')}</Link>
           </>
         )}
       </div>

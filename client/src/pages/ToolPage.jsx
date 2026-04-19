@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
+import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
 import { api, API_URL } from '../api';
 import { getToolBySlug, ADVANCED_SETTINGS } from '../toolsConfig';
 import { useToast } from '../components/Toast';
@@ -106,6 +108,10 @@ export default function ToolPage() {
   const extraFields = toolDef?.extraFields || [];
   const advancedFields = ADVANCED_SETTINGS[toolDef?.category] || [];
   const toast = useToast();
+  const { t } = useTranslation();
+
+  const seoTitle = toolDef ? `${toolDef.label} - Free Online Converter` : 'File Converter';
+  const seoDesc = toolDef ? `Convert ${toolDef.inputFormats?.join(', ')} to ${toolDef.outputFormats?.join(', ')} online for free. Fast, secure, no signup required.` : 'Free online file converter.';
 
   const [files, setFiles] = useState([]);
   const [outputFormat, setOutputFormat] = useState(() => getSavedFormat(toolName, formats[0]));
@@ -449,7 +455,11 @@ export default function ToolPage() {
 
   return (
     <div className="page">
-      {offline && <div className="offline-banner">You are offline. Please check your internet connection.</div>}
+      <Helmet>
+        <title>{seoTitle}</title>
+        <meta name="description" content={seoDesc} />
+      </Helmet>
+      {offline && <div className="offline-banner" role="alert">You are offline. Please check your internet connection.</div>}
       <h1>{toolDef?.label || formatToolName(toolName)}</h1>
 
       {/* Dropzone */}
@@ -472,13 +482,13 @@ export default function ToolPage() {
         ) : isDragActive ? (
           <p>Drop files here...</p>
         ) : (
-          <p>Drag & drop files here, or click to browse</p>
+          <p>{t('tool.drop')}</p>
         )}
       </div>
 
       {/* Mobile camera capture */}
       {toolDef?.category === 'Image' && (
-        <label className="camera-btn">
+        <label className="camera-btn" aria-label={t('tool.photo')}>
           <input
             type="file"
             accept="image/*"
@@ -495,7 +505,7 @@ export default function ToolPage() {
               }
             }}
           />
-          Take a photo
+          {t('tool.photo')}
         </label>
       )}
 
@@ -509,7 +519,7 @@ export default function ToolPage() {
                 Est. output: ~{formatSize(estimateOutputSize(files[0].size, files[0].name.split('.').pop().toLowerCase(), outputFormat))}
               </span>
             )}
-            <span className="file-info-time">Est. time: {estimateTime(files)}</span>
+            <span className="file-info-time">{t('tool.estTime')}: {estimateTime(files)}</span>
           </span>
         </div>
       )}
@@ -568,12 +578,12 @@ export default function ToolPage() {
                       </span>
                     )}
                     <a href={`${API_URL}${job.downloadUrl}`} className="batch-download" download>Download</a>
-                    <button className="btn-share" onClick={async () => {
+                    <button className="btn-share" aria-label={t('tool.share')} onClick={async () => {
                       const url = `${window.location.origin}${API_URL}${job.downloadUrl}`;
                       const result = await shareOrCopy(url);
                       if (result === 'copied') toast('Download link copied!', 'success');
                       else if (result === 'shared') toast('Shared!', 'success');
-                    }} type="button">Share</button>
+                    }} type="button">{t('tool.share')}</button>
                   </>
                 )}
                 {job.status === 'failed' && <span className="batch-error">{job.error}</span>}
@@ -583,11 +593,11 @@ export default function ToolPage() {
           {overallStatus === 'done' && (
             <div className="batch-done-actions">
               {batchJobs.filter((j) => j.status === 'done').length > 1 && (
-                <button className="btn-primary" onClick={handleDownloadAll} type="button">Download All (ZIP)</button>
+                <button className="btn-primary" onClick={handleDownloadAll} type="button" aria-label="Download all as ZIP">{t('tool.downloadAll')}</button>
               )}
-              <button className="btn-ghost" onClick={handleReset}>Convert more files</button>
+              <button className="btn-ghost" onClick={handleReset}>{t('tool.convertMore')}</button>
               {countdown && (
-                <p className="expiry-countdown">Files expire in {countdown}</p>
+                <p className="expiry-countdown">{t('tool.expire')} {countdown}</p>
               )}
             </div>
           )}
@@ -622,14 +632,14 @@ export default function ToolPage() {
           )}
 
           <label className="email-toggle">
-            <input type="checkbox" checked={notifyEmail} onChange={(e) => setNotifyEmail(e.target.checked)} disabled={busy} />
-            Email me when done
+            <input type="checkbox" checked={notifyEmail} onChange={(e) => setNotifyEmail(e.target.checked)} disabled={busy} aria-label={t('tool.emailMe')} />
+            {t('tool.emailMe')}
           </label>
 
           <div className="tool-controls">
             {formats.length > 1 && (
               <div className="format-select">
-                <label htmlFor="format">Output format</label>
+                <label htmlFor="format">{t('tool.output')}</label>
                 <select id="format" value={outputFormat} onChange={(e) => setOutputFormat(e.target.value)} disabled={busy}>
                   {formats.map((f) => (
                     <option key={f} value={f}>.{f}</option>
@@ -638,16 +648,16 @@ export default function ToolPage() {
               </div>
             )}
 
-            <button className="btn-primary convert-btn" disabled={!hasFiles || busy} onClick={handleConvert}>
+            <button className="btn-primary convert-btn" disabled={!hasFiles || busy} onClick={handleConvert} aria-label={t('tool.convert')}>
               {busy && <span className="spinner" />}
-              {busy ? 'Converting...' : files.length > 1 ? `Convert ${files.length} files` : 'Convert'}
+              {busy ? t('tool.converting') : files.length > 1 ? `${t('tool.convert')} ${files.length}` : t('tool.convert')}
             </button>
           </div>
 
           {advancedFields.length > 0 && (
             <div className="advanced-section">
-              <button className="btn-ghost advanced-toggle" onClick={() => setShowAdvanced(!showAdvanced)} type="button">
-                {showAdvanced ? 'Hide' : 'Show'} advanced settings
+              <button className="btn-ghost advanced-toggle" onClick={() => setShowAdvanced(!showAdvanced)} type="button" aria-expanded={showAdvanced}>
+                {showAdvanced ? 'Hide' : 'Show'} {t('tool.advanced')}
               </button>
               {showAdvanced && (
                 <div className="advanced-fields">

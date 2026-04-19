@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import App from './App.jsx';
 import Home from './pages/Home.jsx';
 import Tools from './pages/Tools.jsx';
@@ -13,10 +14,12 @@ import Register from './pages/Register.jsx';
 import ApiDocs from './pages/ApiDocs.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import { ToastProvider } from './components/Toast.jsx';
+import './i18n';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
+    <HelmetProvider>
     <ToastProvider>
     <BrowserRouter>
       <Routes>
@@ -41,5 +44,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       </Routes>
     </BrowserRouter>
     </ToastProvider>
+    </HelmetProvider>
   </React.StrictMode>
 );
