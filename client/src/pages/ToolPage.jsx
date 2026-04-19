@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import { api, API_URL } from '../api';
 import { getToolBySlug, ADVANCED_SETTINGS } from '../toolsConfig';
+import { useToast } from '../components/Toast';
 
 function formatToolName(slug) {
   return slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
@@ -23,6 +24,28 @@ function estimateTime(files) {
   if (mb < 50) return '~1 minute';
   if (mb < 100) return '~2 minutes';
   return '~3-5 minutes';
+}
+
+function estimateSeconds(files) {
+  const totalBytes = files.reduce((sum, f) => sum + f.size, 0);
+  const mb = totalBytes / (1024 * 1024);
+  if (mb < 1) return 5;
+  if (mb < 5) return 10;
+  if (mb < 20) return 30;
+  if (mb < 50) return 60;
+  if (mb < 100) return 120;
+  return 240;
+}
+
+async function shareOrCopy(url) {
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: 'Converted file', url });
+      return 'shared';
+    } catch { return null; }
+  }
+  await navigator.clipboard.writeText(url);
+  return 'copied';
 }
 
 function saveRecentTool(slug) {
@@ -48,6 +71,7 @@ export default function ToolPage() {
   const isPdfMerge = toolDef?.toolType === 'pdf-merge';
   const extraFields = toolDef?.extraFields || [];
   const advancedFields = ADVANCED_SETTINGS[toolDef?.category] || [];
+  const toast = useToast();
 
   const [files, setFiles] = useState([]);
   const [outputFormat, setOutputFormat] = useState(formats[0]);
@@ -62,10 +86,13 @@ export default function ToolPage() {
 
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [advancedValues, setAdvancedValues] = useState({});
-  const [copied, setCopied] = useState(false);
 
   // Drag reorder state
   const [dragIndex, setDragIndex] = useState(null);
+
+  // Progress bar state
+  const [progress, setProgress] = useState(0);
+  const progressRef = useRef(null);
 
   // Track recently used tools
   useEffect(() => {
@@ -75,8 +102,30 @@ export default function ToolPage() {
   }, [toolName]);
 
   useEffect(() => {
-    return () => pollRefs.current.forEach((id) => clearInterval(id));
+    return () => {
+      pollRefs.current.forEach((id) => clearInterval(id));
+      if (progressRef.current) clearInterval(progressRef.current);
+    };
   }, []);
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    function handleKeyDown(e) {
+      if (e.key === 'Escape') {
+        setShowAdvanced(false);
+        setError('');
+      }
+      if (e.key === 'Enter' && !e.repeat && files.length > 0 && overallStatus === 'idle') {
+        const tag = e.target.tagName;
+        if (tag !== 'INPUT' && tag !== 'TEXTAREA' && tag !== 'SELECT') {
+          e.preventDefault();
+          handleConvert();
+        }
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [files, overallStatus]);
 
   useEffect(() => {
     pollRefs.current.forEach((id) => clearInterval(id));
@@ -100,7 +149,7 @@ export default function ToolPage() {
     if (toolDef?.inputFormats) {
       const invalid = accepted.map((f) => validateFileType(f, toolDef)).filter(Boolean);
       if (invalid.length > 0) {
-        setError(invalid[0]);
+        toast(invalid[0], 'error');
         return;
       }
     }
@@ -176,10 +225,29 @@ export default function ToolPage() {
     pollRefs.current.push(intervalId);
   }
 
+  function startProgress() {
+    const estSecs = estimateSeconds(files);
+    setProgress(0);
+    let elapsed = 0;
+    progressRef.current = setInterval(() => {
+      elapsed += 0.5;
+      // Asymptotic approach to 95% — never reaches 100 until actually done
+      const pct = Math.min(95, Math.round((elapsed / estSecs) * 90));
+      setProgress(pct);
+    }, 500);
+  }
+
+  function stopProgress() {
+    if (progressRef.current) clearInterval(progressRef.current);
+    progressRef.current = null;
+    setProgress(100);
+  }
+
   async function handleConvert() {
     if (files.length === 0) return;
     setError('');
     setOverallStatus('converting');
+    startProgress();
 
     if (isPdfTool) {
       const jobs = [{ file: isPdfMerge ? `${files.length} files` : files[0].name, status: 'uploading', jobId: null, downloadUrl: null, error: null }];
@@ -238,7 +306,15 @@ export default function ToolPage() {
     if (batchJobs.length === 0) return;
     const allDone = batchJobs.every((j) => j.status === 'done' || j.status === 'failed');
     if (allDone && overallStatus === 'converting') {
+      stopProgress();
       setOverallStatus('done');
+      const succeeded = batchJobs.filter((j) => j.status === 'done').length;
+      const failed = batchJobs.filter((j) => j.status === 'failed').length;
+      if (failed === 0) {
+        toast(`${succeeded} file${succeeded > 1 ? 's' : ''} converted successfully!`, 'success');
+      } else {
+        toast(`${succeeded} succeeded, ${failed} failed`, 'error');
+      }
     }
   }, [batchJobs]);
 
@@ -322,6 +398,14 @@ export default function ToolPage() {
         </div>
       )}
 
+      {/* Progress bar */}
+      {overallStatus === 'converting' && (
+        <div className="progress-bar-container">
+          <div className="progress-bar" style={{ width: `${progress}%` }} />
+          <span className="progress-label">{progress}%</span>
+        </div>
+      )}
+
       {/* Batch job progress */}
       {batchJobs.length > 0 && (
         <div className="batch-results">
@@ -334,11 +418,12 @@ export default function ToolPage() {
                 {job.status === 'done' && (
                   <>
                     <a href={`${API_URL}${job.downloadUrl}`} className="batch-download" download>Download</a>
-                    <button className="btn-copy" onClick={() => {
-                      navigator.clipboard.writeText(`${window.location.origin}${API_URL}${job.downloadUrl}`);
-                      setCopied(true);
-                      setTimeout(() => setCopied(false), 2000);
-                    }} type="button">{copied ? 'Copied!' : 'Copy link'}</button>
+                    <button className="btn-share" onClick={async () => {
+                      const url = `${window.location.origin}${API_URL}${job.downloadUrl}`;
+                      const result = await shareOrCopy(url);
+                      if (result === 'copied') toast('Download link copied!', 'success');
+                      else if (result === 'shared') toast('Shared!', 'success');
+                    }} type="button">Share</button>
                   </>
                 )}
                 {job.status === 'failed' && <span className="batch-error">{job.error}</span>}

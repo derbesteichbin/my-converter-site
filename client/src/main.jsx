@@ -11,10 +11,12 @@ import Pricing from './pages/Pricing.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
+import { ToastProvider } from './components/Toast.jsx';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
+    <ToastProvider>
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
@@ -36,5 +38,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         </Route>
       </Routes>
     </BrowserRouter>
+    </ToastProvider>
   </React.StrictMode>
 );

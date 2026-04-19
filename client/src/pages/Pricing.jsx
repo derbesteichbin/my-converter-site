@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../api';
+import { useToast } from '../components/Toast';
 
 export default function Pricing() {
   const [loading, setLoading] = useState(false);
+  const toast = useToast();
 
   async function handleGetPro() {
     setLoading(true);
@@ -14,13 +16,13 @@ export default function Pricing() {
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.error || 'Failed to start checkout');
+        toast(data.error || 'Failed to start checkout', 'error');
         return;
       }
 
       window.location.href = data.url;
     } catch {
-      alert('Could not connect to server');
+      toast('Could not connect to server', 'error');
     } finally {
       setLoading(false);
     }
