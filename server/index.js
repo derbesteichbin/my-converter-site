@@ -1,4 +1,4 @@
-console.log('DB:' + (process.env.DATABASE_URL ? 'SET' : 'MISSING') + ' JWT:' + (process.env.JWT_SECRET ? 'SET' : 'MISSING') + ' STRIPE:' + (process.env.STRIPE_SECRET_KEY ? 'SET' : 'MISSING'));
+console.log('DB:' + (process.env.DATABASE_URL ? 'SET' : 'MISSING') + ' JWT:' + (process.env.JWT_SECRET ? 'SET' : 'MISSING') + ' STRIPE:' + (process.env.STRIPE_SECRET_KEY ? 'SET' : 'MISSING') + ' RESEND:' + (process.env.RESEND_API_KEY ? 'SET' : 'MISSING'));
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');

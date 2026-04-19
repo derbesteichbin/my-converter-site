@@ -159,8 +159,9 @@ router.post('/forgot-password', async (req, res) => {
     if (!email) return res.status(400).json({ error: 'Email is required' });
 
     const user = await prisma.user.findUnique({ where: { email } });
-    // Always return success to prevent email enumeration
-    if (!user) return res.json({ ok: true });
+    if (!user) {
+      return res.status(404).json({ error: 'No account found with this email address' });
+    }
 
     const resetToken = crypto.randomBytes(32).toString('hex');
     const resetTokenExpiry = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
@@ -170,27 +171,41 @@ router.post('/forgot-password', async (req, res) => {
       data: { resetToken, resetTokenExpiry },
     });
 
-    // Send email
-    const { Resend } = require('resend');
-    const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
     const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
     const resetLink = `${clientUrl}/reset-password?token=${resetToken}`;
 
-    if (resend) {
-      await resend.emails.send({
-        from: 'Converter <noreply@resend.dev>',
-        to: email,
-        subject: 'Reset your password',
-        html: `<p>You requested a password reset.</p><p><a href="${resetLink}">Click here to reset your password</a></p><p>This link expires in 1 hour. If you didn't request this, you can ignore this email.</p>`,
-      });
-    } else {
-      console.log('[auth] Reset link (no email configured):', resetLink);
+    // Send email via Resend
+    if (!process.env.RESEND_API_KEY) {
+      console.error('[forgot-password] RESEND_API_KEY is not set — cannot send email');
+      console.log('[forgot-password] Reset link (for dev):', resetLink);
+      return res.json({ ok: true });
     }
 
+    const { Resend } = require('resend');
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
+    console.log('[forgot-password] Sending reset email to:', email);
+    const emailResult = await resend.emails.send({
+      from: 'Converter <noreply@resend.dev>',
+      to: email,
+      subject: 'Reset your password — Converter',
+      html: [
+        '<div style="font-family: sans-serif; max-width: 480px; margin: 0 auto; padding: 2rem;">',
+        '<h2 style="margin: 0 0 1rem;">Reset your password</h2>',
+        '<p>We received a request to reset the password for your Converter account.</p>',
+        `<p style="margin: 1.5rem 0;"><a href="${resetLink}" style="display: inline-block; padding: 0.75rem 1.5rem; background: #7c3aed; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600;">Reset password</a></p>`,
+        `<p style="font-size: 0.875rem; color: #888;">Or copy this link: ${resetLink}</p>`,
+        '<p style="font-size: 0.875rem; color: #888;">This link expires in 1 hour. If you did not request a password reset, you can safely ignore this email.</p>',
+        '</div>',
+      ].join(''),
+    });
+
+    console.log('[forgot-password] Email sent successfully:', emailResult);
     res.json({ ok: true });
   } catch (err) {
-    console.error('Forgot password error:', err);
-    res.status(500).json({ error: 'Failed to process request' });
+    console.error('[forgot-password] Error:', err.message);
+    if (err.statusCode) console.error('[forgot-password] Status code:', err.statusCode);
+    res.status(500).json({ error: 'Failed to send reset email. Please try again later.' });
   }
 });
 
