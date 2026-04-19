@@ -1,12 +1,7 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { api, API_URL } from '../api';
-
-function formatSize(bytes) {
-  if (!bytes) return '—';
-  if (bytes < 1024) return bytes + ' B';
-  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-  return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
-}
+import { getToolBySlug } from '../toolsConfig';
 
 function statusBadge(status) {
   const cls = {
@@ -18,21 +13,45 @@ function statusBadge(status) {
   return <span className={`status-badge ${cls}`}>{status}</span>;
 }
 
+function getRecentTools() {
+  try {
+    const slugs = JSON.parse(localStorage.getItem('recentTools') || '[]');
+    return slugs.map(getToolBySlug).filter(Boolean).slice(0, 3);
+  } catch { return []; }
+}
+
 export default function Dashboard() {
   const [jobs, setJobs] = useState([]);
+  const [recentTools, setRecentTools] = useState([]);
 
   useEffect(() => {
     api('/api/jobs')
       .then((r) => (r.ok ? r.json() : []))
       .then((data) => { if (Array.isArray(data)) setJobs(data); })
       .catch(() => {});
+    setRecentTools(getRecentTools());
   }, []);
 
   return (
     <div className="page">
       <h1>Dashboard</h1>
-      <p style={{ color: '#666', marginBottom: '1.5rem' }}>
-        Your conversion history — {jobs.length} {jobs.length === 1 ? 'conversion' : 'conversions'} total
+
+      {recentTools.length > 0 && (
+        <section style={{ marginBottom: '2rem' }}>
+          <h2>Recently used tools</h2>
+          <div className="tools-grid">
+            {recentTools.map((t) => (
+              <Link to={`/tools/${t.slug}`} className="tool-card" key={t.slug}>
+                <span className="tool-card-label">{t.label}</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <h2>Conversion history</h2>
+      <p style={{ color: '#666', marginBottom: '1rem' }}>
+        {jobs.length} {jobs.length === 1 ? 'conversion' : 'conversions'} total
       </p>
 
       {jobs.length === 0 ? (
@@ -50,8 +69,8 @@ export default function Dashboard() {
           </thead>
           <tbody>
             {jobs.map((job) => {
-              const inputName = job.inputFile || '—';
-              const outputExt = job.outputFile ? job.outputFile.split('.').pop().toUpperCase() : '—';
+              const inputName = job.inputFile || '-';
+              const outputExt = job.outputFile ? job.outputFile.split('.').pop().toUpperCase() : '-';
               return (
                 <tr key={job.id}>
                   <td className="job-file-cell" title={inputName}>{inputName}</td>

@@ -1,8 +1,40 @@
+:root {
+  --bg: #f7f7f8;
+  --bg-card: #fff;
+  --text: #222;
+  --text-muted: #666;
+  --border: #e5e5e5;
+  --border-hover: #aaa;
+  --navbar-bg: #fff;
+  --btn-bg: #111;
+  --btn-text: #fff;
+  --dropzone-bg: transparent;
+  --dropzone-active-bg: #fafafa;
+  --info-bar-bg: #f0f4ff;
+  --info-bar-border: #dbe4ff;
+}
+
+[data-theme="dark"] {
+  --bg: #1a1a2e;
+  --bg-card: #16213e;
+  --text: #e0e0e0;
+  --text-muted: #999;
+  --border: #2a2a4a;
+  --border-hover: #555;
+  --navbar-bg: #0f3460;
+  --btn-bg: #e94560;
+  --btn-text: #fff;
+  --dropzone-bg: #16213e;
+  --dropzone-active-bg: #1a1a3e;
+  --info-bar-bg: #1a1a3e;
+  --info-bar-border: #2a2a5a;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: #f7f7f8;
-  color: #222;
+  background: var(--bg);
+  color: var(--text);
 }
 
 .auth-page {
@@ -13,7 +45,7 @@ body {
 }
 
 .auth-form {
-  background: #fff;
+  background: var(--bg-card);
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
@@ -85,8 +117,8 @@ body {
   align-items: center;
   gap: 1rem;
   padding: 0.75rem 2rem;
-  background: #fff;
-  border-bottom: 1px solid #e5e5e5;
+  background: var(--navbar-bg);
+  border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -95,7 +127,7 @@ body {
 .navbar-logo {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #111;
+  color: var(--text);
   text-decoration: none;
   margin-right: auto;
 }
@@ -140,8 +172,8 @@ body {
 }
 
 .btn-primary {
-  background: #111;
-  color: #fff;
+  background: var(--btn-bg);
+  color: var(--btn-text);
   border: none;
   padding: 0.375rem 0.875rem;
   border-radius: 4px;
@@ -189,8 +221,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fff;
-  border: 1px solid #e5e5e5;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 1.25rem 1rem;
   text-decoration: none;
@@ -200,7 +232,7 @@ body {
 }
 
 .tool-card:hover {
-  border-color: #aaa;
+  border-color: var(--border-hover);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
@@ -655,8 +687,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #f0f4ff;
-  border: 1px solid #dbe4ff;
+  background: var(--info-bar-bg);
+  border: 1px solid var(--info-bar-border);
   border-radius: 4px;
   padding: 0.5rem 0.75rem;
   font-size: 0.875rem;
@@ -686,8 +718,8 @@ body {
 
 /* ---- Metadata page ---- */
 .metadata-result {
-  background: #fff;
-  border: 1px solid #e5e5e5;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 1.5rem;
 }
@@ -757,4 +789,111 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* ---- Theme toggle ---- */
+.theme-toggle {
+  font-size: 1.125rem;
+  padding: 0.25rem 0.5rem;
+  line-height: 1;
+}
+
+/* ---- Drag reorder ---- */
+.drag-handle {
+  cursor: grab;
+  color: #999;
+  font-size: 1rem;
+  user-select: none;
+  flex-shrink: 0;
+  letter-spacing: -0.15em;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+.multi-file-dragging {
+  opacity: 0.5;
+  border-style: dashed;
+}
+
+.reorder-hint {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  margin: 0 0 0.5rem;
+}
+
+/* ---- Dark mode overrides ---- */
+[data-theme="dark"] .auth-form {
+  color: var(--text);
+}
+
+[data-theme="dark"] .auth-form input,
+[data-theme="dark"] .extra-field input,
+[data-theme="dark"] .extra-field select,
+[data-theme="dark"] .format-select select,
+[data-theme="dark"] .advanced-field input,
+[data-theme="dark"] .advanced-field select {
+  background: #1a1a3e;
+  color: var(--text);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .dropzone {
+  border-color: var(--border);
+  color: var(--text-muted);
+  background: var(--dropzone-bg);
+}
+
+[data-theme="dark"] .dropzone:hover,
+[data-theme="dark"] .dropzone-active {
+  border-color: var(--border-hover);
+  background: var(--dropzone-active-bg);
+}
+
+[data-theme="dark"] .dropzone-has-file {
+  border-color: var(--border-hover);
+  background: var(--dropzone-active-bg);
+}
+
+[data-theme="dark"] .multi-file-item,
+[data-theme="dark"] .batch-item {
+  background: var(--bg-card);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .pricing-card {
+  background: var(--bg-card);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .advanced-fields {
+  background: var(--bg-card);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .btn-ghost {
+  color: var(--text);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .navbar-links a {
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] .jobs-table th,
+[data-theme="dark"] .jobs-table td {
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .metadata-table tr {
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .metadata-label {
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] .metadata-value {
+  color: var(--text);
 }

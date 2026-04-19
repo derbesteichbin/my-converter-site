@@ -25,6 +25,21 @@ function estimateTime(files) {
   return '~3-5 minutes';
 }
 
+function saveRecentTool(slug) {
+  try {
+    const recent = JSON.parse(localStorage.getItem('recentTools') || '[]');
+    const updated = [slug, ...recent.filter((s) => s !== slug)].slice(0, 5);
+    localStorage.setItem('recentTools', JSON.stringify(updated));
+  } catch { /* ignore */ }
+}
+
+function validateFileType(file, toolDef) {
+  if (!toolDef?.inputFormats) return null;
+  const ext = file.name.split('.').pop().toLowerCase();
+  if (toolDef.inputFormats.includes(ext)) return null;
+  return `"${file.name}" is not a supported file type. Expected: ${toolDef.inputFormats.map((f) => '.' + f).join(', ')}`;
+}
+
 export default function ToolPage() {
   const { toolName } = useParams();
   const toolDef = getToolBySlug(toolName);
@@ -34,32 +49,35 @@ export default function ToolPage() {
   const extraFields = toolDef?.extraFields || [];
   const advancedFields = ADVANCED_SETTINGS[toolDef?.category] || [];
 
-  // For PDF merge: files are merged into one job
-  // For everything else: each file gets its own conversion job (batch)
   const [files, setFiles] = useState([]);
   const [outputFormat, setOutputFormat] = useState(formats[0]);
-  const [batchJobs, setBatchJobs] = useState([]); // { file, status, jobId, downloadUrl, error }
-  const [overallStatus, setOverallStatus] = useState('idle'); // idle | converting | done
+  const [batchJobs, setBatchJobs] = useState([]);
+  const [overallStatus, setOverallStatus] = useState('idle');
   const [error, setError] = useState('');
   const pollRefs = useRef([]);
 
-  // Extra field state
   const [pageRanges, setPageRanges] = useState('');
   const [rotation, setRotation] = useState('90');
   const [password, setPassword] = useState('');
 
-  // Advanced settings state
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [advancedValues, setAdvancedValues] = useState({});
-
   const [copied, setCopied] = useState(false);
 
-  // Cleanup polls on unmount
+  // Drag reorder state
+  const [dragIndex, setDragIndex] = useState(null);
+
+  // Track recently used tools
+  useEffect(() => {
+    if (toolName && toolDef && !toolDef.toolType?.startsWith('metadata')) {
+      saveRecentTool(toolName);
+    }
+  }, [toolName]);
+
   useEffect(() => {
     return () => pollRefs.current.forEach((id) => clearInterval(id));
   }, []);
 
-  // Reset state when tool changes
   useEffect(() => {
     pollRefs.current.forEach((id) => clearInterval(id));
     pollRefs.current = [];
@@ -76,13 +94,22 @@ export default function ToolPage() {
   }, [toolName]);
 
   const onDrop = useCallback((accepted) => {
-    if (accepted.length > 0) {
-      setFiles((prev) => [...prev, ...accepted]);
-      setOverallStatus('idle');
-      setBatchJobs([]);
-      setError('');
+    if (accepted.length === 0) return;
+
+    // Validate file types
+    if (toolDef?.inputFormats) {
+      const invalid = accepted.map((f) => validateFileType(f, toolDef)).filter(Boolean);
+      if (invalid.length > 0) {
+        setError(invalid[0]);
+        return;
+      }
     }
-  }, []);
+
+    setFiles((prev) => [...prev, ...accepted]);
+    setOverallStatus('idle');
+    setBatchJobs([]);
+    setError('');
+  }, [toolDef]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     multiple: true,
@@ -91,6 +118,27 @@ export default function ToolPage() {
 
   function removeFile(index) {
     setFiles((prev) => prev.filter((_, i) => i !== index));
+  }
+
+  // Drag reorder handlers
+  function handleDragStart(index) {
+    setDragIndex(index);
+  }
+
+  function handleDragOver(e, index) {
+    e.preventDefault();
+    if (dragIndex === null || dragIndex === index) return;
+    setFiles((prev) => {
+      const updated = [...prev];
+      const [dragged] = updated.splice(dragIndex, 1);
+      updated.splice(index, 0, dragged);
+      return updated;
+    });
+    setDragIndex(index);
+  }
+
+  function handleDragEnd() {
+    setDragIndex(null);
   }
 
   function updateAdvanced(key, value) {
@@ -134,7 +182,6 @@ export default function ToolPage() {
     setOverallStatus('converting');
 
     if (isPdfTool) {
-      // PDF tools: single job with all files
       const jobs = [{ file: isPdfMerge ? `${files.length} files` : files[0].name, status: 'uploading', jobId: null, downloadUrl: null, error: null }];
       setBatchJobs(jobs);
 
@@ -161,7 +208,6 @@ export default function ToolPage() {
         setBatchJobs([{ ...jobs[0], status: 'failed', error: err.message }]);
       }
     } else {
-      // Standard conversion: one job per file (batch)
       const jobs = files.map((f) => ({ file: f.name, status: 'uploading', jobId: null, downloadUrl: null, error: null }));
       setBatchJobs(jobs);
 
@@ -188,7 +234,6 @@ export default function ToolPage() {
     }
   }
 
-  // Track overall completion
   useEffect(() => {
     if (batchJobs.length === 0) return;
     const allDone = batchJobs.every((j) => j.status === 'done' || j.status === 'failed');
@@ -249,11 +294,20 @@ export default function ToolPage() {
         </div>
       )}
 
-      {/* File list (shown when multiple files or PDF merge) */}
+      {/* File list with drag reorder for PDF merge */}
       {files.length > 1 && overallStatus === 'idle' && (
         <div className="multi-file-list">
+          {isPdfMerge && <p className="reorder-hint">Drag to reorder files before merging</p>}
           {files.map((f, i) => (
-            <div className="multi-file-item" key={`${f.name}-${i}`}>
+            <div
+              className={`multi-file-item ${dragIndex === i ? 'multi-file-dragging' : ''}`}
+              key={`${f.name}-${i}`}
+              draggable={isPdfMerge}
+              onDragStart={() => handleDragStart(i)}
+              onDragOver={(e) => handleDragOver(e, i)}
+              onDragEnd={handleDragEnd}
+            >
+              {isPdfMerge && <span className="drag-handle">&#8942;&#8942;</span>}
               {isImageFile(f) ? (
                 <img className="multi-file-thumb" src={URL.createObjectURL(f)} alt="" />
               ) : (
@@ -303,7 +357,6 @@ export default function ToolPage() {
 
       {overallStatus !== 'done' && batchJobs.length === 0 && (
         <>
-          {/* Extra fields for PDF tools */}
           {extraFields.includes('pageRanges') && (
             <div className="extra-field">
               <label htmlFor="pageRanges">Page ranges (e.g. 1-3, 5, 7-10)</label>
@@ -327,7 +380,6 @@ export default function ToolPage() {
             </div>
           )}
 
-          {/* Format selector + Convert button */}
           <div className="tool-controls">
             {formats.length > 1 && (
               <div className="format-select">
@@ -346,7 +398,6 @@ export default function ToolPage() {
             </button>
           </div>
 
-          {/* Advanced settings */}
           {advancedFields.length > 0 && (
             <div className="advanced-section">
               <button className="btn-ghost advanced-toggle" onClick={() => setShowAdvanced(!showAdvanced)} type="button">
@@ -356,7 +407,6 @@ export default function ToolPage() {
                 <div className="advanced-fields">
                   {advancedFields.map((field) => {
                     if (field.dependsOn && !advancedValues[field.dependsOn]) return null;
-
                     if (field.type === 'checkbox') {
                       return (
                         <label key={field.key} className="advanced-checkbox">
@@ -371,9 +421,7 @@ export default function ToolPage() {
                           <label>{field.label}</label>
                           <select value={advancedValues[field.key] || ''} onChange={(e) => updateAdvanced(field.key, e.target.value)} disabled={busy}>
                             <option value="">Default</option>
-                            {field.options.map((opt) => (
-                              <option key={opt} value={opt}>{opt}</option>
-                            ))}
+                            {field.options.map((opt) => (<option key={opt} value={opt}>{opt}</option>))}
                           </select>
                         </div>
                       );
