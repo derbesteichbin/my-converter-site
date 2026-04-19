@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import { api, API_URL } from '../api';
@@ -8,20 +8,29 @@ function formatToolName(slug) {
   return slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
+function formatSize(bytes) {
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+  return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+}
+
 export default function ToolPage() {
   const { toolName } = useParams();
   const toolDef = getToolBySlug(toolName);
   const formats = toolDef?.outputFormats || ['pdf', 'png', 'jpg'];
-  const isMultiFile = toolDef?.multipleFiles || false;
+  const isPdfTool = !!toolDef?.toolType;
+  const isPdfMerge = toolDef?.toolType === 'pdf-merge';
   const extraFields = toolDef?.extraFields || [];
   const advancedFields = ADVANCED_SETTINGS[toolDef?.category] || [];
 
+  // For PDF merge: files are merged into one job
+  // For everything else: each file gets its own conversion job (batch)
   const [files, setFiles] = useState([]);
   const [outputFormat, setOutputFormat] = useState(formats[0]);
-  const [status, setStatus] = useState('idle');
-  const [downloadUrl, setDownloadUrl] = useState(null);
+  const [batchJobs, setBatchJobs] = useState([]); // { file, status, jobId, downloadUrl, error }
+  const [overallStatus, setOverallStatus] = useState('idle'); // idle | converting | done
   const [error, setError] = useState('');
-  const pollRef = useRef(null);
+  const pollRefs = useRef([]);
 
   // Extra field state
   const [pageRanges, setPageRanges] = useState('');
@@ -32,16 +41,19 @@ export default function ToolPage() {
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [advancedValues, setAdvancedValues] = useState({});
 
+  // Cleanup polls on unmount
   useEffect(() => {
-    return () => { if (pollRef.current) clearInterval(pollRef.current); };
+    return () => pollRefs.current.forEach((id) => clearInterval(id));
   }, []);
 
   // Reset state when tool changes
   useEffect(() => {
+    pollRefs.current.forEach((id) => clearInterval(id));
+    pollRefs.current = [];
     setFiles([]);
     setOutputFormat(formats[0]);
-    setStatus('idle');
-    setDownloadUrl(null);
+    setBatchJobs([]);
+    setOverallStatus('idle');
     setError('');
     setPageRanges('');
     setRotation('90');
@@ -50,16 +62,18 @@ export default function ToolPage() {
     setAdvancedValues({});
   }, [toolName]);
 
+  const onDrop = useCallback((accepted) => {
+    if (accepted.length > 0) {
+      setFiles((prev) => [...prev, ...accepted]);
+      setOverallStatus('idle');
+      setBatchJobs([]);
+      setError('');
+    }
+  }, []);
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    multiple: isMultiFile,
-    onDrop: (accepted) => {
-      if (accepted.length > 0) {
-        setFiles(isMultiFile ? (prev) => [...prev, ...accepted] : [accepted[0]]);
-        setStatus('idle');
-        setDownloadUrl(null);
-        setError('');
-      }
-    },
+    multiple: true,
+    onDrop,
   });
 
   function removeFile(index) {
@@ -70,87 +84,116 @@ export default function ToolPage() {
     setAdvancedValues((prev) => ({ ...prev, [key]: value }));
   }
 
+  function buildExtraFormData(formData) {
+    if (extraFields.includes('pageRanges') && pageRanges) formData.append('pageRanges', pageRanges);
+    if (extraFields.includes('rotation')) formData.append('rotation', rotation);
+    if (extraFields.includes('password') && password) formData.append('password', password);
+    Object.entries(advancedValues).forEach(([key, val]) => {
+      if (val !== '' && val !== undefined && val !== false) formData.append(key, val);
+    });
+  }
+
+  function pollJob(index, jobId) {
+    const intervalId = setInterval(async () => {
+      try {
+        const res = await api(`/api/jobs/${jobId}`);
+        if (!res.ok) throw new Error('Failed to check status');
+        const job = await res.json();
+
+        if (job.status === 'done') {
+          clearInterval(intervalId);
+          setBatchJobs((prev) => prev.map((j, i) => i === index ? { ...j, status: 'done', downloadUrl: job.downloadUrl } : j));
+        } else if (job.status === 'failed') {
+          clearInterval(intervalId);
+          setBatchJobs((prev) => prev.map((j, i) => i === index ? { ...j, status: 'failed', error: 'Conversion failed' } : j));
+        }
+      } catch {
+        clearInterval(intervalId);
+        setBatchJobs((prev) => prev.map((j, i) => i === index ? { ...j, status: 'failed', error: 'Lost connection' } : j));
+      }
+    }, 2000);
+    pollRefs.current.push(intervalId);
+  }
+
   async function handleConvert() {
     if (files.length === 0) return;
-    setStatus('uploading');
     setError('');
-    setDownloadUrl(null);
+    setOverallStatus('converting');
 
-    try {
-      const formData = new FormData();
-      formData.append('outputFormat', outputFormat);
-      formData.append('toolSlug', toolName);
+    if (isPdfTool) {
+      // PDF tools: single job with all files
+      const jobs = [{ file: isPdfMerge ? `${files.length} files` : files[0].name, status: 'uploading', jobId: null, downloadUrl: null, error: null }];
+      setBatchJobs(jobs);
 
-      // Append file(s)
-      if (isMultiFile) {
-        files.forEach((f) => formData.append('files', f));
-      } else {
-        formData.append('file', files[0]);
-      }
-
-      // Append extra fields
-      if (extraFields.includes('pageRanges') && pageRanges) formData.append('pageRanges', pageRanges);
-      if (extraFields.includes('rotation')) formData.append('rotation', rotation);
-      if (extraFields.includes('password') && password) formData.append('password', password);
-
-      // Append advanced settings
-      Object.entries(advancedValues).forEach(([key, val]) => {
-        if (val !== '' && val !== undefined && val !== false) formData.append(key, val);
-      });
-
-      const endpoint = toolDef?.toolType ? '/api/convert/pdf-tool' : '/api/convert';
-      const res = await api(endpoint, {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data.error || 'Upload failed');
-      }
-
-      const { jobId } = await res.json();
-      setStatus('processing');
-
-      pollRef.current = setInterval(async () => {
-        try {
-          const jobRes = await api(`/api/jobs/${jobId}`);
-          if (!jobRes.ok) throw new Error('Failed to check status');
-
-          const job = await jobRes.json();
-
-          if (job.status === 'done') {
-            clearInterval(pollRef.current);
-            pollRef.current = null;
-            setDownloadUrl(job.downloadUrl);
-            setStatus('done');
-          } else if (job.status === 'failed') {
-            clearInterval(pollRef.current);
-            pollRef.current = null;
-            setStatus('failed');
-            setError('Conversion failed. Please try again.');
-          }
-        } catch {
-          clearInterval(pollRef.current);
-          pollRef.current = null;
-          setStatus('failed');
-          setError('Lost connection while checking status.');
+      try {
+        const formData = new FormData();
+        formData.append('outputFormat', outputFormat);
+        formData.append('toolSlug', toolName);
+        if (isPdfMerge) {
+          files.forEach((f) => formData.append('files', f));
+        } else {
+          formData.append('files', files[0]);
         }
-      }, 2000);
-    } catch (err) {
-      setStatus('failed');
-      setError(err.message || 'Something went wrong');
+        buildExtraFormData(formData);
+
+        const res = await api('/api/convert/pdf-tool', { method: 'POST', body: formData });
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          throw new Error(data.error || 'Upload failed');
+        }
+        const { jobId } = await res.json();
+        setBatchJobs([{ ...jobs[0], status: 'processing', jobId }]);
+        pollJob(0, jobId);
+      } catch (err) {
+        setBatchJobs([{ ...jobs[0], status: 'failed', error: err.message }]);
+      }
+    } else {
+      // Standard conversion: one job per file (batch)
+      const jobs = files.map((f) => ({ file: f.name, status: 'uploading', jobId: null, downloadUrl: null, error: null }));
+      setBatchJobs(jobs);
+
+      for (let i = 0; i < files.length; i++) {
+        try {
+          const formData = new FormData();
+          formData.append('file', files[i]);
+          formData.append('outputFormat', outputFormat);
+          formData.append('toolSlug', toolName);
+          buildExtraFormData(formData);
+
+          const res = await api('/api/convert', { method: 'POST', body: formData });
+          if (!res.ok) {
+            const data = await res.json().catch(() => ({}));
+            throw new Error(data.error || 'Upload failed');
+          }
+          const { jobId } = await res.json();
+          setBatchJobs((prev) => prev.map((j, idx) => idx === i ? { ...j, status: 'processing', jobId } : j));
+          pollJob(i, jobId);
+        } catch (err) {
+          setBatchJobs((prev) => prev.map((j, idx) => idx === i ? { ...j, status: 'failed', error: err.message } : j));
+        }
+      }
     }
   }
 
+  // Track overall completion
+  useEffect(() => {
+    if (batchJobs.length === 0) return;
+    const allDone = batchJobs.every((j) => j.status === 'done' || j.status === 'failed');
+    if (allDone && overallStatus === 'converting') {
+      setOverallStatus('done');
+    }
+  }, [batchJobs]);
+
   function handleReset() {
+    pollRefs.current.forEach((id) => clearInterval(id));
+    pollRefs.current = [];
     setFiles([]);
-    setStatus('idle');
-    setDownloadUrl(null);
+    setBatchJobs([]);
+    setOverallStatus('idle');
     setError('');
   }
 
-  const busy = status === 'uploading' || status === 'processing';
+  const busy = overallStatus === 'converting';
   const hasFiles = files.length > 0;
 
   return (
@@ -163,46 +206,59 @@ export default function ToolPage() {
         className={`dropzone ${isDragActive ? 'dropzone-active' : ''} ${hasFiles ? 'dropzone-has-file' : ''}`}
       >
         <input {...getInputProps()} />
-        {hasFiles && !isMultiFile ? (
+        {hasFiles && files.length === 1 && !isPdfMerge ? (
           <div className="dropzone-file">
             <span className="dropzone-filename">{files[0].name}</span>
-            <span className="dropzone-filesize">{(files[0].size / 1024).toFixed(1)} KB</span>
+            <span className="dropzone-filesize">{formatSize(files[0].size)}</span>
           </div>
         ) : isDragActive ? (
-          <p>Drop {isMultiFile ? 'files' : 'it'} here...</p>
+          <p>Drop files here...</p>
         ) : (
-          <p>Drag & drop {isMultiFile ? 'files' : 'a file'} here, or click to browse</p>
+          <p>Drag & drop files here, or click to browse</p>
         )}
       </div>
 
-      {/* Multi-file list */}
-      {isMultiFile && files.length > 0 && (
+      {/* File list (shown when multiple files or PDF merge) */}
+      {files.length > 1 && overallStatus === 'idle' && (
         <div className="multi-file-list">
           {files.map((f, i) => (
             <div className="multi-file-item" key={`${f.name}-${i}`}>
               <span className="multi-file-name">{f.name}</span>
-              <span className="multi-file-size">{(f.size / 1024).toFixed(1)} KB</span>
+              <span className="multi-file-size">{formatSize(f.size)}</span>
               <button className="multi-file-remove" onClick={() => removeFile(i)} type="button">&times;</button>
             </div>
           ))}
+          <p className="batch-count">{files.length} files selected</p>
+        </div>
+      )}
+
+      {/* Batch job progress */}
+      {batchJobs.length > 0 && (
+        <div className="batch-results">
+          {batchJobs.map((job, i) => (
+            <div className={`batch-item batch-item-${job.status}`} key={i}>
+              <span className="batch-item-name">{job.file}</span>
+              <span className="batch-item-status">
+                {job.status === 'uploading' && 'Uploading...'}
+                {job.status === 'processing' && <><span className="spinner spinner-sm" /> Converting...</>}
+                {job.status === 'done' && (
+                  <a href={`${API_URL}${job.downloadUrl}`} className="batch-download" download>Download</a>
+                )}
+                {job.status === 'failed' && <span className="batch-error">{job.error}</span>}
+              </span>
+            </div>
+          ))}
+          {overallStatus === 'done' && (
+            <div className="batch-done-actions">
+              <button className="btn-ghost" onClick={handleReset}>Convert more files</button>
+            </div>
+          )}
         </div>
       )}
 
       {error && <p className="convert-error">{error}</p>}
 
-      {status === 'done' && downloadUrl ? (
-        <div className="convert-result">
-          <p className="convert-success">Conversion complete!</p>
-          <div className="convert-actions">
-            <a href={`${API_URL}${downloadUrl}`} className="btn-primary convert-btn" download>
-              Download
-            </a>
-            <button className="btn-ghost" onClick={handleReset}>
-              Convert another file
-            </button>
-          </div>
-        </div>
-      ) : (
+      {overallStatus !== 'done' && batchJobs.length === 0 && (
         <>
           {/* Extra fields for PDF tools */}
           {extraFields.includes('pageRanges') && (
@@ -243,7 +299,7 @@ export default function ToolPage() {
 
             <button className="btn-primary convert-btn" disabled={!hasFiles || busy} onClick={handleConvert}>
               {busy && <span className="spinner" />}
-              {status === 'uploading' ? 'Uploading...' : status === 'processing' ? 'Converting...' : 'Convert'}
+              {busy ? 'Converting...' : files.length > 1 ? `Convert ${files.length} files` : 'Convert'}
             </button>
           </div>
 
