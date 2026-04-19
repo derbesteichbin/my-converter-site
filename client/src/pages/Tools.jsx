@@ -103,7 +103,7 @@ export default function Tools() {
             <h2>{cat}</h2>
             <div className="tools-grid">
               {tools.map((t) => (
-                <Link to={`/tools/${t.slug}`} className="tool-card" key={t.slug}>
+                <Link to={`/tools/${t.slug}`} className="tool-card" data-category={t.category} key={t.slug}>
                   <button
                     className={`fav-btn ${favorites.includes(t.slug) ? 'fav-active' : ''}`}
                     onClick={(e) => toggleFavorite(e, t.slug)}
