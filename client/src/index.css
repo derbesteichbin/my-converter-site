@@ -399,3 +399,124 @@ body {
   color: #111;
   font-weight: 700;
 }
+
+/* ---- Multi-file list ---- */
+.multi-file-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.multi-file-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
+}
+
+.multi-file-name {
+  font-weight: 500;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.multi-file-size {
+  font-size: 0.8125rem;
+  color: #888;
+  flex-shrink: 0;
+}
+
+.multi-file-remove {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  color: #999;
+  cursor: pointer;
+  padding: 0 0.25rem;
+  line-height: 1;
+}
+
+.multi-file-remove:hover {
+  color: #c00;
+}
+
+/* ---- Extra fields (PDF tools) ---- */
+.extra-field {
+  margin-bottom: 1rem;
+}
+
+.extra-field label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.extra-field input,
+.extra-field select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-family: inherit;
+  width: 100%;
+  max-width: 320px;
+  box-sizing: border-box;
+}
+
+/* ---- Advanced settings ---- */
+.advanced-section {
+  margin-top: 1.5rem;
+}
+
+.advanced-toggle {
+  font-size: 0.875rem;
+}
+
+.advanced-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+}
+
+.advanced-field label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.advanced-field input,
+.advanced-field select {
+  width: 100%;
+  padding: 0.375rem 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.advanced-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.advanced-checkbox input {
+  width: auto;
+}
