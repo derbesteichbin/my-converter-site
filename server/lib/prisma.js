@@ -1,9 +1,12 @@
 const { PrismaClient } = require('@prisma/client')
 
+const dbUrl = process.env.DATABASE_URL || '';
+const separator = dbUrl.includes('?') ? '&' : '?';
+
 const prisma = new PrismaClient({
   datasources: {
     db: {
-      url: process.env.DATABASE_URL,
+      url: dbUrl + separator + 'pgbouncer=true&connection_limit=1',
     },
   },
 })
