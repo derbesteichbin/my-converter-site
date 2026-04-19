@@ -76,6 +76,7 @@ export default function Navbar() {
         {loggedIn ? (
           <>
             <Link to="/dashboard" className="btn-ghost">{t('nav.dashboard')}</Link>
+            <Link to="/profile" className="btn-ghost" aria-label="Profile">Profile</Link>
             <button className="btn-ghost" onClick={handleLogout} aria-label="Log out">{t('nav.logout')}</button>
           </>
         ) : (

@@ -37,6 +37,7 @@ export default function Dashboard() {
   const [recentTools, setRecentTools] = useState([]);
   const [apiKey, setApiKey] = useState(null);
   const [loadingKey, setLoadingKey] = useState(false);
+  const [profile, setProfile] = useState(null);
   const toast = useToast();
 
   useEffect(() => {
@@ -47,6 +48,10 @@ export default function Dashboard() {
     api('/api/auth/api-key')
       .then((r) => r.json())
       .then((data) => setApiKey(data.apiKey))
+      .catch(() => {});
+    api('/api/profile')
+      .then((r) => r.json())
+      .then((data) => setProfile(data))
       .catch(() => {});
     setRecentTools(getRecentTools());
   }, []);
@@ -87,6 +92,53 @@ export default function Dashboard() {
               </Link>
             ))}
           </div>
+        </section>
+      )}
+
+      {/* Usage stats */}
+      {profile?.stats && (
+        <section className="usage-stats-section">
+          <h2>Usage this month</h2>
+          <div className="usage-stats-grid">
+            <div className="usage-stat-card">
+              <span className="usage-stat-number">{profile.stats.monthlyJobs}</span>
+              <span className="usage-stat-label">Conversions this month</span>
+            </div>
+            <div className="usage-stat-card">
+              <span className="usage-stat-number">{profile.stats.totalJobs}</span>
+              <span className="usage-stat-label">Total conversions</span>
+            </div>
+            {profile.stats.dailyLimit && (
+              <div className="usage-stat-card">
+                <span className="usage-stat-number">{profile.stats.dailyUsed} / {profile.stats.dailyLimit}</span>
+                <span className="usage-stat-label">Today's usage</span>
+                <div className="usage-bar">
+                  <div className="usage-bar-fill" style={{ width: `${Math.min(100, (profile.stats.dailyUsed / profile.stats.dailyLimit) * 100)}%` }} />
+                </div>
+                <span className="usage-stat-hint">Resets at midnight</span>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* Referral section */}
+      {profile?.referralCode && (
+        <section className="referral-section">
+          <h2>Refer a friend</h2>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', marginBottom: '0.75rem' }}>
+            Share your link and get 5 extra daily conversions for each friend who signs up.
+          </p>
+          <div className="referral-link-row">
+            <code className="referral-link">{`${window.location.origin}/register?ref=${profile.referralCode}`}</code>
+            <button className="btn-ghost" onClick={() => {
+              navigator.clipboard.writeText(`${window.location.origin}/register?ref=${profile.referralCode}`);
+              toast('Referral link copied!', 'success');
+            }} type="button">Copy</button>
+          </div>
+          {profile.bonusCredits > 0 && (
+            <p className="referral-bonus">You have {profile.bonusCredits} bonus credits from referrals</p>
+          )}
         </section>
       )}
 

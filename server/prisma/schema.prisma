@@ -9,14 +9,21 @@ datasource db {
 }
 
 model User {
-  id           String         @id @default(uuid())
-  email        String         @unique
-  password     String
-  plan         String         @default("free")
-  apiKey       String?        @unique
-  createdAt    DateTime       @default(now())
-  jobs         Job[]
-  subscription Subscription?
+  id            String         @id @default(uuid())
+  email         String         @unique
+  password      String
+  displayName   String?
+  plan          String         @default("free")
+  apiKey        String?        @unique
+  referralCode  String?        @unique
+  referredBy    String?
+  bonusCredits  Int            @default(0)
+  notifyConversion Boolean     @default(true)
+  notifyWeekly     Boolean     @default(false)
+  notifyPromo      Boolean     @default(false)
+  createdAt     DateTime       @default(now())
+  jobs          Job[]
+  subscription  Subscription?
 }
 
 model Job {
@@ -26,7 +33,7 @@ model Job {
   outputFile String?
   status     String   @default("pending")
   createdAt  DateTime @default(now())
-  user       User     @relation(fields: [userId], references: [id])
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Subscription {
@@ -35,7 +42,7 @@ model Subscription {
   stripeCustomerId String
   plan             String
   status           String
-  user             User   @relation(fields: [userId], references: [id])
+  user             User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model ToolUsage {

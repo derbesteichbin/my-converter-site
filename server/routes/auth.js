@@ -20,7 +20,7 @@ function signToken(userId) {
 // POST /api/auth/register
 router.post('/register', async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, ref } = req.body;
     if (!email || !password) {
       return res.status(400).json({ error: 'Email and password are required' });
     }
@@ -30,10 +30,21 @@ router.post('/register', async (req, res) => {
       return res.status(409).json({ error: 'Email already registered' });
     }
 
+    const crypto = require('crypto');
     const hashedPassword = await bcrypt.hash(password, 10);
+    const referralCode = 'ref_' + crypto.randomBytes(6).toString('hex');
+
     const user = await prisma.user.create({
-      data: { email, password: hashedPassword },
+      data: { email, password: hashedPassword, referralCode, referredBy: ref || null },
     });
+
+    // Give referrer 5 bonus credits
+    if (ref) {
+      prisma.user.updateMany({
+        where: { referralCode: ref },
+        data: { bonusCredits: { increment: 5 } },
+      }).catch(() => {});
+    }
 
     const token = signToken(user.id);
     res.cookie('token', token, COOKIE_OPTIONS);

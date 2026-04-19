@@ -8,6 +8,7 @@ const authRoutes = require('./routes/auth');
 const convertRoutes = require('./routes/convert');
 const billingRoutes = require('./routes/billing');
 const metadataRoutes = require('./routes/metadata');
+const profileRoutes = require('./routes/profile');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -47,6 +48,9 @@ app.use('/api', convertRoutes);
 
 // Metadata route
 app.use('/api/metadata', metadataRoutes);
+
+// Profile route
+app.use('/api/profile', profileRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

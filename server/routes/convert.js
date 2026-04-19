@@ -82,8 +82,9 @@ async function checkDailyLimit(userId) {
     where: { userId, createdAt: { gte: startOfDay } },
   });
 
-  if (todayCount >= 5) {
-    return 'Free plan limit reached — 5 conversions per day. Upgrade to Pro for unlimited conversions.';
+  const limit = 5 + (user.bonusCredits || 0);
+  if (todayCount >= limit) {
+    return `Free plan limit reached — ${limit} conversions per day. Upgrade to Pro for unlimited conversions.`;
   }
   return null;
 }
