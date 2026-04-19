@@ -118,6 +118,97 @@ body {
   margin-bottom: 1rem;
 }
 
+/* ---- OAuth buttons ---- */
+.oauth-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.btn-oauth {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  padding: 0.625rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+.btn-google {
+  background: #fff;
+  color: #333;
+}
+
+.btn-google:hover {
+  background: #f5f5f5;
+}
+
+.btn-apple {
+  background: #000;
+  color: #fff;
+}
+
+.btn-apple:hover {
+  background: #222;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ---- Password checklist ---- */
+.password-checklist {
+  list-style: none;
+  padding: 0;
+  margin: -0.5rem 0 1rem;
+  font-size: 0.8125rem;
+}
+
+.password-checklist li {
+  padding: 0.125rem 0;
+}
+
+.password-checklist li::before {
+  margin-right: 0.375rem;
+}
+
+.check-pass {
+  color: #16a34a;
+}
+
+.check-pass::before {
+  content: '\2713';
+}
+
+.check-fail {
+  color: #999;
+}
+
+.check-fail::before {
+  content: '\2717';
+}
+
 .auth-switch {
   text-align: center;
   margin-top: 1rem;
@@ -473,10 +564,15 @@ body {
 /* ---- Pricing ---- */
 .pricing-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1.5rem;
-  max-width: 800px;
+  max-width: 960px;
   margin: 0 auto;
+}
+
+.pricing-grid-4 {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  max-width: 960px;
 }
 
 .pricing-card {
@@ -1915,4 +2011,60 @@ select:focus-visible {
   color: #16a34a;
   margin-top: 0.5rem;
   font-weight: 500;
+}
+
+/* ---- Business plan + contact form ---- */
+.business-plan {
+  max-width: 960px;
+  margin: 2rem auto 0;
+  padding: 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 480px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 0.9375rem;
+  font-family: inherit;
+  background: transparent;
+  color: var(--text);
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.contact-form textarea {
+  resize: vertical;
+}
+
+.contact-form-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* ---- Usage stat link ---- */
+.usage-stat-link {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--btn-bg);
+  text-decoration: none;
+  margin-top: 0.375rem;
+  font-weight: 600;
+}
+
+.usage-stat-link:hover {
+  text-decoration: underline;
 }

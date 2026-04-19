@@ -98,8 +98,15 @@ export default function Dashboard() {
       {/* Usage stats */}
       {profile?.stats && (
         <section className="usage-stats-section">
-          <h2>Usage this month</h2>
+          <h2>Usage</h2>
           <div className="usage-stats-grid">
+            <div className="usage-stat-card">
+              <span className="usage-stat-number">{profile.stats.credits}</span>
+              <span className="usage-stat-label">Credits remaining</span>
+              {profile.stats.credits <= 0 && (
+                <Link to="/pricing" className="usage-stat-link">Buy more credits</Link>
+              )}
+            </div>
             <div className="usage-stat-card">
               <span className="usage-stat-number">{profile.stats.monthlyJobs}</span>
               <span className="usage-stat-label">Conversions this month</span>
@@ -108,16 +115,6 @@ export default function Dashboard() {
               <span className="usage-stat-number">{profile.stats.totalJobs}</span>
               <span className="usage-stat-label">Total conversions</span>
             </div>
-            {profile.stats.dailyLimit && (
-              <div className="usage-stat-card">
-                <span className="usage-stat-number">{profile.stats.dailyUsed} / {profile.stats.dailyLimit}</span>
-                <span className="usage-stat-label">Today's usage</span>
-                <div className="usage-bar">
-                  <div className="usage-bar-fill" style={{ width: `${Math.min(100, (profile.stats.dailyUsed / profile.stats.dailyLimit) * 100)}%` }} />
-                </div>
-                <span className="usage-stat-hint">Resets at midnight</span>
-              </div>
-            )}
           </div>
         </section>
       )}
@@ -127,7 +124,7 @@ export default function Dashboard() {
         <section className="referral-section">
           <h2>Refer a friend</h2>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', marginBottom: '0.75rem' }}>
-            Share your link and get 5 extra daily conversions for each friend who signs up.
+            Share your link and get 5 free conversion credits for each friend who signs up.
           </p>
           <div className="referral-link-row">
             <code className="referral-link">{`${window.location.origin}/register?ref=${profile.referralCode}`}</code>

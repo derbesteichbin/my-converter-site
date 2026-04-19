@@ -71,20 +71,12 @@ function extractAdvancedOptions(body) {
   return opts;
 }
 
-async function checkDailyLimit(userId) {
+async function checkCredits(userId) {
   const user = await prisma.user.findUnique({ where: { id: userId } });
-  if (user.plan !== 'free') return null;
+  if (user.plan === 'business') return null; // unlimited
 
-  const startOfDay = new Date();
-  startOfDay.setHours(0, 0, 0, 0);
-
-  const todayCount = await prisma.job.count({
-    where: { userId, createdAt: { gte: startOfDay } },
-  });
-
-  const limit = 5 + (user.bonusCredits || 0);
-  if (todayCount >= limit) {
-    return `Free plan limit reached — ${limit} conversions per day. Upgrade to Pro for unlimited conversions.`;
+  if (user.credits <= 0) {
+    return 'No conversion credits remaining. Purchase more credits to continue converting.';
   }
   return null;
 }
@@ -136,7 +128,7 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
     }
 
     // Check free-tier limit
-    const limitError = await checkDailyLimit(req.userId);
+    const limitError = await checkCredits(req.userId);
     if (limitError) {
       return res.status(429).json({ error: limitError });
     }
@@ -144,6 +136,12 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
     const job = await prisma.job.create({
       data: { userId: req.userId, inputFile: req.file.filename, status: 'pending' },
     });
+
+    // Deduct credit
+    prisma.user.update({
+      where: { id: req.userId },
+      data: { credits: { decrement: 1 } },
+    }).catch(() => {});
 
     // Track tool usage
     if (toolSlug) {
@@ -224,7 +222,7 @@ router.post('/pdf-tool', protect, upload.array('files', 20), async (req, res) =>
       return res.status(400).json({ error: 'Unknown PDF tool' });
     }
 
-    const limitError = await checkDailyLimit(req.userId);
+    const limitError = await checkCredits(req.userId);
     if (limitError) {
       return res.status(429).json({ error: limitError });
     }
@@ -232,6 +230,12 @@ router.post('/pdf-tool', protect, upload.array('files', 20), async (req, res) =>
     const job = await prisma.job.create({
       data: { userId: req.userId, inputFile: uploadedFiles.map((f) => f.filename).join(','), status: 'pending' },
     });
+
+    // Deduct credit
+    prisma.user.update({
+      where: { id: req.userId },
+      data: { credits: { decrement: 1 } },
+    }).catch(() => {});
 
     // Track tool usage
     prisma.toolUsage.upsert({

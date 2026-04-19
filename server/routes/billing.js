@@ -2,48 +2,44 @@ const express = require('express');
 const Stripe = require('stripe');
 const prisma = require('../lib/prisma');
 const { protect } = require('../middleware/auth');
+const { Resend } = require('resend');
 
 const router = express.Router();
 
+// Credit packs: priceId -> credits to add
+const CREDIT_PACKS = {
+  [process.env.STRIPE_PRICE_SINGLE || 'price_single']: 1,
+  [process.env.STRIPE_PRICE_10 || 'price_10pack']: 10,
+  [process.env.STRIPE_PRICE_30 || 'price_30pack']: 30,
+};
+
 function getStripe() {
-  if (!process.env.STRIPE_SECRET_KEY) {
-    console.warn('[billing] WARNING: STRIPE_SECRET_KEY is not set — Stripe calls will fail');
-    return null;
-  }
-  try {
-    return new Stripe(process.env.STRIPE_SECRET_KEY);
-  } catch (err) {
-    console.warn('[billing] WARNING: Failed to initialize Stripe:', err.message);
-    return null;
-  }
+  if (!process.env.STRIPE_SECRET_KEY) return null;
+  try { return new Stripe(process.env.STRIPE_SECRET_KEY); }
+  catch { return null; }
 }
 
-// POST /api/billing/create-checkout — create a Stripe Checkout Session
+// POST /api/billing/create-checkout — create a Stripe Checkout Session for credit packs
 router.post('/create-checkout', protect, async (req, res) => {
   try {
     const stripe = getStripe();
-    if (!stripe) {
-      return res.status(503).json({ error: 'Billing is not configured' });
-    }
+    if (!stripe) return res.status(503).json({ error: 'Billing is not configured' });
+
+    const { priceId } = req.body;
+    if (!priceId) return res.status(400).json({ error: 'priceId is required' });
 
     const user = await prisma.user.findUnique({ where: { id: req.userId } });
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
+    if (!user) return res.status(404).json({ error: 'User not found' });
 
     const session = await stripe.checkout.sessions.create({
-      mode: 'subscription',
+      mode: 'payment',
       payment_method_types: ['card'],
-      line_items: [
-        {
-          price: process.env.STRIPE_PRICE_ID,
-          quantity: 1,
-        },
-      ],
+      line_items: [{ price: priceId, quantity: 1 }],
       customer_email: user.email,
       client_reference_id: user.id,
-      success_url: `${process.env.CLIENT_URL}/dashboard?upgraded=1`,
-      cancel_url: `${process.env.CLIENT_URL}/pricing`,
+      metadata: { priceId },
+      success_url: `${process.env.CLIENT_URL || 'http://localhost:5173'}/dashboard?purchased=1`,
+      cancel_url: `${process.env.CLIENT_URL || 'http://localhost:5173'}/pricing`,
     });
 
     res.json({ url: session.url });
@@ -54,12 +50,10 @@ router.post('/create-checkout', protect, async (req, res) => {
 });
 
 // POST /api/billing/webhook — handle Stripe webhook events
-// NOTE: this route needs the raw body, not JSON-parsed
 router.post('/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
   const stripe = getStripe();
-  if (!stripe) {
-    return res.status(503).json({ error: 'Billing is not configured' });
-  }
+  if (!stripe) return res.status(503).json({ error: 'Billing is not configured' });
+
   const sig = req.headers['stripe-signature'];
   let event;
 
@@ -67,49 +61,59 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
     if (process.env.STRIPE_WEBHOOK_SECRET) {
       event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
     } else {
-      // No webhook secret configured — parse directly (dev only)
       event = JSON.parse(req.body.toString());
     }
   } catch (err) {
-    console.error('Webhook signature verification failed:', err.message);
     return res.status(400).json({ error: 'Invalid signature' });
   }
 
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
     const userId = session.client_reference_id;
+    const priceId = session.metadata?.priceId;
 
-    if (userId) {
-      try {
-        await prisma.user.update({
-          where: { id: userId },
-          data: { plan: 'pro' },
-        });
-
-        // Create or update subscription record
-        await prisma.subscription.upsert({
-          where: { userId },
-          create: {
-            userId,
-            stripeCustomerId: session.customer,
-            plan: 'pro',
-            status: 'active',
-          },
-          update: {
-            stripeCustomerId: session.customer,
-            plan: 'pro',
-            status: 'active',
-          },
-        });
-
-        console.log(`User ${userId} upgraded to pro`);
-      } catch (err) {
-        console.error('Failed to update user plan:', err);
+    if (userId && priceId) {
+      const creditsToAdd = CREDIT_PACKS[priceId] || 0;
+      if (creditsToAdd > 0) {
+        try {
+          await prisma.user.update({
+            where: { id: userId },
+            data: { credits: { increment: creditsToAdd } },
+          });
+          console.log(`User ${userId} purchased ${creditsToAdd} credits`);
+        } catch (err) {
+          console.error('Failed to add credits:', err);
+        }
       }
     }
   }
 
   res.json({ received: true });
+});
+
+// POST /api/billing/contact — Business plan contact form
+router.post('/contact', protect, async (req, res) => {
+  try {
+    const { name, companyEmail, description } = req.body;
+    if (!name || !companyEmail || !description) {
+      return res.status(400).json({ error: 'All fields are required' });
+    }
+
+    const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
+    if (resend) {
+      await resend.emails.send({
+        from: 'Converter <noreply@resend.dev>',
+        to: process.env.CONTACT_EMAIL || 'noreply@resend.dev',
+        subject: `Business inquiry from ${name}`,
+        html: `<p><strong>Name:</strong> ${name}</p><p><strong>Company Email:</strong> ${companyEmail}</p><p><strong>Description:</strong></p><p>${description}</p>`,
+      });
+    }
+
+    res.json({ ok: true });
+  } catch (err) {
+    console.error('Contact form error:', err);
+    res.status(500).json({ error: 'Failed to send message' });
+  }
 });
 
 module.exports = router;

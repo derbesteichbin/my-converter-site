@@ -41,7 +41,7 @@ router.get('/', protect, async (req, res) => {
       displayName: user.displayName,
       plan: user.plan,
       referralCode,
-      bonusCredits: user.bonusCredits,
+      credits: user.credits,
       notifyConversion: user.notifyConversion,
       notifyWeekly: user.notifyWeekly,
       notifyPromo: user.notifyPromo,
@@ -49,9 +49,7 @@ router.get('/', protect, async (req, res) => {
       stats: {
         totalJobs,
         monthlyJobs,
-        todayJobs,
-        dailyLimit: user.plan === 'free' ? 5 + user.bonusCredits : null,
-        dailyUsed: todayJobs,
+        credits: user.credits,
       },
     });
   } catch (err) {
