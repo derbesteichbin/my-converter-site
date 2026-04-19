@@ -20,6 +20,7 @@
     "express": "^4.21.0",
     "jsonwebtoken": "^9.0.3",
     "multer": "^2.0.0",
+    "music-metadata": "^11.12.3",
     "pdf-lib": "^1.17.1",
     "stripe": "^22.0.1"
   },

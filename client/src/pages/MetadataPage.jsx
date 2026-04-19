@@ -38,6 +38,16 @@ const LABEL_MAP = {
   colorSpace: 'Color Space',
   bitDepth: 'Bit Depth',
   mediaType: 'Media Type',
+  duration: 'Duration',
+  durationSeconds: 'Duration (seconds)',
+  sampleRate: 'Sample Rate',
+  bitrate: 'Bitrate',
+  channels: 'Channels',
+  codec: 'Codec',
+  artist: 'Artist',
+  album: 'Album',
+  year: 'Year',
+  genre: 'Genre',
 };
 
 const SKIP_KEYS = ['fileSizeFormatted', 'pdfError'];
@@ -84,9 +94,9 @@ export default function MetadataPage() {
 
   return (
     <div className="page">
-      <h1>View File Metadata</h1>
+      <h1>File Info</h1>
       <p style={{ color: '#666', marginBottom: '1.5rem' }}>
-        Upload any file to view its metadata — dimensions, author, camera info, page count, and more.
+        Upload any file to view its metadata — dimensions, duration, author, camera info, page count, and more.
       </p>
 
       {!metadata && (

@@ -67,7 +67,7 @@ export const TOOLS = [
   { slug: 'unlock-pdf',   label: 'Unlock PDF',   category: 'PDF Tools', inputFormats: ['pdf'], outputFormats: ['pdf'], acceptMime: '.pdf', toolType: 'pdf-unlock',   extraFields: ['password'] },
 
   // ── Utilities ──
-  { slug: 'view-metadata', label: 'View File Metadata', category: 'Utilities', toolType: 'metadata' },
+  { slug: 'view-metadata', label: 'File Info', category: 'Utilities', toolType: 'metadata' },
 ];
 
 // ── Advanced Settings (per category) ─────────────────────────────────

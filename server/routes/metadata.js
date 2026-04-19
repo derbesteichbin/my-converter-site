@@ -5,6 +5,7 @@ const fs = require('fs');
 const crypto = require('crypto');
 const exifr = require('exifr');
 const { PDFDocument } = require('pdf-lib');
+const mm = require('music-metadata');
 const { protect } = require('../middleware/auth');
 
 const router = express.Router();
@@ -91,9 +92,32 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
       }
     }
 
-    // Video/audio — basic info from file extension and size
-    if (['mp4', 'avi', 'mov', 'mkv', 'webm', 'flv', 'wmv', 'mp3', 'wav', 'aac', 'flac', 'ogg', 'wma', 'm4a'].includes(ext)) {
-      metadata.mediaType = ['mp3', 'wav', 'aac', 'flac', 'ogg', 'wma', 'm4a'].includes(ext) ? 'Audio' : 'Video';
+    // Audio/video metadata via music-metadata
+    const mediaExts = ['mp4', 'avi', 'mov', 'mkv', 'webm', 'flv', 'wmv', 'mp3', 'wav', 'aac', 'flac', 'ogg', 'wma', 'm4a'];
+    if (mediaExts.includes(ext)) {
+      const audioExts = ['mp3', 'wav', 'aac', 'flac', 'ogg', 'wma', 'm4a'];
+      metadata.mediaType = audioExts.includes(ext) ? 'Audio' : 'Video';
+      try {
+        const mmData = await mm.parseFile(filePath);
+        if (mmData.format.duration) {
+          const secs = Math.round(mmData.format.duration);
+          const mins = Math.floor(secs / 60);
+          const rem = secs % 60;
+          metadata.duration = `${mins}:${rem.toString().padStart(2, '0')}`;
+          metadata.durationSeconds = secs;
+        }
+        if (mmData.format.sampleRate) metadata.sampleRate = mmData.format.sampleRate;
+        if (mmData.format.bitrate) metadata.bitrate = Math.round(mmData.format.bitrate / 1000) + ' kbps';
+        if (mmData.format.numberOfChannels) metadata.channels = mmData.format.numberOfChannels === 2 ? 'Stereo' : 'Mono';
+        if (mmData.format.codec) metadata.codec = mmData.format.codec;
+        if (mmData.common.title) metadata.title = mmData.common.title;
+        if (mmData.common.artist) metadata.artist = mmData.common.artist;
+        if (mmData.common.album) metadata.album = mmData.common.album;
+        if (mmData.common.year) metadata.year = mmData.common.year;
+        if (mmData.common.genre?.length) metadata.genre = mmData.common.genre.join(', ');
+      } catch {
+        // Could not parse media metadata
+      }
     }
 
     // Clean up the uploaded file

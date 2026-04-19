@@ -209,6 +209,10 @@ export default function ToolPage() {
   const busy = overallStatus === 'converting';
   const hasFiles = files.length > 0;
 
+  function isImageFile(file) {
+    return file.type.startsWith('image/');
+  }
+
   return (
     <div className="page">
       <h1>{toolDef?.label || formatToolName(toolName)}</h1>
@@ -221,6 +225,12 @@ export default function ToolPage() {
         <input {...getInputProps()} />
         {hasFiles && files.length === 1 && !isPdfMerge ? (
           <div className="dropzone-file">
+            {isImageFile(files[0]) && (
+              <img className="file-preview-thumb" src={URL.createObjectURL(files[0])} alt="Preview" />
+            )}
+            {!isImageFile(files[0]) && (
+              <span className="file-preview-icon">{files[0].name.split('.').pop().toUpperCase()}</span>
+            )}
             <span className="dropzone-filename">{files[0].name}</span>
             <span className="dropzone-filesize">{formatSize(files[0].size)}</span>
           </div>
@@ -244,6 +254,11 @@ export default function ToolPage() {
         <div className="multi-file-list">
           {files.map((f, i) => (
             <div className="multi-file-item" key={`${f.name}-${i}`}>
+              {isImageFile(f) ? (
+                <img className="multi-file-thumb" src={URL.createObjectURL(f)} alt="" />
+              ) : (
+                <span className="multi-file-icon">{f.name.split('.').pop().toUpperCase()}</span>
+              )}
               <span className="multi-file-name">{f.name}</span>
               <span className="multi-file-size">{formatSize(f.size)}</span>
               <button className="multi-file-remove" onClick={() => removeFile(i)} type="button">&times;</button>
