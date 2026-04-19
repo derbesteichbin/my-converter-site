@@ -132,6 +132,10 @@ export default function ToolPage() {
   // Offline detection
   const [offline, setOffline] = useState(!navigator.onLine);
 
+  // Expiry countdown
+  const [expiryTime, setExpiryTime] = useState(null);
+  const [countdown, setCountdown] = useState('');
+
   // Offline detection
   useEffect(() => {
     const goOffline = () => setOffline(true);
@@ -373,8 +377,57 @@ export default function ToolPage() {
       } else {
         toast(`${succeeded} succeeded, ${failed} failed`, 'error');
       }
+      // Start 24h expiry countdown
+      setExpiryTime(Date.now() + 24 * 60 * 60 * 1000);
     }
   }, [batchJobs]);
+
+  // Countdown timer
+  useEffect(() => {
+    if (!expiryTime) return;
+    const tick = setInterval(() => {
+      const remaining = expiryTime - Date.now();
+      if (remaining <= 0) {
+        setCountdown('Expired');
+        clearInterval(tick);
+        return;
+      }
+      const h = Math.floor(remaining / 3600000);
+      const m = Math.floor((remaining % 3600000) / 60000);
+      const s = Math.floor((remaining % 60000) / 1000);
+      setCountdown(`${h}h ${m}m ${s}s`);
+    }, 1000);
+    return () => clearInterval(tick);
+  }, [expiryTime]);
+
+  async function handleDownloadAll() {
+    const filenames = batchJobs
+      .filter((j) => j.status === 'done' && j.downloadUrl)
+      .map((j) => j.downloadUrl.split('/').pop());
+
+    if (filenames.length === 0) return;
+
+    try {
+      const res = await api('/api/download-zip', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ filenames }),
+      });
+
+      if (!res.ok) throw new Error('ZIP download failed');
+
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'converted-files.zip';
+      a.click();
+      URL.revokeObjectURL(url);
+      toast('ZIP downloaded!', 'success');
+    } catch (err) {
+      toast(err.message, 'error');
+    }
+  }
 
   function handleReset() {
     pollRefs.current.forEach((id) => clearInterval(id));
@@ -422,6 +475,29 @@ export default function ToolPage() {
           <p>Drag & drop files here, or click to browse</p>
         )}
       </div>
+
+      {/* Mobile camera capture */}
+      {toolDef?.category === 'Image' && (
+        <label className="camera-btn">
+          <input
+            type="file"
+            accept="image/*"
+            capture="environment"
+            style={{ display: 'none' }}
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              if (f) {
+                if (toolDef?.inputFormats) {
+                  const err = validateFileType(f, toolDef);
+                  if (err) { toast(err, 'error'); return; }
+                }
+                setFiles((prev) => [...prev, f]);
+              }
+            }}
+          />
+          Take a photo
+        </label>
+      )}
 
       {/* File info bar */}
       {hasFiles && overallStatus === 'idle' && (
@@ -506,7 +582,13 @@ export default function ToolPage() {
           ))}
           {overallStatus === 'done' && (
             <div className="batch-done-actions">
+              {batchJobs.filter((j) => j.status === 'done').length > 1 && (
+                <button className="btn-primary" onClick={handleDownloadAll} type="button">Download All (ZIP)</button>
+              )}
               <button className="btn-ghost" onClick={handleReset}>Convert more files</button>
+              {countdown && (
+                <p className="expiry-countdown">Files expire in {countdown}</p>
+              )}
             </div>
           )}
         </div>

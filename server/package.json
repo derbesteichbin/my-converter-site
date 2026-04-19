@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@prisma/client": "^6.6.0",
+    "archiver": "^7.0.1",
     "bcryptjs": "^3.0.3",
     "cloudconvert": "^3.0.0",
     "cookie-parser": "^1.4.7",

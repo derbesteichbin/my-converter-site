@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { api, API_URL } from '../api';
 import { getToolBySlug } from '../toolsConfig';
+import { useToast } from '../components/Toast';
 
 function statusBadge(status) {
   const cls = {
@@ -34,14 +35,41 @@ function guessToolSlug(inputFile, outputFile) {
 export default function Dashboard() {
   const [jobs, setJobs] = useState([]);
   const [recentTools, setRecentTools] = useState([]);
+  const [apiKey, setApiKey] = useState(null);
+  const [loadingKey, setLoadingKey] = useState(false);
+  const toast = useToast();
 
   useEffect(() => {
     api('/api/jobs')
       .then((r) => (r.ok ? r.json() : []))
       .then((data) => { if (Array.isArray(data)) setJobs(data); })
       .catch(() => {});
+    api('/api/auth/api-key')
+      .then((r) => r.json())
+      .then((data) => setApiKey(data.apiKey))
+      .catch(() => {});
     setRecentTools(getRecentTools());
   }, []);
+
+  async function generateApiKey() {
+    setLoadingKey(true);
+    try {
+      const res = await api('/api/auth/generate-api-key', { method: 'POST' });
+      const data = await res.json();
+      if (res.ok) {
+        setApiKey(data.apiKey);
+        toast('API key generated!', 'success');
+      }
+    } catch { toast('Failed to generate key', 'error'); }
+    finally { setLoadingKey(false); }
+  }
+
+  function copyApiKey() {
+    if (apiKey) {
+      navigator.clipboard.writeText(apiKey);
+      toast('API key copied!', 'success');
+    }
+  }
 
   const recentDone = jobs.filter((j) => j.status === 'done' && j.outputFile).slice(0, 4);
 
@@ -61,6 +89,25 @@ export default function Dashboard() {
           </div>
         </section>
       )}
+
+      {/* API Key section */}
+      <section className="api-key-section">
+        <h2>API Access</h2>
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', marginBottom: '0.75rem' }}>
+          Use your API key to integrate conversions into your apps. <Link to="/api-docs">View API docs</Link>
+        </p>
+        {apiKey ? (
+          <div className="api-key-display">
+            <code className="api-key-value">{apiKey}</code>
+            <button className="btn-ghost" onClick={copyApiKey} type="button">Copy</button>
+            <button className="btn-ghost" onClick={generateApiKey} disabled={loadingKey} type="button">Regenerate</button>
+          </div>
+        ) : (
+          <button className="btn-primary" onClick={generateApiKey} disabled={loadingKey} type="button">
+            {loadingKey ? 'Generating...' : 'Generate API Key'}
+          </button>
+        )}
+      </section>
 
       {/* Recently converted files */}
       {recentDone.length > 0 && (

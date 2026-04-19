@@ -8,6 +8,7 @@ const prisma = require('../lib/prisma');
 const { protect } = require('../middleware/auth');
 const { VALID_TOOLS, ALLOWED_ADVANCED_KEYS } = require('../toolsConfig');
 const { Resend } = require('resend');
+const archiver = require('archiver');
 
 const router = express.Router();
 
@@ -381,6 +382,38 @@ router.get('/popular-tools', async (req, res) => {
     res.json(top.map((t) => t.toolSlug));
   } catch {
     res.json([]);
+  }
+});
+
+// POST /api/download-zip — download multiple files as a ZIP
+router.post('/download-zip', protect, express.json(), async (req, res) => {
+  try {
+    const { filenames } = req.body;
+    if (!Array.isArray(filenames) || filenames.length === 0) {
+      return res.status(400).json({ error: 'No filenames provided' });
+    }
+
+    res.setHeader('Content-Type', 'application/zip');
+    res.setHeader('Content-Disposition', 'attachment; filename=converted-files.zip');
+
+    const archive = archiver('zip', { zlib: { level: 5 } });
+    archive.pipe(res);
+
+    for (const filename of filenames) {
+      // Sanitize filename to prevent path traversal
+      const safe = path.basename(filename);
+      const filePath = path.join(OUTPUT_DIR, safe);
+      if (fs.existsSync(filePath)) {
+        archive.file(filePath, { name: safe });
+      }
+    }
+
+    await archive.finalize();
+  } catch (err) {
+    console.error('ZIP download error:', err);
+    if (!res.headersSent) {
+      res.status(500).json({ error: 'Failed to create ZIP' });
+    }
   }
 });
 

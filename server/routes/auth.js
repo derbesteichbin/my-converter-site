@@ -96,4 +96,40 @@ router.get('/me', (req, res) => {
   }
 });
 
+// POST /api/auth/generate-api-key — generate a new API key for the user
+router.post('/generate-api-key', async (req, res) => {
+  const token = req.cookies.token;
+  if (!token) return res.status(401).json({ error: 'Not authorized' });
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const crypto = require('crypto');
+    const apiKey = 'cvt_' + crypto.randomBytes(24).toString('hex');
+
+    await prisma.user.update({
+      where: { id: decoded.userId },
+      data: { apiKey },
+    });
+
+    res.json({ apiKey });
+  } catch (err) {
+    console.error('Generate API key error:', err);
+    res.status(500).json({ error: 'Failed to generate API key' });
+  }
+});
+
+// GET /api/auth/api-key — get current API key
+router.get('/api-key', async (req, res) => {
+  const token = req.cookies.token;
+  if (!token) return res.status(401).json({ error: 'Not authorized' });
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await prisma.user.findUnique({ where: { id: decoded.userId } });
+    res.json({ apiKey: user?.apiKey || null });
+  } catch {
+    res.status(500).json({ error: 'Failed to fetch API key' });
+  }
+});
+
 module.exports = router;
