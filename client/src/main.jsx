@@ -14,6 +14,8 @@ import Register from './pages/Register.jsx';
 import ApiDocs from './pages/ApiDocs.jsx';
 import Profile from './pages/Profile.jsx';
 import Settings from './pages/Settings.jsx';
+import ForgotPassword from './pages/ForgotPassword.jsx';
+import ResetPassword from './pages/ResetPassword.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import { ToastProvider } from './components/Toast.jsx';
 import './i18n';
@@ -27,6 +29,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route element={<App />}>
           <Route index element={<Home />} />
           <Route path="tools" element={<Tools />} />

@@ -300,8 +300,38 @@ h2 { font-size: 1.5rem; }
 }
 
 .auth-switch a {
-  color: #111;
+  color: #7c3aed;
   font-weight: 600;
+}
+
+.forgot-link {
+  text-align: right;
+  margin: -0.5rem 0 1rem;
+  font-size: 0.8125rem;
+}
+
+.forgot-link a {
+  color: #7c3aed;
+  text-decoration: none;
+}
+
+.forgot-link a:hover {
+  text-decoration: underline;
+}
+
+.forgot-success {
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.forgot-success p {
+  margin: 0;
+}
+
+.password-mismatch {
+  font-size: 0.8125rem;
+  color: #dc2626;
+  margin: -0.5rem 0 1rem;
 }
 
 /* ---- Navbar ---- */

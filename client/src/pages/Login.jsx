@@ -61,6 +61,10 @@ export default function Login() {
         <label htmlFor="password">Password</label>
         <input id="password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
 
+        <p className="forgot-link">
+          <Link to="/forgot-password">Forgot password?</Link>
+        </p>
+
         <button type="submit" disabled={loading}>
           {loading ? 'Logging in...' : 'Log in'}
         </button>
