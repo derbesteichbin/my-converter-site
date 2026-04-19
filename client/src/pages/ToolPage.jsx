@@ -75,6 +75,21 @@ function saveRecentTool(slug) {
   } catch { /* ignore */ }
 }
 
+function getSavedFormat(toolSlug, fallback) {
+  try {
+    const saved = JSON.parse(localStorage.getItem('toolFormats') || '{}');
+    return saved[toolSlug] || fallback;
+  } catch { return fallback; }
+}
+
+function saveFormat(toolSlug, format) {
+  try {
+    const saved = JSON.parse(localStorage.getItem('toolFormats') || '{}');
+    saved[toolSlug] = format;
+    localStorage.setItem('toolFormats', JSON.stringify(saved));
+  } catch { /* ignore */ }
+}
+
 function validateFileType(file, toolDef) {
   if (!toolDef?.inputFormats) return null;
   const ext = file.name.split('.').pop().toLowerCase();
@@ -93,7 +108,7 @@ export default function ToolPage() {
   const toast = useToast();
 
   const [files, setFiles] = useState([]);
-  const [outputFormat, setOutputFormat] = useState(formats[0]);
+  const [outputFormat, setOutputFormat] = useState(() => getSavedFormat(toolName, formats[0]));
   const [batchJobs, setBatchJobs] = useState([]);
   const [overallStatus, setOverallStatus] = useState('idle');
   const [error, setError] = useState('');
@@ -105,6 +120,7 @@ export default function ToolPage() {
 
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [advancedValues, setAdvancedValues] = useState({});
+  const [notifyEmail, setNotifyEmail] = useState(false);
 
   // Drag reorder state
   const [dragIndex, setDragIndex] = useState(null);
@@ -112,6 +128,26 @@ export default function ToolPage() {
   // Progress bar state
   const [progress, setProgress] = useState(0);
   const progressRef = useRef(null);
+
+  // Offline detection
+  const [offline, setOffline] = useState(!navigator.onLine);
+
+  // Offline detection
+  useEffect(() => {
+    const goOffline = () => setOffline(true);
+    const goOnline = () => setOffline(false);
+    window.addEventListener('offline', goOffline);
+    window.addEventListener('online', goOnline);
+    return () => {
+      window.removeEventListener('offline', goOffline);
+      window.removeEventListener('online', goOnline);
+    };
+  }, []);
+
+  // Save format preference when changed
+  useEffect(() => {
+    if (toolName && outputFormat) saveFormat(toolName, outputFormat);
+  }, [outputFormat, toolName]);
 
   // Track recently used tools
   useEffect(() => {
@@ -150,7 +186,7 @@ export default function ToolPage() {
     pollRefs.current.forEach((id) => clearInterval(id));
     pollRefs.current = [];
     setFiles([]);
-    setOutputFormat(formats[0]);
+    setOutputFormat(getSavedFormat(toolName, formats[0]));
     setBatchJobs([]);
     setOverallStatus('idle');
     setError('');
@@ -159,6 +195,7 @@ export default function ToolPage() {
     setPassword('');
     setShowAdvanced(false);
     setAdvancedValues({});
+    setNotifyEmail(false);
   }, [toolName]);
 
   const onDrop = useCallback((accepted) => {
@@ -217,6 +254,7 @@ export default function ToolPage() {
     if (extraFields.includes('pageRanges') && pageRanges) formData.append('pageRanges', pageRanges);
     if (extraFields.includes('rotation')) formData.append('rotation', rotation);
     if (extraFields.includes('password') && password) formData.append('password', password);
+    if (notifyEmail) formData.append('notifyEmail', 'true');
     Object.entries(advancedValues).forEach(([key, val]) => {
       if (val !== '' && val !== undefined && val !== false) formData.append(key, val);
     });
@@ -231,7 +269,7 @@ export default function ToolPage() {
 
         if (job.status === 'done') {
           clearInterval(intervalId);
-          setBatchJobs((prev) => prev.map((j, i) => i === index ? { ...j, status: 'done', downloadUrl: job.downloadUrl } : j));
+          setBatchJobs((prev) => prev.map((j, i) => i === index ? { ...j, status: 'done', downloadUrl: job.downloadUrl, outputSize: job.outputSize } : j));
         } else if (job.status === 'failed') {
           clearInterval(intervalId);
           setBatchJobs((prev) => prev.map((j, i) => i === index ? { ...j, status: 'failed', error: 'Conversion failed' } : j));
@@ -269,7 +307,8 @@ export default function ToolPage() {
     startProgress();
 
     if (isPdfTool) {
-      const jobs = [{ file: isPdfMerge ? `${files.length} files` : files[0].name, status: 'uploading', jobId: null, downloadUrl: null, error: null }];
+      const totalSize = files.reduce((s, f) => s + f.size, 0);
+      const jobs = [{ file: isPdfMerge ? `${files.length} files` : files[0].name, inputSize: totalSize, status: 'uploading', jobId: null, downloadUrl: null, outputSize: null, error: null }];
       setBatchJobs(jobs);
 
       try {
@@ -295,7 +334,7 @@ export default function ToolPage() {
         setBatchJobs([{ ...jobs[0], status: 'failed', error: err.message }]);
       }
     } else {
-      const jobs = files.map((f) => ({ file: f.name, status: 'uploading', jobId: null, downloadUrl: null, error: null }));
+      const jobs = files.map((f) => ({ file: f.name, inputSize: f.size, status: 'uploading', jobId: null, downloadUrl: null, outputSize: null, error: null }));
       setBatchJobs(jobs);
 
       for (let i = 0; i < files.length; i++) {
@@ -353,8 +392,11 @@ export default function ToolPage() {
     return file.type.startsWith('image/');
   }
 
+  const isCompressTool = toolDef?.toolType === 'pdf-compress' || toolName?.includes('compress');
+
   return (
     <div className="page">
+      {offline && <div className="offline-banner">You are offline. Please check your internet connection.</div>}
       <h1>{toolDef?.label || formatToolName(toolName)}</h1>
 
       {/* Dropzone */}
@@ -443,6 +485,12 @@ export default function ToolPage() {
                 {job.status === 'processing' && <><span className="spinner spinner-sm" /> Converting...</>}
                 {job.status === 'done' && (
                   <>
+                    {isCompressTool && job.outputSize && job.inputSize && (
+                      <span className="compression-stat">
+                        {formatSize(job.inputSize)} &rarr; {formatSize(job.outputSize)}
+                        ({Math.round((1 - job.outputSize / job.inputSize) * 100)}% smaller)
+                      </span>
+                    )}
                     <a href={`${API_URL}${job.downloadUrl}`} className="batch-download" download>Download</a>
                     <button className="btn-share" onClick={async () => {
                       const url = `${window.location.origin}${API_URL}${job.downloadUrl}`;
@@ -490,6 +538,11 @@ export default function ToolPage() {
               <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} disabled={busy} />
             </div>
           )}
+
+          <label className="email-toggle">
+            <input type="checkbox" checked={notifyEmail} onChange={(e) => setNotifyEmail(e.target.checked)} disabled={busy} />
+            Email me when done
+          </label>
 
           <div className="tool-controls">
             {formats.length > 1 && (

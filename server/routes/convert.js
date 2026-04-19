@@ -7,8 +7,32 @@ const CloudConvert = require('cloudconvert');
 const prisma = require('../lib/prisma');
 const { protect } = require('../middleware/auth');
 const { VALID_TOOLS, ALLOWED_ADVANCED_KEYS } = require('../toolsConfig');
+const { Resend } = require('resend');
 
 const router = express.Router();
+
+function getResend() {
+  if (!process.env.RESEND_API_KEY) return null;
+  return new Resend(process.env.RESEND_API_KEY);
+}
+
+async function sendCompletionEmail(userId, jobId, downloadUrl) {
+  const resend = getResend();
+  if (!resend) return;
+  try {
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user) return;
+    const fullUrl = `${process.env.CLIENT_URL || 'http://localhost:5173'}${downloadUrl}`;
+    await resend.emails.send({
+      from: 'Converter <noreply@resend.dev>',
+      to: user.email,
+      subject: 'Your file conversion is ready',
+      html: `<p>Your file has been converted successfully.</p><p><a href="${fullUrl}">Download your file</a></p><p>This link will expire in 24 hours.</p>`,
+    });
+  } catch (err) {
+    console.error('Email send error:', err.message);
+  }
+}
 
 const UPLOAD_DIR = path.join(__dirname, '..', 'uploads');
 const OUTPUT_DIR = path.join(__dirname, '..', 'outputs');
@@ -130,7 +154,9 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
 
     const advancedOptions = extractAdvancedOptions(req.body);
 
-    convertFile(job.id, req.file, outputFormat, advancedOptions).catch((err) => {
+    const notifyEmail = req.body.notifyEmail === 'true';
+
+    convertFile(job.id, req.file, outputFormat, advancedOptions, notifyEmail ? req.userId : null).catch((err) => {
       console.error(`Conversion failed for job ${job.id}:`, err);
     });
 
@@ -141,7 +167,7 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
   }
 });
 
-async function convertFile(jobId, file, outputFormat, advancedOptions = {}) {
+async function convertFile(jobId, file, outputFormat, advancedOptions = {}, notifyUserId = null) {
   try {
     await prisma.job.update({ where: { id: jobId }, data: { status: 'processing' } });
 
@@ -171,6 +197,10 @@ async function convertFile(jobId, file, outputFormat, advancedOptions = {}) {
       where: { id: jobId },
       data: { status: 'done', outputFile: outputFilename },
     });
+
+    if (notifyUserId) {
+      sendCompletionEmail(notifyUserId, jobId, `/api/download/${outputFilename}`);
+    }
   } catch (err) {
     console.error(`convertFile error for job ${jobId}:`, err);
     await prisma.job.update({ where: { id: jobId }, data: { status: 'failed' } });
@@ -308,6 +338,12 @@ router.get('/jobs/:id', protect, async (req, res) => {
     const result = { id: job.id, status: job.status, inputFile: job.inputFile, createdAt: job.createdAt };
     if (job.status === 'done' && job.outputFile) {
       result.downloadUrl = `/api/download/${job.outputFile}`;
+      // Include output file size for compression comparison
+      const outputPath = path.join(OUTPUT_DIR, job.outputFile);
+      try {
+        const stat = fs.statSync(outputPath);
+        result.outputSize = stat.size;
+      } catch { /* file may have been cleaned up */ }
     }
     res.json(result);
   } catch (err) {
