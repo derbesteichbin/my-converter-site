@@ -1,4 +1,3 @@
-require('dotenv').config();
 console.log('DB:' + (process.env.DATABASE_URL ? 'SET' : 'MISSING') + ' JWT:' + (process.env.JWT_SECRET ? 'SET' : 'MISSING') + ' STRIPE:' + (process.env.STRIPE_SECRET_KEY ? 'SET' : 'MISSING'));
 const express = require('express');
 const cors = require('cors');
