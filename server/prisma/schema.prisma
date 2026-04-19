@@ -36,3 +36,9 @@ model Subscription {
   status           String
   user             User   @relation(fields: [userId], references: [id])
 }
+
+model ToolUsage {
+  id        String @id @default(uuid())
+  toolSlug  String @unique
+  count     Int    @default(0)
+}

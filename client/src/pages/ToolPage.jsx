@@ -37,6 +37,25 @@ function estimateSeconds(files) {
   return 240;
 }
 
+function estimateOutputSize(inputBytes, inputFormat, outputFormat) {
+  const mb = inputBytes / (1024 * 1024);
+  // Rough multipliers based on common conversions
+  const key = `${inputFormat}-${outputFormat}`;
+  const ratios = {
+    'pdf-docx': 1.2, 'pdf-doc': 1.2, 'pdf-txt': 0.05, 'pdf-html': 0.8,
+    'docx-pdf': 0.8, 'doc-pdf': 0.8, 'pptx-pdf': 0.7,
+    'jpg-png': 3.0, 'jpeg-png': 3.0, 'png-jpg': 0.3, 'png-jpeg': 0.3,
+    'webp-png': 2.5, 'webp-jpg': 0.4, 'bmp-png': 0.15, 'bmp-jpg': 0.05,
+    'svg-png': 0.5, 'heic-jpg': 0.8, 'heic-png': 2.0, 'tiff-jpg': 0.1,
+    'mp4-mp3': 0.1, 'mp4-avi': 5.0, 'mp4-mov': 1.1, 'mov-mp4': 0.5,
+    'mkv-mp4': 0.8, 'avi-mp4': 0.2, 'webm-mp4': 0.8,
+    'mp3-wav': 10.0, 'wav-mp3': 0.1, 'flac-mp3': 0.15, 'aac-mp3': 1.0,
+    'ogg-mp3': 1.0, 'wma-mp3': 1.0, 'm4a-mp3': 1.0,
+  };
+  const ratio = ratios[key] || 1.0;
+  return Math.round(inputBytes * ratio);
+}
+
 async function shareOrCopy(url) {
   if (navigator.share) {
     try {
@@ -366,7 +385,14 @@ export default function ToolPage() {
       {hasFiles && overallStatus === 'idle' && (
         <div className="file-info-bar">
           <span>{files.length} {files.length === 1 ? 'file' : 'files'} — {formatSize(files.reduce((s, f) => s + f.size, 0))} total</span>
-          <span className="file-info-time">Estimated time: {estimateTime(files)}</span>
+          <span className="file-info-details">
+            {files.length === 1 && toolDef?.inputFormats && (
+              <span className="file-info-output">
+                Est. output: ~{formatSize(estimateOutputSize(files[0].size, files[0].name.split('.').pop().toLowerCase(), outputFormat))}
+              </span>
+            )}
+            <span className="file-info-time">Est. time: {estimateTime(files)}</span>
+          </span>
         </div>
       )}
 

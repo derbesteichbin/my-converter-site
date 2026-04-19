@@ -217,16 +217,34 @@ body {
   gap: 1rem;
 }
 
+.tools-search {
+  width: 100%;
+  padding: 0.625rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: var(--bg-card);
+  color: var(--text);
+  margin-bottom: 1.5rem;
+  box-sizing: border-box;
+}
+
+.tools-search::placeholder {
+  color: var(--text-muted);
+}
+
 .tool-card {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 1.25rem 1rem;
   text-decoration: none;
-  color: #222;
+  color: var(--text);
   font-weight: 500;
   transition: box-shadow 0.15s, border-color 0.15s;
 }
@@ -234,6 +252,41 @@ body {
 .tool-card:hover {
   border-color: var(--border-hover);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.fav-btn {
+  position: absolute;
+  top: 0.375rem;
+  right: 0.375rem;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #ccc;
+  padding: 0;
+  line-height: 1;
+}
+
+.fav-btn:hover {
+  color: #f59e0b;
+}
+
+.fav-active {
+  color: #f59e0b;
+}
+
+.popular-badge {
+  position: absolute;
+  top: 0.375rem;
+  left: 0.375rem;
+  background: #ef4444;
+  color: #fff;
+  font-size: 0.625rem;
+  font-weight: 700;
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
 /* ---- Dropzone ---- */
@@ -694,6 +747,16 @@ body {
   font-size: 0.875rem;
   color: #444;
   margin-bottom: 1rem;
+}
+
+.file-info-details {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.file-info-output {
+  color: #666;
 }
 
 .file-info-time {

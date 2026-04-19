@@ -119,6 +119,15 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
       data: { userId: req.userId, inputFile: req.file.filename, status: 'pending' },
     });
 
+    // Track tool usage
+    if (toolSlug) {
+      prisma.toolUsage.upsert({
+        where: { toolSlug },
+        create: { toolSlug, count: 1 },
+        update: { count: { increment: 1 } },
+      }).catch(() => {});
+    }
+
     const advancedOptions = extractAdvancedOptions(req.body);
 
     convertFile(job.id, req.file, outputFormat, advancedOptions).catch((err) => {
@@ -191,6 +200,13 @@ router.post('/pdf-tool', protect, upload.array('files', 20), async (req, res) =>
     const job = await prisma.job.create({
       data: { userId: req.userId, inputFile: uploadedFiles.map((f) => f.filename).join(','), status: 'pending' },
     });
+
+    // Track tool usage
+    prisma.toolUsage.upsert({
+      where: { toolSlug },
+      create: { toolSlug, count: 1 },
+      update: { count: { increment: 1 } },
+    }).catch(() => {});
 
     convertPdfTool(job.id, uploadedFiles, toolDef.toolType, req.body).catch((err) => {
       console.error(`PDF tool failed for job ${job.id}:`, err);
@@ -316,6 +332,19 @@ router.get('/jobs', protect, async (req, res) => {
   } catch (err) {
     console.error('Jobs list error:', err);
     res.status(500).json({ error: 'Failed to fetch jobs' });
+  }
+});
+
+// GET /api/popular-tools — top 3 most used tools (public)
+router.get('/popular-tools', async (req, res) => {
+  try {
+    const top = await prisma.toolUsage.findMany({
+      orderBy: { count: 'desc' },
+      take: 3,
+    });
+    res.json(top.map((t) => t.toolSlug));
+  } catch {
+    res.json([]);
   }
 });
 
