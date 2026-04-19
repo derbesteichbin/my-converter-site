@@ -29,17 +29,16 @@ app.use(
     credentials: true,
   })
 );
-// Stripe webhook needs raw body — mount before express.json()
-app.use('/api/billing/webhook', billingRoutes);
+app.use(cookieParser());
+
+// Billing routes — mounted before express.json() so the webhook
+// route's express.raw() middleware receives the unparsed body
+app.use('/api/billing', billingRoutes);
 
 app.use(express.json());
-app.use(cookieParser());
 
 // Auth routes
 app.use('/api/auth', authRoutes);
-
-// Billing routes (non-webhook)
-app.use('/api/billing', billingRoutes);
 
 // Conversion + job routes
 app.use('/api/convert', convertRoutes);
