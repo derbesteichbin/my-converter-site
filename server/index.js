@@ -50,6 +50,38 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
+// ── Auto-delete files older than 24 hours ────────────────────────────
+const UPLOAD_DIR = path.join(__dirname, 'uploads');
+const OUTPUT_DIR = path.join(__dirname, 'outputs');
+const MAX_AGE_MS = 24 * 60 * 60 * 1000; // 24 hours
+
+function cleanOldFiles(dir) {
+  if (!fs.existsSync(dir)) return;
+  const now = Date.now();
+  for (const file of fs.readdirSync(dir)) {
+    const filePath = path.join(dir, file);
+    try {
+      const stat = fs.statSync(filePath);
+      if (now - stat.mtimeMs > MAX_AGE_MS) {
+        fs.unlinkSync(filePath);
+        console.log(`[cleanup] Deleted ${filePath}`);
+      }
+    } catch (err) {
+      console.error(`[cleanup] Failed to delete ${filePath}:`, err.message);
+    }
+  }
+}
+
+function runCleanup() {
+  console.log('[cleanup] Running file cleanup...');
+  cleanOldFiles(UPLOAD_DIR);
+  cleanOldFiles(OUTPUT_DIR);
+}
+
+// Run cleanup on startup and every hour
+runCleanup();
+setInterval(runCleanup, 60 * 60 * 1000);
+
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
