@@ -3,6 +3,16 @@ import { Link } from 'react-router-dom';
 import { TOOLS, getCategories, getToolBySlug } from '../toolsConfig';
 import { api } from '../api';
 
+const CATEGORY_COLORS = {
+  Document: '#3b82f6',
+  Image: '#8b5cf6',
+  Video: '#ef4444',
+  Audio: '#f59e0b',
+  Archive: '#10b981',
+  'PDF Tools': '#ec4899',
+  Utilities: '#6366f1',
+};
+
 function getFavorites() {
   try { return JSON.parse(localStorage.getItem('favoriteTools') || '[]'); }
   catch { return []; }
@@ -44,7 +54,10 @@ export default function Tools() {
 
   return (
     <div className="page">
-      <h1>All conversion tools</h1>
+      <div className="tools-header">
+        <h1>All conversion tools</h1>
+        <span className="tools-shortcut-hint">Press <kbd>Ctrl</kbd>+<kbd>K</kbd> to quick search</span>
+      </div>
 
       <input
         className="tools-search"
@@ -55,17 +68,29 @@ export default function Tools() {
       />
 
       {/* Favorites section */}
-      {favoriteTools.length > 0 && !query && (
-        <section style={{ marginBottom: '2rem' }}>
+      {!query && (
+        <section className="favorites-section">
           <h2>Favorites</h2>
-          <div className="tools-grid">
-            {favoriteTools.map((t) => (
-              <Link to={`/tools/${t.slug}`} className="tool-card" key={t.slug}>
-                <button className="fav-btn fav-active" onClick={(e) => toggleFavorite(e, t.slug)} type="button" title="Remove from favorites">&#9733;</button>
-                <span className="tool-card-label">{t.label}</span>
-              </Link>
-            ))}
-          </div>
+          {favoriteTools.length === 0 ? (
+            <div className="favorites-empty">
+              <span className="favorites-empty-icon">&#9734;</span>
+              <p>No favorites yet</p>
+              <p className="favorites-empty-hint">Click the heart on any tool to save it here for quick access</p>
+            </div>
+          ) : (
+            <div className="favorites-grid">
+              {favoriteTools.map((t) => {
+                const color = CATEGORY_COLORS[t.category] || '#6366f1';
+                return (
+                  <Link to={`/tools/${t.slug}`} className="fav-card" key={t.slug} style={{ '--fav-color': color }}>
+                    <button className="fav-heart fav-heart-active" onClick={(e) => toggleFavorite(e, t.slug)} type="button" title="Remove from favorites">&#9829;</button>
+                    <span className="fav-card-cat">{t.category}</span>
+                    <span className="fav-card-label">{t.label}</span>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
         </section>
       )}
 
@@ -85,7 +110,7 @@ export default function Tools() {
                     type="button"
                     title={favorites.includes(t.slug) ? 'Remove from favorites' : 'Add to favorites'}
                   >
-                    {favorites.includes(t.slug) ? '\u2605' : '\u2606'}
+                    {favorites.includes(t.slug) ? '\u2665' : '\u2661'}
                   </button>
                   {popularSlugs.includes(t.slug) && <span className="popular-badge">Popular</span>}
                   <span className="tool-card-label">{t.label}</span>
