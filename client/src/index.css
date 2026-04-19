@@ -604,3 +604,112 @@ body {
   margin-top: 0.5rem;
   text-align: center;
 }
+
+/* ---- File info bar ---- */
+.file-info-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f0f4ff;
+  border: 1px solid #dbe4ff;
+  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: #444;
+  margin-bottom: 1rem;
+}
+
+.file-info-time {
+  color: #888;
+}
+
+/* ---- Copy link button ---- */
+.btn-copy {
+  background: none;
+  border: 1px solid #ccc;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  color: #555;
+  font-family: inherit;
+}
+
+.btn-copy:hover {
+  border-color: #888;
+}
+
+/* ---- Metadata page ---- */
+.metadata-result {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.metadata-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.metadata-table tr {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.metadata-table tr:last-child {
+  border-bottom: none;
+}
+
+.metadata-label {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #555;
+  padding: 0.5rem 1rem 0.5rem 0;
+  white-space: nowrap;
+  width: 180px;
+}
+
+.metadata-value {
+  font-size: 0.875rem;
+  color: #222;
+  padding: 0.5rem 0;
+  word-break: break-all;
+}
+
+/* ---- Dashboard status badges ---- */
+.status-badge {
+  display: inline-block;
+  padding: 0.125rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.badge-done {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.badge-pending {
+  background: #fef9c3;
+  color: #854d0e;
+}
+
+.badge-processing {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.badge-failed {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.job-file-cell {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

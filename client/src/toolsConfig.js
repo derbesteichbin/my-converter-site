@@ -65,6 +65,9 @@ export const TOOLS = [
   { slug: 'rotate-pdf',   label: 'Rotate PDF',   category: 'PDF Tools', inputFormats: ['pdf'], outputFormats: ['pdf'], acceptMime: '.pdf', toolType: 'pdf-rotate',   extraFields: ['rotation'] },
   { slug: 'protect-pdf',  label: 'Protect PDF',  category: 'PDF Tools', inputFormats: ['pdf'], outputFormats: ['pdf'], acceptMime: '.pdf', toolType: 'pdf-protect',  extraFields: ['password'] },
   { slug: 'unlock-pdf',   label: 'Unlock PDF',   category: 'PDF Tools', inputFormats: ['pdf'], outputFormats: ['pdf'], acceptMime: '.pdf', toolType: 'pdf-unlock',   extraFields: ['password'] },
+
+  // ── Utilities ──
+  { slug: 'view-metadata', label: 'View File Metadata', category: 'Utilities', toolType: 'metadata' },
 ];
 
 // ── Advanced Settings (per category) ─────────────────────────────────
@@ -95,7 +98,7 @@ export function getToolBySlug(slug) {
   return TOOLS.find((t) => t.slug === slug) || null;
 }
 
-export const CATEGORY_ORDER = ['Document', 'Image', 'Video', 'Audio', 'Archive', 'PDF Tools'];
+export const CATEGORY_ORDER = ['Document', 'Image', 'Video', 'Audio', 'Archive', 'PDF Tools', 'Utilities'];
 
 export function getCategories() {
   return CATEGORY_ORDER.filter((cat) => TOOLS.some((t) => t.category === cat));

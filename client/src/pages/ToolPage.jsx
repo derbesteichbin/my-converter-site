@@ -14,6 +14,17 @@ function formatSize(bytes) {
   return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
 }
 
+function estimateTime(files) {
+  const totalBytes = files.reduce((sum, f) => sum + f.size, 0);
+  const mb = totalBytes / (1024 * 1024);
+  if (mb < 1) return 'a few seconds';
+  if (mb < 5) return '~10 seconds';
+  if (mb < 20) return '~30 seconds';
+  if (mb < 50) return '~1 minute';
+  if (mb < 100) return '~2 minutes';
+  return '~3-5 minutes';
+}
+
 export default function ToolPage() {
   const { toolName } = useParams();
   const toolDef = getToolBySlug(toolName);
@@ -40,6 +51,8 @@ export default function ToolPage() {
   // Advanced settings state
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [advancedValues, setAdvancedValues] = useState({});
+
+  const [copied, setCopied] = useState(false);
 
   // Cleanup polls on unmount
   useEffect(() => {
@@ -218,6 +231,14 @@ export default function ToolPage() {
         )}
       </div>
 
+      {/* File info bar */}
+      {hasFiles && overallStatus === 'idle' && (
+        <div className="file-info-bar">
+          <span>{files.length} {files.length === 1 ? 'file' : 'files'} — {formatSize(files.reduce((s, f) => s + f.size, 0))} total</span>
+          <span className="file-info-time">Estimated time: {estimateTime(files)}</span>
+        </div>
+      )}
+
       {/* File list (shown when multiple files or PDF merge) */}
       {files.length > 1 && overallStatus === 'idle' && (
         <div className="multi-file-list">
@@ -242,7 +263,14 @@ export default function ToolPage() {
                 {job.status === 'uploading' && 'Uploading...'}
                 {job.status === 'processing' && <><span className="spinner spinner-sm" /> Converting...</>}
                 {job.status === 'done' && (
-                  <a href={`${API_URL}${job.downloadUrl}`} className="batch-download" download>Download</a>
+                  <>
+                    <a href={`${API_URL}${job.downloadUrl}`} className="batch-download" download>Download</a>
+                    <button className="btn-copy" onClick={() => {
+                      navigator.clipboard.writeText(`${window.location.origin}${API_URL}${job.downloadUrl}`);
+                      setCopied(true);
+                      setTimeout(() => setCopied(false), 2000);
+                    }} type="button">{copied ? 'Copied!' : 'Copy link'}</button>
+                  </>
                 )}
                 {job.status === 'failed' && <span className="batch-error">{job.error}</span>}
               </span>
