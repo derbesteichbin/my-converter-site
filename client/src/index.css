@@ -334,6 +334,36 @@ h2 { font-size: 1.5rem; }
   margin: -0.5rem 0 1rem;
 }
 
+/* ---- Password input with toggle ---- */
+.password-input-wrapper {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.password-input-wrapper input {
+  width: 100%;
+  padding-right: 2.5rem;
+  margin-bottom: 0;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+}
+
+.password-toggle:hover {
+  color: var(--text);
+}
+
 /* ---- Navbar ---- */
 .navbar {
   display: flex;

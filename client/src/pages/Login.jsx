@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { api, API_URL } from '../api';
+import PasswordInput from '../components/PasswordInput';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -59,7 +60,7 @@ export default function Login() {
         <input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
 
         <label htmlFor="password">Password</label>
-        <input id="password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
+        <PasswordInput id="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
 
         <p className="forgot-link">
           <Link to="/forgot-password">Forgot password?</Link>

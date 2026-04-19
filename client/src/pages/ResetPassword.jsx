@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { api } from '../api';
+import PasswordInput from '../components/PasswordInput';
 
 export default function ResetPassword() {
   const [searchParams] = useSearchParams();
@@ -16,8 +17,9 @@ export default function ResetPassword() {
 
   const hasMinLength = password.length >= 6;
   const hasUppercase = /[A-Z]/.test(password);
+  const hasNumber = /[0-9]/.test(password);
   const hasSpecial = /[!@#$%^&*]/.test(password);
-  const isStrong = hasMinLength && hasUppercase && hasSpecial;
+  const isStrong = hasMinLength && hasUppercase && hasNumber && hasSpecial;
   const passwordsMatch = password === confirmPassword && confirmPassword.length > 0;
 
   async function handleSubmit(e) {
@@ -89,9 +91,8 @@ export default function ResetPassword() {
             {error && <p className="auth-error">{error}</p>}
             <form onSubmit={handleSubmit}>
               <label htmlFor="password">New password</label>
-              <input
+              <PasswordInput
                 id="password"
-                type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -102,14 +103,14 @@ export default function ResetPassword() {
                 <ul className="password-checklist">
                   <li className={hasMinLength ? 'check-pass' : 'check-fail'}>At least 6 characters</li>
                   <li className={hasUppercase ? 'check-pass' : 'check-fail'}>At least one uppercase letter (A-Z)</li>
+                  <li className={hasNumber ? 'check-pass' : 'check-fail'}>At least one number (0-9)</li>
                   <li className={hasSpecial ? 'check-pass' : 'check-fail'}>At least one special character (!@#$%^&*)</li>
                 </ul>
               )}
 
               <label htmlFor="confirmPassword">Confirm password</label>
-              <input
+              <PasswordInput
                 id="confirmPassword"
-                type="password"
                 required
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}

@@ -33,6 +33,11 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ error: 'Email and password are required' });
     }
 
+    // Server-side password validation
+    if (password.length < 6 || !/[A-Z]/.test(password) || !/[0-9]/.test(password) || !/[!@#$%^&*]/.test(password)) {
+      return res.status(400).json({ error: 'Password must be at least 6 characters with one uppercase letter, one number, and one special character (!@#$%^&*)' });
+    }
+
     const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) {
       return res.status(409).json({ error: 'Email already registered' });
@@ -175,16 +180,19 @@ router.post('/forgot-password', async (req, res) => {
     const resetLink = `${clientUrl}/reset-password?token=${resetToken}`;
 
     // Send email via Resend
+    console.log('[forgot-password] RESEND_API_KEY:', process.env.RESEND_API_KEY ? 'SET (' + process.env.RESEND_API_KEY.substring(0, 8) + '...)' : 'MISSING');
+    console.log('[forgot-password] CLIENT_URL:', clientUrl);
+    console.log('[forgot-password] Reset link:', resetLink);
+
     if (!process.env.RESEND_API_KEY) {
       console.error('[forgot-password] RESEND_API_KEY is not set — cannot send email');
-      console.log('[forgot-password] Reset link (for dev):', resetLink);
       return res.json({ ok: true });
     }
 
     const { Resend } = require('resend');
     const resend = new Resend(process.env.RESEND_API_KEY);
 
-    console.log('[forgot-password] Sending reset email to:', email);
+    console.log('[forgot-password] Attempting to send email to:', email);
     const emailResult = await resend.emails.send({
       from: 'Converter <noreply@resend.dev>',
       to: email,
@@ -200,11 +208,19 @@ router.post('/forgot-password', async (req, res) => {
       ].join(''),
     });
 
-    console.log('[forgot-password] Email sent successfully:', emailResult);
+    console.log('[forgot-password] Resend API response:', JSON.stringify(emailResult));
+    if (emailResult?.error) {
+      console.error('[forgot-password] Resend error:', JSON.stringify(emailResult.error));
+      return res.status(500).json({ error: 'Failed to send reset email: ' + (emailResult.error.message || 'unknown error') });
+    }
+    console.log('[forgot-password] Email sent successfully, id:', emailResult?.data?.id);
     res.json({ ok: true });
   } catch (err) {
-    console.error('[forgot-password] Error:', err.message);
+    console.error('[forgot-password] Caught error:', err);
+    console.error('[forgot-password] Error message:', err.message);
+    console.error('[forgot-password] Error name:', err.name);
     if (err.statusCode) console.error('[forgot-password] Status code:', err.statusCode);
+    if (err.response) console.error('[forgot-password] Response body:', JSON.stringify(err.response));
     res.status(500).json({ error: 'Failed to send reset email. Please try again later.' });
   }
 });
@@ -217,8 +233,8 @@ router.post('/reset-password', async (req, res) => {
       return res.status(400).json({ error: 'Token and password are required' });
     }
 
-    if (password.length < 6 || !/[A-Z]/.test(password) || !/[!@#$%^&*]/.test(password)) {
-      return res.status(400).json({ error: 'Password must be 6+ characters with one uppercase letter and one special character (!@#$%^&*)' });
+    if (password.length < 6 || !/[A-Z]/.test(password) || !/[0-9]/.test(password) || !/[!@#$%^&*]/.test(password)) {
+      return res.status(400).json({ error: 'Password must be at least 6 characters with one uppercase letter, one number, and one special character (!@#$%^&*)' });
     }
 
     const user = await prisma.user.findUnique({ where: { resetToken: token } });

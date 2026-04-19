@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { api, API_URL } from '../api';
+import PasswordInput from '../components/PasswordInput';
 
 export default function Register() {
   const [searchParams] = useSearchParams();
@@ -13,8 +14,9 @@ export default function Register() {
 
   const hasMinLength = password.length >= 6;
   const hasUppercase = /[A-Z]/.test(password);
+  const hasNumber = /[0-9]/.test(password);
   const hasSpecial = /[!@#$%^&*]/.test(password);
-  const isStrong = hasMinLength && hasUppercase && hasSpecial;
+  const isStrong = hasMinLength && hasUppercase && hasNumber && hasSpecial;
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -72,12 +74,13 @@ export default function Register() {
         <input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
 
         <label htmlFor="password">Password</label>
-        <input id="password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
+        <PasswordInput id="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
 
         {password.length > 0 && (
           <ul className="password-checklist">
             <li className={hasMinLength ? 'check-pass' : 'check-fail'}>At least 6 characters</li>
             <li className={hasUppercase ? 'check-pass' : 'check-fail'}>At least one uppercase letter (A-Z)</li>
+            <li className={hasNumber ? 'check-pass' : 'check-fail'}>At least one number (0-9)</li>
             <li className={hasSpecial ? 'check-pass' : 'check-fail'}>At least one special character (!@#$%^&*)</li>
           </ul>
         )}
