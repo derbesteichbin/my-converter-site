@@ -1,10 +1,5 @@
 require('dotenv').config();
-console.log('ENV CHECK:', {
-  DATABASE_URL: process.env.DATABASE_URL ? 'SET' : 'MISSING',
-  STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY ? 'SET' : 'MISSING',
-  JWT_SECRET: process.env.JWT_SECRET ? 'SET' : 'MISSING',
-  NODE_ENV: process.env.NODE_ENV,
-});
+console.log('DB:' + (process.env.DATABASE_URL ? 'SET' : 'MISSING') + ' JWT:' + (process.env.JWT_SECRET ? 'SET' : 'MISSING') + ' STRIPE:' + (process.env.STRIPE_SECRET_KEY ? 'SET' : 'MISSING'));
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
