@@ -11,7 +11,9 @@ export default function Profile() {
   const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
   const [displayName, setDisplayName] = useState('');
+  const [newEmail, setNewEmail] = useState('');
   const [saving, setSaving] = useState(false);
+  const [savingEmail, setSavingEmail] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
   useEffect(() => {
@@ -57,7 +59,18 @@ export default function Profile() {
       <div className="profile-card">
         <div className="profile-field">
           <label>Email</label>
-          <p>{profile.email}</p>
+          <div className="profile-name-row">
+            <input type="email" value={newEmail || profile.email} onChange={(e) => setNewEmail(e.target.value)} placeholder={profile.email} />
+            <button className="btn-primary" disabled={savingEmail || !newEmail || newEmail === profile.email} onClick={async () => {
+              setSavingEmail(true);
+              try {
+                const res = await api('/api/profile', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: newEmail }) });
+                if (res.ok) { toast('Email updated', 'success'); profile.email = newEmail; }
+                else toast('Failed to update email', 'error');
+              } catch { toast('Error', 'error'); }
+              finally { setSavingEmail(false); }
+            }} type="button">{savingEmail ? 'Saving...' : 'Update'}</button>
+          </div>
         </div>
 
         <div className="profile-field">

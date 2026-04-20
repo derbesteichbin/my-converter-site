@@ -61,11 +61,11 @@ router.get('/', protect, async (req, res) => {
 // PATCH /api/profile — update display name
 router.patch('/', protect, async (req, res) => {
   try {
-    const { displayName } = req.body;
-    await prisma.user.update({
-      where: { id: req.userId },
-      data: { displayName: displayName || null },
-    });
+    const { displayName, email } = req.body;
+    const data = {};
+    if (displayName !== undefined) data.displayName = displayName || null;
+    if (email) data.email = email;
+    await prisma.user.update({ where: { id: req.userId }, data });
     res.json({ ok: true });
   } catch (err) {
     console.error('Update profile error:', err);

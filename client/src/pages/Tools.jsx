@@ -52,6 +52,7 @@ function saveFavorites(favs) {
 export default function Tools() {
   const categories = getCategories();
   const [search, setSearch] = useState('');
+  const [activeCategory, setActiveCategory] = useState('All');
   const [favorites, setFavorites] = useState(getFavorites);
   const [popularSlugs, setPopularSlugs] = useState([]);
   const [loadingPopular, setLoadingPopular] = useState(true);
@@ -85,9 +86,13 @@ export default function Tools() {
   }
 
   const query = search.toLowerCase().trim();
-  const filteredTools = query
+  let filteredTools = query
     ? TOOLS.filter((t) => t.label.toLowerCase().includes(query) || t.category.toLowerCase().includes(query))
     : TOOLS;
+  if (activeCategory !== 'All') {
+    filteredTools = filteredTools.filter((t) => t.category === activeCategory);
+  }
+  const filterCategories = ['All', ...categories];
 
   const favoriteTools = favorites.map(getToolBySlug).filter(Boolean);
 
@@ -105,6 +110,17 @@ export default function Tools() {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
+
+      <div className="category-filters">
+        {filterCategories.map((cat) => (
+          <button
+            key={cat}
+            className={`category-filter-btn ${activeCategory === cat ? 'category-filter-active' : ''}`}
+            onClick={() => setActiveCategory(cat)}
+            type="button"
+          >{cat}</button>
+        ))}
+      </div>
 
       {/* Favorites section */}
       {!query && (

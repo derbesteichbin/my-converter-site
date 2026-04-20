@@ -28,6 +28,7 @@ const About = lazy(() => import('./pages/About.jsx'));
 const Terms = lazy(() => import('./pages/Terms.jsx'));
 const Privacy = lazy(() => import('./pages/Privacy.jsx'));
 const NotFound = lazy(() => import('./pages/NotFound.jsx'));
+const Changelog = lazy(() => import('./pages/Changelog.jsx'));
 
 function Loading() {
   return <div style={{ textAlign: 'center', padding: '4rem 0', color: 'var(--text-muted)' }}>Loading...</div>;
@@ -59,6 +60,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path="about" element={<About />} />
           <Route path="terms" element={<Terms />} />
           <Route path="privacy" element={<Privacy />} />
+          <Route path="changelog" element={<Changelog />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

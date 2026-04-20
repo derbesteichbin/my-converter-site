@@ -189,10 +189,27 @@ export default function Dashboard() {
         </section>
       )}
 
-      <h2>Conversion history</h2>
-      <p style={{ color: 'var(--text-muted)', marginBottom: '1rem' }}>
-        {jobs.length} {jobs.length === 1 ? 'conversion' : 'conversions'} total
-      </p>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
+        <div>
+          <h2 style={{ margin: 0 }}>Conversion history</h2>
+          <p style={{ color: 'var(--text-muted)', margin: '0.25rem 0 0' }}>{jobs.length} {jobs.length === 1 ? 'conversion' : 'conversions'} total</p>
+        </div>
+        {jobs.length > 0 && (
+          <button className="btn-ghost" onClick={() => {
+            const rows = [['Date', 'Input File', 'Output Format', 'Status']];
+            jobs.forEach((j) => {
+              rows.push([new Date(j.createdAt).toISOString(), j.inputFile || '', j.outputFile ? j.outputFile.split('.').pop() : '', j.status]);
+            });
+            const csv = rows.map((r) => r.map((c) => `"${c}"`).join(',')).join('\n');
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'conversion-history.csv';
+            a.click();
+            toast('CSV downloaded', 'success');
+          }} type="button">Export CSV</button>
+        )}
+      </div>
 
       {jobsLoading ? (
         <SkeletonTable rows={4} />
