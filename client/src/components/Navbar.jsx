@@ -80,8 +80,8 @@ export default function Navbar() {
           src={theme === 'dark' ? '/images/logo-dark.png' : '/images/logo-light.png'}
           alt="ConvertAnything"
           className="navbar-logo-img"
-          width="32"
-          height="32"
+          width="44"
+          height="44"
         />
         <span>ConvertAnything</span>
       </Link>
