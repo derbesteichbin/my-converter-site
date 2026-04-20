@@ -76,15 +76,56 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
       const creditsToAdd = CREDIT_PACKS[priceId] || 0;
       if (creditsToAdd > 0) {
         try {
-          await prisma.user.update({
+          const user = await prisma.user.update({
             where: { id: userId },
             data: { credits: { increment: creditsToAdd } },
           });
           console.log(`User ${userId} purchased ${creditsToAdd} credits`);
+
+          // Notify owner
+          if (process.env.RESEND_API_KEY && process.env.OWNER_EMAIL) {
+            const resend = new Resend(process.env.RESEND_API_KEY);
+            const amount = session.amount_total ? (session.amount_total / 100).toFixed(2) : 'N/A';
+            const currency = (session.currency || 'eur').toUpperCase();
+            resend.emails.send({
+              from: 'ConvertAnything <noreply@resend.dev>',
+              to: process.env.OWNER_EMAIL,
+              subject: 'New Pro upgrade on ConvertAnything',
+              html: `<p>A user just purchased credits:</p><ul><li><strong>Email:</strong> ${user.email}</li><li><strong>Credits:</strong> ${creditsToAdd}</li><li><strong>Amount:</strong> ${amount} ${currency}</li><li><strong>Date:</strong> ${new Date().toISOString()}</li></ul>`,
+            }).catch((err) => console.error('[billing] Owner notification failed:', err.message));
+          }
         } catch (err) {
           console.error('Failed to add credits:', err);
         }
       }
+    }
+  }
+
+  if (event.type === 'customer.subscription.deleted') {
+    const subscription = event.data.object;
+    const customerId = subscription.customer;
+
+    try {
+      const sub = await prisma.subscription.findFirst({ where: { stripeCustomerId: customerId } });
+      if (sub) {
+        const user = await prisma.user.findUnique({ where: { id: sub.userId } });
+        await prisma.subscription.delete({ where: { id: sub.id } });
+        await prisma.user.update({ where: { id: sub.userId }, data: { plan: 'free' } });
+        console.log(`Subscription cancelled for user ${sub.userId}`);
+
+        // Notify owner
+        if (process.env.RESEND_API_KEY && process.env.OWNER_EMAIL && user) {
+          const resend = new Resend(process.env.RESEND_API_KEY);
+          resend.emails.send({
+            from: 'ConvertAnything <noreply@resend.dev>',
+            to: process.env.OWNER_EMAIL,
+            subject: 'User cancelled subscription on ConvertAnything',
+            html: `<p>A user cancelled their subscription:</p><ul><li><strong>Email:</strong> ${user.email}</li><li><strong>Date:</strong> ${new Date().toISOString()}</li></ul>`,
+          }).catch((err) => console.error('[billing] Cancel notification failed:', err.message));
+        }
+      }
+    } catch (err) {
+      console.error('Failed to handle subscription deletion:', err);
     }
   }
 
