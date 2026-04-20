@@ -93,24 +93,64 @@ router.post('/login', async (req, res) => {
 });
 
 // ── Google OAuth ────────────────────────────────────────────────────
-router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'], session: false }));
+router.get('/google', (req, res, next) => {
+  console.log('[google-auth] Starting Google OAuth flow');
+  console.log('[google-auth] GOOGLE_CLIENT_ID:', process.env.GOOGLE_CLIENT_ID ? 'SET' : 'MISSING');
+  console.log('[google-auth] GOOGLE_CLIENT_SECRET:', process.env.GOOGLE_CLIENT_SECRET ? 'SET' : 'MISSING');
 
-router.get('/google/callback', passport.authenticate('google', { session: false, failureRedirect: `${CLIENT_URL}/login` }),
-  (req, res) => {
-    setTokenCookie(res, req.user.id);
-    res.redirect(`${CLIENT_URL}/dashboard`);
+  if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
+    console.error('[google-auth] Google OAuth credentials not configured');
+    return res.redirect(`${CLIENT_URL}/login?error=google_not_configured`);
   }
-);
+
+  passport.authenticate('google', { scope: ['profile', 'email'], session: false })(req, res, next);
+});
+
+router.get('/google/callback', (req, res, next) => {
+  passport.authenticate('google', { session: false }, (err, user, info) => {
+    if (err) {
+      console.error('[google-auth] Callback error:', err.message);
+      console.error('[google-auth] Full error:', err);
+      return res.redirect(`${CLIENT_URL}/login?error=google_failed`);
+    }
+    if (!user) {
+      console.error('[google-auth] No user returned. Info:', info);
+      return res.redirect(`${CLIENT_URL}/login?error=google_no_user`);
+    }
+    console.log('[google-auth] Success, user:', user.id, user.email);
+    setTokenCookie(res, user.id);
+    res.redirect(`${CLIENT_URL}/dashboard`);
+  })(req, res, next);
+});
 
 // ── Apple OAuth ─────────────────────────────────────────────────────
-router.get('/apple', passport.authenticate('apple', { session: false }));
+router.get('/apple', (req, res, next) => {
+  console.log('[apple-auth] Starting Apple OAuth flow');
+  console.log('[apple-auth] APPLE_CLIENT_ID:', process.env.APPLE_CLIENT_ID ? 'SET' : 'MISSING');
 
-router.post('/apple/callback', passport.authenticate('apple', { session: false, failureRedirect: `${CLIENT_URL}/login` }),
-  (req, res) => {
-    setTokenCookie(res, req.user.id);
-    res.redirect(`${CLIENT_URL}/dashboard`);
+  if (!process.env.APPLE_CLIENT_ID || !process.env.APPLE_TEAM_ID) {
+    console.error('[apple-auth] Apple OAuth credentials not configured');
+    return res.redirect(`${CLIENT_URL}/login?error=apple_not_configured`);
   }
-);
+
+  passport.authenticate('apple', { session: false })(req, res, next);
+});
+
+router.post('/apple/callback', (req, res, next) => {
+  passport.authenticate('apple', { session: false }, (err, user, info) => {
+    if (err) {
+      console.error('[apple-auth] Callback error:', err.message);
+      return res.redirect(`${CLIENT_URL}/login?error=apple_failed`);
+    }
+    if (!user) {
+      console.error('[apple-auth] No user returned. Info:', info);
+      return res.redirect(`${CLIENT_URL}/login?error=apple_no_user`);
+    }
+    console.log('[apple-auth] Success, user:', user.id, user.email);
+    setTokenCookie(res, user.id);
+    res.redirect(`${CLIENT_URL}/dashboard`);
+  })(req, res, next);
+});
 
 // POST /api/auth/logout
 router.post('/logout', (req, res) => {

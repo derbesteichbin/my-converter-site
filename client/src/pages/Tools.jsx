@@ -13,14 +13,14 @@ const CATEGORY_DESCRIPTIONS = {
   Utilities: 'Inspect file metadata, dimensions, duration, and more.',
 };
 
-const CATEGORY_COLORS = {
-  Document: '#3b82f6',
-  Image: '#8b5cf6',
-  Video: '#ef4444',
-  Audio: '#f59e0b',
-  Archive: '#10b981',
-  'PDF Tools': '#ec4899',
-  Utilities: '#6366f1',
+const CATEGORY_GRADIENTS = {
+  Document: 'linear-gradient(135deg, #7c3aed, #4f46e5)',
+  Image: 'linear-gradient(135deg, #0d9488, #06b6d4)',
+  Video: 'linear-gradient(135deg, #f97316, #ef4444)',
+  Audio: 'linear-gradient(135deg, #ec4899, #f43f5e)',
+  Archive: 'linear-gradient(135deg, #6b7280, #475569)',
+  'PDF Tools': 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
+  Utilities: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
 };
 
 function getFavorites() {
@@ -90,9 +90,9 @@ export default function Tools() {
           ) : (
             <div className="favorites-grid">
               {favoriteTools.map((t) => {
-                const color = CATEGORY_COLORS[t.category] || '#6366f1';
+                const gradient = CATEGORY_GRADIENTS[t.category] || 'linear-gradient(135deg, #6366f1, #8b5cf6)';
                 return (
-                  <Link to={`/tools/${t.slug}`} className="fav-card" key={t.slug} style={{ '--fav-color': color }}>
+                  <Link to={`/tools/${t.slug}`} className="fav-card" key={t.slug} style={{ background: gradient }}>
                     <button className="fav-heart fav-heart-active" onClick={(e) => toggleFavorite(e, t.slug)} type="button" title="Remove from favorites">&#9829;</button>
                     <span className="fav-card-cat">{t.category}</span>
                     <span className="fav-card-label">{t.label}</span>

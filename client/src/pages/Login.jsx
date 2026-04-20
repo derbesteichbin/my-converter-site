@@ -1,12 +1,23 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { api, API_URL } from '../api';
 import PasswordInput from '../components/PasswordInput';
 
+const OAUTH_ERRORS = {
+  google_not_configured: 'Google sign-in is not configured yet.',
+  google_failed: 'Google sign-in failed. Please try again.',
+  google_no_user: 'Could not retrieve your Google account. Please try again.',
+  apple_not_configured: 'Apple sign-in is not configured yet.',
+  apple_failed: 'Apple sign-in failed. Please try again.',
+  apple_no_user: 'Could not retrieve your Apple account. Please try again.',
+};
+
 export default function Login() {
+  const [searchParams] = useSearchParams();
+  const oauthError = searchParams.get('error');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [error, setError] = useState(oauthError ? OAUTH_ERRORS[oauthError] || 'Sign-in failed.' : '');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
