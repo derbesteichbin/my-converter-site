@@ -33,14 +33,17 @@ app.use(
 );
 app.use(cookieParser());
 
-// Billing routes — mounted before express.json() so the webhook
-// route's express.raw() middleware receives the unparsed body
-app.use('/api/billing', billingRoutes);
-
-app.use(express.json());
+// Parse JSON for all routes except the Stripe webhook (which needs raw body)
+app.use((req, res, next) => {
+  if (req.originalUrl === '/api/billing/webhook') return next();
+  express.json()(req, res, next);
+});
 
 // Auth routes
 app.use('/api/auth', authRoutes);
+
+// Billing routes
+app.use('/api/billing', billingRoutes);
 
 // Conversion + job routes
 app.use('/api/convert', convertRoutes);
