@@ -55,6 +55,22 @@ app.use('/api/metadata', metadataRoutes);
 // Profile route
 app.use('/api/profile', profileRoutes);
 
+// Contact form
+app.post('/api/contact', async (req, res) => {
+  try {
+    const { name, email, subject, message } = req.body;
+    if (!name || !email || !subject || !message) {
+      return res.status(400).json({ error: 'All fields are required' });
+    }
+    const prisma = require('./lib/prisma');
+    await prisma.contact.create({ data: { name, email, subject, message } });
+    res.json({ ok: true });
+  } catch (err) {
+    console.error('Contact form error:', err);
+    res.status(500).json({ error: 'Failed to send message' });
+  }
+});
+
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' });
