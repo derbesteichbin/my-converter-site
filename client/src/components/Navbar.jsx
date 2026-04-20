@@ -38,7 +38,7 @@ function getInitialTheme() {
   catch { return 'light'; }
 }
 
-export default function Navbar() {
+export default function Navbar({ scrolled = false }) {
   const { t, i18n } = useTranslation();
   const [loggedIn, setLoggedIn] = useState(false);
   const [theme, setTheme] = useState(getInitialTheme);
@@ -74,7 +74,7 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="navbar" role="navigation" aria-label="Main navigation">
+    <nav className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`} role="navigation" aria-label="Main navigation">
       <Link to="/" className="navbar-logo" aria-label="Home">
         <img
           src={theme === 'dark' ? '/images/logo-dark.png' : '/images/logo-light.png'}

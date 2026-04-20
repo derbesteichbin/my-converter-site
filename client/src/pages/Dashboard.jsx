@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { api, API_URL } from '../api';
 import { getToolBySlug } from '../toolsConfig';
 import { useToast } from '../components/Toast';
+import { EmptyHistory } from '../components/EmptyState';
+import { SkeletonTable } from '../components/Skeleton';
 
 function statusBadge(status) {
   const cls = {
@@ -34,6 +36,7 @@ function guessToolSlug(inputFile, outputFile) {
 
 export default function Dashboard() {
   const [jobs, setJobs] = useState([]);
+  const [jobsLoading, setJobsLoading] = useState(true);
   const [recentTools, setRecentTools] = useState([]);
   const [apiKey, setApiKey] = useState(null);
   const [loadingKey, setLoadingKey] = useState(false);
@@ -44,7 +47,8 @@ export default function Dashboard() {
     api('/api/jobs')
       .then((r) => (r.ok ? r.json() : []))
       .then((data) => { if (Array.isArray(data)) setJobs(data); })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => setJobsLoading(false));
     api('/api/auth/api-key')
       .then((r) => r.json())
       .then((data) => setApiKey(data.apiKey))
@@ -190,8 +194,10 @@ export default function Dashboard() {
         {jobs.length} {jobs.length === 1 ? 'conversion' : 'conversions'} total
       </p>
 
-      {jobs.length === 0 ? (
-        <p className="empty-state">No conversions yet. Go convert a file!</p>
+      {jobsLoading ? (
+        <SkeletonTable rows={4} />
+      ) : jobs.length === 0 ? (
+        <EmptyHistory />
       ) : (
         <table className="jobs-table">
           <thead>

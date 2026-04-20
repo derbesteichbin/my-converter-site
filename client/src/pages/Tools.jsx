@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { TOOLS, getCategories, getToolBySlug } from '../toolsConfig';
 import { api } from '../api';
+import { EmptyFavorites, EmptySearch } from '../components/EmptyState';
+import { SkeletonCard } from '../components/Skeleton';
 
 const CATEGORY_DESCRIPTIONS = {
   Document: 'Convert between PDF, Word, Excel, PowerPoint, and more with perfect formatting preserved.',
@@ -52,6 +54,7 @@ export default function Tools() {
   const [search, setSearch] = useState('');
   const [favorites, setFavorites] = useState(getFavorites);
   const [popularSlugs, setPopularSlugs] = useState([]);
+  const [loadingPopular, setLoadingPopular] = useState(true);
   const [isDark, setIsDark] = useState(getTheme() === 'dark');
 
   // Watch for theme changes via MutationObserver on <html> data-theme
@@ -67,7 +70,8 @@ export default function Tools() {
     api('/api/popular-tools')
       .then((r) => r.ok ? r.json() : [])
       .then((data) => { if (Array.isArray(data)) setPopularSlugs(data); })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => setLoadingPopular(false));
   }, []);
 
   function toggleFavorite(e, slug) {
@@ -107,11 +111,7 @@ export default function Tools() {
         <section className="favorites-section">
           <h2>Favorites</h2>
           {favoriteTools.length === 0 ? (
-            <div className="favorites-empty">
-              <span className="favorites-empty-icon">&#9734;</span>
-              <p>No favorites yet</p>
-              <p className="favorites-empty-hint">Click the heart on any tool to save it here for quick access</p>
-            </div>
+            <EmptyFavorites />
           ) : (
             <div className="favorites-grid">
               {favoriteTools.map((t) => {
@@ -161,8 +161,10 @@ export default function Tools() {
         );
       })}
 
+      {loadingPopular && <SkeletonCard count={6} />}
+
       {filteredTools.length === 0 && (
-        <p className="empty-state">No tools match "{search}"</p>
+        <EmptySearch query={search} />
       )}
     </div>
   );
