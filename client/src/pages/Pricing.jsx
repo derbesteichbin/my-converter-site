@@ -5,9 +5,9 @@ import { api } from '../api';
 import { useToast } from '../components/Toast';
 
 const PACKS = [
-  { id: 'single', label: '1 Conversion', price: '0.99', credits: 1, priceEnv: 'STRIPE_PRICE_SINGLE' },
-  { id: 'pack10', label: '10 Conversions', price: '7.99', credits: 10, priceEnv: 'STRIPE_PRICE_10', popular: true },
-  { id: 'pack30', label: '30 Conversions', price: '20.99', credits: 30, priceEnv: 'STRIPE_PRICE_30' },
+  { id: 'pack1', label: '1 Conversion', price: '0.99', credits: 1 },
+  { id: 'pack10', label: '10 Conversions', price: '7.99', credits: 10, popular: true },
+  { id: 'pack30', label: '30 Conversions', price: '20.99', credits: 30 },
 ];
 
 export default function Pricing() {
@@ -18,13 +18,13 @@ export default function Pricing() {
   const [contactForm, setContactForm] = useState({ name: '', companyEmail: '', description: '' });
   const [sending, setSending] = useState(false);
 
-  async function handleBuy(priceId) {
-    setLoading(priceId);
+  async function handleBuy(packId) {
+    setLoading(packId);
     try {
       const res = await api('/api/billing/create-checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ priceId }),
+        body: JSON.stringify({ pack: packId }),
       });
       const data = await res.json();
       if (!res.ok) {

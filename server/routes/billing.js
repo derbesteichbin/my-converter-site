@@ -6,12 +6,18 @@ const { Resend } = require('resend');
 
 const router = express.Router();
 
-// Credit packs: priceId -> credits to add
+// Credit packs: pack name -> { priceId, credits }
 const CREDIT_PACKS = {
-  [process.env.STRIPE_PRICE_SINGLE || 'price_single']: 1,
-  [process.env.STRIPE_PRICE_10 || 'price_10pack']: 10,
-  [process.env.STRIPE_PRICE_30 || 'price_30pack']: 30,
+  pack1:  { priceId: 'price_1TOK5OCk0jB5nblRiM4JKQ8r', credits: 1 },
+  pack10: { priceId: 'price_1TOK87Ck0jB5nblRHf4XD5EL', credits: 10 },
+  pack30: { priceId: 'price_1TOK8rCk0jB5nblR8tstbK4Y', credits: 30 },
 };
+
+// Reverse lookup: Stripe priceId -> credits
+const PRICE_TO_CREDITS = {};
+for (const [, pack] of Object.entries(CREDIT_PACKS)) {
+  PRICE_TO_CREDITS[pack.priceId] = pack.credits;
+}
 
 function getStripe() {
   if (!process.env.STRIPE_SECRET_KEY) return null;
@@ -25,8 +31,9 @@ router.post('/create-checkout', protect, async (req, res) => {
     const stripe = getStripe();
     if (!stripe) return res.status(503).json({ error: 'Billing is not configured' });
 
-    const { priceId } = req.body;
-    if (!priceId) return res.status(400).json({ error: 'priceId is required' });
+    const { pack } = req.body;
+    const packDef = CREDIT_PACKS[pack];
+    if (!packDef) return res.status(400).json({ error: 'Invalid pack. Use pack1, pack10, or pack30.' });
 
     const user = await prisma.user.findUnique({ where: { id: req.userId } });
     if (!user) return res.status(404).json({ error: 'User not found' });
@@ -34,10 +41,10 @@ router.post('/create-checkout', protect, async (req, res) => {
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       payment_method_types: ['card'],
-      line_items: [{ price: priceId, quantity: 1 }],
+      line_items: [{ price: packDef.priceId, quantity: 1 }],
       customer_email: user.email,
       client_reference_id: user.id,
-      metadata: { priceId },
+      metadata: { pack, priceId: packDef.priceId },
       success_url: `${process.env.CLIENT_URL || 'http://localhost:5173'}/dashboard?purchased=1`,
       cancel_url: `${process.env.CLIENT_URL || 'http://localhost:5173'}/pricing`,
     });
@@ -73,7 +80,7 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
     const priceId = session.metadata?.priceId;
 
     if (userId && priceId) {
-      const creditsToAdd = CREDIT_PACKS[priceId] || 0;
+      const creditsToAdd = PRICE_TO_CREDITS[priceId] || 0;
       if (creditsToAdd > 0) {
         try {
           const user = await prisma.user.update({
