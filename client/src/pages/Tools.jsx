@@ -14,13 +14,13 @@ const CATEGORY_DESCRIPTIONS = {
 };
 
 const GRADIENTS_DARK = {
-  Document: 'linear-gradient(135deg, #7c3aed, #4f46e5)',
-  Image: 'linear-gradient(135deg, #0d9488, #06b6d4)',
-  Video: 'linear-gradient(135deg, #f97316, #ef4444)',
-  Audio: 'linear-gradient(135deg, #ec4899, #f43f5e)',
-  Archive: 'linear-gradient(135deg, #6b7280, #475569)',
-  'PDF Tools': 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
-  Utilities: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+  Document: 'linear-gradient(135deg, #4c1d95, #3730a3)',
+  Image: 'linear-gradient(135deg, #134e4a, #065f46)',
+  Video: 'linear-gradient(135deg, #7c2d12, #991b1b)',
+  Audio: 'linear-gradient(135deg, #831843, #9f1239)',
+  Archive: 'linear-gradient(135deg, #1f2937, #111827)',
+  'PDF Tools': 'linear-gradient(135deg, #4a1d96, #5b21b6)',
+  Utilities: 'linear-gradient(135deg, #312e81, #4c1d95)',
 };
 
 const GRADIENTS_LIGHT = {
