@@ -244,6 +244,12 @@ h2 { font-size: 1.5rem; }
   background: #222;
 }
 
+.btn-apple-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 .auth-divider {
   display: flex;
   align-items: center;

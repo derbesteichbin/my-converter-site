@@ -13,10 +13,14 @@ passport.deserializeUser(async (id, done) => {
 
 // Google OAuth
 if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+  const googleCallbackURL = process.env.SERVER_URL
+    ? `${process.env.SERVER_URL}/api/auth/google/callback`
+    : '/api/auth/google/callback';
+  console.log('[passport] Google OAuth configured, callback:', googleCallbackURL);
   passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: '/api/auth/google/callback',
+    callbackURL: googleCallbackURL,
   }, async (accessToken, refreshToken, profile, done) => {
     try {
       const email = profile.emails?.[0]?.value;

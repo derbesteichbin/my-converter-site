@@ -13,7 +13,7 @@ const CATEGORY_DESCRIPTIONS = {
   Utilities: 'Inspect file metadata, dimensions, duration, and more.',
 };
 
-const CATEGORY_GRADIENTS = {
+const GRADIENTS_DARK = {
   Document: 'linear-gradient(135deg, #7c3aed, #4f46e5)',
   Image: 'linear-gradient(135deg, #0d9488, #06b6d4)',
   Video: 'linear-gradient(135deg, #f97316, #ef4444)',
@@ -22,6 +22,21 @@ const CATEGORY_GRADIENTS = {
   'PDF Tools': 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
   Utilities: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
 };
+
+const GRADIENTS_LIGHT = {
+  Document: 'linear-gradient(135deg, #ede9fe, #c4b5fd)',
+  Image: 'linear-gradient(135deg, #d1fae5, #99f6e4)',
+  Video: 'linear-gradient(135deg, #fed7aa, #fdba74)',
+  Audio: 'linear-gradient(135deg, #fce7f3, #fbcfe8)',
+  Archive: 'linear-gradient(135deg, #f3f4f6, #d1d5db)',
+  'PDF Tools': 'linear-gradient(135deg, #ede9fe, #ddd6fe)',
+  Utilities: 'linear-gradient(135deg, #e0e7ff, #c7d2fe)',
+};
+
+function getTheme() {
+  try { return localStorage.getItem('theme') || 'light'; }
+  catch { return 'light'; }
+}
 
 function getFavorites() {
   try { return JSON.parse(localStorage.getItem('favoriteTools') || '[]'); }
@@ -37,6 +52,7 @@ export default function Tools() {
   const [search, setSearch] = useState('');
   const [favorites, setFavorites] = useState(getFavorites);
   const [popularSlugs, setPopularSlugs] = useState([]);
+  const isDark = getTheme() === 'dark';
 
   useEffect(() => {
     api('/api/popular-tools')
@@ -90,11 +106,13 @@ export default function Tools() {
           ) : (
             <div className="favorites-grid">
               {favoriteTools.map((t) => {
-                const gradient = CATEGORY_GRADIENTS[t.category] || 'linear-gradient(135deg, #6366f1, #8b5cf6)';
+                const gradients = isDark ? GRADIENTS_DARK : GRADIENTS_LIGHT;
+                const gradient = gradients[t.category] || gradients.Utilities;
+                const textColor = isDark ? '#fff' : '#1f2937';
                 return (
-                  <Link to={`/tools/${t.slug}`} className="fav-card" key={t.slug} style={{ background: gradient }}>
-                    <button className="fav-heart fav-heart-active" onClick={(e) => toggleFavorite(e, t.slug)} type="button" title="Remove from favorites">&#9829;</button>
-                    <span className="fav-card-cat">{t.category}</span>
+                  <Link to={`/tools/${t.slug}`} className="fav-card" key={t.slug} style={{ background: gradient, color: textColor }}>
+                    <button className="fav-heart fav-heart-active" onClick={(e) => toggleFavorite(e, t.slug)} type="button" title="Remove from favorites" style={{ color: isDark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.3)' }}>&#9829;</button>
+                    <span className="fav-card-cat" style={{ opacity: isDark ? 0.8 : 0.6 }}>{t.category}</span>
                     <span className="fav-card-label">{t.label}</span>
                   </Link>
                 );
