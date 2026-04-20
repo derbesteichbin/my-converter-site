@@ -76,7 +76,14 @@ export default function Navbar() {
   return (
     <nav className="navbar" role="navigation" aria-label="Main navigation">
       <Link to="/" className="navbar-logo" aria-label="Home">
-        Converter
+        <img
+          src={theme === 'dark' ? '/images/logo-dark.png' : '/images/logo-light.png'}
+          alt="ConvertAnything"
+          className="navbar-logo-img"
+          width="32"
+          height="32"
+        />
+        <span>ConvertAnything</span>
       </Link>
 
       <div className="navbar-links">

@@ -383,7 +383,10 @@ h2 { font-size: 1.5rem; }
 }
 
 .navbar-logo {
-  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.125rem;
   font-weight: 800;
   color: #7c3aed;
   letter-spacing: -0.03em;
@@ -408,7 +411,13 @@ h2 { font-size: 1.5rem; }
   color: var(--text);
 }
 
-[data-theme="dark"] .navbar-logo {
+.navbar-logo-img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+[data-theme="dark"] .navbar-logo span {
   background: linear-gradient(135deg, #8b5cf6, #ec4899);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
