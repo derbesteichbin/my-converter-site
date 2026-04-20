@@ -58,6 +58,17 @@ router.post('/register', async (req, res) => {
       }).catch(() => {});
     }
 
+    // Notify site owner
+    if (process.env.RESEND_API_KEY && process.env.OWNER_EMAIL) {
+      const { Resend } = require('resend');
+      new Resend(process.env.RESEND_API_KEY).emails.send({
+        from: 'ConvertAnything <noreply@resend.dev>',
+        to: process.env.OWNER_EMAIL,
+        subject: 'New user registered on ConvertAnything',
+        html: `<p>A new user just registered:</p><ul><li><strong>Email:</strong> ${email}</li><li><strong>Date:</strong> ${new Date().toISOString()}</li><li><strong>Plan:</strong> free</li></ul>`,
+      }).catch((err) => console.error('[register] Owner notification failed:', err.message));
+    }
+
     setTokenCookie(res, user.id);
     res.status(201).json({ user: { id: user.id, email: user.email, plan: user.plan } });
   } catch (err) {
