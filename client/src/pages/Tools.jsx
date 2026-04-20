@@ -52,7 +52,16 @@ export default function Tools() {
   const [search, setSearch] = useState('');
   const [favorites, setFavorites] = useState(getFavorites);
   const [popularSlugs, setPopularSlugs] = useState([]);
-  const isDark = getTheme() === 'dark';
+  const [isDark, setIsDark] = useState(getTheme() === 'dark');
+
+  // Watch for theme changes via MutationObserver on <html> data-theme
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.getAttribute('data-theme') === 'dark');
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     api('/api/popular-tools')
