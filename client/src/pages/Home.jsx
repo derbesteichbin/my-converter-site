@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
+import SEO from '../components/SEO';
 import { TOOLS, getToolBySlug } from '../toolsConfig';
 
 const POPULAR_SLUGS = ['pdf-to-word', 'jpg-to-png', 'mp4-to-mp3', 'merge-pdf', 'heic-to-jpg', 'compress-pdf'];
@@ -24,10 +24,17 @@ export default function Home() {
 
   return (
     <div className="page">
-      <Helmet>
-        <title>Converter - Free Online File Converter</title>
-        <meta name="description" content="Convert any file format online for free. 50+ formats supported. PDF, images, video, audio, archives and more. Fast, secure, no signup required." />
-      </Helmet>
+      <SEO path="/" />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareApplication',
+        name: 'ConvertAnything',
+        url: 'https://my-converter-site.vercel.app',
+        applicationCategory: 'UtilitiesApplication',
+        operatingSystem: 'Web',
+        description: 'Free online file converter. Convert PDF, images, video, audio, and archives. 50+ formats supported.',
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
+      }) }} />
 
       {/* Hero */}
       <section className="hero">

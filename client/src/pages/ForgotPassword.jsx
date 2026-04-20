@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
+import SEO from '../components/SEO';
 import { api } from '../api';
 
 export default function ForgotPassword() {
@@ -37,7 +37,7 @@ export default function ForgotPassword() {
 
   return (
     <div className="auth-page">
-      <Helmet><title>Forgot Password - Converter</title></Helmet>
+      <SEO title="Forgot Password" path="/forgot-password" />
       <div className="auth-form">
         <h1>Forgot password</h1>
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
+import SEO from '../components/SEO';
 import { useTranslation } from 'react-i18next';
 import { api } from '../api';
 import { useToast } from '../components/Toast';
@@ -51,7 +51,7 @@ export default function Profile() {
 
   return (
     <div className="page">
-      <Helmet><title>Profile - Converter</title></Helmet>
+      <SEO title="Profile" path="/profile" />
       <h1>Profile</h1>
 
       <div className="profile-card">

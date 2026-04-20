@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Helmet } from 'react-helmet-async';
+import SEO from '../components/SEO';
 
 const FAQS = [
   { q: 'What file formats are supported?', a: 'We support over 50 file formats including PDF, Word (DOCX), Excel (XLSX), PowerPoint (PPTX), JPG, PNG, WebP, HEIC, SVG, MP4, AVI, MOV, MKV, MP3, WAV, FLAC, AAC, ZIP, RAR, 7Z, and many more. New formats are added regularly.' },
@@ -21,7 +21,7 @@ export default function Faq() {
 
   return (
     <div className="page">
-      <Helmet><title>FAQ - ConvertAnything</title></Helmet>
+      <SEO title="FAQ" path="/faq" description="Frequently asked questions about ConvertAnything. Formats, pricing, security, file limits, and more." />
       <h1>Frequently Asked Questions</h1>
       <p className="page-subtitle">Find answers to common questions about ConvertAnything.</p>
 

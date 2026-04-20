@@ -1,9 +1,9 @@
-import { Helmet } from 'react-helmet-async';
+import SEO from '../components/SEO';
 
 export default function Privacy() {
   return (
     <div className="page legal-page">
-      <Helmet><title>Privacy Policy - ConvertAnything</title></Helmet>
+      <SEO title="Privacy Policy" path="/privacy" description="ConvertAnything Privacy Policy. How we collect, use, and protect your data. GDPR compliant." />
       <h1>Privacy Policy</h1>
       <p className="legal-updated">Last updated: April 2026</p>
 

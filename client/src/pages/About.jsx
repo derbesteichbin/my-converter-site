@@ -1,9 +1,9 @@
-import { Helmet } from 'react-helmet-async';
+import SEO from '../components/SEO';
 
 export default function About() {
   return (
     <div className="page">
-      <Helmet><title>About - ConvertAnything</title></Helmet>
+      <SEO title="About" path="/about" description="Learn about ConvertAnything, our mission, values, and what makes our file converter different." />
       <h1>About ConvertAnything</h1>
 
       <section className="about-section">

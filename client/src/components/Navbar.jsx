@@ -82,6 +82,7 @@ export default function Navbar({ scrolled = false }) {
           className="navbar-logo-img"
           width="44"
           height="44"
+          loading="lazy"
         />
         <span>ConvertAnything</span>
       </Link>

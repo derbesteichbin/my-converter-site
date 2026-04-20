@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
+import SEO from '../components/SEO';
 import { api } from '../api';
 import PasswordInput from '../components/PasswordInput';
 
@@ -75,7 +75,7 @@ export default function ResetPassword() {
 
   return (
     <div className="auth-page">
-      <Helmet><title>Reset Password - Converter</title></Helmet>
+      <SEO title="Reset Password" path="/reset-password" />
       <div className="auth-form">
         <h1>Reset password</h1>
 

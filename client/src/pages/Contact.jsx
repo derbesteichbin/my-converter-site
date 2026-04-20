@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Helmet } from 'react-helmet-async';
+import SEO from '../components/SEO';
 import { api } from '../api';
 import { useToast } from '../components/Toast';
 
@@ -31,7 +31,7 @@ export default function Contact() {
 
   return (
     <div className="page">
-      <Helmet><title>Contact - ConvertAnything</title></Helmet>
+      <SEO title="Contact" path="/contact" description="Get in touch with ConvertAnything. Send us a message for support, feedback, or business inquiries." />
       <h1>Contact Us</h1>
       <p className="page-subtitle">Have a question, feedback, or need help? Send us a message and we'll get back to you.</p>
 

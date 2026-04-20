@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
+import SEO from '../components/SEO';
 import { api } from '../api';
 import { useToast } from '../components/Toast';
 
@@ -40,7 +40,7 @@ export default function Settings() {
 
   return (
     <div className="page">
-      <Helmet><title>Notification Settings - Converter</title></Helmet>
+      <SEO title="Notification Settings" path="/settings" />
       <h1>Notification Settings</h1>
       <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
         Choose which email notifications you want to receive.

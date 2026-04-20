@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
+import SEO from '../components/SEO';
 
 export default function NotFound() {
   return (
     <div className="page not-found-page">
-      <Helmet><title>Page Not Found - ConvertAnything</title></Helmet>
+      <SEO title="Page Not Found" />
       <h1>404</h1>
       <h2>Page not found</h2>
       <p>The page you're looking for doesn't exist or has been moved.</p>

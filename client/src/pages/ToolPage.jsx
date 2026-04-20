@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
-import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
+import SEO from '../components/SEO';
 import { api, API_URL } from '../api';
 import { getToolBySlug, ADVANCED_SETTINGS } from '../toolsConfig';
 import { useToast } from '../components/Toast';
@@ -455,10 +455,7 @@ export default function ToolPage() {
 
   return (
     <div className="page">
-      <Helmet>
-        <title>{seoTitle}</title>
-        <meta name="description" content={seoDesc} />
-      </Helmet>
+      <SEO title={toolDef?.label || toolName} description={seoDesc} path={`/tools/${toolName}`} />
       {offline && <div className="offline-banner" role="alert">You are offline. Please check your internet connection.</div>}
       <h1>{toolDef?.label || formatToolName(toolName)}</h1>
 

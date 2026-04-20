@@ -1,9 +1,9 @@
-import { Helmet } from 'react-helmet-async';
+import SEO from '../components/SEO';
 
 export default function Terms() {
   return (
     <div className="page legal-page">
-      <Helmet><title>Terms of Service - ConvertAnything</title></Helmet>
+      <SEO title="Terms of Service" path="/terms" description="ConvertAnything Terms of Service. User accounts, payments, refunds, file handling, and liability." />
       <h1>Terms of Service</h1>
       <p className="legal-updated">Last updated: April 2026</p>
 
