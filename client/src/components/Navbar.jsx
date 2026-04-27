@@ -3,6 +3,9 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { api } from '../api';
 
+// Languages currently exposed in the picker. To re-enable da, fi, cs, ro, hu,
+// el, or tr, add them back here — translation files in i18n-translations.js
+// already include them.
 const LANGUAGES = [
   { code: 'en', label: 'English' },
   { code: 'de', label: 'Deutsch' },
@@ -14,13 +17,6 @@ const LANGUAGES = [
   { code: 'pl', label: 'Polski' },
   { code: 'sv', label: 'Svenska' },
   { code: 'no', label: 'Norsk' },
-  { code: 'da', label: 'Dansk' },
-  { code: 'fi', label: 'Suomi' },
-  { code: 'cs', label: 'Cestina' },
-  { code: 'ro', label: 'Romana' },
-  { code: 'hu', label: 'Magyar' },
-  { code: 'el', label: 'Ελληνικα' },
-  { code: 'tr', label: 'Turkce' },
 ];
 
 function getInitialTheme() {
