@@ -1,4 +1,4 @@
-const CACHE_NAME = 'convertanything-v1';
+const CACHE_NAME = 'convertanyformat-v1';
 const SHELL_URLS = ['/', '/index.html'];
 
 self.addEventListener('install', (event) => {
