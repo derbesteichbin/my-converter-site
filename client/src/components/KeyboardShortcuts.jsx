@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
-
-const SHORTCUTS = [
-  { keys: 'Ctrl + K', action: 'Open command palette' },
-  { keys: 'Enter', action: 'Start conversion (when file selected)' },
-  { keys: 'Escape', action: 'Close dialogs and clear errors' },
-  { keys: 'Shift + ?', action: 'Show this shortcuts panel' },
-];
+import { useTranslation } from 'react-i18next';
 
 export default function KeyboardShortcuts() {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
+
+  const shortcuts = [
+    { keys: 'Ctrl + K', action: t('shortcuts.openPalette') },
+    { keys: 'Enter', action: t('shortcuts.startConv') },
+    { keys: 'Escape', action: t('shortcuts.closeDialog') },
+    { keys: 'Shift + ?', action: t('shortcuts.showShortcuts') },
+  ];
 
   useEffect(() => {
     function handleKey(e) {
@@ -27,10 +29,10 @@ export default function KeyboardShortcuts() {
   return (
     <div className="shortcuts-overlay" onClick={() => setOpen(false)}>
       <div className="shortcuts-modal" onClick={(e) => e.stopPropagation()}>
-        <h3>Keyboard Shortcuts</h3>
+        <h3>{t('shortcuts.title')}</h3>
         <table className="shortcuts-table">
           <tbody>
-            {SHORTCUTS.map((s) => (
+            {shortcuts.map((s) => (
               <tr key={s.keys}>
                 <td><kbd>{s.keys}</kbd></td>
                 <td>{s.action}</td>
@@ -38,7 +40,7 @@ export default function KeyboardShortcuts() {
             ))}
           </tbody>
         </table>
-        <button className="btn-ghost" onClick={() => setOpen(false)} type="button" style={{ marginTop: '1rem' }}>Close</button>
+        <button className="btn-ghost" onClick={() => setOpen(false)} type="button" style={{ marginTop: '1rem' }}>{t('common.close')}</button>
       </div>
     </div>
   );

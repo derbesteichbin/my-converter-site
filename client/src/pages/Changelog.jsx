@@ -1,35 +1,37 @@
+import { useTranslation } from 'react-i18next';
 import SEO from '../components/SEO';
 
 const ENTRIES = [
-  { date: '2026-04-20', title: 'PWA Support', desc: 'Install ConvertAnything as an app on your phone or desktop. Added service worker for offline caching.' },
-  { date: '2026-04-20', title: 'SEO & Performance', desc: 'Lazy-loaded all pages, added Open Graph tags, JSON-LD schema, and security headers.' },
-  { date: '2026-04-20', title: 'Page Transitions & Skeletons', desc: 'Smooth fade animations between pages, skeleton loading screens, and micro hover animations.' },
-  { date: '2026-04-19', title: 'Contact, FAQ, About, Legal Pages', desc: 'Added Contact form, FAQ with 12 questions, About page, Terms of Service, and Privacy Policy.' },
-  { date: '2026-04-19', title: 'Forgot Password Flow', desc: 'Full password reset via email with secure tokens and password strength validation.' },
-  { date: '2026-04-19', title: 'Google OAuth', desc: 'Sign in with Google for faster account creation and login.' },
-  { date: '2026-04-19', title: 'Credit-Based Pricing', desc: 'New pricing model with credit packs: 1 for EUR 0.99, 10 for EUR 7.99, 30 for EUR 20.99.' },
-  { date: '2026-04-19', title: '27 Languages', desc: 'Interface translated into 27 languages including German, French, Spanish, Chinese, Japanese, Arabic, and more.' },
-  { date: '2026-04-19', title: 'Dark Mode Redesign', desc: 'Premium dark theme with glowing gradient cards, frosted glass navbar, and animated background.' },
-  { date: '2026-04-19', title: 'Favorites, Search, Command Palette', desc: 'Star your favorite tools, search by name, and use Ctrl+K to quickly navigate.' },
-  { date: '2026-04-19', title: 'Batch Processing', desc: 'Convert multiple files at once with per-file progress tracking and ZIP download.' },
-  { date: '2026-04-06', title: '51 Conversion Tools', desc: 'Expanded from 8 to 51 tools across Document, Image, Video, Audio, Archive, and PDF categories.' },
-  { date: '2026-04-06', title: 'Initial Launch', desc: 'ConvertAnything launched with file conversion, user auth, Stripe billing, and CloudConvert integration.' },
+  { date: '2026-04-20', key: 'e1' },
+  { date: '2026-04-20', key: 'e2' },
+  { date: '2026-04-20', key: 'e3' },
+  { date: '2026-04-19', key: 'e4' },
+  { date: '2026-04-19', key: 'e5' },
+  { date: '2026-04-19', key: 'e6' },
+  { date: '2026-04-19', key: 'e7' },
+  { date: '2026-04-19', key: 'e8' },
+  { date: '2026-04-19', key: 'e9' },
+  { date: '2026-04-19', key: 'e10' },
+  { date: '2026-04-19', key: 'e11' },
+  { date: '2026-04-06', key: 'e12' },
+  { date: '2026-04-06', key: 'e13' },
 ];
 
 export default function Changelog() {
+  const { t } = useTranslation();
   return (
     <div className="page">
-      <SEO title="Changelog" path="/changelog" description="See what's new in ConvertAnything. Latest features, improvements, and updates." />
-      <h1>Changelog</h1>
-      <p className="page-subtitle">See what's new in ConvertAnything.</p>
+      <SEO title={t('changelog.title')} path="/changelog" description={t('changelog.seoDesc', { brand: 'ConvertAnyFormat' })} />
+      <h1>{t('changelog.title')}</h1>
+      <p className="page-subtitle">{t('changelog.subtitle', { brand: 'ConvertAnyFormat' })}</p>
 
       <div className="changelog-list">
         {ENTRIES.map((entry, i) => (
           <div className="changelog-entry" key={i}>
             <span className="changelog-date">{entry.date}</span>
             <div>
-              <h3 className="changelog-title">{entry.title}</h3>
-              <p className="changelog-desc">{entry.desc}</p>
+              <h3 className="changelog-title">{t(`changelog.${entry.key}Title`)}</h3>
+              <p className="changelog-desc">{t(`changelog.${entry.key}Desc`, { brand: 'ConvertAnyFormat' })}</p>
             </div>
           </div>
         ))}

@@ -25,7 +25,7 @@ async function sendCompletionEmail(userId, jobId, downloadUrl) {
     if (!user) return;
     const fullUrl = `${process.env.CLIENT_URL || 'http://localhost:5173'}${downloadUrl}`;
     await resend.emails.send({
-      from: 'ConvertAnything <noreply@convertanyformat.com>',
+      from: 'ConvertAnyFormat <noreply@convertanyformat.com>',
       to: user.email,
       subject: 'Your file conversion is ready',
       html: `<p>Your file has been converted successfully.</p><p><a href="${fullUrl}">Download your file</a></p><p>This link will expire in 24 hours.</p>`,

@@ -6,18 +6,12 @@ import { api } from '../api';
 const LANGUAGES = [
   { code: 'en', label: 'English' },
   { code: 'de', label: 'Deutsch' },
-  { code: 'es', label: 'Espanol' },
   { code: 'fr', label: 'Francais' },
+  { code: 'es', label: 'Espanol' },
   { code: 'it', label: 'Italiano' },
   { code: 'pt', label: 'Portugues' },
   { code: 'nl', label: 'Nederlands' },
   { code: 'pl', label: 'Polski' },
-  { code: 'ru', label: 'Русский' },
-  { code: 'zh', label: '中文' },
-  { code: 'ja', label: '日本語' },
-  { code: 'ko', label: '한국어' },
-  { code: 'ar', label: 'العربية' },
-  { code: 'tr', label: 'Turkce' },
   { code: 'sv', label: 'Svenska' },
   { code: 'no', label: 'Norsk' },
   { code: 'da', label: 'Dansk' },
@@ -26,11 +20,7 @@ const LANGUAGES = [
   { code: 'ro', label: 'Romana' },
   { code: 'hu', label: 'Magyar' },
   { code: 'el', label: 'Ελληνικα' },
-  { code: 'he', label: 'עברית' },
-  { code: 'th', label: 'ไทย' },
-  { code: 'vi', label: 'Tieng Viet' },
-  { code: 'id', label: 'Indonesia' },
-  { code: 'hi', label: 'हिन्दी' },
+  { code: 'tr', label: 'Turkce' },
 ];
 
 function getInitialTheme() {
@@ -75,16 +65,16 @@ export default function Navbar({ scrolled = false }) {
 
   return (
     <nav className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`} role="navigation" aria-label="Main navigation">
-      <Link to="/" className="navbar-logo" aria-label="Home">
+      <Link to="/" className="navbar-logo" aria-label={t('nav.home')}>
         <img
           src={theme === 'dark' ? '/images/logo-dark.png' : '/images/logo-light.png'}
-          alt="ConvertAnything"
+          alt="ConvertAnyFormat"
           className="navbar-logo-img"
           width="44"
           height="44"
           loading="lazy"
         />
-        <span>ConvertAnything</span>
+        <span>ConvertAnyFormat</span>
       </Link>
 
       <div className="navbar-links">
@@ -93,21 +83,21 @@ export default function Navbar({ scrolled = false }) {
       </div>
 
       <div className="navbar-auth">
-        <select className="lang-select" value={i18n.language} onChange={changeLang} aria-label="Language">
+        <select className="lang-select" value={i18n.language} onChange={changeLang} aria-label={t('nav.language')}>
           {LANGUAGES.map((l) => (
             <option key={l.code} value={l.code}>{l.label}</option>
           ))}
         </select>
 
-        <button className="btn-ghost theme-toggle" onClick={toggleTheme} title="Toggle dark mode" type="button" aria-label="Toggle dark mode">
-          {theme === 'light' ? '\u263E' : '\u2600'}
+        <button className="btn-ghost theme-toggle" onClick={toggleTheme} title={t('nav.toggleDark')} type="button" aria-label={t('nav.toggleDark')}>
+          {theme === 'light' ? '☾' : '☀'}
         </button>
 
         {loggedIn ? (
           <>
             <Link to="/dashboard" className="btn-ghost">{t('nav.dashboard')}</Link>
-            <Link to="/profile" className="btn-ghost" aria-label="Profile">Profile</Link>
-            <button className="btn-ghost" onClick={handleLogout} aria-label="Log out">{t('nav.logout')}</button>
+            <Link to="/profile" className="btn-ghost" aria-label={t('nav.profile')}>{t('nav.profile')}</Link>
+            <button className="btn-ghost" onClick={handleLogout} aria-label={t('nav.logout')}>{t('nav.logout')}</button>
           </>
         ) : (
           <>

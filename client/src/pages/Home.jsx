@@ -28,7 +28,7 @@ export default function Home() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'SoftwareApplication',
-        name: 'ConvertAnything',
+        name: 'ConvertAnyFormat',
         url: 'https://www.convertanyformat.com',
         applicationCategory: 'UtilitiesApplication',
         operatingSystem: 'Web',
@@ -41,11 +41,11 @@ export default function Home() {
         <h1 className="hero-gradient">{t('home.title')}</h1>
         <p className="hero-subtitle">{t('home.subtitle')}</p>
         <p className="hero-points">
-          <span>50+ formats supported</span>
+          <span>{t('home.heroPoint1')}</span>
           <span className="hero-dot" />
-          <span>No installation needed</span>
+          <span>{t('home.heroPoint2')}</span>
           <span className="hero-dot" />
-          <span>Files deleted after 24 hours</span>
+          <span>{t('home.heroPoint3')}</span>
         </p>
         <Link to="/tools" className="btn-primary hero-cta">
           {t('home.browse')}
@@ -55,41 +55,41 @@ export default function Home() {
       {/* Stats bar */}
       <section className="stats-bar">
         <div className="stat-item">
-          <span className="stat-icon">&#9998;</span>
-          <span className="stat-label">50+ Formats</span>
+          <span className="stat-icon">✎</span>
+          <span className="stat-label">{t('home.statFormats')}</span>
         </div>
         <div className="stat-item">
-          <span className="stat-icon">&#128274;</span>
-          <span className="stat-label">100% Secure</span>
+          <span className="stat-icon">🔒</span>
+          <span className="stat-label">{t('home.statSecure')}</span>
         </div>
         <div className="stat-item">
-          <span className="stat-icon">&#128337;</span>
-          <span className="stat-label">Deleted in 24h</span>
+          <span className="stat-icon">⏱</span>
+          <span className="stat-label">{t('home.statDelete')}</span>
         </div>
         <div className="stat-item">
-          <span className="stat-icon">&#10003;</span>
-          <span className="stat-label">Free to Start</span>
+          <span className="stat-icon">✓</span>
+          <span className="stat-label">{t('home.statFree')}</span>
         </div>
       </section>
 
       {/* How it works */}
       <section className="how-it-works">
-        <h2>How it works</h2>
+        <h2>{t('home.howTitle')}</h2>
         <div className="steps-grid">
           <div className="step-card">
             <span className="step-number">1</span>
-            <h3>Upload your file</h3>
-            <p>Drag and drop any file or click to browse. We support PDF, images, video, audio, archives, and documents up to 200 MB.</p>
+            <h3>{t('home.step1Title')}</h3>
+            <p>{t('home.step1Desc')}</p>
           </div>
           <div className="step-card">
             <span className="step-number">2</span>
-            <h3>Choose your format</h3>
-            <p>Select the output format you need. Adjust quality, resolution, or enable OCR with our advanced settings.</p>
+            <h3>{t('home.step2Title')}</h3>
+            <p>{t('home.step2Desc')}</p>
           </div>
           <div className="step-card">
             <span className="step-number">3</span>
-            <h3>Download instantly</h3>
-            <p>Your converted file is ready in seconds. Download it directly or share the link. Files are auto-deleted after 24 hours for your privacy.</p>
+            <h3>{t('home.step3Title')}</h3>
+            <p>{t('home.step3Desc')}</p>
           </div>
         </div>
       </section>
@@ -99,9 +99,9 @@ export default function Home() {
         <section style={{ marginBottom: '2.5rem' }}>
           <h2>{t('home.recent')}</h2>
           <div className="tools-grid">
-            {recentTools.map((t) => (
-              <Link to={`/tools/${t.slug}`} className="tool-card" key={t.slug}>
-                <span className="tool-card-label">{t.label}</span>
+            {recentTools.map((tool) => (
+              <Link to={`/tools/${tool.slug}`} className="tool-card" key={tool.slug}>
+                <span className="tool-card-label">{tool.label}</span>
               </Link>
             ))}
           </div>
@@ -112,9 +112,9 @@ export default function Home() {
       <section style={{ marginBottom: '2.5rem' }}>
         <h2>{t('home.popular')}</h2>
         <div className="tools-grid">
-          {POPULAR_TOOLS.map((t) => (
-            <Link to={`/tools/${t.slug}`} className="tool-card" key={t.slug}>
-              <span className="tool-card-label">{t.label}</span>
+          {POPULAR_TOOLS.map((tool) => (
+            <Link to={`/tools/${tool.slug}`} className="tool-card" key={tool.slug}>
+              <span className="tool-card-label">{tool.label}</span>
             </Link>
           ))}
         </div>

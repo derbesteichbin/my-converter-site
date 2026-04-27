@@ -1,19 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { TOOLS, getCategories, getToolBySlug } from '../toolsConfig';
 import { api } from '../api';
 import { EmptyFavorites, EmptySearch } from '../components/EmptyState';
 import { SkeletonCard } from '../components/Skeleton';
-
-const CATEGORY_DESCRIPTIONS = {
-  Document: 'Convert between PDF, Word, Excel, PowerPoint, and more with perfect formatting preserved.',
-  Image: 'Transform images between JPG, PNG, WebP, HEIC, SVG, and other formats with quality control.',
-  Video: 'Convert video files between MP4, AVI, MOV, MKV, WebM, and extract audio tracks.',
-  Audio: 'Transform audio between MP3, WAV, FLAC, AAC, OGG, and adjust bitrate and quality.',
-  Archive: 'Convert between ZIP, RAR, 7Z, TAR, and GZ archive formats.',
-  'PDF Tools': 'Merge, split, compress, rotate, protect, and unlock PDF files.',
-  Utilities: 'Inspect file metadata, dimensions, duration, and more.',
-};
 
 const GRADIENTS_DARK = {
   Document: 'linear-gradient(135deg, #4c1d95, #3730a3)',
@@ -50,6 +41,7 @@ function saveFavorites(favs) {
 }
 
 export default function Tools() {
+  const { t } = useTranslation();
   const categories = getCategories();
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
@@ -93,20 +85,22 @@ export default function Tools() {
     filteredTools = filteredTools.filter((t) => t.category === activeCategory);
   }
   const filterCategories = ['All', ...categories];
+  const catLabel = (cat) => cat === 'All' ? t('toolsPage.all') : t(`categories.${cat}`, { defaultValue: cat });
+  const catDesc = (cat) => t(`categoryDescriptions.${cat}`, { defaultValue: '' });
 
   const favoriteTools = favorites.map(getToolBySlug).filter(Boolean);
 
   return (
     <div className="page">
       <div className="tools-header">
-        <h1>All conversion tools</h1>
-        <span className="tools-shortcut-hint">Press <kbd>Ctrl</kbd>+<kbd>K</kbd> to quick search</span>
+        <h1>{t('toolsPage.title')}</h1>
+        <span className="tools-shortcut-hint">{t('toolsPage.shortcutHint', { shortcut: 'Ctrl+K' })}</span>
       </div>
 
       <input
         className="tools-search"
         type="text"
-        placeholder="Search tools..."
+        placeholder={t('toolsPage.search')}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
@@ -118,27 +112,27 @@ export default function Tools() {
             className={`category-filter-btn ${activeCategory === cat ? 'category-filter-active' : ''}`}
             onClick={() => setActiveCategory(cat)}
             type="button"
-          >{cat}</button>
+          >{catLabel(cat)}</button>
         ))}
       </div>
 
       {/* Favorites section */}
       {!query && (
         <section className="favorites-section">
-          <h2>Favorites</h2>
+          <h2>{t('toolsPage.favorites')}</h2>
           {favoriteTools.length === 0 ? (
             <EmptyFavorites />
           ) : (
             <div className="favorites-grid">
-              {favoriteTools.map((t) => {
+              {favoriteTools.map((tool) => {
                 const gradients = isDark ? GRADIENTS_DARK : GRADIENTS_LIGHT;
-                const gradient = gradients[t.category] || gradients.Utilities;
+                const gradient = gradients[tool.category] || gradients.Utilities;
                 const textColor = isDark ? '#fff' : '#1f2937';
                 return (
-                  <Link to={`/tools/${t.slug}`} className="fav-card" key={t.slug} style={{ background: gradient, color: textColor }}>
-                    <button className="fav-heart fav-heart-active" onClick={(e) => toggleFavorite(e, t.slug)} type="button" title="Remove from favorites" style={{ color: isDark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.3)' }}>&#9829;</button>
-                    <span className="fav-card-cat" style={{ opacity: isDark ? 0.8 : 0.6 }}>{t.category}</span>
-                    <span className="fav-card-label">{t.label}</span>
+                  <Link to={`/tools/${tool.slug}`} className="fav-card" key={tool.slug} style={{ background: gradient, color: textColor }}>
+                    <button className="fav-heart fav-heart-active" onClick={(e) => toggleFavorite(e, tool.slug)} type="button" title={t('toolsPage.removeFromFav')} style={{ color: isDark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.3)' }}>&#9829;</button>
+                    <span className="fav-card-cat" style={{ opacity: isDark ? 0.8 : 0.6 }}>{catLabel(tool.category)}</span>
+                    <span className="fav-card-label">{tool.label}</span>
                   </Link>
                 );
               })}
@@ -149,27 +143,26 @@ export default function Tools() {
 
       {/* Category sections */}
       {categories.map((cat) => {
-        const tools = filteredTools.filter((t) => t.category === cat);
+        const tools = filteredTools.filter((tool) => tool.category === cat);
         if (tools.length === 0) return null;
+        const desc = catDesc(cat);
         return (
           <section key={cat} style={{ marginBottom: '2.5rem' }}>
-            <h2>{cat}</h2>
-            {CATEGORY_DESCRIPTIONS[cat] && (
-              <p className="category-desc">{CATEGORY_DESCRIPTIONS[cat]}</p>
-            )}
+            <h2>{catLabel(cat)}</h2>
+            {desc && <p className="category-desc">{desc}</p>}
             <div className="tools-grid">
-              {tools.map((t) => (
-                <Link to={`/tools/${t.slug}`} className="tool-card" data-category={t.category} key={t.slug}>
+              {tools.map((tool) => (
+                <Link to={`/tools/${tool.slug}`} className="tool-card" data-category={tool.category} key={tool.slug}>
                   <button
-                    className={`fav-btn ${favorites.includes(t.slug) ? 'fav-active' : ''}`}
-                    onClick={(e) => toggleFavorite(e, t.slug)}
+                    className={`fav-btn ${favorites.includes(tool.slug) ? 'fav-active' : ''}`}
+                    onClick={(e) => toggleFavorite(e, tool.slug)}
                     type="button"
-                    title={favorites.includes(t.slug) ? 'Remove from favorites' : 'Add to favorites'}
+                    title={favorites.includes(tool.slug) ? t('toolsPage.removeFromFav') : t('toolsPage.addToFav')}
                   >
-                    {favorites.includes(t.slug) ? '\u2665' : '\u2661'}
+                    {favorites.includes(tool.slug) ? '\u2665' : '\u2661'}
                   </button>
-                  {popularSlugs.includes(t.slug) && <span className="popular-badge">Popular</span>}
-                  <span className="tool-card-label">{t.label}</span>
+                  {popularSlugs.includes(tool.slug) && <span className="popular-badge">{t('toolsPage.popularBadge')}</span>}
+                  <span className="tool-card-label">{tool.label}</span>
                 </Link>
               ))}
             </div>

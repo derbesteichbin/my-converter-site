@@ -122,7 +122,7 @@ with open("output.docx", "wb") as f:
 
   return (
     <div className="api-docs-layout">
-      <SEO title="API Documentation" path="/api-docs" description="ConvertAnything REST API documentation. Code examples in cURL, JavaScript, and Python." />
+      <SEO title="API Documentation" path="/api-docs" description="ConvertAnyFormat REST API documentation. Code examples in cURL, JavaScript, and Python." />
 
       {/* Sidebar navigation */}
       <aside className="api-sidebar">
@@ -149,7 +149,7 @@ with open("output.docx", "wb") as f:
 
         <section className="api-section" id="overview">
           <h2>API Overview</h2>
-          <p>The ConvertAnything API allows you to programmatically convert files between 50+ formats. The workflow is simple:</p>
+          <p>The ConvertAnyFormat API allows you to programmatically convert files between 50+ formats. The workflow is simple:</p>
           <ol>
             <li><strong>Upload</strong> a file with your desired output format</li>
             <li><strong>Poll</strong> the job status until it's done</li>

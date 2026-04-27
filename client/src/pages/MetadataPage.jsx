@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { useTranslation } from 'react-i18next';
 import { api } from '../api';
 
 function formatSize(bytes) {
@@ -53,6 +54,7 @@ const LABEL_MAP = {
 const SKIP_KEYS = ['fileSizeFormatted', 'pdfError'];
 
 export default function MetadataPage() {
+  const { t } = useTranslation();
   const [metadata, setMetadata] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -70,7 +72,7 @@ export default function MetadataPage() {
       const res = await api('/api/metadata', { method: 'POST', body: formData });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        throw new Error(data.error || 'Failed to extract metadata');
+        throw new Error(data.error || t('metadataPage.failExtract'));
       }
 
       const data = await res.json();
@@ -80,7 +82,7 @@ export default function MetadataPage() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [t]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     multiple: false,
@@ -94,10 +96,8 @@ export default function MetadataPage() {
 
   return (
     <div className="page">
-      <h1>File Info</h1>
-      <p style={{ color: '#666', marginBottom: '1.5rem' }}>
-        Upload any file to view its metadata — dimensions, duration, author, camera info, page count, and more.
-      </p>
+      <h1>{t('metadataPage.title')}</h1>
+      <p style={{ color: '#666', marginBottom: '1.5rem' }}>{t('metadataPage.body')}</p>
 
       {!metadata && (
         <div
@@ -106,11 +106,11 @@ export default function MetadataPage() {
         >
           <input {...getInputProps()} />
           {loading ? (
-            <p><span className="spinner spinner-sm" /> Extracting metadata...</p>
+            <p><span className="spinner spinner-sm" /> {t('metadataPage.extracting')}</p>
           ) : isDragActive ? (
-            <p>Drop it here...</p>
+            <p>{t('metadataPage.dropHere')}</p>
           ) : (
-            <p>Drag & drop a file here, or click to browse</p>
+            <p>{t('metadataPage.dropDefault')}</p>
           )}
         </div>
       )}
@@ -134,7 +134,7 @@ export default function MetadataPage() {
             </tbody>
           </table>
           <button className="btn-ghost" onClick={handleReset} style={{ marginTop: '1rem' }}>
-            Analyze another file
+            {t('metadataPage.analyzeAnother')}
           </button>
         </div>
       )}

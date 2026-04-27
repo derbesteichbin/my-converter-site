@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function PasswordInput({ id, value, onChange, ...props }) {
+  const { t } = useTranslation();
   const [show, setShow] = useState(false);
 
   return (
@@ -16,7 +18,7 @@ export default function PasswordInput({ id, value, onChange, ...props }) {
         type="button"
         className="password-toggle"
         onClick={() => setShow((prev) => !prev)}
-        aria-label={show ? 'Hide password' : 'Show password'}
+        aria-label={show ? t('auth.hidePassword') : t('auth.showPassword')}
         tabIndex={-1}
       >
         {show ? (

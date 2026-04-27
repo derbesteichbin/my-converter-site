@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { TOOLS } from '../toolsConfig';
 
 export default function CommandPalette() {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState(0);
@@ -64,14 +66,14 @@ export default function CommandPalette() {
           ref={inputRef}
           className="cmd-input"
           type="text"
-          placeholder="Search tools..."
+          placeholder={t('cmd.placeholder')}
           value={query}
           onChange={(e) => { setQuery(e.target.value); setSelected(0); }}
           onKeyDown={handleKeyDown}
         />
         <div className="cmd-results">
           {results.length === 0 && (
-            <div className="cmd-empty">No tools found</div>
+            <div className="cmd-empty">{t('cmd.empty')}</div>
           )}
           {results.map((t, i) => (
             <button
@@ -87,9 +89,9 @@ export default function CommandPalette() {
           ))}
         </div>
         <div className="cmd-footer">
-          <span><kbd>&#8593;</kbd><kbd>&#8595;</kbd> navigate</span>
-          <span><kbd>Enter</kbd> select</span>
-          <span><kbd>Esc</kbd> close</span>
+          <span><kbd>↑</kbd><kbd>↓</kbd> {t('cmd.navigate')}</span>
+          <span><kbd>Enter</kbd> {t('cmd.select')}</span>
+          <span><kbd>Esc</kbd> {t('cmd.close')}</span>
         </div>
       </div>
     </div>

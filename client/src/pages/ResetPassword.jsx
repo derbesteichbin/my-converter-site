@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import SEO from '../components/SEO';
 import { api } from '../api';
 import PasswordInput from '../components/PasswordInput';
 
 export default function ResetPassword() {
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token') || '';
   const navigate = useNavigate();
@@ -27,11 +29,11 @@ export default function ResetPassword() {
     setError('');
 
     if (!isStrong) {
-      setError('Password does not meet all requirements');
+      setError(t('auth.pwWeak'));
       return;
     }
     if (!passwordsMatch) {
-      setError('Passwords do not match');
+      setError(t('auth.pwMismatch'));
       return;
     }
 
@@ -47,13 +49,13 @@ export default function ResetPassword() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || 'Failed to reset password');
+        setError(data.error || t('reset.failed'));
         return;
       }
 
       setDone(true);
     } catch {
-      setError('Could not connect to server');
+      setError(t('common.connectError'));
     } finally {
       setLoading(false);
     }
@@ -63,10 +65,10 @@ export default function ResetPassword() {
     return (
       <div className="auth-page">
         <div className="auth-form">
-          <h1>Invalid link</h1>
-          <p style={{ color: 'var(--text-muted)' }}>This reset link is missing or invalid.</p>
+          <h1>{t('reset.invalidTitle')}</h1>
+          <p style={{ color: 'var(--text-muted)' }}>{t('reset.invalidBody')}</p>
           <Link to="/forgot-password" className="btn-primary" style={{ display: 'inline-block', marginTop: '1rem' }}>
-            Request a new link
+            {t('reset.requestNew')}
           </Link>
         </div>
       </div>
@@ -75,54 +77,54 @@ export default function ResetPassword() {
 
   return (
     <div className="auth-page">
-      <SEO title="Reset Password" path="/reset-password" />
+      <SEO title={t('reset.title')} path="/reset-password" />
       <div className="auth-form">
-        <h1>Reset password</h1>
+        <h1>{t('reset.title')}</h1>
 
         {done ? (
           <div className="forgot-success">
-            <p>Your password has been reset successfully.</p>
+            <p>{t('reset.doneBody')}</p>
             <Link to="/login" className="btn-primary" style={{ display: 'inline-block', marginTop: '1rem' }}>
-              Log in with new password
+              {t('reset.loginNew')}
             </Link>
           </div>
         ) : (
           <>
             {error && <p className="auth-error">{error}</p>}
             <form onSubmit={handleSubmit}>
-              <label htmlFor="password">New password</label>
+              <label htmlFor="password">{t('reset.newPassword')}</label>
               <PasswordInput
                 id="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                aria-label="New password"
+                aria-label={t('reset.newPassword')}
               />
 
               {password.length > 0 && (
                 <ul className="password-checklist">
-                  <li className={hasMinLength ? 'check-pass' : 'check-fail'}>At least 6 characters</li>
-                  <li className={hasUppercase ? 'check-pass' : 'check-fail'}>At least one uppercase letter (A-Z)</li>
-                  <li className={hasNumber ? 'check-pass' : 'check-fail'}>At least one number (0-9)</li>
-                  <li className={hasSpecial ? 'check-pass' : 'check-fail'}>At least one special character (!@#$%^&*)</li>
+                  <li className={hasMinLength ? 'check-pass' : 'check-fail'}>{t('auth.pwMinLength')}</li>
+                  <li className={hasUppercase ? 'check-pass' : 'check-fail'}>{t('auth.pwUppercase')}</li>
+                  <li className={hasNumber ? 'check-pass' : 'check-fail'}>{t('auth.pwNumber')}</li>
+                  <li className={hasSpecial ? 'check-pass' : 'check-fail'}>{t('auth.pwSpecial')}</li>
                 </ul>
               )}
 
-              <label htmlFor="confirmPassword">Confirm password</label>
+              <label htmlFor="confirmPassword">{t('reset.confirmPassword')}</label>
               <PasswordInput
                 id="confirmPassword"
                 required
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                aria-label="Confirm new password"
+                aria-label={t('reset.confirmPassword')}
               />
 
               {confirmPassword.length > 0 && !passwordsMatch && (
-                <p className="password-mismatch">Passwords do not match</p>
+                <p className="password-mismatch">{t('auth.pwMismatch')}</p>
               )}
 
               <button type="submit" disabled={loading || !isStrong || !passwordsMatch}>
-                {loading ? 'Resetting...' : 'Reset password'}
+                {loading ? t('reset.resetting') : t('reset.resetBtn')}
               </button>
             </form>
           </>

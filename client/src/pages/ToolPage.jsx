@@ -456,7 +456,7 @@ export default function ToolPage() {
   return (
     <div className="page">
       <SEO title={toolDef?.label || toolName} description={seoDesc} path={`/tools/${toolName}`} />
-      {offline && <div className="offline-banner" role="alert">You are offline. Please check your internet connection.</div>}
+      {offline && <div className="offline-banner" role="alert">{t('tool.offline')}</div>}
       <h1>{toolDef?.label || formatToolName(toolName)}</h1>
 
       {/* Tool description */}
@@ -509,7 +509,7 @@ export default function ToolPage() {
             <span className="dropzone-filesize">{formatSize(files[0].size)}</span>
           </div>
         ) : isDragActive ? (
-          <p>Drop files here...</p>
+          <p>{t('tool.dropActive')}</p>
         ) : (
           <p>{t('tool.drop')}</p>
         )}
@@ -556,7 +556,7 @@ export default function ToolPage() {
       {/* File list with drag reorder for PDF merge */}
       {files.length > 1 && overallStatus === 'idle' && (
         <div className="multi-file-list">
-          {isPdfMerge && <p className="reorder-hint">Drag to reorder files before merging</p>}
+          {isPdfMerge && <p className="reorder-hint">{t('tool.reorderHint')}</p>}
           {files.map((f, i) => (
             <div
               className={`multi-file-item ${dragIndex === i ? 'multi-file-dragging' : ''}`}
@@ -577,7 +577,7 @@ export default function ToolPage() {
               <button className="multi-file-remove" onClick={() => removeFile(i)} type="button">&times;</button>
             </div>
           ))}
-          <p className="batch-count">{files.length} files selected</p>
+          <p className="batch-count">{t('tool.filesSelected', { count: files.length })}</p>
         </div>
       )}
 
@@ -596,8 +596,8 @@ export default function ToolPage() {
             <div className={`batch-item batch-item-${job.status}`} key={i}>
               <span className="batch-item-name">{job.file}</span>
               <span className="batch-item-status">
-                {job.status === 'uploading' && 'Uploading...'}
-                {job.status === 'processing' && <><span className="spinner spinner-sm" /> Converting...</>}
+                {job.status === 'uploading' && t('tool.statusUploading')}
+                {job.status === 'processing' && <><span className="spinner spinner-sm" /> {t('tool.statusProcessing')}</>}
                 {job.status === 'done' && (
                   <>
                     {isCompressTool && job.outputSize && job.inputSize && (
@@ -606,7 +606,7 @@ export default function ToolPage() {
                         ({Math.round((1 - job.outputSize / job.inputSize) * 100)}% smaller)
                       </span>
                     )}
-                    <a href={`${API_URL}${job.downloadUrl}`} className="batch-download" download>Download</a>
+                    <a href={`${API_URL}${job.downloadUrl}`} className="batch-download" download>{t('common.download')}</a>
                     <button className="btn-share" aria-label={t('tool.share')} onClick={async () => {
                       const url = `${window.location.origin}${API_URL}${job.downloadUrl}`;
                       const result = await shareOrCopy(url);
@@ -639,13 +639,13 @@ export default function ToolPage() {
         <>
           {extraFields.includes('pageRanges') && (
             <div className="extra-field">
-              <label htmlFor="pageRanges">Page ranges (e.g. 1-3, 5, 7-10)</label>
+              <label htmlFor="pageRanges">{t('tool.pageRangesLabel')}</label>
               <input id="pageRanges" type="text" value={pageRanges} onChange={(e) => setPageRanges(e.target.value)} disabled={busy} />
             </div>
           )}
           {extraFields.includes('rotation') && (
             <div className="extra-field">
-              <label htmlFor="rotation">Rotation</label>
+              <label htmlFor="rotation">{t('tool.rotationLabel')}</label>
               <select id="rotation" value={rotation} onChange={(e) => setRotation(e.target.value)} disabled={busy}>
                 <option value="90">90°</option>
                 <option value="180">180°</option>
@@ -655,7 +655,7 @@ export default function ToolPage() {
           )}
           {extraFields.includes('password') && (
             <div className="extra-field">
-              <label htmlFor="password">{toolDef?.toolType === 'pdf-unlock' ? 'Current password' : 'Set password'}</label>
+              <label htmlFor="password">{toolDef?.toolType === 'pdf-unlock' ? t('tool.currentPasswordLabel') : t('tool.setPasswordLabel')}</label>
               <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} disabled={busy} />
             </div>
           )}
@@ -686,7 +686,7 @@ export default function ToolPage() {
           {advancedFields.length > 0 && (
             <div className="advanced-section">
               <button className="btn-ghost advanced-toggle" onClick={() => setShowAdvanced(!showAdvanced)} type="button" aria-expanded={showAdvanced}>
-                {showAdvanced ? 'Hide' : 'Show'} {t('tool.advanced')}
+                {showAdvanced ? t('tool.hide') : t('tool.show')} {t('tool.advanced')}
               </button>
               {showAdvanced && (
                 <div className="advanced-fields">
@@ -705,7 +705,7 @@ export default function ToolPage() {
                         <div key={field.key} className="advanced-field">
                           <label>{field.label}</label>
                           <select value={advancedValues[field.key] || ''} onChange={(e) => updateAdvanced(field.key, e.target.value)} disabled={busy}>
-                            <option value="">Default</option>
+                            <option value="">{t('tool.advDefault')}</option>
                             {field.options.map((opt) => (<option key={opt} value={opt}>{opt}</option>))}
                           </select>
                         </div>

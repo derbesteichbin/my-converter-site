@@ -62,9 +62,9 @@ router.post('/register', async (req, res) => {
     if (process.env.RESEND_API_KEY && process.env.OWNER_EMAIL) {
       const { Resend } = require('resend');
       new Resend(process.env.RESEND_API_KEY).emails.send({
-        from: 'ConvertAnything <noreply@convertanyformat.com>',
+        from: 'ConvertAnyFormat <noreply@convertanyformat.com>',
         to: process.env.OWNER_EMAIL,
-        subject: 'New user registered on ConvertAnything',
+        subject: 'New user registered on ConvertAnyFormat',
         html: `<p>A new user just registered:</p><ul><li><strong>Email:</strong> ${email}</li><li><strong>Date:</strong> ${new Date().toISOString()}</li><li><strong>Plan:</strong> free</li></ul>`,
       }).catch((err) => console.error('[register] Owner notification failed:', err.message));
     }
@@ -245,7 +245,7 @@ router.post('/forgot-password', async (req, res) => {
 
     console.log('[forgot-password] Attempting to send email to:', email);
     const emailResult = await resend.emails.send({
-      from: 'ConvertAnything <noreply@convertanyformat.com>',
+      from: 'ConvertAnyFormat <noreply@convertanyformat.com>',
       to: email,
       subject: 'Reset your password — Converter',
       html: [

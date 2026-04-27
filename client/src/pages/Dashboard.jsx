@@ -1,20 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { api, API_URL } from '../api';
 import { getToolBySlug } from '../toolsConfig';
 import { useToast } from '../components/Toast';
 import { EmptyHistory } from '../components/EmptyState';
 import { SkeletonTable } from '../components/Skeleton';
-
-function statusBadge(status) {
-  const cls = {
-    done: 'badge-done',
-    pending: 'badge-pending',
-    processing: 'badge-processing',
-    failed: 'badge-failed',
-  }[status] || 'badge-pending';
-  return <span className={`status-badge ${cls}`}>{status}</span>;
-}
 
 function getRecentTools() {
   try {
@@ -35,6 +26,7 @@ function guessToolSlug(inputFile, outputFile) {
 }
 
 export default function Dashboard() {
+  const { t } = useTranslation();
   const [jobs, setJobs] = useState([]);
   const [jobsLoading, setJobsLoading] = useState(true);
   const [recentTools, setRecentTools] = useState([]);
@@ -42,6 +34,16 @@ export default function Dashboard() {
   const [loadingKey, setLoadingKey] = useState(false);
   const [profile, setProfile] = useState(null);
   const toast = useToast();
+
+  function statusBadge(status) {
+    const cls = {
+      done: 'badge-done',
+      pending: 'badge-pending',
+      processing: 'badge-processing',
+      failed: 'badge-failed',
+    }[status] || 'badge-pending';
+    return <span className={`status-badge ${cls}`}>{t(`dash.status${status.charAt(0).toUpperCase() + status.slice(1)}`, { defaultValue: status })}</span>;
+  }
 
   useEffect(() => {
     api('/api/jobs')
@@ -67,16 +69,16 @@ export default function Dashboard() {
       const data = await res.json();
       if (res.ok) {
         setApiKey(data.apiKey);
-        toast('API key generated!', 'success');
+        toast(t('dash.apiGenerated'), 'success');
       }
-    } catch { toast('Failed to generate key', 'error'); }
+    } catch { toast(t('dash.apiFail'), 'error'); }
     finally { setLoadingKey(false); }
   }
 
   function copyApiKey() {
     if (apiKey) {
       navigator.clipboard.writeText(apiKey);
-      toast('API key copied!', 'success');
+      toast(t('dash.apiCopied'), 'success');
     }
   }
 
@@ -84,88 +86,84 @@ export default function Dashboard() {
 
   return (
     <div className="page">
-      <h1>Dashboard</h1>
+      <h1>{t('dash.title')}</h1>
 
       {recentTools.length > 0 && (
         <section style={{ marginBottom: '2rem' }}>
-          <h2>Recently used tools</h2>
+          <h2>{t('dash.recentTools')}</h2>
           <div className="tools-grid">
-            {recentTools.map((t) => (
-              <Link to={`/tools/${t.slug}`} className="tool-card" key={t.slug}>
-                <span className="tool-card-label">{t.label}</span>
+            {recentTools.map((tool) => (
+              <Link to={`/tools/${tool.slug}`} className="tool-card" key={tool.slug}>
+                <span className="tool-card-label">{tool.label}</span>
               </Link>
             ))}
           </div>
         </section>
       )}
 
-      {/* Usage stats */}
       {profile?.stats && (
         <section className="usage-stats-section">
-          <h2>Usage</h2>
+          <h2>{t('dash.usage')}</h2>
           <div className="usage-stats-grid">
             <div className="usage-stat-card">
               <span className="usage-stat-number">{profile.stats.credits}</span>
-              <span className="usage-stat-label">Credits remaining</span>
+              <span className="usage-stat-label">{t('dash.creditsRemaining')}</span>
               {profile.stats.credits <= 0 && (
-                <Link to="/pricing" className="usage-stat-link">Buy more credits</Link>
+                <Link to="/pricing" className="usage-stat-link">{t('dash.buyMore')}</Link>
               )}
             </div>
             <div className="usage-stat-card">
               <span className="usage-stat-number">{profile.stats.monthlyJobs}</span>
-              <span className="usage-stat-label">Conversions this month</span>
+              <span className="usage-stat-label">{t('dash.monthly')}</span>
             </div>
             <div className="usage-stat-card">
               <span className="usage-stat-number">{profile.stats.totalJobs}</span>
-              <span className="usage-stat-label">Total conversions</span>
+              <span className="usage-stat-label">{t('dash.total')}</span>
             </div>
           </div>
         </section>
       )}
 
-      {/* Referral section */}
       {profile?.referralCode && (
         <section className="referral-section">
-          <h2>Refer a friend</h2>
+          <h2>{t('dash.refer')}</h2>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', marginBottom: '0.75rem' }}>
-            Share your link and get 5 free conversion credits for each friend who signs up.
+            {t('dash.referBody')}
           </p>
           <div className="referral-link-row">
             <code className="referral-link">{`${window.location.origin}/register?ref=${profile.referralCode}`}</code>
             <button className="btn-ghost" onClick={() => {
               navigator.clipboard.writeText(`${window.location.origin}/register?ref=${profile.referralCode}`);
-              toast('Referral link copied!', 'success');
-            }} type="button">Copy</button>
+              toast(t('dash.referCopied'), 'success');
+            }} type="button">{t('dash.copy')}</button>
           </div>
           {profile.bonusCredits > 0 && (
-            <p className="referral-bonus">You have {profile.bonusCredits} bonus credits from referrals</p>
+            <p className="referral-bonus">{t('dash.bonusCredits', { count: profile.bonusCredits })}</p>
           )}
         </section>
       )}
 
-      {/* API Key section */}
       <section className="api-key-section">
-        <h2>API Access</h2>
+        <h2>{t('dash.apiAccess')}</h2>
         <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', marginBottom: '0.75rem' }}>
-          Use your API key to integrate conversions into your apps. <Link to="/api-docs">View API docs</Link>
+          {t('dash.apiBody')} <Link to="/api-docs">{t('dash.apiDocsLink')}</Link>
         </p>
         {apiKey ? (
           <div className="api-key-display">
             <code className="api-key-value">{apiKey}</code>
-            <button className="btn-ghost" onClick={copyApiKey} type="button">Copy</button>
-            <button className="btn-ghost" onClick={generateApiKey} disabled={loadingKey} type="button">Regenerate</button>
+            <button className="btn-ghost" onClick={copyApiKey} type="button">{t('dash.copy')}</button>
+            <button className="btn-ghost" onClick={generateApiKey} disabled={loadingKey} type="button">{t('dash.regen')}</button>
           </div>
         ) : (
           <button className="btn-primary" onClick={generateApiKey} disabled={loadingKey} type="button">
-            {loadingKey ? 'Generating...' : 'Generate API Key'}
+            {loadingKey ? t('dash.generating') : t('dash.generate')}
           </button>
         )}
       </section>
 
-      {/* Recently converted files */}
       {recentDone.length > 0 && (
         <section style={{ marginBottom: '2rem' }}>
-          <h2>Recently converted</h2>
+          <h2>{t('dash.recentConverted')}</h2>
           <div className="recent-files-grid">
             {recentDone.map((job) => {
               const outExt = job.outputFile.split('.').pop().toLowerCase();
@@ -191,12 +189,12 @@ export default function Dashboard() {
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
         <div>
-          <h2 style={{ margin: 0 }}>Conversion history</h2>
-          <p style={{ color: 'var(--text-muted)', margin: '0.25rem 0 0' }}>{jobs.length} {jobs.length === 1 ? 'conversion' : 'conversions'} total</p>
+          <h2 style={{ margin: 0 }}>{t('dash.history')}</h2>
+          <p style={{ color: 'var(--text-muted)', margin: '0.25rem 0 0' }}>{jobs.length === 1 ? t('dash.historyCountSingular', { count: jobs.length }) : t('dash.historyCountPlural', { count: jobs.length })}</p>
         </div>
         {jobs.length > 0 && (
           <button className="btn-ghost" onClick={() => {
-            const rows = [['Date', 'Input File', 'Output Format', 'Status']];
+            const rows = [[t('dash.date'), t('dash.file'), t('dash.output'), t('dash.status')]];
             jobs.forEach((j) => {
               rows.push([new Date(j.createdAt).toISOString(), j.inputFile || '', j.outputFile ? j.outputFile.split('.').pop() : '', j.status]);
             });
@@ -206,8 +204,8 @@ export default function Dashboard() {
             a.href = URL.createObjectURL(blob);
             a.download = 'conversion-history.csv';
             a.click();
-            toast('CSV downloaded', 'success');
-          }} type="button">Export CSV</button>
+            toast(t('dash.csvDownloaded'), 'success');
+          }} type="button">{t('dash.exportCsv')}</button>
         )}
       </div>
 
@@ -219,10 +217,10 @@ export default function Dashboard() {
         <table className="jobs-table">
           <thead>
             <tr>
-              <th>File</th>
-              <th>Output</th>
-              <th>Status</th>
-              <th>Date</th>
+              <th>{t('dash.file')}</th>
+              <th>{t('dash.output')}</th>
+              <th>{t('dash.status')}</th>
+              <th>{t('dash.date')}</th>
               <th></th>
             </tr>
           </thead>
@@ -241,12 +239,12 @@ export default function Dashboard() {
                   <td className="job-actions">
                     {job.status === 'done' && job.outputFile && (
                       <a href={`${API_URL}/api/download/${job.outputFile}`} className="batch-download" download>
-                        Download
+                        {t('dash.download')}
                       </a>
                     )}
                     {toolDef && (
-                      <Link to={`/tools/${toolDef.slug}`} className="btn-reconvert" title={`Open ${toolDef.label}`}>
-                        Convert again
+                      <Link to={`/tools/${toolDef.slug}`} className="btn-reconvert" title={t('dash.openTool', { label: toolDef.label })}>
+                        {t('dash.convertAgain')}
                       </Link>
                     )}
                   </td>

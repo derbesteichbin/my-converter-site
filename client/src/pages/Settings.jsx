@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import SEO from '../components/SEO';
 import { api } from '../api';
 import { useToast } from '../components/Toast';
 
 export default function Settings() {
+  const { t } = useTranslation();
   const toast = useToast();
   const [prefs, setPrefs] = useState(null);
   const [saving, setSaving] = useState(false);
@@ -27,8 +29,8 @@ export default function Settings() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(prefs),
       });
-      if (res.ok) toast('Preferences saved', 'success');
-    } catch { toast('Failed to save', 'error'); }
+      if (res.ok) toast(t('settings.saved'), 'success');
+    } catch { toast(t('settings.saveFail'), 'error'); }
     finally { setSaving(false); }
   }
 
@@ -36,43 +38,41 @@ export default function Settings() {
     setPrefs((prev) => ({ ...prev, [key]: !prev[key] }));
   }
 
-  if (!prefs) return <div className="page"><p>Loading...</p></div>;
+  if (!prefs) return <div className="page"><p>{t('common.loading')}</p></div>;
 
   return (
     <div className="page">
-      <SEO title="Notification Settings" path="/settings" />
-      <h1>Notification Settings</h1>
-      <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
-        Choose which email notifications you want to receive.
-      </p>
+      <SEO title={t('settings.title')} path="/settings" />
+      <h1>{t('settings.title')}</h1>
+      <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem' }}>{t('settings.body')}</p>
 
       <div className="settings-card">
         <label className="settings-toggle">
           <input type="checkbox" checked={prefs.notifyConversion} onChange={() => toggle('notifyConversion')} />
           <div>
-            <strong>Conversion complete</strong>
-            <p className="settings-desc">Get notified when your file conversion is done</p>
+            <strong>{t('settings.convTitle')}</strong>
+            <p className="settings-desc">{t('settings.convBody')}</p>
           </div>
         </label>
 
         <label className="settings-toggle">
           <input type="checkbox" checked={prefs.notifyWeekly} onChange={() => toggle('notifyWeekly')} />
           <div>
-            <strong>Weekly usage summary</strong>
-            <p className="settings-desc">Receive a weekly email with your conversion stats</p>
+            <strong>{t('settings.weeklyTitle')}</strong>
+            <p className="settings-desc">{t('settings.weeklyBody')}</p>
           </div>
         </label>
 
         <label className="settings-toggle">
           <input type="checkbox" checked={prefs.notifyPromo} onChange={() => toggle('notifyPromo')} />
           <div>
-            <strong>Promotional emails</strong>
-            <p className="settings-desc">Hear about new features and special offers</p>
+            <strong>{t('settings.promoTitle')}</strong>
+            <p className="settings-desc">{t('settings.promoBody')}</p>
           </div>
         </label>
 
         <button className="btn-primary" onClick={handleSave} disabled={saving} type="button" style={{ marginTop: '1rem' }}>
-          {saving ? 'Saving...' : 'Save preferences'}
+          {saving ? t('settings.saving') : t('settings.savePrefs')}
         </button>
       </div>
     </div>
