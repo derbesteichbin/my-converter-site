@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 const SITE_NAME = 'ConvertAnything';
 const DEFAULT_DESC = 'Convert any file format online for free. 50+ formats supported. PDF, images, video, audio, archives and more. Fast, secure, no signup required.';
 const DEFAULT_IMAGE = '/images/logo-light.png';
-const SITE_URL = 'https://my-converter-site.vercel.app';
+const SITE_URL = 'https://www.convertanyformat.com';
 
 export default function SEO({ title, description, path = '', image }) {
   const fullTitle = title ? `${title} - ${SITE_NAME}` : `${SITE_NAME} - Free Online File Converter`;

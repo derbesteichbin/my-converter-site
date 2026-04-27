@@ -23,15 +23,17 @@ app.use((req, res, next) => {
   next();
 });
 
-// CORS — allow any Vercel subdomain and localhost
+// CORS — allow convertanyformat.com (and subdomains) and localhost
 const allowedOrigins = [
   'http://localhost:5173',
+  'https://convertanyformat.com',
+  'https://www.convertanyformat.com',
 ];
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin || origin.endsWith('.vercel.app') || allowedOrigins.includes(origin)) {
+      if (!origin || origin.endsWith('.convertanyformat.com') || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
         console.log('[CORS] Blocked origin:', origin);

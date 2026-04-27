@@ -29,7 +29,7 @@ export default function Home() {
         '@context': 'https://schema.org',
         '@type': 'SoftwareApplication',
         name: 'ConvertAnything',
-        url: 'https://my-converter-site.vercel.app',
+        url: 'https://www.convertanyformat.com',
         applicationCategory: 'UtilitiesApplication',
         operatingSystem: 'Web',
         description: 'Free online file converter. Convert PDF, images, video, audio, and archives. 50+ formats supported.',
