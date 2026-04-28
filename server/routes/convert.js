@@ -50,8 +50,8 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage, limits: { fileSize: 200 * 1024 * 1024 } }); // 200 MB
 
-const cloudConvert = new CloudConvert(process.env.CLOUDCONVERT_API_KEY);
-console.log('CloudConvert initialized, sandbox: false, key starts with: ' + process.env.CLOUDCONVERT_API_KEY?.substring(0, 8));
+const cloudConvert = new CloudConvert(process.env.CLOUDCONVERT_API_KEY, true);
+console.log('CloudConvert initialized, sandbox: true, key starts with: ' + process.env.CLOUDCONVERT_API_KEY?.substring(0, 8));
 
 // ── Helpers ──────────────────────────────────────────────────────────
 
