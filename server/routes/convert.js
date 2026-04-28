@@ -72,12 +72,17 @@ function extractAdvancedOptions(body) {
   return opts;
 }
 
-async function checkCredits(userId) {
+const FREE_TIER_MAX_BYTES = 5 * 1024 * 1024; // 5 MB
+
+async function checkCredits(userId, totalUploadBytes = 0) {
   const user = await prisma.user.findUnique({ where: { id: userId } });
   if (user.plan === 'business') return null; // unlimited
 
   if (user.credits <= 0) {
-    return 'No conversion credits remaining. Purchase more credits to continue converting.';
+    return { code: 'no_credits', message: 'You have used your free conversion. Choose a plan to continue converting.' };
+  }
+  if (user.plan === 'free' && totalUploadBytes > FREE_TIER_MAX_BYTES) {
+    return { code: 'size_limit', message: 'Free conversions are limited to 5MB. Upgrade to convert larger files.' };
   }
   return null;
 }
@@ -128,10 +133,10 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
       }
     }
 
-    // Check free-tier limit
-    const limitError = await checkCredits(req.userId);
+    // Check credits + free-tier size limit
+    const limitError = await checkCredits(req.userId, req.file.size);
     if (limitError) {
-      return res.status(429).json({ error: limitError });
+      return res.status(429).json({ error: limitError.message, code: limitError.code });
     }
 
     const job = await prisma.job.create({
@@ -223,9 +228,10 @@ router.post('/pdf-tool', protect, upload.array('files', 20), async (req, res) =>
       return res.status(400).json({ error: 'Unknown PDF tool' });
     }
 
-    const limitError = await checkCredits(req.userId);
+    const totalBytes = uploadedFiles.reduce((sum, f) => sum + f.size, 0);
+    const limitError = await checkCredits(req.userId, totalBytes);
     if (limitError) {
-      return res.status(429).json({ error: limitError });
+      return res.status(429).json({ error: limitError.message, code: limitError.code });
     }
 
     const job = await prisma.job.create({

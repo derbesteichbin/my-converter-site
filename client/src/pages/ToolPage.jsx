@@ -1,11 +1,13 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
 import SEO from '../components/SEO';
 import { api, API_URL } from '../api';
 import { getToolBySlug, ADVANCED_SETTINGS } from '../toolsConfig';
 import { useToast } from '../components/Toast';
+
+const FREE_TIER_MAX_BYTES = 5 * 1024 * 1024; // 5 MB
 
 function formatToolName(slug) {
   return slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
@@ -109,6 +111,9 @@ export default function ToolPage() {
   const advancedFields = ADVANCED_SETTINGS[toolDef?.category] || [];
   const toast = useToast();
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [authState, setAuthState] = useState({ status: 'loading', plan: null, credits: null });
+  const [creditsExhausted, setCreditsExhausted] = useState(false);
 
   const seoTitle = toolDef ? `${toolDef.label} - Free Online Converter` : 'File Converter';
   const seoDesc = toolDef ? `Convert ${toolDef.inputFormats?.join(', ')} to ${toolDef.outputFormats?.join(', ')} online for free. Fast, secure, no signup required.` : 'Free online file converter.';
@@ -141,6 +146,36 @@ export default function ToolPage() {
   // Expiry countdown
   const [expiryTime, setExpiryTime] = useState(null);
   const [countdown, setCountdown] = useState('');
+
+  // Auth + plan/credits — fetched once so we can gate Convert without
+  // forcing login on page entry. Visitors land on 'guest', logged-in users
+  // get plan + credits which drive the 5MB free-tier check and the
+  // credits-exhausted message.
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const meRes = await api('/api/auth/me');
+        const meData = await meRes.json();
+        if (cancelled) return;
+        if (!meData.user) {
+          setAuthState({ status: 'guest', plan: null, credits: null });
+          return;
+        }
+        const profRes = await api('/api/profile');
+        const profData = await profRes.json().catch(() => ({}));
+        if (cancelled) return;
+        setAuthState({
+          status: 'authed',
+          plan: profData.plan || 'free',
+          credits: profData.stats?.credits ?? 0,
+        });
+      } catch {
+        if (!cancelled) setAuthState({ status: 'guest', plan: null, credits: null });
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
 
   // Offline detection
   useEffect(() => {
@@ -312,7 +347,24 @@ export default function ToolPage() {
 
   async function handleConvert() {
     if (files.length === 0) return;
+
+    // Visitor: redirect to register with a banner explaining the free tier
+    if (authState.status === 'guest') {
+      navigate(`/register?from=tool&tool=${encodeURIComponent(toolName || '')}`);
+      return;
+    }
+
+    // Free plan + oversized file: short-circuit before upload
+    if (authState.plan === 'free') {
+      const totalBytes = files.reduce((sum, f) => sum + f.size, 0);
+      if (totalBytes > FREE_TIER_MAX_BYTES) {
+        setError('Free conversions are limited to 5MB. Upgrade to convert larger files.');
+        return;
+      }
+    }
+
     setError('');
+    setCreditsExhausted(false);
     setOverallStatus('converting');
     startProgress();
 
@@ -335,6 +387,20 @@ export default function ToolPage() {
         const res = await api('/api/convert/pdf-tool', { method: 'POST', body: formData });
         if (!res.ok) {
           const data = await res.json().catch(() => ({}));
+          if (res.status === 429 && data.code === 'no_credits') {
+            setCreditsExhausted(true);
+            setBatchJobs([]);
+            stopProgress();
+            setOverallStatus('idle');
+            return;
+          }
+          if (res.status === 429 && data.code === 'size_limit') {
+            setError(data.error || 'Free conversions are limited to 5MB. Upgrade to convert larger files.');
+            setBatchJobs([]);
+            stopProgress();
+            setOverallStatus('idle');
+            return;
+          }
           throw new Error(data.error || 'Upload failed');
         }
         const { jobId } = await res.json();
@@ -358,6 +424,20 @@ export default function ToolPage() {
           const res = await api('/api/convert', { method: 'POST', body: formData });
           if (!res.ok) {
             const data = await res.json().catch(() => ({}));
+            if (res.status === 429 && data.code === 'no_credits') {
+              setCreditsExhausted(true);
+              setBatchJobs([]);
+              stopProgress();
+              setOverallStatus('idle');
+              return;
+            }
+            if (res.status === 429 && data.code === 'size_limit') {
+              setError(data.error || 'Free conversions are limited to 5MB. Upgrade to convert larger files.');
+              setBatchJobs([]);
+              stopProgress();
+              setOverallStatus('idle');
+              return;
+            }
             throw new Error(data.error || 'Upload failed');
           }
           const { jobId } = await res.json();
@@ -630,6 +710,27 @@ export default function ToolPage() {
               )}
             </div>
           )}
+        </div>
+      )}
+
+      {creditsExhausted && (
+        <div
+          role="status"
+          style={{
+            padding: '1rem 1.25rem',
+            margin: '1rem 0',
+            background: 'var(--surface-2, rgba(124, 58, 237, 0.08))',
+            border: '1px solid var(--border, rgba(124, 58, 237, 0.25))',
+            borderRadius: '8px',
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '0.75rem',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <p style={{ margin: 0 }}>You have used your free conversion. Choose a plan to continue converting.</p>
+          <Link to="/pricing" className="btn-primary">See plans</Link>
         </div>
       )}
 

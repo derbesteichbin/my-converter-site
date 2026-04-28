@@ -48,8 +48,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route element={<App />}>
           <Route index element={<Home />} />
           <Route path="tools" element={<Tools />} />
-          <Route path="tools/view-metadata" element={<ProtectedRoute><MetadataPage /></ProtectedRoute>} />
-          <Route path="tools/:toolName" element={<ProtectedRoute><ToolPage /></ProtectedRoute>} />
+          <Route path="tools/view-metadata" element={<MetadataPage />} />
+          <Route path="tools/:toolName" element={<ToolPage />} />
           <Route path="pricing" element={<Pricing />} />
           <Route path="api-docs" element={<ApiDocs />} />
           <Route path="profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
