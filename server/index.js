@@ -23,17 +23,25 @@ app.use((req, res, next) => {
   next();
 });
 
-// CORS — allow convertanyformat.com (and subdomains) and localhost
+// CORS — allow convertanyformat.com (and subdomains), legacy Vercel URLs,
+// and localhost. Vercel URLs remain allowed so old links keep working.
 const allowedOrigins = [
   'http://localhost:5173',
   'https://convertanyformat.com',
   'https://www.convertanyformat.com',
+  'https://my-converter-site.vercel.app',
+  'https://my-converter-site-git-main-derbesteichbin391-9585s-projects.vercel.app',
 ];
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin || origin.endsWith('.convertanyformat.com') || allowedOrigins.includes(origin)) {
+      if (
+        !origin ||
+        origin.endsWith('.convertanyformat.com') ||
+        origin.endsWith('.vercel.app') ||
+        allowedOrigins.includes(origin)
+      ) {
         callback(null, true);
       } else {
         console.log('[CORS] Blocked origin:', origin);
