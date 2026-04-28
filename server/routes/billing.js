@@ -8,9 +8,9 @@ const router = express.Router();
 
 // Credit packs: pack name -> { priceId, credits }
 const CREDIT_PACKS = {
-  pack1:  { priceId: 'price_1TOK5OCk0jB5nblRiM4JKQ8r', credits: 1 },
-  pack10: { priceId: 'price_1TOK87Ck0jB5nblRHf4XD5EL', credits: 10 },
-  pack30: { priceId: 'price_1TOK8rCk0jB5nblR8tstbK4Y', credits: 30 },
+  pack1:  { priceId: 'price_1TRK6TCwJPjxuD4WYNtCJfDp', credits: 1 },
+  pack10: { priceId: 'price_1TRK79CwJPjxuD4WylY1TID5', credits: 10 },
+  pack30: { priceId: 'price_1TRKADCwJPjxuD4WbeKGz1n0', credits: 30 },
 };
 
 // Reverse lookup: Stripe priceId -> credits
