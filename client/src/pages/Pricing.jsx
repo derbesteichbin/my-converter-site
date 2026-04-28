@@ -6,7 +6,7 @@ import { useToast } from '../components/Toast';
 
 // Toggle to re-enable payments. When false, Buy buttons render as a disabled
 // "Coming soon" button and a notice appears above the pricing cards.
-const PAYMENTS_ENABLED = false;
+const PAYMENTS_ENABLED = true;
 
 const PACK_IDS = [
   { id: 'pack1', credits: 1, price: '0.99' },
