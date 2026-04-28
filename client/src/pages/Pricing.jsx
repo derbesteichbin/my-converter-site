@@ -4,6 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { api } from '../api';
 import { useToast } from '../components/Toast';
 
+// Toggle to re-enable payments. When false, Buy buttons render as a disabled
+// "Coming soon" button and a notice appears above the pricing cards.
+const PAYMENTS_ENABLED = false;
+
 const PACK_IDS = [
   { id: 'pack1', credits: 1, price: '0.99' },
   { id: 'pack10', credits: 10, price: '7.99', popular: true },
@@ -80,6 +84,24 @@ export default function Pricing() {
         {t('pricing.subtitle')}
       </p>
 
+      {!PAYMENTS_ENABLED && (
+        <p
+          role="status"
+          style={{
+            textAlign: 'center',
+            padding: '0.75rem 1rem',
+            marginBottom: '1.5rem',
+            background: 'var(--surface-2, rgba(124, 58, 237, 0.08))',
+            border: '1px solid var(--border, rgba(124, 58, 237, 0.2))',
+            borderRadius: '8px',
+            color: 'var(--text-muted)',
+            fontSize: '0.9375rem',
+          }}
+        >
+          Payments are temporarily unavailable. Check back soon.
+        </p>
+      )}
+
       <div className="pricing-grid pricing-grid-4">
         <div className="pricing-card">
           <h2>{t('pricing.free')}</h2>
@@ -114,11 +136,15 @@ export default function Pricing() {
             <button
               className="btn-primary"
               style={{ display: 'block', width: '100%', textAlign: 'center' }}
-              disabled={loading === pack.id}
+              disabled={!PAYMENTS_ENABLED || loading === pack.id}
               onClick={() => handleBuy(pack.id)}
               type="button"
             >
-              {loading === pack.id ? t('pricing.redirecting') : t('pricing.buyFor', { price: pack.price })}
+              {!PAYMENTS_ENABLED
+                ? 'Coming soon'
+                : loading === pack.id
+                ? t('pricing.redirecting')
+                : t('pricing.buyFor', { price: pack.price })}
             </button>
           </div>
         ))}
