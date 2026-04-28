@@ -6,6 +6,22 @@ import PasswordInput from '../components/PasswordInput';
 import { api } from '../api';
 import { useToast } from '../components/Toast';
 
+function ChecklistItem({ ok, label }) {
+  return (
+    <li className={ok ? 'check-pass' : 'check-fail'}>
+      <span className="check-icon" aria-hidden="true">
+        <svg className="icon-x" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
+          <path d="M4 4 L12 12 M12 4 L4 12" />
+        </svg>
+        <svg className="icon-check" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M3.5 8.5 L6.5 11.5 L12.5 5" />
+        </svg>
+      </span>
+      <span>{label}</span>
+    </li>
+  );
+}
+
 export default function Profile() {
   const { t } = useTranslation();
   const toast = useToast();
@@ -187,12 +203,12 @@ export default function Profile() {
         )}
       </div>
 
-      <div className="profile-card" style={{ marginTop: '1.5rem' }}>
+      <div className="profile-card profile-pwd-section" style={{ marginTop: '1.5rem' }}>
         <h2 style={{ marginTop: 0 }}>Change password</h2>
-        <form onSubmit={handleChangePassword} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+        <form onSubmit={handleChangePassword} className="pwd-form">
           {pwdError && <p className="auth-error">{pwdError}</p>}
 
-          <div className="profile-field">
+          <div className="pwd-field">
             <label htmlFor="currentPwd">Current password</label>
             <PasswordInput
               id="currentPwd"
@@ -202,7 +218,7 @@ export default function Profile() {
             />
           </div>
 
-          <div className="profile-field">
+          <div className="pwd-field">
             <label htmlFor="newPwd">New password</label>
             <PasswordInput
               id="newPwd"
@@ -210,15 +226,15 @@ export default function Profile() {
               onChange={(e) => setNewPwd(e.target.value)}
               autoComplete="new-password"
             />
-            <ul className="password-checklist">
-              <li className={pwdHasMinLength ? 'check-pass' : 'check-fail'}>{t('auth.pwMinLength')}</li>
-              <li className={pwdHasUppercase ? 'check-pass' : 'check-fail'}>{t('auth.pwUppercase')}</li>
-              <li className={pwdHasNumber ? 'check-pass' : 'check-fail'}>{t('auth.pwNumber')}</li>
-              <li className={pwdHasSpecial ? 'check-pass' : 'check-fail'}>{t('auth.pwSpecial')}</li>
+            <ul className="password-checklist pwd-checklist-animated">
+              <ChecklistItem ok={pwdHasMinLength} label={t('auth.pwMinLength')} />
+              <ChecklistItem ok={pwdHasUppercase} label={t('auth.pwUppercase')} />
+              <ChecklistItem ok={pwdHasNumber} label={t('auth.pwNumber')} />
+              <ChecklistItem ok={pwdHasSpecial} label={t('auth.pwSpecial')} />
             </ul>
           </div>
 
-          <div className="profile-field">
+          <div className="pwd-field">
             <label htmlFor="confirmPwd">Confirm new password</label>
             <PasswordInput
               id="confirmPwd"
@@ -231,15 +247,13 @@ export default function Profile() {
             )}
           </div>
 
-          <button className="btn-primary" type="submit" disabled={!canSubmitPwd} style={{ alignSelf: 'flex-start' }}>
+          <button className="btn-primary pwd-submit" type="submit" disabled={!canSubmitPwd}>
             {changingPwd ? 'Changing...' : 'Change password'}
           </button>
         </form>
 
-        <div style={{ marginTop: '1.25rem', paddingTop: '1rem', borderTop: '1px solid var(--border, rgba(0,0,0,0.1))' }}>
-          <p style={{ margin: '0 0 0.5rem', color: 'var(--text-muted)', fontSize: '0.9375rem' }}>
-            Forgot your current password? Reset via email
-          </p>
+        <div className="pwd-reset-block">
+          <p>Forgot your current password? Reset via email</p>
           <button
             className="btn-ghost"
             type="button"
