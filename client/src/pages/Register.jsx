@@ -95,14 +95,12 @@ export default function Register() {
         <label htmlFor="password">{t('auth.password')}</label>
         <PasswordInput id="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
 
-        {password.length > 0 && (
-          <ul className="password-checklist">
-            <li className={hasMinLength ? 'check-pass' : 'check-fail'}>{t('auth.pwMinLength')}</li>
-            <li className={hasUppercase ? 'check-pass' : 'check-fail'}>{t('auth.pwUppercase')}</li>
-            <li className={hasNumber ? 'check-pass' : 'check-fail'}>{t('auth.pwNumber')}</li>
-            <li className={hasSpecial ? 'check-pass' : 'check-fail'}>{t('auth.pwSpecial')}</li>
-          </ul>
-        )}
+        <ul className="password-checklist">
+          <li className={hasMinLength ? 'check-pass' : 'check-fail'}>{t('auth.pwMinLength')}</li>
+          <li className={hasUppercase ? 'check-pass' : 'check-fail'}>{t('auth.pwUppercase')}</li>
+          <li className={hasNumber ? 'check-pass' : 'check-fail'}>{t('auth.pwNumber')}</li>
+          <li className={hasSpecial ? 'check-pass' : 'check-fail'}>{t('auth.pwSpecial')}</li>
+        </ul>
 
         <button type="submit" disabled={loading || !isStrong}>
           {loading ? t('auth.creating') : t('auth.register')}
