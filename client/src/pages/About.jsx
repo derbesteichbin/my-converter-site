@@ -36,6 +36,15 @@ export default function About() {
       </section>
 
       <section className="about-section">
+        <h2>Get in touch</h2>
+        <p>
+          Questions, feedback, or partnership ideas? Email us at{' '}
+          <a href="mailto:support@convertanyformat.com">support@convertanyformat.com</a>
+          {' '}or use our <a href="/contact">Contact page</a>.
+        </p>
+      </section>
+
+      <section className="about-section">
         <h2>{t('about.valuesTitle')}</h2>
         <div className="values-grid">
           <div className="value-card">

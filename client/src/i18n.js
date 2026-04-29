@@ -531,7 +531,7 @@ const en = {
     s4Title: '4. Pricing and Payments',
     s4Body: 'New accounts receive 1 free conversion credit. Additional credits can be purchased through our pricing page. Payments are processed securely by Stripe. All prices are displayed in Euros (EUR) and include applicable taxes. Credits do not expire.',
     s5Title: '5. Refund Policy',
-    s5Body: 'You may request a full refund within 14 days of purchase if you are unsatisfied with the Service. To request a refund, contact us at the email provided on our Contact page. Refunds will be processed to the original payment method within 5-10 business days.',
+    s5Body: 'You may request a full refund within 14 days of purchase if you are unsatisfied with the Service. To request a refund, contact us at support@convertanyformat.com. Refunds will be processed to the original payment method within 5-10 business days.',
     s6Title: '6. File Handling and Deletion',
     s6Body: 'Uploaded files are stored temporarily for the sole purpose of conversion. All files (uploaded and converted) are automatically and permanently deleted within 24 hours. We do not access, read, analyze, or share the content of your files.',
     s7Title: '7. Acceptable Use',
@@ -549,7 +549,7 @@ const en = {
     s13Title: '13. Governing Law',
     s13Body: 'These Terms are governed by the laws of the Federal Republic of Germany. Any disputes shall be resolved in the courts of Germany.',
     s14Title: '14. Contact',
-    s14Body: 'For questions about these Terms, contact us via our Contact page or at the email address provided there.',
+    s14Body: 'For questions about these Terms, email us at support@convertanyformat.com or use our Contact page.',
   },
   privacy: {
     title: 'Privacy Policy',
@@ -614,7 +614,7 @@ const en = {
     s8ObjectBody: ' Object to processing based on legitimate interest.',
     s8Withdraw: 'Withdraw consent:',
     s8WithdrawBody: ' Withdraw cookie or email consent at any time.',
-    s8Outro: 'To exercise any of these rights, contact us via our Contact page.',
+    s8Outro: 'To exercise any of these rights, email us at support@convertanyformat.com or use our Contact page.',
     s9Title: '9. Data Security',
     s9Body: 'We protect your data with: HTTPS encryption for all transfers, bcrypt password hashing, httpOnly session cookies, and secure cloud infrastructure. We regularly review and update our security practices.',
     s10Title: '10. International Transfers',
@@ -624,7 +624,7 @@ const en = {
     s12Title: '12. Changes to This Policy',
     s12Body: 'We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated date. Significant changes will be communicated via email.',
     s13Title: '13. Contact and Complaints',
-    s13Body: 'For data protection inquiries, contact us via our Contact page. You also have the right to lodge a complaint with your local data protection authority.',
+    s13Body: 'For data protection inquiries, email us at support@convertanyformat.com. You also have the right to lodge a complaint with your local data protection authority.',
   },
 };
 
