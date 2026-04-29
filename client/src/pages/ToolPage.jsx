@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
 import SEO from '../components/SEO';
@@ -7,7 +7,13 @@ import { api, API_URL } from '../api';
 import { getToolBySlug, ADVANCED_SETTINGS } from '../toolsConfig';
 import { useToast } from '../components/Toast';
 
-const FREE_TIER_MAX_BYTES = 5 * 1024 * 1024; // 5 MB
+// Credit packs surfaced in the no-credits modal. Mirrors PACK_IDS in
+// Pricing.jsx; kept in sync manually.
+const CREDIT_PACKS = [
+  { id: 'pack1',  credits: 1,  price: '0.99', label: 'Single conversion' },
+  { id: 'pack10', credits: 10, price: '7.99', label: '10 conversions', popular: true },
+  { id: 'pack30', credits: 30, price: '20.99', label: '30 conversions' },
+];
 
 function formatToolName(slug) {
   return slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
@@ -113,7 +119,9 @@ export default function ToolPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [authState, setAuthState] = useState({ status: 'loading', plan: null, credits: null });
-  const [creditsExhausted, setCreditsExhausted] = useState(false);
+  // null | 'guest' | 'no_credits' | 'confirm'
+  const [modal, setModal] = useState(null);
+  const [buyingPack, setBuyingPack] = useState('');
 
   const seoTitle = toolDef ? `${toolDef.label} - Free Online Converter` : 'File Converter';
   const seoDesc = toolDef ? `Convert ${toolDef.inputFormats?.join(', ')} to ${toolDef.outputFormats?.join(', ')} online for free. Fast, secure, no signup required.` : 'Free online file converter.';
@@ -212,10 +220,11 @@ export default function ToolPage() {
   useEffect(() => {
     function handleKeyDown(e) {
       if (e.key === 'Escape') {
+        if (modal) { setModal(null); return; }
         setShowAdvanced(false);
         setError('');
       }
-      if (e.key === 'Enter' && !e.repeat && files.length > 0 && overallStatus === 'idle') {
+      if (e.key === 'Enter' && !e.repeat && files.length > 0 && overallStatus === 'idle' && !modal) {
         const tag = e.target.tagName;
         if (tag !== 'INPUT' && tag !== 'TEXTAREA' && tag !== 'SELECT') {
           e.preventDefault();
@@ -225,7 +234,7 @@ export default function ToolPage() {
     }
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [files, overallStatus]);
+  }, [files, overallStatus, modal]);
 
   useEffect(() => {
     pollRefs.current.forEach((id) => clearInterval(id));
@@ -345,26 +354,41 @@ export default function ToolPage() {
     setProgress(100);
   }
 
-  async function handleConvert() {
+  function handleConvert() {
     if (files.length === 0) return;
 
-    // Visitor: redirect to register with a banner explaining the free tier
-    if (authState.status === 'guest') {
-      navigate(`/register?from=tool&tool=${encodeURIComponent(toolName || '')}`);
-      return;
-    }
+    if (authState.status === 'loading') return;
+    if (authState.status === 'guest') { setModal('guest'); return; }
+    if ((authState.credits ?? 0) <= 0) { setModal('no_credits'); return; }
 
-    // Free plan + oversized file: short-circuit before upload
-    if (authState.plan === 'free') {
-      const totalBytes = files.reduce((sum, f) => sum + f.size, 0);
-      if (totalBytes > FREE_TIER_MAX_BYTES) {
-        setError('Free conversions are limited to 5MB. Upgrade to convert larger files.');
+    // Authed + has credits — show confirm step
+    setModal('confirm');
+  }
+
+  async function handleBuyPack(packId) {
+    setBuyingPack(packId);
+    try {
+      const res = await api('/api/billing/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pack: packId }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.url) {
+        toast(data.error || t('pricing.checkoutFail'), 'error');
+        setBuyingPack('');
         return;
       }
+      window.location.href = data.url;
+    } catch {
+      toast(t('common.connectError'), 'error');
+      setBuyingPack('');
     }
+  }
 
+  async function actuallyConvert() {
+    setModal(null);
     setError('');
-    setCreditsExhausted(false);
     setOverallStatus('converting');
     startProgress();
 
@@ -388,17 +412,10 @@ export default function ToolPage() {
         if (!res.ok) {
           const data = await res.json().catch(() => ({}));
           if (res.status === 429 && data.code === 'no_credits') {
-            setCreditsExhausted(true);
             setBatchJobs([]);
             stopProgress();
             setOverallStatus('idle');
-            return;
-          }
-          if (res.status === 429 && data.code === 'size_limit') {
-            setError(data.error || 'Free conversions are limited to 5MB. Upgrade to convert larger files.');
-            setBatchJobs([]);
-            stopProgress();
-            setOverallStatus('idle');
+            setModal('no_credits');
             return;
           }
           throw new Error(data.error || 'Upload failed');
@@ -425,17 +442,10 @@ export default function ToolPage() {
           if (!res.ok) {
             const data = await res.json().catch(() => ({}));
             if (res.status === 429 && data.code === 'no_credits') {
-              setCreditsExhausted(true);
               setBatchJobs([]);
               stopProgress();
               setOverallStatus('idle');
-              return;
-            }
-            if (res.status === 429 && data.code === 'size_limit') {
-              setError(data.error || 'Free conversions are limited to 5MB. Upgrade to convert larger files.');
-              setBatchJobs([]);
-              stopProgress();
-              setOverallStatus('idle');
+              setModal('no_credits');
               return;
             }
             throw new Error(data.error || 'Upload failed');
@@ -713,27 +723,6 @@ export default function ToolPage() {
         </div>
       )}
 
-      {creditsExhausted && (
-        <div
-          role="status"
-          style={{
-            padding: '1rem 1.25rem',
-            margin: '1rem 0',
-            background: 'var(--surface-2, rgba(124, 58, 237, 0.08))',
-            border: '1px solid var(--border, rgba(124, 58, 237, 0.25))',
-            borderRadius: '8px',
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '0.75rem',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
-          <p style={{ margin: 0 }}>You have used your free conversion. Choose a plan to continue converting.</p>
-          <Link to="/pricing" className="btn-primary">See plans</Link>
-        </div>
-      )}
-
       {error && <p className="convert-error">{error}</p>}
 
       {overallStatus !== 'done' && batchJobs.length === 0 && (
@@ -776,6 +765,28 @@ export default function ToolPage() {
                   ))}
                 </select>
               </div>
+            )}
+
+            {authState.status === 'authed' && (
+              <span
+                className="credit-pill"
+                title="Conversion credits"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.375rem',
+                  padding: '0.375rem 0.75rem',
+                  borderRadius: '999px',
+                  background: 'rgba(124, 58, 237, 0.1)',
+                  border: '1px solid rgba(124, 58, 237, 0.25)',
+                  color: 'var(--text)',
+                  fontSize: '0.875rem',
+                  fontWeight: 600,
+                }}
+              >
+                <span aria-hidden="true">●</span>
+                {(authState.credits ?? 0)} credit{(authState.credits ?? 0) === 1 ? '' : 's'}
+              </span>
             )}
 
             <button className="btn-primary convert-btn" disabled={!hasFiles || busy} onClick={handleConvert} aria-label={t('tool.convert')}>
@@ -827,6 +838,107 @@ export default function ToolPage() {
             </div>
           )}
         </>
+      )}
+
+      {modal && (
+        <div
+          className="convert-modal-overlay"
+          onClick={() => setModal(null)}
+          role="dialog"
+          aria-modal="true"
+          style={{
+            position: 'fixed', inset: 0, zIndex: 100,
+            background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            padding: '1rem',
+          }}
+        >
+          <div
+            className="convert-modal"
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: 'var(--bg-card)', border: '1px solid var(--border)',
+              borderRadius: '14px', padding: '1.75rem', maxWidth: '480px',
+              width: '100%', boxShadow: '0 20px 60px rgba(0,0,0,0.25)',
+              color: 'var(--text)',
+            }}
+          >
+            {modal === 'guest' && (
+              <>
+                <h2 style={{ margin: '0 0 0.5rem' }}>Create a free account to start converting</h2>
+                <p style={{ margin: '0 0 1.25rem', color: 'var(--text-muted)' }}>
+                  You'll need an account to use the conversion tools.
+                </p>
+                <div style={{ display: 'flex', gap: '0.625rem', flexWrap: 'wrap' }}>
+                  <button className="btn-primary" onClick={() => navigate('/register')} type="button">Register</button>
+                  <button className="btn-ghost" onClick={() => navigate('/login')} type="button">Log in</button>
+                  <button className="btn-ghost" onClick={() => setModal(null)} type="button" style={{ marginLeft: 'auto' }}>{t('common.cancel')}</button>
+                </div>
+              </>
+            )}
+
+            {modal === 'no_credits' && (
+              <>
+                <h2 style={{ margin: '0 0 0.5rem' }}>You need credits to convert files</h2>
+                <p style={{ margin: '0 0 1rem', color: 'var(--text-muted)' }}>
+                  Choose a pack to get started:
+                </p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem', marginBottom: '1rem' }}>
+                  {CREDIT_PACKS.map((pack) => (
+                    <div
+                      key={pack.id}
+                      style={{
+                        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                        gap: '1rem', padding: '0.875rem 1rem',
+                        border: pack.popular ? '1.5px solid rgba(124, 58, 237, 0.55)' : '1px solid var(--border)',
+                        borderRadius: '10px',
+                        background: pack.popular ? 'rgba(124, 58, 237, 0.06)' : 'transparent',
+                      }}
+                    >
+                      <div>
+                        <div style={{ fontWeight: 600 }}>
+                          {pack.label}
+                          {pack.popular && (
+                            <span style={{
+                              marginLeft: '0.5rem', fontSize: '0.6875rem', fontWeight: 700,
+                              padding: '0.125rem 0.5rem', borderRadius: '999px',
+                              background: 'linear-gradient(135deg, #7c3aed, #ec4899)', color: '#fff',
+                            }}>POPULAR</span>
+                          )}
+                        </div>
+                        <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>€{pack.price}</div>
+                      </div>
+                      <button
+                        className="btn-primary"
+                        onClick={() => handleBuyPack(pack.id)}
+                        disabled={!!buyingPack}
+                        type="button"
+                      >
+                        {buyingPack === pack.id ? t('pricing.redirecting') : 'Buy'}
+                      </button>
+                    </div>
+                  ))}
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <button className="btn-ghost" onClick={() => setModal(null)} type="button">{t('common.cancel')}</button>
+                </div>
+              </>
+            )}
+
+            {modal === 'confirm' && (
+              <>
+                <h2 style={{ margin: '0 0 0.5rem' }}>Confirm conversion</h2>
+                <p style={{ margin: '0 0 1.25rem', color: 'var(--text)' }}>
+                  This conversion will use 1 credit. You have {authState.credits ?? 0} credit{(authState.credits ?? 0) === 1 ? '' : 's'} remaining.
+                </p>
+                <div style={{ display: 'flex', gap: '0.625rem', justifyContent: 'flex-end' }}>
+                  <button className="btn-ghost" onClick={() => setModal(null)} type="button">{t('common.cancel')}</button>
+                  <button className="btn-primary" onClick={actuallyConvert} type="button" autoFocus>Confirm</button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
       )}
     </div>
   );

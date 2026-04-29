@@ -8,7 +8,6 @@ export default function Register() {
   const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const refCode = searchParams.get('ref') || '';
-  const fromTool = searchParams.get('from') === 'tool';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -58,22 +57,6 @@ export default function Register() {
     <div className="auth-page">
       <form className="auth-form" onSubmit={handleSubmit}>
         <h1>{t('auth.createAccount')}</h1>
-        {fromTool && (
-          <p
-            role="status"
-            style={{
-              padding: '0.75rem 1rem',
-              marginBottom: '1rem',
-              background: 'var(--surface-2, rgba(124, 58, 237, 0.08))',
-              border: '1px solid var(--border, rgba(124, 58, 237, 0.2))',
-              borderRadius: '8px',
-              fontSize: '0.9375rem',
-              lineHeight: 1.4,
-            }}
-          >
-            Create a free account to get 1 free conversion — no credit card needed.
-          </p>
-        )}
         {error && <p className="auth-error">{error}</p>}
 
         <div className="oauth-buttons">

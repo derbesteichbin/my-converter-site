@@ -48,7 +48,7 @@ router.post('/register', async (req, res) => {
     const referralCode = 'ref_' + crypto.randomBytes(6).toString('hex');
 
     const user = await prisma.user.create({
-      data: { email, password: hashedPassword, referralCode, referredBy: ref || null, credits: 1 },
+      data: { email, password: hashedPassword, referralCode, referredBy: ref || null, credits: 0 },
     });
 
     // Give referrer 5 bonus credits
