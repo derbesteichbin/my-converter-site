@@ -4,7 +4,7 @@ import { useDropzone } from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
 import SEO from '../components/SEO';
 import { api, API_URL } from '../api';
-import { getToolBySlug, ADVANCED_SETTINGS } from '../toolsConfig';
+import { getToolBySlug, getToolLabel, getToolDescription, ADVANCED_SETTINGS } from '../toolsConfig';
 import { useToast } from '../components/Toast';
 
 // Credit packs surfaced in the no-credits modal. Mirrors PACK_IDS in
@@ -123,7 +123,9 @@ export default function ToolPage() {
   const [modal, setModal] = useState(null);
   const [buyingPack, setBuyingPack] = useState('');
 
-  const seoTitle = toolDef ? `${toolDef.label} - Free Online Converter` : 'File Converter';
+  const translatedLabel = getToolLabel(toolDef, t);
+  const smartDescription = getToolDescription(toolDef, t);
+  const seoTitle = toolDef ? `${translatedLabel} - Free Online Converter` : 'File Converter';
   const seoDesc = toolDef ? `Convert ${toolDef.inputFormats?.join(', ')} to ${toolDef.outputFormats?.join(', ')} online for free. Fast, secure, no signup required.` : 'Free online file converter.';
 
   const [files, setFiles] = useState([]);
@@ -545,12 +547,17 @@ export default function ToolPage() {
 
   return (
     <div className="page">
-      <SEO title={toolDef?.label || toolName} description={seoDesc} path={`/tools/${toolName}`} />
+      <SEO title={translatedLabel || toolName} description={seoDesc} path={`/tools/${toolName}`} />
       {offline && <div className="offline-banner" role="alert">{t('tool.offline')}</div>}
-      <h1>{toolDef?.label || formatToolName(toolName)}</h1>
+      <h1>{translatedLabel || formatToolName(toolName)}</h1>
 
-      {/* Tool description */}
-      {toolDef && !toolDef.toolType && (
+      {/* Smart Functions tools get their translated description */}
+      {smartDescription && (
+        <p className="tool-description">{smartDescription}</p>
+      )}
+
+      {/* Tool description (generic fallback for tools without a specific description) */}
+      {toolDef && !toolDef.toolType && !smartDescription && (
         <p className="tool-description">
           Convert {toolDef.inputFormats?.map((f) => '.' + f.toUpperCase()).join(', ')} files
           to {toolDef.outputFormats?.map((f) => '.' + f.toUpperCase()).join(', ')} format.
@@ -564,7 +571,7 @@ export default function ToolPage() {
           Upload up to 20 files at once, 200 MB max per file.
         </p>
       )}
-      {toolDef?.toolType === 'pdf-compress' && (
+      {toolDef?.toolType === 'pdf-compress' && !smartDescription && (
         <p className="tool-description">
           Reduce the file size of your PDF without losing quality. Great for email attachments and uploads.
           See the before/after size comparison when done.

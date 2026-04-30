@@ -106,6 +106,30 @@ export function getToolBySlug(slug) {
   return TOOLS.find((t) => t.slug === slug) || null;
 }
 
+// Map Smart Functions tool slugs to translation key fragments under
+// `smartFunctions` in i18n.js / i18n-translations.js.
+const SMART_FUNCTION_I18N = {
+  'ocr': 'ocr',
+  'pdf-compress-ai': 'pdfCompress',
+  'text-to-speech': 'textToSpeech',
+  'speech-to-text': 'speechToText',
+  'auto-subtitle': 'autoSubtitle',
+};
+
+export function getToolLabel(tool, t) {
+  if (!tool) return '';
+  const key = SMART_FUNCTION_I18N[tool.slug];
+  if (key && t) return t(`smartFunctions.${key}.name`, { defaultValue: tool.label });
+  return tool.label;
+}
+
+export function getToolDescription(tool, t) {
+  if (!tool || !t) return '';
+  const key = SMART_FUNCTION_I18N[tool.slug];
+  if (key) return t(`smartFunctions.${key}.description`, { defaultValue: '' });
+  return '';
+}
+
 export const CATEGORY_ORDER = ['Document', 'Image', 'Video', 'Audio', 'Archive', 'PDF Tools', 'Utilities', 'Smart Functions'];
 
 export function getCategories() {

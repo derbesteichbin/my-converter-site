@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { TOOLS } from '../toolsConfig';
+import { TOOLS, getToolLabel } from '../toolsConfig';
 
 export default function CommandPalette() {
   const { t } = useTranslation();
@@ -12,11 +12,13 @@ export default function CommandPalette() {
   const navigate = useNavigate();
 
   const available = TOOLS.filter((tool) => !tool.comingSoon);
-  const results = query.trim()
-    ? available.filter((t) =>
-        t.label.toLowerCase().includes(query.toLowerCase()) ||
-        t.category.toLowerCase().includes(query.toLowerCase())
-      ).slice(0, 8)
+  const q = query.trim().toLowerCase();
+  const results = q
+    ? available.filter((tool) => {
+        const label = getToolLabel(tool, t).toLowerCase();
+        const category = t(`categories.${tool.category}`, { defaultValue: tool.category }).toLowerCase();
+        return label.includes(q) || category.includes(q) || tool.label.toLowerCase().includes(q);
+      }).slice(0, 8)
     : available.slice(0, 8);
 
   useEffect(() => {
@@ -76,16 +78,16 @@ export default function CommandPalette() {
           {results.length === 0 && (
             <div className="cmd-empty">{t('cmd.empty')}</div>
           )}
-          {results.map((t, i) => (
+          {results.map((tool, i) => (
             <button
-              key={t.slug}
+              key={tool.slug}
               className={`cmd-item ${i === selected ? 'cmd-item-selected' : ''}`}
-              onClick={() => handleNav(t.slug)}
+              onClick={() => handleNav(tool.slug)}
               onMouseEnter={() => setSelected(i)}
               type="button"
             >
-              <span className="cmd-item-label">{t.label}</span>
-              <span className="cmd-item-cat">{t.category}</span>
+              <span className="cmd-item-label">{getToolLabel(tool, t)}</span>
+              <span className="cmd-item-cat">{t(`categories.${tool.category}`, { defaultValue: tool.category })}</span>
             </button>
           ))}
         </div>

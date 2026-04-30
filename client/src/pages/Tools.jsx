@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { TOOLS, getCategories, getToolBySlug } from '../toolsConfig';
+import { TOOLS, getCategories, getToolBySlug, getToolLabel } from '../toolsConfig';
 import { api } from '../api';
 import { EmptyFavorites, EmptySearch } from '../components/EmptyState';
 import { SkeletonCard } from '../components/Skeleton';
@@ -134,7 +134,7 @@ export default function Tools() {
                   <Link to={`/tools/${tool.slug}`} className="fav-card" key={tool.slug} style={{ background: gradient, color: textColor }}>
                     <button className="fav-heart fav-heart-active" onClick={(e) => toggleFavorite(e, tool.slug)} type="button" title={t('toolsPage.removeFromFav')} style={{ color: isDark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.3)' }}>&#9829;</button>
                     <span className="fav-card-cat" style={{ opacity: isDark ? 0.8 : 0.6 }}>{catLabel(tool.category)}</span>
-                    <span className="fav-card-label">{tool.label}</span>
+                    <span className="fav-card-label">{getToolLabel(tool, t)}</span>
                   </Link>
                 );
               })}
@@ -154,6 +154,7 @@ export default function Tools() {
             {desc && <p className="category-desc">{desc}</p>}
             <div className="tools-grid">
               {tools.map((tool) => {
+                const label = getToolLabel(tool, t);
                 if (tool.comingSoon) {
                   const tooltip = t(`toolsPage.comingSoonTooltip.${tool.slug}`, {
                     defaultValue: t('toolsPage.comingSoonTooltipDefault'),
@@ -166,10 +167,10 @@ export default function Tools() {
                       tabIndex={0}
                       role="button"
                       aria-disabled="true"
-                      aria-label={`${tool.label} \u2014 ${t('toolsPage.comingSoon')}`}
+                      aria-label={`${label} \u2014 ${t('toolsPage.comingSoon')}`}
                     >
                       <span className="coming-soon-badge">{t('toolsPage.comingSoon')}</span>
-                      <span className="tool-card-label">{tool.label}</span>
+                      <span className="tool-card-label">{label}</span>
                       <span className="coming-soon-tooltip" role="tooltip">{tooltip}</span>
                     </div>
                   );
@@ -185,7 +186,7 @@ export default function Tools() {
                       {favorites.includes(tool.slug) ? '\u2665' : '\u2661'}
                     </button>
                     {popularSlugs.includes(tool.slug) && <span className="popular-badge">{t('toolsPage.popularBadge')}</span>}
-                    <span className="tool-card-label">{tool.label}</span>
+                    <span className="tool-card-label">{label}</span>
                   </Link>
                 );
               })}

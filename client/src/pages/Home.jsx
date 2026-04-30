@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import SEO from '../components/SEO';
-import { TOOLS, getToolBySlug } from '../toolsConfig';
+import { TOOLS, getToolBySlug, getToolLabel } from '../toolsConfig';
 
 const POPULAR_SLUGS = ['pdf-to-word', 'jpg-to-png', 'mp4-to-mp3', 'merge-pdf', 'heic-to-jpg', 'compress-pdf'];
 const POPULAR_TOOLS = TOOLS.filter((t) => POPULAR_SLUGS.includes(t.slug));
@@ -101,7 +101,7 @@ export default function Home() {
           <div className="tools-grid">
             {recentTools.map((tool) => (
               <Link to={`/tools/${tool.slug}`} className="tool-card" key={tool.slug}>
-                <span className="tool-card-label">{tool.label}</span>
+                <span className="tool-card-label">{getToolLabel(tool, t)}</span>
               </Link>
             ))}
           </div>
@@ -114,7 +114,7 @@ export default function Home() {
         <div className="tools-grid">
           {POPULAR_TOOLS.map((tool) => (
             <Link to={`/tools/${tool.slug}`} className="tool-card" key={tool.slug}>
-              <span className="tool-card-label">{tool.label}</span>
+              <span className="tool-card-label">{getToolLabel(tool, t)}</span>
             </Link>
           ))}
         </div>

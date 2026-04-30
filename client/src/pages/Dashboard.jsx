@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { api, API_URL } from '../api';
-import { getToolBySlug } from '../toolsConfig';
+import { getToolBySlug, getToolLabel } from '../toolsConfig';
 import { useToast } from '../components/Toast';
 import { EmptyHistory } from '../components/EmptyState';
 import { SkeletonTable } from '../components/Skeleton';
@@ -94,7 +94,7 @@ export default function Dashboard() {
           <div className="tools-grid">
             {recentTools.map((tool) => (
               <Link to={`/tools/${tool.slug}`} className="tool-card" key={tool.slug}>
-                <span className="tool-card-label">{tool.label}</span>
+                <span className="tool-card-label">{getToolLabel(tool, t)}</span>
               </Link>
             ))}
           </div>
@@ -243,7 +243,7 @@ export default function Dashboard() {
                       </a>
                     )}
                     {toolDef && (
-                      <Link to={`/tools/${toolDef.slug}`} className="btn-reconvert" title={t('dash.openTool', { label: toolDef.label })}>
+                      <Link to={`/tools/${toolDef.slug}`} className="btn-reconvert" title={t('dash.openTool', { label: getToolLabel(toolDef, t) })}>
                         {t('dash.convertAgain')}
                       </Link>
                     )}
