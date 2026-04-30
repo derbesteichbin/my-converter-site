@@ -218,9 +218,9 @@ export default function Dashboard() {
           <thead>
             <tr>
               <th>{t('dash.file')}</th>
-              <th>{t('dash.output')}</th>
+              <th className="job-col-output">{t('dash.output')}</th>
               <th>{t('dash.status')}</th>
-              <th>{t('dash.date')}</th>
+              <th className="job-col-date">{t('dash.date')}</th>
               <th></th>
             </tr>
           </thead>
@@ -233,9 +233,9 @@ export default function Dashboard() {
               return (
                 <tr key={job.id}>
                   <td className="job-file-cell" title={inputName}>{inputName}</td>
-                  <td><span className="format-badge">{outputExt}</span></td>
+                  <td className="job-col-output"><span className="format-badge">{outputExt}</span></td>
                   <td>{statusBadge(job.status)}</td>
-                  <td>{new Date(job.createdAt).toLocaleDateString()} {new Date(job.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
+                  <td className="job-col-date">{new Date(job.createdAt).toLocaleDateString()} {new Date(job.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
                   <td className="job-actions">
                     {job.status === 'done' && job.outputFile && (
                       <a href={`${API_URL}/api/download/${job.outputFile}`} className="batch-download" download>

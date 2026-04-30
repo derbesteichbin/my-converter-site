@@ -3514,18 +3514,21 @@ select:focus-visible {
   .navbar { padding: 0.5rem 1rem; gap: 0.5rem; }
   .navbar-logo-img { width: 32px; height: 32px; }
   .navbar-logo span { font-size: 0.9375rem; }
-  .navbar-auth { gap: 0.25rem; }
-  .navbar-auth .btn-ghost,
-  .navbar-auth .btn-primary { padding: 0.25rem 0.5rem; font-size: 0.75rem; }
-  .lang-select { font-size: 0.75rem; padding: 0.2rem; }
+
+  /* Replace desktop nav links + auth row with a hamburger drawer */
+  .navbar-links { display: none; }
+  .navbar-auth { display: none; }
+  .navbar-hamburger { display: flex; }
+
   .tools-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.625rem; }
   .tool-card { padding: 1rem 0.75rem; font-size: 0.8125rem; }
   .pricing-grid { grid-template-columns: 1fr; }
+  .pricing-card { max-width: none; padding: 1.75rem 1.25rem; }
   .stats-bar { grid-template-columns: repeat(2, 1fr); }
   .steps-grid { grid-template-columns: 1fr; }
   .values-grid { grid-template-columns: 1fr; }
   .favorites-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
-  .auth-form { padding: 1.5rem; margin: 0 1rem; }
+  .auth-form { padding: 1.5rem; margin: 0 1rem; max-width: none; }
   .hero-points { flex-direction: column; gap: 0.25rem; }
   .hero-dot { display: none; }
   .tools-header { flex-direction: column; gap: 0.25rem; }
@@ -3539,11 +3542,43 @@ select:focus-visible {
   .usage-stats-grid { grid-template-columns: 1fr 1fr; }
   .recent-files-grid { grid-template-columns: repeat(2, 1fr); }
   .api-endpoint { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
-  .category-filters { gap: 0.25rem; }
-  .category-filter-btn { padding: 0.25rem 0.5rem; font-size: 0.75rem; }
+
+  /* Footer columns stack vertically on tablet/mobile */
+  .footer-content { flex-direction: column; gap: 1.5rem; }
+  .footer-links { flex-direction: column; gap: 1.5rem; }
+  .footer-brand { max-width: none; }
+
+  /* Category filters scroll horizontally instead of wrapping */
+  .category-filters {
+    gap: 0.375rem;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    padding: 0 1rem 0.25rem;
+  }
+  .category-filters::-webkit-scrollbar { display: none; }
+  .category-filter-btn {
+    padding: 0.5rem 0.875rem;
+    font-size: 0.8125rem;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  /* Tool page: dropzone full-width with tighter padding; controls stack */
+  .dropzone { padding: 2rem 1rem; }
+  .tool-controls { flex-direction: column; align-items: stretch; gap: 0.75rem; }
+  .format-select { width: 100%; }
+  .format-select select { width: 100%; }
+  .convert-btn { width: 100%; justify-content: center; }
+  .extra-field input,
+  .extra-field select { max-width: none; }
+
   .not-found-page h1 { font-size: 3.5rem; }
-  .jobs-table { font-size: 0.8125rem; }
-  .jobs-table th, .jobs-table td { padding: 0.375rem 0.5rem; }
+  .jobs-table { font-size: 0.875rem; }
+  .jobs-table th, .jobs-table td { padding: 0.5rem 0.5rem; }
 }
 
 /* ---- Profile change-password section ---- */
@@ -3773,4 +3808,326 @@ select:focus-visible {
   margin: 0 0 0.625rem;
   color: var(--text-muted);
   font-size: 0.9375rem;
+}
+
+/* ======== MOBILE NAV: HAMBURGER + SLIDE-IN DRAWER ========
+   Hidden on desktop; revealed by the @media (max-width: 768px) block above. */
+
+.navbar-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.navbar-hamburger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.navbar-hamburger:hover {
+  border-color: var(--border-hover);
+}
+
+.navbar-hamburger[aria-expanded="true"] span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.navbar-hamburger[aria-expanded="true"] span:nth-child(2) {
+  opacity: 0;
+}
+.navbar-hamburger[aria-expanded="true"] span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.mobile-menu-overlay-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(86vw, 340px);
+  background: var(--bg);
+  border-left: 1px solid var(--border);
+  z-index: 201;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.08);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+[data-theme="dark"] .mobile-menu {
+  background: #0c0c10;
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.4);
+}
+
+.mobile-menu-open {
+  transform: translateX(0);
+}
+
+.mobile-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.mobile-menu-title {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.mobile-menu-close {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.mobile-menu-close:hover {
+  border-color: var(--border-hover);
+}
+
+.mobile-menu-links {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0.75rem;
+  flex: 1;
+}
+
+.mobile-menu-links a,
+.mobile-menu-logout {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: none;
+  border-radius: 10px;
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+}
+
+.mobile-menu-links a:hover,
+.mobile-menu-logout:hover {
+  background: var(--bg-elevated);
+}
+
+.mobile-menu-cta {
+  background: var(--btn-bg) !important;
+  color: var(--btn-text) !important;
+  justify-content: center;
+  margin-top: 0.5rem;
+  font-weight: 600 !important;
+}
+
+.mobile-menu-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  padding: 1rem 1.25rem 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.mobile-menu-theme {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  width: 100%;
+  font-size: 0.9375rem;
+}
+
+.mobile-menu-lang {
+  width: 100%;
+  min-height: 44px;
+  font-size: 0.9375rem;
+  padding: 0.5rem 0.75rem;
+}
+
+/* ======== TABLET REFINEMENTS (≤ 768px) ======== */
+@media (max-width: 768px) {
+  /* Touch-friendly minimum heights for primary interactive controls.
+     Inline icon-only buttons (.fav-btn, .multi-file-remove, .toast-close,
+     .password-toggle, .navbar-hamburger, .mobile-menu-close) are excluded
+     by selecting only the standalone action buttons. */
+  .btn-primary,
+  .btn-ghost,
+  .convert-btn,
+  .auth-form button[type="submit"],
+  .hero-cta,
+  .category-filter-btn { min-height: 44px; }
+
+  /* Restore compact heights for icon-only / inline ghost buttons */
+  .fav-btn,
+  .multi-file-remove,
+  .toast-close,
+  .password-toggle,
+  .navbar-hamburger,
+  .mobile-menu-close { min-height: 0; }
+
+  /* Auth form inputs comfortable on touch + 16px to prevent iOS zoom */
+  .auth-form input { min-height: 44px; padding: 0.75rem 1rem; font-size: 16px; }
+}
+
+/* ======== MOBILE REFINEMENTS (≤ 480px) ========
+   Tighter overrides for true phone widths (320–430px). Layered on top of
+   the 768px block — desktop styles untouched. */
+@media (max-width: 480px) {
+  /* Body text minimum readable size */
+  .footer-col a,
+  .footer-bottom p,
+  .footer-made,
+  .pricing-features li,
+  .step-card p,
+  .tool-description,
+  .category-desc,
+  .pricing-desc { font-size: 0.875rem; }
+
+  /* Hero — smaller headline + subtitle on phones */
+  .hero { padding: 2.5rem 0 2rem; }
+  .hero h1 { font-size: 1.75rem; }
+  .hero-subtitle,
+  .hero p { font-size: 1rem; }
+  .hero-cta { width: 100%; max-width: 320px; padding: 0.875rem 1.5rem; font-size: 1rem; }
+
+  /* Stats bar stacks vertically (4 → 1 column) */
+  .stats-bar {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    padding: 1.25rem;
+    margin: 2rem 0;
+  }
+  .stat-item { flex-direction: row; gap: 0.625rem; justify-content: flex-start; text-align: left; }
+
+  /* How it works — vertical stack already at 768px; tighten card spacing */
+  .steps-grid { gap: 1rem; }
+  .step-card { padding: 1.25rem; }
+
+  /* Tools grid: exactly 2 columns on phones */
+  .tools-grid { grid-template-columns: repeat(2, 1fr); gap: 0.625rem; }
+  .favorites-grid { grid-template-columns: repeat(2, 1fr); }
+  .tool-card { min-height: 64px; padding: 0.875rem 0.625rem; font-size: 0.875rem; }
+
+  /* Tool page — tighter dropzone, full-width controls already at 768px */
+  .dropzone { padding: 1.5rem 1rem; }
+  .file-preview-thumb { max-width: 100px; max-height: 100px; }
+  .multi-file-name { font-size: 0.875rem; }
+  .multi-file-size { display: none; }
+
+  /* Pricing — single column, full width, comfortable touch targets */
+  .pricing-grid { gap: 1rem; }
+  .pricing-card { padding: 1.5rem 1.25rem; }
+  .pricing-price { font-size: 1.625rem; }
+  .pricing-features li { font-size: 0.9375rem; }
+
+  /* Dashboard — simplified jobs table: hide Output and Date columns */
+  .jobs-table .job-col-output,
+  .jobs-table .job-col-date { display: none; }
+  .jobs-table th,
+  .jobs-table td { padding: 0.5rem 0.375rem; }
+  .job-file-cell {
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .job-actions { display: flex; flex-direction: column; gap: 0.25rem; align-items: flex-end; }
+  .usage-stats-grid { grid-template-columns: 1fr; }
+  .recent-files-grid { grid-template-columns: 1fr 1fr; }
+
+  /* Footer — explicitly stack everything; centered text reads better */
+  .site-footer { padding: 2rem 1rem 1rem; }
+  .footer-col { gap: 0.5rem; }
+  .footer-col h4 { margin-top: 0.5rem; }
+
+  /* Auth pages — full-width forms with comfy touch sizes */
+  .auth-form {
+    padding: 1.5rem 1.25rem;
+    margin: 0;
+    border-radius: 12px;
+    box-shadow: none;
+  }
+  .auth-form h1 { font-size: 1.375rem; }
+  .auth-form input { padding: 0.875rem 1rem; font-size: 16px; min-height: 48px; margin-bottom: 0.875rem; }
+  .auth-form button[type="submit"] { padding: 0.875rem; font-size: 1rem; min-height: 48px; }
+
+  /* Touch-friendly minimum sizes for any remaining buttons */
+  .btn-primary,
+  .btn-ghost.convert-btn,
+  .convert-btn,
+  .hero-cta,
+  .auth-form button[type="submit"] { min-height: 48px; }
+
+  /* Heart/favorite buttons easier to tap (kept small visually) */
+  .fav-btn { min-width: 32px; min-height: 32px; font-size: 1.125rem; }
+
+  /* Tool controls — already stacked at 768px, ensure full bleed here */
+  .tool-controls { gap: 0.625rem; }
+  .credit-pill { align-self: flex-start; }
+
+  /* Page padding tightened for narrow viewports */
+  .page { padding: 1rem 0.875rem 2.5rem; }
+
+  /* Cookie banner full-width on phones */
+  .cookie-banner {
+    left: 0.5rem;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    transform: none;
+    width: auto;
+    max-width: none;
+  }
+
+  /* Toast notifications */
+  .toast { font-size: 0.875rem; }
 }
