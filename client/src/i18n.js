@@ -79,6 +79,9 @@ const en = {
     comingSoonTooltipDefault: 'This feature is coming soon.',
     comingSoonTooltip: {
       'document-translation': 'Document translation is coming soon. We are working on adding support for translating PDFs and Word documents to multiple languages.',
+      'text-to-speech': 'Text to Speech is coming soon. We are working on converting typed or uploaded text into natural-sounding MP3 audio.',
+      'speech-to-text': 'Speech to Text is coming soon. We are working on transcribing MP3, WAV, and M4A audio into editable text files.',
+      'auto-subtitle': 'Auto Subtitle Generator is coming soon. We are working on generating SRT subtitles from MP4, MOV, and AVI videos.',
     },
   },
   categories: {
@@ -99,7 +102,7 @@ const en = {
     Archive: 'Convert between ZIP, RAR, 7Z, TAR, and GZ archive formats.',
     'PDF Tools': 'Merge, split, compress, rotate, protect, and unlock PDF files.',
     Utilities: 'Inspect file metadata, dimensions, duration, and more.',
-    'Smart Functions': 'AI-powered tools for working with documents in new ways. More coming soon.',
+    'Smart Functions': 'AI-powered tools — OCR, intelligent PDF compression, and more. New features arriving soon.',
   },
   tool: {
     drop: 'Drag & drop files here, or click to browse',

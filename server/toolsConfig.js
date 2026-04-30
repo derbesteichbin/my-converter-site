@@ -65,6 +65,10 @@ const VALID_TOOLS = {
   'rotate-pdf':   { inputFormats: ['pdf'], outputFormats: ['pdf'], toolType: 'pdf-rotate' },
   'protect-pdf':  { inputFormats: ['pdf'], outputFormats: ['pdf'], toolType: 'pdf-protect' },
   'unlock-pdf':   { inputFormats: ['pdf'], outputFormats: ['pdf'], toolType: 'pdf-unlock' },
+
+  // Smart Functions
+  'ocr':             { inputFormats: ['pdf', 'jpg', 'jpeg', 'png', 'tiff', 'tif'], outputFormats: ['pdf', 'txt'] },
+  'pdf-compress-ai': { inputFormats: ['pdf'], outputFormats: ['pdf'], toolType: 'pdf-compress' },
 };
 
 // Allowed advanced setting keys (whitelist for sanitizing request body)

@@ -70,7 +70,12 @@ export const TOOLS = [
   { slug: 'view-metadata', label: 'File Info', category: 'Utilities', toolType: 'metadata' },
 
   // ── Smart Functions ──
-  { slug: 'document-translation', label: 'Document Translation', category: 'Smart Functions', comingSoon: true },
+  { slug: 'ocr',                  label: 'OCR',                      category: 'Smart Functions', inputFormats: ['pdf', 'jpg', 'jpeg', 'png', 'tiff', 'tif'], outputFormats: ['pdf', 'txt'], acceptMime: '.pdf,.jpg,.jpeg,.png,.tiff,.tif' },
+  { slug: 'pdf-compress-ai',      label: 'PDF Compress with AI',     category: 'Smart Functions', inputFormats: ['pdf'], outputFormats: ['pdf'], acceptMime: '.pdf', toolType: 'pdf-compress' },
+  { slug: 'document-translation', label: 'Document Translation',     category: 'Smart Functions', comingSoon: true },
+  { slug: 'text-to-speech',       label: 'Text to Speech',           category: 'Smart Functions', comingSoon: true },
+  { slug: 'speech-to-text',       label: 'Speech to Text',           category: 'Smart Functions', comingSoon: true },
+  { slug: 'auto-subtitle',        label: 'Auto Subtitle Generator',  category: 'Smart Functions', comingSoon: true },
 ];
 
 // ── Advanced Settings (per category) ─────────────────────────────────

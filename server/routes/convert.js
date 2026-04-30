@@ -155,6 +155,11 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
 
     const advancedOptions = extractAdvancedOptions(req.body);
 
+    // Smart Functions: OCR tool always runs CloudConvert with OCR enabled.
+    if (toolSlug === 'ocr') {
+      advancedOptions.ocr = true;
+    }
+
     const notifyEmail = req.body.notifyEmail === 'true';
 
     convertFile(job.id, req.file, outputFormat, advancedOptions, notifyEmail ? req.userId : null).catch((err) => {
