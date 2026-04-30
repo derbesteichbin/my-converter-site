@@ -25,6 +25,7 @@
   --cat-archive: #57534e;
   --cat-pdf: #be185d;
   --cat-utility: #6d28d9;
+  --cat-smart: #b45309;
 
   --bg: #f9f6f1;
   --bg-card: #ffffff;
@@ -53,6 +54,7 @@
   --cat-archive: #78716c;
   --cat-pdf: #ec4899;
   --cat-utility: #a78bfa;
+  --cat-smart: #f59e0b;
 
   --bg: #09090b;
   --bg-card: rgba(255,255,255,0.04);
@@ -770,6 +772,7 @@ h2 { font-size: 1.5rem; }
 .tool-card[data-category="Archive"] { border-left-color: var(--cat-archive); }
 .tool-card[data-category="PDF Tools"] { border-left-color: var(--cat-pdf); }
 .tool-card[data-category="Utilities"] { border-left-color: var(--cat-utility); }
+.tool-card[data-category="Smart Functions"] { border-left-color: var(--cat-smart); }
 
 [data-theme="dark"] .tool-card[data-category="Document"],
 [data-theme="dark"] .tool-card[data-category="Image"],
@@ -777,7 +780,8 @@ h2 { font-size: 1.5rem; }
 [data-theme="dark"] .tool-card[data-category="Audio"],
 [data-theme="dark"] .tool-card[data-category="Archive"],
 [data-theme="dark"] .tool-card[data-category="PDF Tools"],
-[data-theme="dark"] .tool-card[data-category="Utilities"] {
+[data-theme="dark"] .tool-card[data-category="Utilities"],
+[data-theme="dark"] .tool-card[data-category="Smart Functions"] {
   border-left-color: var(--border);
 }
 
@@ -788,6 +792,7 @@ h2 { font-size: 1.5rem; }
 .tool-card[data-category="Archive"]::before { background: var(--cat-archive); }
 .tool-card[data-category="PDF Tools"]::before { background: var(--cat-pdf); }
 .tool-card[data-category="Utilities"]::before { background: var(--cat-utility); }
+.tool-card[data-category="Smart Functions"]::before { background: var(--cat-smart); }
 
 [data-theme="dark"] .tool-card[data-category="Document"]:hover { box-shadow: var(--card-glow) rgba(139,92,246,0.2); }
 [data-theme="dark"] .tool-card[data-category="Image"]:hover { box-shadow: var(--card-glow) rgba(124,58,237,0.2); }
@@ -796,6 +801,106 @@ h2 { font-size: 1.5rem; }
 [data-theme="dark"] .tool-card[data-category="Archive"]:hover { box-shadow: var(--card-glow) rgba(120,113,108,0.15); }
 [data-theme="dark"] .tool-card[data-category="PDF Tools"]:hover { box-shadow: var(--card-glow) rgba(236,72,153,0.2); }
 [data-theme="dark"] .tool-card[data-category="Utilities"]:hover { box-shadow: var(--card-glow) rgba(167,139,250,0.2); }
+[data-theme="dark"] .tool-card[data-category="Smart Functions"]:hover { box-shadow: var(--card-glow) rgba(245,158,11,0.18); }
+
+/* ---- Coming Soon tool cards ---- */
+.tool-card-coming-soon {
+  cursor: not-allowed;
+  opacity: 0.7;
+  background: linear-gradient(135deg, #fef9c3, #fde9b8);
+  color: #78350f;
+  border-left-color: var(--cat-smart);
+  overflow: visible;
+}
+
+.tool-card-coming-soon::before {
+  display: none;
+}
+
+[data-theme="dark"] .tool-card-coming-soon {
+  background: linear-gradient(135deg, #b45309, #c2410c);
+  color: #fff7ed;
+  opacity: 0.75;
+}
+
+.tool-card-coming-soon:hover {
+  transform: translateY(-2px);
+  opacity: 1;
+}
+
+.tool-card-coming-soon:focus {
+  outline: 2px solid var(--cat-smart);
+  outline-offset: 2px;
+}
+
+.coming-soon-badge {
+  position: absolute;
+  top: 0.375rem;
+  right: 0.375rem;
+  background: #f59e0b;
+  color: #1f2937;
+  font-size: 0.625rem;
+  font-weight: 700;
+  padding: 0.125rem 0.5rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+[data-theme="dark"] .coming-soon-badge {
+  background: #fbbf24;
+  color: #1f2937;
+}
+
+.coming-soon-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: #1f2937;
+  color: #f9fafb;
+  padding: 0.625rem 0.875rem;
+  border-radius: 8px;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.4;
+  width: max-content;
+  max-width: 280px;
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 20;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+  white-space: normal;
+}
+
+.coming-soon-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #1f2937;
+}
+
+.tool-card-coming-soon:hover .coming-soon-tooltip,
+.tool-card-coming-soon:focus .coming-soon-tooltip,
+.tool-card-coming-soon:focus-visible .coming-soon-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+[data-theme="dark"] .coming-soon-tooltip {
+  background: #f9fafb;
+  color: #111827;
+}
+
+[data-theme="dark"] .coming-soon-tooltip::after {
+  border-top-color: #f9fafb;
+}
 
 .fav-btn {
   position: absolute;

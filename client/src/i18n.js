@@ -75,6 +75,11 @@ const en = {
     addToFav: 'Add to favorites',
     removeFromFav: 'Remove from favorites',
     shortcutHint: 'Press {{shortcut}} to quick search',
+    comingSoon: 'Coming Soon',
+    comingSoonTooltipDefault: 'This feature is coming soon.',
+    comingSoonTooltip: {
+      'document-translation': 'Document translation is coming soon. We are working on adding support for translating PDFs and Word documents to multiple languages.',
+    },
   },
   categories: {
     Document: 'Document',
@@ -84,6 +89,7 @@ const en = {
     Archive: 'Archive',
     'PDF Tools': 'PDF Tools',
     Utilities: 'Utilities',
+    'Smart Functions': 'Smart Functions',
   },
   categoryDescriptions: {
     Document: 'Convert between PDF, Word, Excel, PowerPoint, and more with perfect formatting preserved.',
@@ -93,6 +99,7 @@ const en = {
     Archive: 'Convert between ZIP, RAR, 7Z, TAR, and GZ archive formats.',
     'PDF Tools': 'Merge, split, compress, rotate, protect, and unlock PDF files.',
     Utilities: 'Inspect file metadata, dimensions, duration, and more.',
+    'Smart Functions': 'AI-powered tools for working with documents in new ways. More coming soon.',
   },
   tool: {
     drop: 'Drag & drop files here, or click to browse',

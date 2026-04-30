@@ -68,6 +68,9 @@ export const TOOLS = [
 
   // ── Utilities ──
   { slug: 'view-metadata', label: 'File Info', category: 'Utilities', toolType: 'metadata' },
+
+  // ── Smart Functions ──
+  { slug: 'document-translation', label: 'Document Translation', category: 'Smart Functions', comingSoon: true },
 ];
 
 // ── Advanced Settings (per category) ─────────────────────────────────
@@ -98,7 +101,7 @@ export function getToolBySlug(slug) {
   return TOOLS.find((t) => t.slug === slug) || null;
 }
 
-export const CATEGORY_ORDER = ['Document', 'Image', 'Video', 'Audio', 'Archive', 'PDF Tools', 'Utilities'];
+export const CATEGORY_ORDER = ['Document', 'Image', 'Video', 'Audio', 'Archive', 'PDF Tools', 'Utilities', 'Smart Functions'];
 
 export function getCategories() {
   return CATEGORY_ORDER.filter((cat) => TOOLS.some((t) => t.category === cat));

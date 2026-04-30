@@ -14,6 +14,7 @@ const GRADIENTS_DARK = {
   Archive: 'linear-gradient(135deg, #1f2937, #111827)',
   'PDF Tools': 'linear-gradient(135deg, #4a1d96, #5b21b6)',
   Utilities: 'linear-gradient(135deg, #312e81, #4c1d95)',
+  'Smart Functions': 'linear-gradient(135deg, #b45309, #c2410c)',
 };
 
 const GRADIENTS_LIGHT = {
@@ -24,6 +25,7 @@ const GRADIENTS_LIGHT = {
   Archive: 'linear-gradient(135deg, #f3f4f6, #d1d5db)',
   'PDF Tools': 'linear-gradient(135deg, #ede9fe, #ddd6fe)',
   Utilities: 'linear-gradient(135deg, #e0e7ff, #c7d2fe)',
+  'Smart Functions': 'linear-gradient(135deg, #fef9c3, #fde9b8)',
 };
 
 function getTheme() {
@@ -151,20 +153,42 @@ export default function Tools() {
             <h2>{catLabel(cat)}</h2>
             {desc && <p className="category-desc">{desc}</p>}
             <div className="tools-grid">
-              {tools.map((tool) => (
-                <Link to={`/tools/${tool.slug}`} className="tool-card" data-category={tool.category} key={tool.slug}>
-                  <button
-                    className={`fav-btn ${favorites.includes(tool.slug) ? 'fav-active' : ''}`}
-                    onClick={(e) => toggleFavorite(e, tool.slug)}
-                    type="button"
-                    title={favorites.includes(tool.slug) ? t('toolsPage.removeFromFav') : t('toolsPage.addToFav')}
-                  >
-                    {favorites.includes(tool.slug) ? '\u2665' : '\u2661'}
-                  </button>
-                  {popularSlugs.includes(tool.slug) && <span className="popular-badge">{t('toolsPage.popularBadge')}</span>}
-                  <span className="tool-card-label">{tool.label}</span>
-                </Link>
-              ))}
+              {tools.map((tool) => {
+                if (tool.comingSoon) {
+                  const tooltip = t(`toolsPage.comingSoonTooltip.${tool.slug}`, {
+                    defaultValue: t('toolsPage.comingSoonTooltipDefault'),
+                  });
+                  return (
+                    <div
+                      className="tool-card tool-card-coming-soon"
+                      data-category={tool.category}
+                      key={tool.slug}
+                      tabIndex={0}
+                      role="button"
+                      aria-disabled="true"
+                      aria-label={`${tool.label} \u2014 ${t('toolsPage.comingSoon')}`}
+                    >
+                      <span className="coming-soon-badge">{t('toolsPage.comingSoon')}</span>
+                      <span className="tool-card-label">{tool.label}</span>
+                      <span className="coming-soon-tooltip" role="tooltip">{tooltip}</span>
+                    </div>
+                  );
+                }
+                return (
+                  <Link to={`/tools/${tool.slug}`} className="tool-card" data-category={tool.category} key={tool.slug}>
+                    <button
+                      className={`fav-btn ${favorites.includes(tool.slug) ? 'fav-active' : ''}`}
+                      onClick={(e) => toggleFavorite(e, tool.slug)}
+                      type="button"
+                      title={favorites.includes(tool.slug) ? t('toolsPage.removeFromFav') : t('toolsPage.addToFav')}
+                    >
+                      {favorites.includes(tool.slug) ? '\u2665' : '\u2661'}
+                    </button>
+                    {popularSlugs.includes(tool.slug) && <span className="popular-badge">{t('toolsPage.popularBadge')}</span>}
+                    <span className="tool-card-label">{tool.label}</span>
+                  </Link>
+                );
+              })}
             </div>
           </section>
         );

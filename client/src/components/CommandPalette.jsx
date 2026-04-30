@@ -11,12 +11,13 @@ export default function CommandPalette() {
   const inputRef = useRef(null);
   const navigate = useNavigate();
 
+  const available = TOOLS.filter((tool) => !tool.comingSoon);
   const results = query.trim()
-    ? TOOLS.filter((t) =>
+    ? available.filter((t) =>
         t.label.toLowerCase().includes(query.toLowerCase()) ||
         t.category.toLowerCase().includes(query.toLowerCase())
       ).slice(0, 8)
-    : TOOLS.slice(0, 8);
+    : available.slice(0, 8);
 
   useEffect(() => {
     function handleKeyDown(e) {
