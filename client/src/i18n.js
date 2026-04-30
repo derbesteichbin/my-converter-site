@@ -84,6 +84,29 @@ const en = {
       'auto-subtitle': 'Auto Subtitle Generator is coming soon. We are working on generating SRT subtitles from MP4, MOV, and AVI videos.',
     },
   },
+  smartFunctions: {
+    ocr: {
+      name: 'OCR (Text Recognition)',
+      description: 'Extract text from scanned PDFs or images (JPG, PNG, TIFF). Returns a searchable PDF or plain text file.',
+    },
+    pdfCompress: {
+      name: 'PDF Compress with AI',
+      description: 'Reduce PDF file size while preserving the best possible quality. Great for email attachments.',
+    },
+    textToSpeech: {
+      name: 'Text to Speech',
+      description: 'Convert typed or uploaded text into a natural-sounding MP3 audio file.',
+    },
+    speechToText: {
+      name: 'Speech to Text',
+      description: 'Transcribe audio files (MP3, WAV, M4A) into an editable text file.',
+    },
+    autoSubtitle: {
+      name: 'Auto Subtitle Generator',
+      description: 'Generate SRT subtitles from video files (MP4, MOV, AVI) automatically from the audio track.',
+    },
+    documentTranslationComingSoon: 'Document translation is coming soon. We are working on adding support for translating PDFs and Word documents to multiple languages.',
+  },
   categories: {
     Document: 'Document',
     Image: 'Image',
