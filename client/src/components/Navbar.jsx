@@ -140,12 +140,23 @@ export default function Navbar({ scrolled = false }) {
         <button
           className="navbar-hamburger"
           onClick={() => setMenuOpen((v) => !v)}
-          aria-label="Open menu"
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={menuOpen}
           aria-controls="mobile-menu-drawer"
           type="button"
         >
-          <span /><span /><span />
+          {menuOpen ? (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
+              <line x1="6" y1="6" x2="18" y2="18" />
+              <line x1="6" y1="18" x2="18" y2="6" />
+            </svg>
+          ) : (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
+              <line x1="4" y1="7" x2="20" y2="7" />
+              <line x1="4" y1="12" x2="20" y2="12" />
+              <line x1="4" y1="17" x2="20" y2="17" />
+            </svg>
+          )}
         </button>
       </nav>
 
@@ -173,24 +184,31 @@ export default function Navbar({ scrolled = false }) {
         </div>
 
         <nav className="mobile-menu-links" aria-label="Mobile navigation">
-          <Link to="/tools" onClick={closeMenu}>{t('nav.tools')}</Link>
-          <Link to="/pricing" onClick={closeMenu}>{t('nav.pricing')}</Link>
-          {loggedIn ? (
-            <>
-              <Link to="/dashboard" onClick={closeMenu}>{t('nav.dashboard')}</Link>
-              <Link to="/profile" onClick={closeMenu}>{t('nav.profile')}</Link>
-              <button
-                className="mobile-menu-link mobile-menu-logout"
-                onClick={handleLogout}
-                type="button"
-              >{t('nav.logout')}</button>
-            </>
-          ) : (
-            <>
-              <Link to="/login" onClick={closeMenu}>{t('nav.login')}</Link>
-              <Link to="/register" onClick={closeMenu} className="mobile-menu-cta">{t('nav.register')}</Link>
-            </>
-          )}
+          {(() => {
+            // Always render Tools + Pricing first.
+            const items = [
+              <Link key="tools" to="/tools" onClick={closeMenu}>{t('nav.tools')}</Link>,
+              <Link key="pricing" to="/pricing" onClick={closeMenu}>{t('nav.pricing')}</Link>,
+            ];
+            if (loggedIn) {
+              items.push(
+                <Link key="dashboard" to="/dashboard" onClick={closeMenu}>{t('nav.dashboard')}</Link>,
+                <Link key="profile" to="/profile" onClick={closeMenu}>{t('nav.profile')}</Link>,
+                <button
+                  key="logout"
+                  className="mobile-menu-logout"
+                  onClick={handleLogout}
+                  type="button"
+                >{t('nav.logout')}</button>,
+              );
+            } else {
+              items.push(
+                <Link key="login" to="/login" onClick={closeMenu}>{t('nav.login')}</Link>,
+                <Link key="register" to="/register" onClick={closeMenu} className="mobile-menu-cta">{t('nav.register')}</Link>,
+              );
+            }
+            return items;
+          })()}
         </nav>
 
         <div className="mobile-menu-footer">
