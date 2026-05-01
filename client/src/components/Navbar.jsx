@@ -41,12 +41,15 @@ export default function Navbar({ scrolled = false }) {
     localStorage.setItem('theme', theme);
   }, [theme]);
 
+  // Refetch the auth state on path change AND every time the mobile drawer
+  // opens, so logged-in users always see Dashboard / Profile / Logout even
+  // if their session was established without a route change.
   useEffect(() => {
     api('/api/auth/me')
       .then((r) => r.json())
       .then((data) => setLoggedIn(!!data.user))
       .catch(() => setLoggedIn(false));
-  }, [location.pathname]);
+  }, [location.pathname, menuOpen]);
 
   // Auto-close mobile drawer on route change
   useEffect(() => {
@@ -170,14 +173,17 @@ export default function Navbar({ scrolled = false }) {
         </div>
 
         <nav className="mobile-menu-links" aria-label="Mobile navigation">
-          <Link to="/" onClick={closeMenu}>{t('nav.home')}</Link>
           <Link to="/tools" onClick={closeMenu}>{t('nav.tools')}</Link>
           <Link to="/pricing" onClick={closeMenu}>{t('nav.pricing')}</Link>
           {loggedIn ? (
             <>
               <Link to="/dashboard" onClick={closeMenu}>{t('nav.dashboard')}</Link>
               <Link to="/profile" onClick={closeMenu}>{t('nav.profile')}</Link>
-              <button className="mobile-menu-logout" onClick={handleLogout} type="button">{t('nav.logout')}</button>
+              <button
+                className="mobile-menu-link mobile-menu-logout"
+                onClick={handleLogout}
+                type="button"
+              >{t('nav.logout')}</button>
             </>
           ) : (
             <>
