@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { api } from '../api';
@@ -35,15 +35,14 @@ export default function Navbar({ scrolled = false }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const panelRef = useRef(null);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
   }, [theme]);
 
-  // Refetch the auth state on path change AND every time the mobile drawer
-  // opens, so logged-in users always see Dashboard / Profile / Logout even
-  // if their session was established without a route change.
+  // Refresh auth state on route change AND when the mobile menu opens.
   useEffect(() => {
     api('/api/auth/me')
       .then((r) => r.json())
@@ -51,21 +50,10 @@ export default function Navbar({ scrolled = false }) {
       .catch(() => setLoggedIn(false));
   }, [location.pathname, menuOpen]);
 
-  // Auto-close mobile drawer on route change
-  useEffect(() => {
-    setMenuOpen(false);
-  }, [location.pathname]);
+  // Close menu on route change.
+  useEffect(() => { setMenuOpen(false); }, [location.pathname]);
 
-  // Lock body scroll while drawer is open
-  useEffect(() => {
-    if (menuOpen) {
-      const prev = document.body.style.overflow;
-      document.body.style.overflow = 'hidden';
-      return () => { document.body.style.overflow = prev; };
-    }
-  }, [menuOpen]);
-
-  // Close drawer on Escape
+  // Close menu on Escape.
   useEffect(() => {
     if (!menuOpen) return;
     function onKey(e) { if (e.key === 'Escape') setMenuOpen(false); }
@@ -93,136 +81,126 @@ export default function Navbar({ scrolled = false }) {
   const closeMenu = () => setMenuOpen(false);
 
   return (
-    <>
-      <nav className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`} role="navigation" aria-label="Main navigation">
-        <Link to="/" className="navbar-logo" aria-label={t('nav.home')}>
-          <img
-            src={theme === 'dark' ? '/images/logo-dark.png' : '/images/logo-light.png'}
-            alt="ConvertAnyFormat"
-            className="navbar-logo-img"
-            width="44"
-            height="44"
-            loading="lazy"
-          />
-          <span>ConvertAnyFormat</span>
-        </Link>
+    <nav className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`} role="navigation" aria-label="Main navigation">
+      <Link to="/" className="navbar-logo" aria-label={t('nav.home')} onClick={closeMenu}>
+        <img
+          src={theme === 'dark' ? '/images/logo-dark.png' : '/images/logo-light.png'}
+          alt="ConvertAnyFormat"
+          className="navbar-logo-img"
+          width="44"
+          height="44"
+          loading="lazy"
+        />
+        <span>ConvertAnyFormat</span>
+      </Link>
 
-        <div className="navbar-links">
-          <Link to="/tools">{t('nav.tools')}</Link>
-          <Link to="/pricing">{t('nav.pricing')}</Link>
-        </div>
+      {/* ---- Desktop nav (hidden on mobile via CSS) ---- */}
+      <div className="navbar-desktop-links">
+        <Link to="/tools">{t('nav.tools')}</Link>
+        <Link to="/pricing">{t('nav.pricing')}</Link>
+      </div>
 
-        <div className="navbar-auth">
-          <select className="lang-select" value={i18n.language} onChange={changeLang} aria-label={t('nav.language')}>
-            {LANGUAGES.map((l) => (
-              <option key={l.code} value={l.code}>{l.label}</option>
-            ))}
-          </select>
+      <div className="navbar-desktop-actions">
+        <select className="lang-select" value={i18n.language} onChange={changeLang} aria-label={t('nav.language')}>
+          {LANGUAGES.map((l) => (
+            <option key={l.code} value={l.code}>{l.label}</option>
+          ))}
+        </select>
 
-          <button className="btn-ghost theme-toggle" onClick={toggleTheme} title={t('nav.toggleDark')} type="button" aria-label={t('nav.toggleDark')}>
-            {theme === 'light' ? '☾' : '☀'}
-          </button>
+        <button className="btn-ghost theme-toggle" onClick={toggleTheme} title={t('nav.toggleDark')} type="button" aria-label={t('nav.toggleDark')}>
+          {theme === 'light' ? '☾' : '☀'}
+        </button>
 
-          {loggedIn ? (
-            <>
-              <Link to="/dashboard" className="btn-ghost">{t('nav.dashboard')}</Link>
-              <Link to="/profile" className="btn-ghost" aria-label={t('nav.profile')}>{t('nav.profile')}</Link>
-              <button className="btn-ghost" onClick={handleLogout} aria-label={t('nav.logout')}>{t('nav.logout')}</button>
-            </>
-          ) : (
-            <>
-              <Link to="/login" className="btn-ghost">{t('nav.login')}</Link>
-              <Link to="/register" className="btn-primary">{t('nav.register')}</Link>
-            </>
-          )}
-        </div>
+        {loggedIn ? (
+          <>
+            <Link to="/dashboard" className="btn-ghost">{t('nav.dashboard')}</Link>
+            <Link to="/profile" className="btn-ghost" aria-label={t('nav.profile')}>{t('nav.profile')}</Link>
+            <button className="btn-ghost" onClick={handleLogout} aria-label={t('nav.logout')}>{t('nav.logout')}</button>
+          </>
+        ) : (
+          <>
+            <Link to="/login" className="btn-ghost">{t('nav.login')}</Link>
+            <Link to="/register" className="btn-primary">{t('nav.register')}</Link>
+          </>
+        )}
+      </div>
+
+      {/* ---- Mobile hamburger (hidden on desktop via CSS) ---- */}
+      <button
+        className="mobile-nav-toggle"
+        onClick={() => setMenuOpen((v) => !v)}
+        aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+        aria-expanded={menuOpen}
+        aria-controls="mobile-nav-panel"
+        type="button"
+      >
+        {menuOpen ? (
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
+            <line x1="6" y1="6" x2="18" y2="18" />
+            <line x1="6" y1="18" x2="18" y2="6" />
+          </svg>
+        ) : (
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
+            <line x1="4" y1="7" x2="20" y2="7" />
+            <line x1="4" y1="12" x2="20" y2="12" />
+            <line x1="4" y1="17" x2="20" y2="17" />
+          </svg>
+        )}
+      </button>
+
+      {/* ---- Mobile dropdown panel (full-width, drops down from navbar) ---- */}
+      {menuOpen && (
+        <div
+          className="mobile-nav-backdrop"
+          onClick={closeMenu}
+          aria-hidden="true"
+        />
+      )}
+      <div
+        id="mobile-nav-panel"
+        ref={panelRef}
+        className={`mobile-nav-panel ${menuOpen ? 'mobile-nav-panel-open' : ''}`}
+        role="menu"
+        aria-hidden={!menuOpen}
+      >
+        <Link to="/tools" onClick={closeMenu} role="menuitem">{t('nav.tools')}</Link>
+        <Link to="/pricing" onClick={closeMenu} role="menuitem">{t('nav.pricing')}</Link>
+
+        {loggedIn ? (
+          <>
+            <Link to="/dashboard" onClick={closeMenu} role="menuitem">{t('nav.dashboard')}</Link>
+            <Link to="/profile" onClick={closeMenu} role="menuitem">{t('nav.profile')}</Link>
+            <button
+              type="button"
+              role="menuitem"
+              className="mobile-nav-logout"
+              onClick={handleLogout}
+            >{t('nav.logout')}</button>
+          </>
+        ) : (
+          <>
+            <Link to="/login" onClick={closeMenu} role="menuitem">{t('nav.login')}</Link>
+            <Link to="/register" onClick={closeMenu} role="menuitem" className="mobile-nav-cta">{t('nav.register')}</Link>
+          </>
+        )}
+
+        <div className="mobile-nav-divider" aria-hidden="true" />
 
         <button
-          className="navbar-hamburger"
-          onClick={() => setMenuOpen((v) => !v)}
-          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-          aria-expanded={menuOpen}
-          aria-controls="mobile-menu-drawer"
           type="button"
+          role="menuitem"
+          className="mobile-nav-theme"
+          onClick={toggleTheme}
+          aria-label={t('nav.toggleDark')}
         >
-          {menuOpen ? (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
-              <line x1="6" y1="6" x2="18" y2="18" />
-              <line x1="6" y1="18" x2="18" y2="6" />
-            </svg>
-          ) : (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
-              <line x1="4" y1="7" x2="20" y2="7" />
-              <line x1="4" y1="12" x2="20" y2="12" />
-              <line x1="4" y1="17" x2="20" y2="17" />
-            </svg>
-          )}
+          <span className="mobile-nav-theme-icon" aria-hidden="true">{theme === 'light' ? '☾' : '☀'}</span>
+          <span>{t('nav.toggleDark')}</span>
         </button>
-      </nav>
 
-      <div
-        className={`mobile-menu-overlay ${menuOpen ? 'mobile-menu-overlay-open' : ''}`}
-        onClick={closeMenu}
-        aria-hidden="true"
-      />
-
-      <aside
-        id="mobile-menu-drawer"
-        className={`mobile-menu ${menuOpen ? 'mobile-menu-open' : ''}`}
-        role="dialog"
-        aria-modal="true"
-        aria-label="Navigation menu"
-      >
-        <div className="mobile-menu-header">
-          <span className="mobile-menu-title">{t('nav.home')}</span>
-          <button
-            className="mobile-menu-close"
-            onClick={closeMenu}
-            aria-label="Close menu"
-            type="button"
-          >×</button>
-        </div>
-
-        <nav className="mobile-menu-links" aria-label="Mobile navigation">
-          {(() => {
-            // Always render Tools + Pricing first.
-            const items = [
-              <Link key="tools" to="/tools" onClick={closeMenu}>{t('nav.tools')}</Link>,
-              <Link key="pricing" to="/pricing" onClick={closeMenu}>{t('nav.pricing')}</Link>,
-            ];
-            if (loggedIn) {
-              items.push(
-                <Link key="dashboard" to="/dashboard" onClick={closeMenu}>{t('nav.dashboard')}</Link>,
-                <Link key="profile" to="/profile" onClick={closeMenu}>{t('nav.profile')}</Link>,
-                <button
-                  key="logout"
-                  className="mobile-menu-logout"
-                  onClick={handleLogout}
-                  type="button"
-                >{t('nav.logout')}</button>,
-              );
-            } else {
-              items.push(
-                <Link key="login" to="/login" onClick={closeMenu}>{t('nav.login')}</Link>,
-                <Link key="register" to="/register" onClick={closeMenu} className="mobile-menu-cta">{t('nav.register')}</Link>,
-              );
-            }
-            return items;
-          })()}
-        </nav>
-
-        <div className="mobile-menu-footer">
-          <button
-            className="btn-ghost mobile-menu-theme"
-            onClick={toggleTheme}
-            type="button"
-            aria-label={t('nav.toggleDark')}
-          >
-            <span aria-hidden="true">{theme === 'light' ? '☾' : '☀'}</span>
-            <span>{t('nav.toggleDark')}</span>
-          </button>
+        <label className="mobile-nav-lang-row">
+          <span>{t('nav.language')}</span>
           <select
-            className="lang-select mobile-menu-lang"
+            className="mobile-nav-lang"
             value={i18n.language}
             onChange={changeLang}
             aria-label={t('nav.language')}
@@ -231,8 +209,8 @@ export default function Navbar({ scrolled = false }) {
               <option key={l.code} value={l.code}>{l.label}</option>
             ))}
           </select>
-        </div>
-      </aside>
-    </>
+        </label>
+      </div>
+    </nav>
   );
 }
