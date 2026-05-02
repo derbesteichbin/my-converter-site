@@ -110,6 +110,20 @@ function validateFileType(file, toolDef) {
 
 const PDF_TOOL_TYPES = new Set(['pdf-merge', 'pdf-split', 'pdf-compress', 'pdf-rotate', 'pdf-protect', 'pdf-unlock']);
 const TTS_VOICES = ['alloy', 'echo', 'fable', 'onyx', 'nova', 'shimmer'];
+const TTS_SPEEDS = [0.75, 1.0, 1.25, 1.5];
+const WHISPER_LANGUAGE_HINTS = [
+  ['auto', 'Auto Detect'],
+  ['en', 'English'],
+  ['de', 'Deutsch'],
+  ['fr', 'Français'],
+  ['es', 'Español'],
+  ['it', 'Italiano'],
+  ['pt', 'Português'],
+  ['nl', 'Nederlands'],
+  ['pl', 'Polski'],
+  ['sv', 'Svenska'],
+  ['no', 'Norsk'],
+];
 
 export default function ToolPage() {
   const { toolName } = useParams();
@@ -202,9 +216,11 @@ export default function ToolPage() {
   const [rotation, setRotation] = useState('90');
   const [password, setPassword] = useState('');
 
-  // Smart Functions: Text to Speech extras
+  // Smart Functions: per-tool extras
   const [ttsText, setTtsText] = useState('');
   const [ttsVoice, setTtsVoice] = useState('alloy');
+  const [ttsSpeed, setTtsSpeed] = useState('1');
+  const [languageHint, setLanguageHint] = useState('auto');
 
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [advancedValues, setAdvancedValues] = useState({});
@@ -318,6 +334,8 @@ export default function ToolPage() {
     setPassword('');
     setTtsText('');
     setTtsVoice('alloy');
+    setTtsSpeed('1');
+    setLanguageHint('auto');
     setShowAdvanced(false);
     setAdvancedValues({});
     setNotifyEmail(false);
@@ -490,6 +508,16 @@ export default function ToolPage() {
         if (isTts) {
           formData.append('text', ttsText);
           formData.append('voice', ttsVoice);
+          formData.append('ttsSpeed', ttsSpeed);
+          formData.append('ttsFormat', outputFormat);  // mp3 / opus / aac
+        }
+        if (isStt) {
+          formData.append('sttFormat', outputFormat);  // txt / docx
+          if (languageHint && languageHint !== 'auto') formData.append('languageHint', languageHint);
+        }
+        if (toolName === 'auto-subtitle') {
+          formData.append('subtitleFormat', outputFormat);  // srt / vtt
+          if (languageHint && languageHint !== 'auto') formData.append('languageHint', languageHint);
         }
 
         const res = await api('/api/smart', { method: 'POST', body: formData });
@@ -825,6 +853,26 @@ export default function ToolPage() {
               ))}
             </select>
           </div>
+          <div className="tts-voice-row">
+            <label htmlFor="tts-speed">{t('tool.ttsSpeedLabel')}</label>
+            <select id="tts-speed" value={ttsSpeed} onChange={(e) => setTtsSpeed(e.target.value)}>
+              {TTS_SPEEDS.map((s) => (
+                <option key={s} value={s}>{s}x{s === 1 ? ` (${t('tool.ttsSpeedDefault')})` : ''}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+      )}
+
+      {/* Speech to Text + Auto Subtitle: language hint selector */}
+      {(isStt || toolName === 'auto-subtitle') && overallStatus === 'idle' && (
+        <div className="extra-field">
+          <label htmlFor="lang-hint">{t('tool.languageHintLabel')}</label>
+          <select id="lang-hint" value={languageHint} onChange={(e) => setLanguageHint(e.target.value)}>
+            {WHISPER_LANGUAGE_HINTS.map(([code, label]) => (
+              <option key={code} value={code}>{code === 'auto' ? t('tool.languageAuto') : label}</option>
+            ))}
+          </select>
         </div>
       )}
 

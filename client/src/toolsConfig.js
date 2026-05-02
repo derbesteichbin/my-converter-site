@@ -73,9 +73,9 @@ export const TOOLS = [
   { slug: 'ocr',                  label: 'OCR',                      category: 'Smart Functions', inputFormats: ['pdf', 'jpg', 'jpeg', 'png', 'tiff', 'tif'], outputFormats: ['pdf', 'txt'], acceptMime: '.pdf,.jpg,.jpeg,.png,.tiff,.tif' },
   { slug: 'pdf-compress-ai',      label: 'PDF Compress with AI',     category: 'Smart Functions', inputFormats: ['pdf'], outputFormats: ['pdf'], acceptMime: '.pdf', toolType: 'pdf-compress' },
   { slug: 'document-translation', label: 'Document Translation',     category: 'Smart Functions', comingSoon: true },
-  { slug: 'text-to-speech',       label: 'Text to Speech',           category: 'Smart Functions', inputFormats: ['txt'], outputFormats: ['mp3'], acceptMime: '.txt', toolType: 'smart' },
-  { slug: 'speech-to-text',       label: 'Speech to Text',           category: 'Smart Functions', inputFormats: ['mp3', 'wav', 'm4a', 'ogg', 'mp4'], outputFormats: ['txt'], acceptMime: '.mp3,.wav,.m4a,.ogg,.mp4', toolType: 'smart' },
-  { slug: 'auto-subtitle',        label: 'Auto Subtitle Generator',  category: 'Smart Functions', inputFormats: ['mp4', 'mov', 'avi', 'mkv'], outputFormats: ['srt'], acceptMime: '.mp4,.mov,.avi,.mkv', toolType: 'smart' },
+  { slug: 'text-to-speech',       label: 'Text to Speech',           category: 'Smart Functions', inputFormats: ['txt'], outputFormats: ['mp3', 'opus', 'aac'], acceptMime: '.txt', toolType: 'smart' },
+  { slug: 'speech-to-text',       label: 'Speech to Text',           category: 'Smart Functions', inputFormats: ['mp3', 'wav', 'm4a', 'ogg', 'mp4'], outputFormats: ['txt', 'docx'], acceptMime: '.mp3,.wav,.m4a,.ogg,.mp4', toolType: 'smart' },
+  { slug: 'auto-subtitle',        label: 'Auto Subtitle Generator',  category: 'Smart Functions', inputFormats: ['mp4', 'mov', 'avi', 'mkv'], outputFormats: ['srt', 'vtt'], acceptMime: '.mp4,.mov,.avi,.mkv', toolType: 'smart' },
 ];
 
 // ── Advanced Settings (per category) ─────────────────────────────────

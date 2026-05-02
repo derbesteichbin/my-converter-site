@@ -196,6 +196,10 @@ const en = {
     ttsTextLabel: 'Text to convert',
     ttsPlaceholder: 'Type or paste the text you want to hear (max 4096 characters)…',
     ttsVoiceLabel: 'Voice',
+    ttsSpeedLabel: 'Speed',
+    ttsSpeedDefault: 'default',
+    languageHintLabel: 'Language',
+    languageAuto: 'Auto Detect',
     sttTranscriptLabel: 'Transcript',
   },
   dash: {
