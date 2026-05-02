@@ -38,12 +38,10 @@ export default function Navbar({ scrolled = false }) {
   const [loggedIn, setLoggedIn] = useState(false);
   const [theme, setTheme] = useState(getInitialTheme);
   const [menuOpen, setMenuOpen] = useState(false);
-  // Inline display style for the hamburger — bypasses any CSS specificity
-  // issues by setting it directly on the element. Initialised from
-  // window.innerWidth so the first paint is correct (no flicker on mobile).
-  const [hamburgerStyle, setHamburgerStyle] = useState(() => ({
-    display: isMobileViewport() ? 'flex' : 'none',
-  }));
+  // Single source of truth for "are we on mobile?" — drives every inline
+  // style that bypasses the stylesheet. Initialised from window.innerWidth
+  // so the first paint is correct.
+  const [isMobile, setIsMobile] = useState(() => isMobileViewport());
   const navigate = useNavigate();
   const location = useLocation();
   const panelRef = useRef(null);
@@ -53,18 +51,31 @@ export default function Navbar({ scrolled = false }) {
     localStorage.setItem('theme', theme);
   }, [theme]);
 
-  // Show the hamburger on viewports < 768px, hide it otherwise. The inline
-  // style wins over any !important rule in the stylesheet.
+  // Track viewport size. Inline styles derived from `isMobile` win over any
+  // stylesheet rule, including !important — which sidesteps whatever was
+  // overriding the media-query display toggle.
   useEffect(() => {
-    function update() {
-      setHamburgerStyle({ display: isMobileViewport() ? 'flex' : 'none' });
-    }
+    function update() { setIsMobile(isMobileViewport()); }
     window.addEventListener('resize', update);
-    // Run once on mount in case innerWidth changed between SSR-safe init
-    // and effect run (e.g. orientation rotation during load).
     update();
     return () => window.removeEventListener('resize', update);
   }, []);
+
+  // Inline styles authoritatively control display/visibility on mobile.
+  const hamburgerStyle = { display: isMobile ? 'flex' : 'none' };
+  const panelStyle = !isMobile
+    ? { display: 'none' }
+    : {
+        display: 'flex',
+        opacity: menuOpen ? 1 : 0,
+        transform: menuOpen ? 'translateY(0)' : 'translateY(-8px)',
+        pointerEvents: menuOpen ? 'auto' : 'none',
+        visibility: menuOpen ? 'visible' : 'hidden',
+        transition: 'opacity 0.18s ease, transform 0.18s ease',
+      };
+  const backdropStyle = isMobile && menuOpen
+    ? { display: 'block' }
+    : { display: 'none' };
 
   // Refresh auth state on route change AND when the mobile menu opens.
   useEffect(() => {
@@ -128,7 +139,12 @@ export default function Navbar({ scrolled = false }) {
       <button
         className="mobile-nav-toggle"
         style={hamburgerStyle}
-        onClick={() => setMenuOpen((v) => !v)}
+        onClick={() => {
+          // Diagnostic log — confirms the click is reaching React.
+          // eslint-disable-next-line no-console
+          console.log('[Navbar] hamburger clicked, current menuOpen =', menuOpen);
+          setMenuOpen((prev) => !prev);
+        }}
         aria-label={menuOpen ? 'Close menu' : 'Open menu'}
         aria-expanded={menuOpen}
         aria-controls="mobile-nav-panel"
@@ -179,18 +195,21 @@ export default function Navbar({ scrolled = false }) {
         )}
       </div>
 
-      {/* ---- Mobile dropdown panel (full-width, drops down from navbar) ---- */}
-      {menuOpen && (
-        <div
-          className="mobile-nav-backdrop"
-          onClick={closeMenu}
-          aria-hidden="true"
-        />
-      )}
+      {/* ---- Mobile dropdown panel (full-width, drops down from navbar) ----
+          Inline styles authoritatively control display + visibility so no
+          stylesheet rule can hide them. The CSS class is kept for visual
+          styling (size, padding, colors). */}
+      <div
+        className="mobile-nav-backdrop"
+        style={backdropStyle}
+        onClick={closeMenu}
+        aria-hidden="true"
+      />
       <div
         id="mobile-nav-panel"
         ref={panelRef}
         className={`mobile-nav-panel ${menuOpen ? 'mobile-nav-panel-open' : ''}`}
+        style={panelStyle}
         role="menu"
         aria-hidden={!menuOpen}
       >
