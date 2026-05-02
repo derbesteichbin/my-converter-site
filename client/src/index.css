@@ -510,6 +510,11 @@ h2 { font-size: 1.5rem; }
   max-width: 960px;
   margin: 0 auto;
   padding: 2.5rem 2rem 4rem;
+  /* Stop full-bleed elements (e.g. mobile category-filters with negative
+     margins) from extending the document width. The category-filter bar
+     keeps its own overflow-x: auto so it can still scroll horizontally
+     inside this container. */
+  overflow-x: hidden;
 }
 
 /* ---- Hero ---- */

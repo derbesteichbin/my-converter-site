@@ -44,7 +44,7 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
             googleId: profile.id,
             displayName: profile.displayName,
             referralCode,
-            credits: 1,
+            credits: 0,
           },
         });
       }
@@ -89,7 +89,7 @@ if (process.env.APPLE_CLIENT_ID && process.env.APPLE_TEAM_ID) {
               appleId: profile.id,
               displayName: profile.name?.firstName || null,
               referralCode,
-              credits: 1,
+              credits: 0,
             },
           });
         }

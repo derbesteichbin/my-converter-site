@@ -939,8 +939,8 @@ export default function ToolPage() {
                   {t('tool.guestModalBody')}
                 </p>
                 <div style={{ display: 'flex', gap: '0.625rem', flexWrap: 'wrap' }}>
-                  <button className="btn-primary" onClick={() => navigate('/register')} type="button">{t('auth.register')}</button>
-                  <button className="btn-ghost" onClick={() => navigate('/login')} type="button">{t('auth.logIn')}</button>
+                  <button className="btn-primary" onClick={() => navigate('/login')} type="button">{t('auth.logIn')}</button>
+                  <button className="btn-ghost" onClick={() => navigate('/register')} type="button">{t('auth.register')}</button>
                   <button className="btn-ghost" onClick={() => setModal(null)} type="button" style={{ marginLeft: 'auto' }}>{t('common.cancel')}</button>
                 </div>
               </>

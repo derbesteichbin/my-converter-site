@@ -14,7 +14,7 @@ model User {
   password         String         @default("")
   displayName      String?
   plan             String         @default("free")
-  credits          Int            @default(1)
+  credits          Int            @default(0)
   googleId         String?        @unique
   appleId          String?        @unique
   apiKey           String?        @unique
