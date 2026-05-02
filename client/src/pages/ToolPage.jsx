@@ -108,12 +108,18 @@ function validateFileType(file, toolDef) {
   return `"${file.name}" is not a supported file type. Expected: ${toolDef.inputFormats.map((f) => '.' + f).join(', ')}`;
 }
 
+const PDF_TOOL_TYPES = new Set(['pdf-merge', 'pdf-split', 'pdf-compress', 'pdf-rotate', 'pdf-protect', 'pdf-unlock']);
+const TTS_VOICES = ['alloy', 'echo', 'fable', 'onyx', 'nova', 'shimmer'];
+
 export default function ToolPage() {
   const { toolName } = useParams();
   const toolDef = getToolBySlug(toolName);
   const formats = toolDef?.outputFormats || ['pdf', 'png', 'jpg'];
-  const isPdfTool = !!toolDef?.toolType;
+  const isPdfTool = PDF_TOOL_TYPES.has(toolDef?.toolType);
   const isPdfMerge = toolDef?.toolType === 'pdf-merge';
+  const isSmartTool = toolDef?.toolType === 'smart';
+  const isTts = toolName === 'text-to-speech';
+  const isStt = toolName === 'speech-to-text';
   const extraFields = toolDef?.extraFields || [];
   const advancedFields = ADVANCED_SETTINGS[toolDef?.category] || [];
   const toast = useToast();
@@ -195,6 +201,10 @@ export default function ToolPage() {
   const [pageRanges, setPageRanges] = useState('');
   const [rotation, setRotation] = useState('90');
   const [password, setPassword] = useState('');
+
+  // Smart Functions: Text to Speech extras
+  const [ttsText, setTtsText] = useState('');
+  const [ttsVoice, setTtsVoice] = useState('alloy');
 
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [advancedValues, setAdvancedValues] = useState({});
@@ -306,6 +316,8 @@ export default function ToolPage() {
     setPageRanges('');
     setRotation('90');
     setPassword('');
+    setTtsText('');
+    setTtsVoice('alloy');
     setShowAdvanced(false);
     setAdvancedValues({});
     setNotifyEmail(false);
@@ -383,6 +395,17 @@ export default function ToolPage() {
         if (job.status === 'done') {
           clearInterval(intervalId);
           setBatchJobs((prev) => prev.map((j, i) => i === index ? { ...j, status: 'done', downloadUrl: job.downloadUrl, outputSize: job.outputSize } : j));
+          // For Speech to Text, fetch the transcript so we can render it
+          // inline below the download button.
+          if (isStt && job.downloadUrl) {
+            api(job.downloadUrl)
+              .then((r) => r.ok ? r.text() : '')
+              .then((transcript) => {
+                if (!transcript) return;
+                setBatchJobs((prev) => prev.map((j, i) => i === index ? { ...j, transcript } : j));
+              })
+              .catch(() => {});
+          }
         } else if (job.status === 'failed') {
           clearInterval(intervalId);
           setBatchJobs((prev) => prev.map((j, i) => i === index ? { ...j, status: 'failed', error: 'Conversion failed' } : j));
@@ -414,7 +437,9 @@ export default function ToolPage() {
   }
 
   function handleConvert() {
-    if (files.length === 0) return;
+    // TTS allows submitting typed text without uploading a file. All other
+    // tools require at least one file.
+    if (files.length === 0 && !(isTts && ttsText.trim())) return;
 
     if (authState.status === 'loading') return;
     if (authState.status === 'guest') { setModal('guest'); return; }
@@ -450,6 +475,43 @@ export default function ToolPage() {
     setError('');
     setOverallStatus('converting');
     startProgress();
+
+    // Smart Functions (OpenAI TTS / Whisper) — single-file or text-only flow.
+    if (isSmartTool) {
+      const inputName = isTts && !files.length ? `${ttsText.slice(0, 40)}…` : files[0]?.name || 'input';
+      const inputSize = files[0]?.size || ttsText.length;
+      const job0 = { file: inputName, inputSize, status: 'uploading', jobId: null, downloadUrl: null, outputSize: null, error: null, transcript: null };
+      setBatchJobs([job0]);
+
+      try {
+        const formData = new FormData();
+        formData.append('toolSlug', toolName);
+        if (files[0]) formData.append('file', files[0]);
+        if (isTts) {
+          formData.append('text', ttsText);
+          formData.append('voice', ttsVoice);
+        }
+
+        const res = await api('/api/smart', { method: 'POST', body: formData });
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          if (res.status === 429 && data.code === 'no_credits') {
+            setBatchJobs([]);
+            stopProgress();
+            setOverallStatus('idle');
+            setModal('no_credits');
+            return;
+          }
+          throw new Error(data.error || 'Upload failed');
+        }
+        const { jobId } = await res.json();
+        setBatchJobs([{ ...job0, status: 'processing', jobId }]);
+        pollJob(0, jobId);
+      } catch (err) {
+        setBatchJobs([{ ...job0, status: 'failed', error: err.message }]);
+      }
+      return;
+    }
 
     if (isPdfTool) {
       const totalSize = files.reduce((s, f) => s + f.size, 0);
@@ -740,6 +802,32 @@ export default function ToolPage() {
         </div>
       )}
 
+      {/* Text to Speech: text input + voice selector. Shown only when no
+          file is uploaded so the user can either type OR drop a .txt file. */}
+      {isTts && overallStatus === 'idle' && !files.length && (
+        <div className="tts-controls">
+          <label htmlFor="tts-text" className="tts-label">{t('tool.ttsTextLabel')}</label>
+          <textarea
+            id="tts-text"
+            className="tts-textarea"
+            value={ttsText}
+            onChange={(e) => setTtsText(e.target.value)}
+            placeholder={t('tool.ttsPlaceholder')}
+            rows={6}
+            maxLength={4096}
+          />
+          <p className="tts-char-count">{ttsText.length} / 4096</p>
+          <div className="tts-voice-row">
+            <label htmlFor="tts-voice">{t('tool.ttsVoiceLabel')}</label>
+            <select id="tts-voice" value={ttsVoice} onChange={(e) => setTtsVoice(e.target.value)}>
+              {TTS_VOICES.map((v) => (
+                <option key={v} value={v}>{v.charAt(0).toUpperCase() + v.slice(1)}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+      )}
+
       {/* Progress bar */}
       {overallStatus === 'converting' && (
         <div className="progress-bar-container">
@@ -776,6 +864,9 @@ export default function ToolPage() {
                 )}
                 {job.status === 'failed' && <span className="batch-error">{job.error}</span>}
               </span>
+              {isStt && job.transcript && (
+                <pre className="stt-transcript" aria-label={t('tool.sttTranscriptLabel')}>{job.transcript}</pre>
+              )}
             </div>
           ))}
           {overallStatus === 'done' && (

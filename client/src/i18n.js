@@ -193,6 +193,10 @@ const en = {
     packLabelSingle: 'Single conversion',
     packLabel10: '10 conversions',
     packLabel30: '30 conversions',
+    ttsTextLabel: 'Text to convert',
+    ttsPlaceholder: 'Type or paste the text you want to hear (max 4096 characters)…',
+    ttsVoiceLabel: 'Voice',
+    sttTranscriptLabel: 'Transcript',
   },
   dash: {
     title: 'Dashboard',

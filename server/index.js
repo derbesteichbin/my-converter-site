@@ -9,6 +9,7 @@ const convertRoutes = require('./routes/convert');
 const billingRoutes = require('./routes/billing');
 const metadataRoutes = require('./routes/metadata');
 const profileRoutes = require('./routes/profile');
+const smartFunctionsRoutes = require('./routes/smartFunctions');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -74,6 +75,9 @@ app.use('/api/metadata', metadataRoutes);
 
 // Profile route
 app.use('/api/profile', profileRoutes);
+
+// Smart Functions (OpenAI TTS / Whisper) routes
+app.use('/api/smart', smartFunctionsRoutes);
 
 // Contact form
 app.post('/api/contact', async (req, res) => {

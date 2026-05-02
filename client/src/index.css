@@ -1798,6 +1798,93 @@ h2 { font-size: 1.5rem; }
   width: auto;
 }
 
+/* ---- Smart Functions: Text to Speech controls ---- */
+.tts-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.125rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.tts-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.tts-textarea {
+  width: 100%;
+  min-height: 140px;
+  padding: 0.75rem 0.875rem;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.tts-textarea:focus {
+  outline: 2px solid #7c3aed;
+  outline-offset: 1px;
+  border-color: transparent;
+}
+
+.tts-char-count {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+.tts-voice-row {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.tts-voice-row label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.tts-voice-row select {
+  flex: 1;
+  max-width: 220px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9375rem;
+  font-family: inherit;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* ---- Smart Functions: Speech to Text inline transcript ---- */
+.stt-transcript {
+  margin: 0.625rem 0 0;
+  padding: 0.875rem 1rem;
+  max-height: 320px;
+  overflow-y: auto;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
 /* ---- Compression stat ---- */
 .compression-stat {
   font-size: 0.75rem;
