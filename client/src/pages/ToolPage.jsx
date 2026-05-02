@@ -8,11 +8,12 @@ import { getToolBySlug, getToolLabel, getToolDescription, ADVANCED_SETTINGS } fr
 import { useToast } from '../components/Toast';
 
 // Credit packs surfaced in the no-credits modal. Mirrors PACK_IDS in
-// Pricing.jsx; kept in sync manually.
+// Pricing.jsx; kept in sync manually. The label is a translation key
+// resolved at render time so the modal localises with the active language.
 const CREDIT_PACKS = [
-  { id: 'pack1',  credits: 1,  price: '0.99', label: 'Single conversion' },
-  { id: 'pack10', credits: 10, price: '7.99', label: '10 conversions', popular: true },
-  { id: 'pack30', credits: 30, price: '20.99', label: '30 conversions' },
+  { id: 'pack1',  credits: 1,  price: '0.99',  labelKey: 'tool.packLabelSingle' },
+  { id: 'pack10', credits: 10, price: '7.99',  labelKey: 'tool.packLabel10', popular: true },
+  { id: 'pack30', credits: 30, price: '20.99', labelKey: 'tool.packLabel30' },
 ];
 
 function formatToolName(slug) {
@@ -853,7 +854,7 @@ export default function ToolPage() {
                 }}
               >
                 <span aria-hidden="true">●</span>
-                {(authState.credits ?? 0)} credit{(authState.credits ?? 0) === 1 ? '' : 's'}
+                {t((authState.credits ?? 0) === 1 ? 'tool.creditPillSingular' : 'tool.creditPillPlural', { count: authState.credits ?? 0 })}
               </span>
             )}
 
@@ -933,13 +934,13 @@ export default function ToolPage() {
           >
             {modal === 'guest' && (
               <>
-                <h2 style={{ margin: '0 0 0.5rem' }}>Create a free account to start converting</h2>
+                <h2 style={{ margin: '0 0 0.5rem' }}>{t('tool.guestModalTitle')}</h2>
                 <p style={{ margin: '0 0 1.25rem', color: 'var(--text-muted)' }}>
-                  You'll need an account to use the conversion tools.
+                  {t('tool.guestModalBody')}
                 </p>
                 <div style={{ display: 'flex', gap: '0.625rem', flexWrap: 'wrap' }}>
-                  <button className="btn-primary" onClick={() => navigate('/register')} type="button">Register</button>
-                  <button className="btn-ghost" onClick={() => navigate('/login')} type="button">Log in</button>
+                  <button className="btn-primary" onClick={() => navigate('/register')} type="button">{t('auth.register')}</button>
+                  <button className="btn-ghost" onClick={() => navigate('/login')} type="button">{t('auth.logIn')}</button>
                   <button className="btn-ghost" onClick={() => setModal(null)} type="button" style={{ marginLeft: 'auto' }}>{t('common.cancel')}</button>
                 </div>
               </>
@@ -947,9 +948,9 @@ export default function ToolPage() {
 
             {modal === 'no_credits' && (
               <>
-                <h2 style={{ margin: '0 0 0.5rem' }}>You need credits to convert files</h2>
+                <h2 style={{ margin: '0 0 0.5rem' }}>{t('tool.noCreditsModalTitle')}</h2>
                 <p style={{ margin: '0 0 1rem', color: 'var(--text-muted)' }}>
-                  Choose a pack to get started:
+                  {t('tool.noCreditsModalBody')}
                 </p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem', marginBottom: '1rem' }}>
                   {CREDIT_PACKS.map((pack) => (
@@ -965,13 +966,13 @@ export default function ToolPage() {
                     >
                       <div>
                         <div style={{ fontWeight: 600 }}>
-                          {pack.label}
+                          {t(pack.labelKey)}
                           {pack.popular && (
                             <span style={{
                               marginLeft: '0.5rem', fontSize: '0.6875rem', fontWeight: 700,
                               padding: '0.125rem 0.5rem', borderRadius: '999px',
                               background: 'linear-gradient(135deg, #7c3aed, #ec4899)', color: '#fff',
-                            }}>POPULAR</span>
+                            }}>{t('tool.popularPackBadge')}</span>
                           )}
                         </div>
                         <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>€{pack.price}</div>
@@ -982,7 +983,7 @@ export default function ToolPage() {
                         disabled={!!buyingPack}
                         type="button"
                       >
-                        {buyingPack === pack.id ? t('pricing.redirecting') : 'Buy'}
+                        {buyingPack === pack.id ? t('pricing.redirecting') : t('tool.buyBtn')}
                       </button>
                     </div>
                   ))}
@@ -995,13 +996,13 @@ export default function ToolPage() {
 
             {modal === 'confirm' && (
               <>
-                <h2 style={{ margin: '0 0 0.5rem' }}>Confirm conversion</h2>
+                <h2 style={{ margin: '0 0 0.5rem' }}>{t('tool.confirmModalTitle')}</h2>
                 <p style={{ margin: '0 0 1.25rem', color: 'var(--text)' }}>
-                  This conversion will use 1 credit. You have {authState.credits ?? 0} credit{(authState.credits ?? 0) === 1 ? '' : 's'} remaining.
+                  {t((authState.credits ?? 0) === 1 ? 'tool.confirmBodySingular' : 'tool.confirmBodyPlural', { count: authState.credits ?? 0 })}
                 </p>
                 <div style={{ display: 'flex', gap: '0.625rem', justifyContent: 'flex-end' }}>
                   <button className="btn-ghost" onClick={() => setModal(null)} type="button">{t('common.cancel')}</button>
-                  <button className="btn-primary" onClick={actuallyConvert} type="button" autoFocus>Confirm</button>
+                  <button className="btn-primary" onClick={actuallyConvert} type="button" autoFocus>{t('tool.confirmBtn')}</button>
                 </div>
               </>
             )}
