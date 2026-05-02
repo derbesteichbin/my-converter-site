@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { api } from '../api';
 import { useToast } from '../components/Toast';
+import SEO from '../components/SEO';
 
 // Toggle to re-enable payments. When false, Buy buttons render as a disabled
 // "Coming soon" button and a notice appears above the pricing cards.
@@ -79,6 +80,11 @@ export default function Pricing() {
 
   return (
     <div className="page">
+      <SEO
+        title="Pricing - Free Tier + Affordable Credit Packs"
+        path="/pricing"
+        description="Free 1-credit tier. Affordable conversion credit packs from €0.99. Pay-as-you-go file conversion with no subscription. Credits never expire."
+      />
       <h1 style={{ textAlign: 'center' }}>{t('pricing.title')}</h1>
       <p style={{ textAlign: 'center', color: 'var(--text-muted)', marginBottom: '2rem' }}>
         {t('pricing.subtitle')}

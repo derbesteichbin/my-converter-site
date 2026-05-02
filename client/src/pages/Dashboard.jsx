@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { api, API_URL } from '../api';
 import { getToolBySlug, getToolLabel } from '../toolsConfig';
+import SEO from '../components/SEO';
 import { useToast } from '../components/Toast';
 import { EmptyHistory } from '../components/EmptyState';
 import { SkeletonTable } from '../components/Skeleton';
@@ -86,6 +87,7 @@ export default function Dashboard() {
 
   return (
     <div className="page">
+      <SEO title="Dashboard" path="/dashboard" description="Your ConvertAnyFormat dashboard — recent tools, conversion history and credit balance." />
       <h1>{t('dash.title')}</h1>
 
       {recentTools.length > 0 && (

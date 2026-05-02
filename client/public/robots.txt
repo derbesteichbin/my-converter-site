@@ -1,0 +1,15 @@
+# Robots policy for ConvertAnyFormat (https://www.convertanyformat.com)
+# Generated 2026-05-02
+
+User-agent: *
+Allow: /
+
+# Don't waste crawl budget on user-only pages
+Disallow: /dashboard
+Disallow: /profile
+Disallow: /settings
+Disallow: /reset-password
+Disallow: /forgot-password
+
+# Sitemap
+Sitemap: https://www.convertanyformat.com/sitemap.xml

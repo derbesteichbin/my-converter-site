@@ -5,6 +5,7 @@ import { TOOLS, getCategories, getToolBySlug, getToolLabel } from '../toolsConfi
 import { api } from '../api';
 import { EmptyFavorites, EmptySearch } from '../components/EmptyState';
 import { SkeletonCard } from '../components/Skeleton';
+import SEO from '../components/SEO';
 
 const GRADIENTS_DARK = {
   Document: 'linear-gradient(135deg, #4c1d95, #3730a3)',
@@ -94,6 +95,11 @@ export default function Tools() {
 
   return (
     <div className="page">
+      <SEO
+        title="All Conversion Tools"
+        path="/tools"
+        description="Browse 50+ free online file conversion tools. PDF, Word, Excel, JPG, PNG, MP4, MP3 and more. Fast, secure conversions with no installation. Files deleted after 24 hours."
+      />
       <div className="tools-header">
         <h1>{t('toolsPage.title')}</h1>
         <span className="tools-shortcut-hint">{t('toolsPage.shortcutHint', { shortcut: 'Ctrl+K' })}</span>

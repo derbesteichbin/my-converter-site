@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
 import { api } from '../api';
+import SEO from '../components/SEO';
 
 function formatSize(bytes) {
   if (bytes < 1024) return bytes + ' B';
@@ -96,6 +97,11 @@ export default function MetadataPage() {
 
   return (
     <div className="page">
+      <SEO
+        title="File Info — View File Metadata"
+        path="/tools/view-metadata"
+        description="View file metadata online for free. Inspect dimensions, duration, author, camera info, codec, page count and more. Works with PDF, images, video and audio."
+      />
       <h1>{t('metadataPage.title')}</h1>
       <p style={{ color: '#666', marginBottom: '1.5rem' }}>{t('metadataPage.body')}</p>
 

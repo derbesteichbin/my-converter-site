@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { api, API_URL } from '../api';
 import PasswordInput from '../components/PasswordInput';
+import SEO from '../components/SEO';
 
 export default function Register() {
   const { t } = useTranslation();
@@ -55,6 +56,11 @@ export default function Register() {
 
   return (
     <div className="auth-page">
+      <SEO
+        title="Create a free account"
+        path="/register"
+        description="Sign up free to start converting files. 1 free conversion credit, no credit card required. Sign up by email or with Google."
+      />
       <form className="auth-form" onSubmit={handleSubmit}>
         <h1>{t('auth.createAccount')}</h1>
         {error && <p className="auth-error">{error}</p>}

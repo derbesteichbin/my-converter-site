@@ -126,7 +126,63 @@ export default function ToolPage() {
   const translatedLabel = getToolLabel(toolDef, t);
   const smartDescription = getToolDescription(toolDef, t);
   const seoTitle = toolDef ? `${translatedLabel} - Free Online Converter` : 'File Converter';
-  const seoDesc = toolDef ? `Convert ${toolDef.inputFormats?.join(', ')} to ${toolDef.outputFormats?.join(', ')} online for free. Fast, secure, no signup required.` : 'Free online file converter.';
+  // Build a keyword-rich description. For format-conversion tools we name
+  // the input/output formats explicitly (e.g. "PDF to DOCX") so the page
+  // ranks for that exact query, then layer in the trust/utility phrases
+  // ("fast", "no installation", "files deleted after 24 hours") that match
+  // how users phrase converter searches.
+  function buildSeoDesc() {
+    if (!toolDef) return 'Free online file converter. Fast, secure, no signup required. Files deleted after 24 hours.';
+    if (smartDescription) {
+      return `${smartDescription} Free online tool. No installation needed. Files deleted after 24 hours.`;
+    }
+    const fromList = (toolDef.inputFormats || []).map((f) => f.toUpperCase()).join(', ');
+    const toList = (toolDef.outputFormats || []).map((f) => f.toUpperCase()).join(', ');
+    if (toolDef.toolType === 'pdf-merge') {
+      return 'Merge multiple PDF files into one online for free. Combine PDFs in any order. Fast, accurate, no installation needed. Files deleted after 24 hours.';
+    }
+    if (toolDef.toolType === 'pdf-compress') {
+      return 'Compress PDF online for free. Reduce PDF file size while preserving quality. Fast, accurate compression. No installation needed. Files deleted after 24 hours.';
+    }
+    if (toolDef.toolType === 'pdf-split') {
+      return 'Split PDF online for free. Extract specific pages from a PDF. Fast, accurate, no installation needed. Files deleted after 24 hours.';
+    }
+    if (toolDef.toolType === 'pdf-rotate') {
+      return 'Rotate PDF online for free. Rotate PDF pages 90, 180 or 270 degrees. Fast, no installation needed. Files deleted after 24 hours.';
+    }
+    if (toolDef.toolType === 'pdf-protect') {
+      return 'Protect PDF with password online for free. Encrypt PDF files in seconds. Fast, secure, no installation needed. Files deleted after 24 hours.';
+    }
+    if (toolDef.toolType === 'pdf-unlock') {
+      return 'Unlock PDF online for free. Remove password protection from PDF files. Fast, secure, no installation needed. Files deleted after 24 hours.';
+    }
+    if (toolDef.toolType === 'metadata') {
+      return 'View file metadata online for free. Inspect dimensions, duration, author, codec, page count and more. No installation needed.';
+    }
+    return `Convert ${fromList} to ${toList} online for free. Fast, accurate ${fromList} to ${toList} conversion. No installation needed. Files deleted after 24 hours.`;
+  }
+  const seoDesc = buildSeoDesc();
+  const seoUrl = `https://www.convertanyformat.com/tools/${toolName}`;
+  const seoJsonLd = toolDef ? {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: `${translatedLabel} - ConvertAnyFormat`,
+    description: seoDesc,
+    url: seoUrl,
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any (web-based)',
+    browserRequirements: 'Requires JavaScript and modern browser',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'EUR',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'ConvertAnyFormat',
+      url: 'https://www.convertanyformat.com',
+    },
+  } : null;
 
   const [files, setFiles] = useState([]);
   const [outputFormat, setOutputFormat] = useState(() => getSavedFormat(toolName, formats[0]));
@@ -547,7 +603,12 @@ export default function ToolPage() {
 
   return (
     <div className="page">
-      <SEO title={translatedLabel || toolName} description={seoDesc} path={`/tools/${toolName}`} />
+      <SEO
+        title={translatedLabel || toolName}
+        description={seoDesc}
+        path={`/tools/${toolName}`}
+        jsonLd={seoJsonLd}
+      />
       {offline && <div className="offline-banner" role="alert">{t('tool.offline')}</div>}
       <h1>{translatedLabel || formatToolName(toolName)}</h1>
 
