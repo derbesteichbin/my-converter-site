@@ -201,6 +201,17 @@ const en = {
     languageHintLabel: 'Language',
     languageAuto: 'Auto Detect',
     sttTranscriptLabel: 'Transcript',
+    voiceDesc: {
+      alloy: 'Neutral and balanced — general use',
+      echo: 'Male, warm tone — storytelling',
+      fable: 'British accent, expressive — audiobooks',
+      onyx: 'Deep and authoritative — presentations',
+      nova: 'Female, friendly and clear — customer service',
+      shimmer: 'Female, soft and gentle — meditation',
+    },
+    recordBtn: 'Record from microphone',
+    stopRecording: 'Stop recording',
+    micPermissionDenied: 'Microphone access denied. Check your browser permissions and try again.',
   },
   dash: {
     title: 'Dashboard',

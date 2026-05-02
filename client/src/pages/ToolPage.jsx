@@ -111,6 +111,11 @@ function validateFileType(file, toolDef) {
 const PDF_TOOL_TYPES = new Set(['pdf-merge', 'pdf-split', 'pdf-compress', 'pdf-rotate', 'pdf-protect', 'pdf-unlock']);
 const TTS_VOICES = ['alloy', 'echo', 'fable', 'onyx', 'nova', 'shimmer'];
 const TTS_SPEEDS = [0.75, 1.0, 1.25, 1.5];
+
+// Display name + description i18n key for each voice. The description
+// values live in i18n.js so they translate; the names stay capitalised
+// English (they're proper names of OpenAI voices).
+const VOICE_DESC_KEY = (id) => `tool.voiceDesc.${id}`;
 const WHISPER_LANGUAGE_HINTS = [
   ['auto', 'Auto Detect'],
   ['en', 'English'],
@@ -221,6 +226,13 @@ export default function ToolPage() {
   const [ttsVoice, setTtsVoice] = useState('alloy');
   const [ttsSpeed, setTtsSpeed] = useState('1');
   const [languageHint, setLanguageHint] = useState('auto');
+
+  // Speech-to-Text microphone recording state
+  const [recording, setRecording] = useState(false);
+  const [recordSeconds, setRecordSeconds] = useState(0);
+  const recorderRef = useRef(null);
+  const recordTimerRef = useRef(null);
+  const recordChunksRef = useRef([]);
 
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [advancedValues, setAdvancedValues] = useState({});
@@ -452,6 +464,74 @@ export default function ToolPage() {
     if (progressRef.current) clearInterval(progressRef.current);
     progressRef.current = null;
     setProgress(100);
+  }
+
+  // ── Speech-to-Text microphone recording ──────────────────────────
+  async function startRecording() {
+    if (recording) return;
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      // Let the browser pick its preferred container (Chrome/Firefox: webm
+      // with Opus; Safari: mp4 with AAC). Both are accepted by Whisper.
+      const recorder = new MediaRecorder(stream);
+      recordChunksRef.current = [];
+      recorder.ondataavailable = (e) => {
+        if (e.data.size > 0) recordChunksRef.current.push(e.data);
+      };
+      recorder.onstop = () => {
+        stream.getTracks().forEach((t) => t.stop());
+        if (recordTimerRef.current) {
+          clearInterval(recordTimerRef.current);
+          recordTimerRef.current = null;
+        }
+        const mimeType = recorder.mimeType || 'audio/webm';
+        const ext = mimeType.includes('mp4') ? 'mp4' : 'webm';
+        const blob = new Blob(recordChunksRef.current, { type: mimeType });
+        if (blob.size === 0) {
+          setRecording(false);
+          setRecordSeconds(0);
+          return;
+        }
+        const file = new File([blob], `recording-${Date.now()}.${ext}`, { type: mimeType });
+        setFiles([file]);
+        setRecording(false);
+        setRecordSeconds(0);
+        setOverallStatus('idle');
+        setBatchJobs([]);
+        setError('');
+      };
+      recorder.start();
+      recorderRef.current = recorder;
+      setRecording(true);
+      setRecordSeconds(0);
+      recordTimerRef.current = setInterval(() => {
+        setRecordSeconds((s) => s + 1);
+      }, 1000);
+    } catch (err) {
+      toast(t('tool.micPermissionDenied'), 'error');
+    }
+  }
+
+  function stopRecording() {
+    if (recorderRef.current && recorderRef.current.state !== 'inactive') {
+      recorderRef.current.stop();
+    }
+  }
+
+  // Stop recording + clear timer if the component unmounts mid-record
+  useEffect(() => {
+    return () => {
+      if (recorderRef.current && recorderRef.current.state !== 'inactive') {
+        try { recorderRef.current.stop(); } catch { /* ignore */ }
+      }
+      if (recordTimerRef.current) clearInterval(recordTimerRef.current);
+    };
+  }, []);
+
+  function formatRecordTime(seconds) {
+    const mm = Math.floor(seconds / 60).toString().padStart(2, '0');
+    const ss = (seconds % 60).toString().padStart(2, '0');
+    return `${mm}:${ss}`;
   }
 
   function handleConvert() {
@@ -845,14 +925,30 @@ export default function ToolPage() {
             maxLength={4096}
           />
           <p className="tts-char-count">{ttsText.length} / 4096</p>
-          <div className="tts-voice-row">
-            <label htmlFor="tts-voice">{t('tool.ttsVoiceLabel')}</label>
-            <select id="tts-voice" value={ttsVoice} onChange={(e) => setTtsVoice(e.target.value)}>
-              {TTS_VOICES.map((v) => (
-                <option key={v} value={v}>{v.charAt(0).toUpperCase() + v.slice(1)}</option>
-              ))}
-            </select>
+
+          <div className="voice-section">
+            <span className="voice-section-label">{t('tool.ttsVoiceLabel')}</span>
+            <div className="voice-cards" role="radiogroup" aria-label={t('tool.ttsVoiceLabel')}>
+              {TTS_VOICES.map((v) => {
+                const selected = ttsVoice === v;
+                return (
+                  <label key={v} className={`voice-card ${selected ? 'voice-card-selected' : ''}`}>
+                    <input
+                      type="radio"
+                      name="tts-voice"
+                      value={v}
+                      checked={selected}
+                      onChange={() => setTtsVoice(v)}
+                      className="voice-card-input"
+                    />
+                    <span className="voice-card-name">{v.charAt(0).toUpperCase() + v.slice(1)}</span>
+                    <span className="voice-card-desc">{t(VOICE_DESC_KEY(v))}</span>
+                  </label>
+                );
+              })}
+            </div>
           </div>
+
           <div className="tts-voice-row">
             <label htmlFor="tts-speed">{t('tool.ttsSpeedLabel')}</label>
             <select id="tts-speed" value={ttsSpeed} onChange={(e) => setTtsSpeed(e.target.value)}>
@@ -861,6 +957,25 @@ export default function ToolPage() {
               ))}
             </select>
           </div>
+        </div>
+      )}
+
+      {/* Speech to Text: microphone recording controls. Shown when no file
+          uploaded yet — recording stops with a Blob that gets pushed into
+          the files state, so the existing convert flow handles the rest. */}
+      {isStt && overallStatus === 'idle' && !files.length && (
+        <div className="record-controls">
+          {!recording ? (
+            <button type="button" className="btn-ghost record-btn" onClick={startRecording}>
+              <span aria-hidden="true" className="record-icon">●</span>
+              {t('tool.recordBtn')}
+            </button>
+          ) : (
+            <button type="button" className="btn-primary record-btn record-btn-stop" onClick={stopRecording}>
+              <span aria-hidden="true" className="record-icon record-icon-pulsing">■</span>
+              {t('tool.stopRecording')} <span className="record-timer">{formatRecordTime(recordSeconds)}</span>
+            </button>
+          )}
         </div>
       )}
 

@@ -1868,6 +1868,115 @@ h2 { font-size: 1.5rem; }
   color: var(--text);
 }
 
+/* ---- Smart Functions: TTS voice radio cards ---- */
+.voice-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.voice-section-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.voice-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.5rem;
+}
+
+.voice-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.75rem 0.875rem;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.voice-card:hover {
+  border-color: var(--border-hover);
+}
+
+.voice-card-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.voice-card-selected {
+  border-color: #7c3aed;
+  background: rgba(124, 58, 237, 0.08);
+}
+
+[data-theme="dark"] .voice-card-selected {
+  background: rgba(139, 92, 246, 0.16);
+  border-color: #8b5cf6;
+}
+
+.voice-card-name {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--text);
+}
+
+.voice-card-desc {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+@media (max-width: 480px) {
+  .voice-cards { grid-template-columns: 1fr 1fr; }
+  .voice-card { padding: 0.625rem 0.75rem; }
+  .voice-card-desc { font-size: 0.6875rem; }
+}
+
+/* ---- Smart Functions: STT microphone recording ---- */
+.record-controls {
+  display: flex;
+  justify-content: center;
+  margin: -0.5rem 0 1.25rem;
+}
+
+.record-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9375rem;
+  padding: 0.625rem 1.25rem;
+}
+
+.record-icon {
+  font-size: 0.75rem;
+  color: #ef4444;
+}
+
+.record-btn-stop .record-icon {
+  color: #fff;
+}
+
+.record-icon-pulsing {
+  animation: record-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes record-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.record-timer {
+  font-variant-numeric: tabular-nums;
+  margin-left: 0.25rem;
+  opacity: 0.9;
+}
+
 /* ---- Smart Functions: Speech to Text inline transcript ---- */
 .stt-transcript {
   margin: 0.625rem 0 0;

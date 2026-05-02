@@ -70,7 +70,7 @@ const VALID_TOOLS = {
   'ocr':             { inputFormats: ['pdf', 'jpg', 'jpeg', 'png', 'tiff', 'tif'], outputFormats: ['pdf', 'txt'] },
   'pdf-compress-ai': { inputFormats: ['pdf'], outputFormats: ['pdf'], toolType: 'pdf-compress' },
   'text-to-speech':  { inputFormats: ['txt'], outputFormats: ['mp3', 'opus', 'aac'], toolType: 'smart' },
-  'speech-to-text':  { inputFormats: ['mp3', 'wav', 'm4a', 'ogg', 'mp4'], outputFormats: ['txt', 'docx'], toolType: 'smart' },
+  'speech-to-text':  { inputFormats: ['mp3', 'wav', 'm4a', 'ogg', 'mp4', 'webm'], outputFormats: ['txt', 'docx'], toolType: 'smart' },
   'auto-subtitle':   { inputFormats: ['mp4', 'mov', 'avi', 'mkv'], outputFormats: ['srt', 'vtt'], toolType: 'smart' },
 };
 
