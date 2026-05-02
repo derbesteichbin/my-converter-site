@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import App from './App.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
+import ScrollToTop from './components/ScrollToTop.jsx';
 import { ToastProvider } from './components/Toast.jsx';
 import './i18n';
 import './index.css';
@@ -39,6 +40,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <HelmetProvider>
     <ToastProvider>
     <BrowserRouter>
+      <ScrollToTop />
       <Suspense fallback={<Loading />}>
       <Routes>
         <Route path="/login" element={<Login />} />
