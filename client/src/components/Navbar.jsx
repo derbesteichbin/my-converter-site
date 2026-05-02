@@ -28,11 +28,22 @@ function getInitialTheme() {
   catch { return 'light'; }
 }
 
+function isMobileViewport() {
+  if (typeof window === 'undefined') return false;
+  return window.innerWidth < 768;
+}
+
 export default function Navbar({ scrolled = false }) {
   const { t, i18n } = useTranslation();
   const [loggedIn, setLoggedIn] = useState(false);
   const [theme, setTheme] = useState(getInitialTheme);
   const [menuOpen, setMenuOpen] = useState(false);
+  // Inline display style for the hamburger — bypasses any CSS specificity
+  // issues by setting it directly on the element. Initialised from
+  // window.innerWidth so the first paint is correct (no flicker on mobile).
+  const [hamburgerStyle, setHamburgerStyle] = useState(() => ({
+    display: isMobileViewport() ? 'flex' : 'none',
+  }));
   const navigate = useNavigate();
   const location = useLocation();
   const panelRef = useRef(null);
@@ -41,6 +52,19 @@ export default function Navbar({ scrolled = false }) {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
   }, [theme]);
+
+  // Show the hamburger on viewports < 768px, hide it otherwise. The inline
+  // style wins over any !important rule in the stylesheet.
+  useEffect(() => {
+    function update() {
+      setHamburgerStyle({ display: isMobileViewport() ? 'flex' : 'none' });
+    }
+    window.addEventListener('resize', update);
+    // Run once on mount in case innerWidth changed between SSR-safe init
+    // and effect run (e.g. orientation rotation during load).
+    update();
+    return () => window.removeEventListener('resize', update);
+  }, []);
 
   // Refresh auth state on route change AND when the mobile menu opens.
   useEffect(() => {
@@ -94,6 +118,36 @@ export default function Navbar({ scrolled = false }) {
         <span>ConvertAnyFormat</span>
       </Link>
 
+      {/* ---- Mobile hamburger ----
+          Placed immediately after the logo per request. Logo uses
+          margin-right: auto, so on mobile (where the desktop sections are
+          hidden) the hamburger ends up on the right edge anyway. The
+          display value is controlled by an inline style driven by a
+          window.innerWidth listener — bypasses any CSS specificity
+          conflicts that could hide it. */}
+      <button
+        className="mobile-nav-toggle"
+        style={hamburgerStyle}
+        onClick={() => setMenuOpen((v) => !v)}
+        aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+        aria-expanded={menuOpen}
+        aria-controls="mobile-nav-panel"
+        type="button"
+      >
+        {menuOpen ? (
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
+            <line x1="6" y1="6" x2="18" y2="18" />
+            <line x1="6" y1="18" x2="18" y2="6" />
+          </svg>
+        ) : (
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
+            <line x1="4" y1="7" x2="20" y2="7" />
+            <line x1="4" y1="12" x2="20" y2="12" />
+            <line x1="4" y1="17" x2="20" y2="17" />
+          </svg>
+        )}
+      </button>
+
       {/* ---- Desktop nav (hidden on mobile via CSS) ---- */}
       <div className="navbar-desktop-links">
         <Link to="/tools">{t('nav.tools')}</Link>
@@ -124,29 +178,6 @@ export default function Navbar({ scrolled = false }) {
           </>
         )}
       </div>
-
-      {/* ---- Mobile hamburger (hidden on desktop via CSS) ---- */}
-      <button
-        className="mobile-nav-toggle"
-        onClick={() => setMenuOpen((v) => !v)}
-        aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-        aria-expanded={menuOpen}
-        aria-controls="mobile-nav-panel"
-        type="button"
-      >
-        {menuOpen ? (
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
-            <line x1="6" y1="6" x2="18" y2="18" />
-            <line x1="6" y1="18" x2="18" y2="6" />
-          </svg>
-        ) : (
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
-            <line x1="4" y1="7" x2="20" y2="7" />
-            <line x1="4" y1="12" x2="20" y2="12" />
-            <line x1="4" y1="17" x2="20" y2="17" />
-          </svg>
-        )}
-      </button>
 
       {/* ---- Mobile dropdown panel (full-width, drops down from navbar) ---- */}
       {menuOpen && (
