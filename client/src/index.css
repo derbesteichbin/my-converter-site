@@ -402,12 +402,15 @@ h2 { font-size: 1.5rem; }
   margin-right: auto;
 }
 
-.navbar-links {
+.navbar-links,
+.navbar-desktop-links {
   display: flex;
-  gap: 1.25rem;
+  align-items: center;
+  gap: 1.75rem;
 }
 
-.navbar-links a {
+.navbar-links a,
+.navbar-desktop-links a {
   color: var(--text-muted);
   text-decoration: none;
   font-size: 0.9375rem;
@@ -415,7 +418,8 @@ h2 { font-size: 1.5rem; }
   transition: color 0.2s;
 }
 
-.navbar-links a:hover {
+.navbar-links a:hover,
+.navbar-desktop-links a:hover {
   color: var(--text);
 }
 
@@ -433,11 +437,13 @@ h2 { font-size: 1.5rem; }
   background-clip: text;
 }
 
-.navbar-links a:hover {
+.navbar-links a:hover,
+.navbar-desktop-links a:hover {
   color: #111;
 }
 
-.navbar-auth {
+.navbar-auth,
+.navbar-desktop-actions {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -1622,7 +1628,8 @@ h2 { font-size: 1.5rem; }
   border-color: var(--border);
 }
 
-[data-theme="dark"] .navbar-links a {
+[data-theme="dark"] .navbar-links a,
+[data-theme="dark"] .navbar-desktop-links a {
   color: var(--text-muted);
 }
 
