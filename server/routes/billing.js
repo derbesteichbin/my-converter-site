@@ -151,7 +151,7 @@ router.post('/contact', protect, async (req, res) => {
     if (resend) {
       await resend.emails.send({
         from: 'ConvertAnyFormat <noreply@convertanyformat.com>',
-        to: process.env.CONTACT_EMAIL || 'support@convertanyformat.com',
+        to: process.env.CONTACT_EMAIL || 'Support@convertanyformat.com',
         subject: `Business inquiry from ${name}`,
         html: `<p><strong>Name:</strong> ${name}</p><p><strong>Company Email:</strong> ${companyEmail}</p><p><strong>Description:</strong></p><p>${description}</p>`,
       });

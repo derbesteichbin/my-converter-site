@@ -24,7 +24,7 @@ export default function Impressum() {
       <section>
         <h2>Kontakt</h2>
         <p>
-          E-Mail: <a href="mailto:support@convertanyformat.com">support@convertanyformat.com</a>
+          E-Mail: <a href="mailto:Support@convertanyformat.com">Support@convertanyformat.com</a>
         </p>
       </section>
 

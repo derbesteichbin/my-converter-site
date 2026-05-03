@@ -11,7 +11,7 @@ const I18N = path.join(__dirname, '..', 'client', 'src', 'i18n.js');
 const TRANS = path.join(__dirname, '..', 'client', 'src', 'i18n-translations.js');
 
 // Languages explicitly in scope per project policy
-const TARGET_LANGS = ['de', 'fr', 'es', 'it', 'pt', 'nl', 'pl', 'sv', 'no'];
+const TARGET_LANGS = ['de', 'fr', 'es', 'it', 'pt', 'nl', 'pl', 'sv', 'no', 'da', 'fi', 'cs', 'ro', 'hu', 'el', 'tr'];
 
 // =====================================================================
 // Source-parse the `const en = { ... };` literal from i18n.js using a

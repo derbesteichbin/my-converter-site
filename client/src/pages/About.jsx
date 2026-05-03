@@ -45,7 +45,7 @@ export default function About() {
         <h2>Get in touch</h2>
         <p>
           Questions, feedback, or partnership ideas? Email us at{' '}
-          <a href="mailto:support@convertanyformat.com">support@convertanyformat.com</a>
+          <a href="mailto:Support@convertanyformat.com">Support@convertanyformat.com</a>
           {' '}or use our <Link to="/contact">Contact page</Link>.
         </p>
       </section>

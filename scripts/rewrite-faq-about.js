@@ -44,7 +44,7 @@ const enFaq = {
   a8: 'No. Deletion is permanent and irreversible. We do not maintain backups of user files (database backups exclude file data on purpose). Once the 24-hour window expires the files are removed from primary storage and from any backup snapshots within minutes. This is intentional design: it minimises your data exposure, it supports your GDPR right to erasure under Art. 17, and it lets us promise that no third party can subpoena old files we no longer have. Always download your converted files within 24 hours and store them somewhere safe locally.',
 
   q9: 'What is the maximum file size?',
-  a9: 'Standard format conversions accept files up to 200 MB each. Smart Functions tools (OCR, Text-to-Speech, Speech-to-Text, Auto Subtitle Generator) are limited to 25 MB per file because that is the hard limit imposed by the OpenAI API. If your file exceeds these limits you have a few options: split it locally first (most video editors and the ffmpeg command-line tool can do this), convert each piece separately, then merge afterwards. For very large enterprise needs — recurring multi-gigabyte transcoding, batch processing, or higher rate limits — please contact us at support@convertanyformat.com to discuss custom arrangements.',
+  a9: 'Standard format conversions accept files up to 200 MB each. Smart Functions tools (OCR, Text-to-Speech, Speech-to-Text, Auto Subtitle Generator) are limited to 25 MB per file because that is the hard limit imposed by the OpenAI API. If your file exceeds these limits you have a few options: split it locally first (most video editors and the ffmpeg command-line tool can do this), convert each piece separately, then merge afterwards. For very large enterprise needs — recurring multi-gigabyte transcoding, batch processing, or higher rate limits — please contact us at Support@convertanyformat.com to discuss custom arrangements.',
 
   q10: 'Which browsers are supported?',
   a10: 'All modern browsers updated within the last two years: Chrome 90+, Firefox 90+, Safari 14+, Edge 90+, plus most mobile browsers including Samsung Internet, Opera, and Brave. JavaScript and cookies must be enabled. For the Speech-to-Text microphone recording feature you will need to grant browser microphone permission when prompted. We do not officially support Internet Explorer or browsers that have not received security updates in over two years; the site may still work but we cannot guarantee correct behaviour.',
@@ -53,7 +53,7 @@ const enFaq = {
   a11: 'Yes — {{brand}} is fully mobile-optimised. The interface adapts to phone screens from 320 px upwards, tool cards display in a comfortable 2-column grid on small screens, and every feature including upload, conversion, download, and Smart Functions works on iOS Safari and Android Chrome. For audio you can record directly from your phone microphone using the in-page recorder rather than uploading a file. The site is also installable as a Progressive Web App, so you can add it to your home screen and launch it like a native app, with offline-friendly caching of the interface.',
 
   q12: 'How do I cancel or get a refund?',
-  a12: 'There are no recurring subscriptions, so there is nothing to cancel — credits are one-time prepaid purchases that never expire. To request a refund on unused credits, email support@convertanyformat.com from your account email within 14 days of purchase, in line with the German Fernabsatzgesetz. Refunds are processed within 5 to 10 business days back to the original payment method. Used credits are normally non-refundable, but if a conversion failed because of a problem on our side and we did not auto-credit you, mention it in your message and we will refund or re-credit on a case-by-case basis. To delete your account entirely, visit your Profile page and use the Delete Account button in the Danger Zone.',
+  a12: 'There are no recurring subscriptions, so there is nothing to cancel — credits are one-time prepaid purchases that never expire. To request a refund on unused credits, email Support@convertanyformat.com from your account email within 14 days of purchase, in line with the German Fernabsatzgesetz. Refunds are processed within 5 to 10 business days back to the original payment method. Used credits are normally non-refundable, but if a conversion failed because of a problem on our side and we did not auto-credit you, mention it in your message and we will refund or re-credit on a case-by-case basis. To delete your account entirely, visit your Profile page and use the Delete Account button in the Danger Zone.',
 
   q13: 'What are the Smart Functions tools?',
   a13: 'Smart Functions are AI-powered tools that go beyond pure format conversion. The current line-up: OCR (extracts editable text from scanned PDFs and images), PDF Compress with AI (intelligently reduces PDF file size while preserving readability), Text to Speech (generates natural-sounding MP3, OPUS, or AAC audio from typed or uploaded text using OpenAI TTS-1), Speech to Text (transcribes audio to TXT or DOCX using OpenAI Whisper, with optional language hint), and the Auto Subtitle Generator (creates timed SRT or VTT subtitle files from video). These tools are billed by usage rather than a flat per-file rate so you only pay for what you use.',
@@ -77,7 +77,7 @@ const enFaq = {
   a19: 'Click your name in the navigation bar to reach your Profile page. From there you can update your email address (a verification email is sent to the new address before the change takes effect), set or change your display name, change your password (you need your current one), configure email notification preferences, view your conversion history and credit balance, generate or rotate an API key for integrations, find your referral code, and — at the bottom of the page in the Danger Zone — permanently delete your account. Account deletion removes all associated data within 30 days, except records we are legally required to retain.',
 
   q20: 'How do I contact support?',
-  a20: 'Email us anytime at support@convertanyformat.com. We aim to respond within 24 hours on business days and within 48 hours on weekends. For data-protection enquiries (GDPR rights, deletion requests, complaints) please use the same email and mention "Datenschutz" or "GDPR" in the subject line — those are routed with priority. You can also use the contact form on the /contact page. We do not currently offer phone support, but we are happy to schedule a video call for enterprise enquiries or partnership discussions; please mention this in your initial email.',
+  a20: 'Email us anytime at Support@convertanyformat.com. We aim to respond within 24 hours on business days and within 48 hours on weekends. For data-protection enquiries (GDPR rights, deletion requests, complaints) please use the same email and mention "Datenschutz" or "GDPR" in the subject line — those are routed with priority. You can also use the contact form on the /contact page. We do not currently offer phone support, but we are happy to schedule a video call for enterprise enquiries or partnership discussions; please mention this in your initial email.',
 };
 
 // =====================================================================
@@ -160,7 +160,7 @@ const deFaq = {
   a8: 'Nein. Die Löschung ist endgültig und unwiderruflich. Wir führen keine Backups von Nutzerdateien (Datenbank-Backups schließen Dateidaten bewusst aus). Nach Ablauf der 24-Stunden-Frist werden die Dateien aus dem Primärspeicher und aus allen Backup-Snapshots innerhalb weniger Minuten entfernt. Das ist beabsichtigt: Es minimiert Ihre Datenexposition und unterstützt Ihr DSGVO-Recht auf Löschung nach Art. 17. Laden Sie konvertierte Dateien immer innerhalb von 24 Stunden herunter und sichern Sie sie lokal.',
 
   q9: 'Wie groß darf eine Datei maximal sein?',
-  a9: 'Standardkonvertierungen akzeptieren Dateien bis 200 MB. Smart-Functions-Werkzeuge (OCR, Text-zu-Sprache, Sprache-zu-Text, Untertitelgenerator) sind auf 25 MB pro Datei begrenzt — das ist die harte Grenze der OpenAI-API. Bei größeren Dateien können Sie sie lokal aufteilen (z. B. mit ffmpeg), jeden Teil separat konvertieren und anschließend wieder zusammenfügen. Für sehr große Geschäftsanforderungen schreiben Sie bitte an support@convertanyformat.com — wir besprechen gerne individuelle Lösungen.',
+  a9: 'Standardkonvertierungen akzeptieren Dateien bis 200 MB. Smart-Functions-Werkzeuge (OCR, Text-zu-Sprache, Sprache-zu-Text, Untertitelgenerator) sind auf 25 MB pro Datei begrenzt — das ist die harte Grenze der OpenAI-API. Bei größeren Dateien können Sie sie lokal aufteilen (z. B. mit ffmpeg), jeden Teil separat konvertieren und anschließend wieder zusammenfügen. Für sehr große Geschäftsanforderungen schreiben Sie bitte an Support@convertanyformat.com — wir besprechen gerne individuelle Lösungen.',
 
   q10: 'Welche Browser werden unterstützt?',
   a10: 'Alle modernen Browser, die in den letzten zwei Jahren aktualisiert wurden: Chrome 90+, Firefox 90+, Safari 14+, Edge 90+ sowie die meisten mobilen Browser einschließlich Samsung Internet, Opera und Brave. JavaScript und Cookies müssen aktiviert sein. Für die Mikrofon-Aufnahme bei Sprache-zu-Text müssen Sie der Mikrofonberechtigung zustimmen. Internet Explorer und Browser ohne Sicherheitsupdates aus den letzten zwei Jahren werden nicht offiziell unterstützt.',
@@ -169,7 +169,7 @@ const deFaq = {
   a11: 'Ja — {{brand}} ist vollständig mobil optimiert. Die Oberfläche passt sich Bildschirmen ab 320 px an, Werkzeugkarten werden auf kleinen Bildschirmen in zwei Spalten angezeigt, und alle Funktionen einschließlich Upload, Konvertierung, Download und Smart Functions arbeiten auf iOS Safari und Android Chrome. Audio können Sie sogar direkt vom Handy-Mikrofon aufnehmen. Die Seite ist zusätzlich als Progressive Web App installierbar, sodass Sie sie zum Startbildschirm hinzufügen und wie eine native App starten können.',
 
   q12: 'Wie kündige ich oder erhalte eine Rückerstattung?',
-  a12: 'Es gibt keine wiederkehrenden Abonnements — Credits sind einmalige Käufe, die nicht verfallen. Für eine Rückerstattung nicht verbrauchter Credits schreiben Sie innerhalb von 14 Tagen nach dem Kauf an support@convertanyformat.com (gemäß Fernabsatzgesetz). Erstattungen werden innerhalb von 5–10 Werktagen auf das ursprüngliche Zahlungsmittel zurücküberwiesen. Verbrauchte Credits sind in der Regel nicht erstattungsfähig, außer bei Fehlern auf unserer Seite — schreiben Sie uns, wir prüfen jeden Fall einzeln. Ein Konto löschen Sie über Profil → Gefahrenzone.',
+  a12: 'Es gibt keine wiederkehrenden Abonnements — Credits sind einmalige Käufe, die nicht verfallen. Für eine Rückerstattung nicht verbrauchter Credits schreiben Sie innerhalb von 14 Tagen nach dem Kauf an Support@convertanyformat.com (gemäß Fernabsatzgesetz). Erstattungen werden innerhalb von 5–10 Werktagen auf das ursprüngliche Zahlungsmittel zurücküberwiesen. Verbrauchte Credits sind in der Regel nicht erstattungsfähig, außer bei Fehlern auf unserer Seite — schreiben Sie uns, wir prüfen jeden Fall einzeln. Ein Konto löschen Sie über Profil → Gefahrenzone.',
 
   q13: 'Was sind die Smart-Functions-Werkzeuge?',
   a13: 'Smart Functions sind KI-gestützte Werkzeuge, die über die reine Formatkonvertierung hinausgehen: OCR (extrahiert bearbeitbaren Text aus gescannten PDFs und Bildern), PDF mit KI komprimieren (intelligente PDF-Verkleinerung), Text-zu-Sprache (erzeugt natürlich klingendes MP3-, OPUS- oder AAC-Audio aus Text via OpenAI TTS-1), Sprache-zu-Text (transkribiert Audio zu TXT oder DOCX via OpenAI Whisper) und der automatische Untertitelgenerator (erstellt SRT- oder VTT-Untertiteldateien aus Videos). Diese Werkzeuge werden nutzungsbasiert abgerechnet.',
@@ -193,7 +193,7 @@ const deFaq = {
   a19: 'Klicken Sie auf Ihren Namen in der Navigation, um zur Profilseite zu gelangen. Dort können Sie Ihre E-Mail-Adresse aktualisieren (Bestätigung der neuen Adresse erforderlich), einen Anzeigenamen festlegen, Ihr Passwort ändern, E-Mail-Benachrichtigungen konfigurieren, Konvertierungsverlauf und Credit-Saldo ansehen, einen API-Schlüssel generieren oder rotieren, Ihren Empfehlungscode finden und — am Seitenende in der Gefahrenzone — Ihr Konto endgültig löschen. Die Kontolöschung entfernt alle zugehörigen Daten innerhalb von 30 Tagen.',
 
   q20: 'Wie kontaktiere ich den Support?',
-  a20: 'Schreiben Sie uns jederzeit an support@convertanyformat.com. Wir antworten an Werktagen innerhalb von 24 Stunden, am Wochenende innerhalb von 48 Stunden. Datenschutz-Anfragen (DSGVO-Rechte, Löschanträge, Beschwerden) bitte mit "Datenschutz" oder "GDPR" im Betreff — diese werden bevorzugt bearbeitet. Sie können auch das Kontaktformular auf der /contact-Seite nutzen. Telefonsupport bieten wir derzeit nicht an, für Geschäftsanfragen vereinbaren wir aber gerne einen Videocall — bitte erwähnen Sie das in Ihrer ersten E-Mail.',
+  a20: 'Schreiben Sie uns jederzeit an Support@convertanyformat.com. Wir antworten an Werktagen innerhalb von 24 Stunden, am Wochenende innerhalb von 48 Stunden. Datenschutz-Anfragen (DSGVO-Rechte, Löschanträge, Beschwerden) bitte mit "Datenschutz" oder "GDPR" im Betreff — diese werden bevorzugt bearbeitet. Sie können auch das Kontaktformular auf der /contact-Seite nutzen. Telefonsupport bieten wir derzeit nicht an, für Geschäftsanfragen vereinbaren wir aber gerne einen Videocall — bitte erwähnen Sie das in Ihrer ersten E-Mail.',
 };
 
 // =====================================================================
@@ -282,13 +282,13 @@ const frFaq = makeFaq('fr', {
   q8: 'Les fichiers peuvent-ils être récupérés après suppression ?',
   a8: 'Non. La suppression est définitive et irréversible. Nous ne conservons aucune sauvegarde des fichiers utilisateur (les sauvegardes de base de données excluent les fichiers volontairement). Cela soutient votre droit à l\'effacement (Art. 17 RGPD). Téléchargez toujours vos fichiers dans les 24 heures et conservez-les localement.',
   q9: 'Quelle est la taille maximale de fichier ?',
-  a9: '200 Mo par fichier pour les conversions standard. Les outils Smart Functions sont limités à 25 Mo par fichier (limite stricte de l\'API OpenAI). Pour des fichiers plus volumineux, divisez-les localement (par exemple avec ffmpeg) puis convertissez chaque partie. Pour des besoins entreprises, contactez support@convertanyformat.com.',
+  a9: '200 Mo par fichier pour les conversions standard. Les outils Smart Functions sont limités à 25 Mo par fichier (limite stricte de l\'API OpenAI). Pour des fichiers plus volumineux, divisez-les localement (par exemple avec ffmpeg) puis convertissez chaque partie. Pour des besoins entreprises, contactez Support@convertanyformat.com.',
   q10: 'Quels navigateurs sont pris en charge ?',
   a10: 'Tous les navigateurs modernes mis à jour depuis moins de deux ans : Chrome 90+, Firefox 90+, Safari 14+, Edge 90+, ainsi que la plupart des navigateurs mobiles. JavaScript et cookies activés requis. Pour l\'enregistrement microphone (Parole vers texte), accordez la permission lorsque demandée. Internet Explorer n\'est pas pris en charge.',
   q11: 'Le site fonctionne-t-il sur mobile ?',
   a11: 'Oui — entièrement optimisé pour mobile. L\'interface s\'adapte aux écrans à partir de 320 px, les cartes d\'outils s\'affichent en deux colonnes sur petit écran, et toutes les fonctionnalités y compris l\'enregistrement audio depuis le micro fonctionnent sur iOS Safari et Android Chrome. Installable en tant que Progressive Web App.',
   q12: 'Comment annuler ou obtenir un remboursement ?',
-  a12: 'Pas d\'abonnement à annuler — les crédits sont des achats uniques sans expiration. Pour rembourser des crédits non utilisés, écrivez à support@convertanyformat.com sous 14 jours après l\'achat (Fernabsatzgesetz). Remboursement sous 5–10 jours ouvrés. Les crédits utilisés ne sont normalement pas remboursables sauf défaillance de notre part. Suppression de compte via Profil → Zone dangereuse.',
+  a12: 'Pas d\'abonnement à annuler — les crédits sont des achats uniques sans expiration. Pour rembourser des crédits non utilisés, écrivez à Support@convertanyformat.com sous 14 jours après l\'achat (Fernabsatzgesetz). Remboursement sous 5–10 jours ouvrés. Les crédits utilisés ne sont normalement pas remboursables sauf défaillance de notre part. Suppression de compte via Profil → Zone dangereuse.',
   q13: 'Que sont les outils Smart Functions ?',
   a13: 'Outils alimentés par IA au-delà de la simple conversion : OCR (extrait le texte des PDF scannés et images), Compression PDF par IA, Texte vers parole (audio MP3/OPUS/AAC via OpenAI TTS-1), Parole vers texte (transcription TXT/DOCX via Whisper), et Générateur de sous-titres automatique (SRT/VTT depuis vidéo). Facturés à l\'usage.',
   q14: 'Qu\'est-ce que l\'OCR et quand l\'utiliser ?',
@@ -304,7 +304,7 @@ const frFaq = makeFaq('fr', {
   q19: 'Comment modifier les paramètres du compte ?',
   a19: 'Cliquez sur votre nom dans la barre de navigation pour accéder au Profil. Vous pouvez modifier votre email (avec vérification), définir un nom d\'affichage, changer le mot de passe, configurer les notifications, voir l\'historique et le solde, générer une clé API, trouver votre code de parrainage, et supprimer définitivement le compte (Zone dangereuse). La suppression efface toutes les données associées sous 30 jours.',
   q20: 'Comment contacter le support ?',
-  a20: 'Email à support@convertanyformat.com. Réponse sous 24h les jours ouvrés, 48h le week-end. Demandes RGPD : mentionnez "GDPR" en objet pour priorisation. Formulaire également disponible sur /contact. Pas de support téléphonique mais visioconférence sur demande pour les besoins entreprises.',
+  a20: 'Email à Support@convertanyformat.com. Réponse sous 24h les jours ouvrés, 48h le week-end. Demandes RGPD : mentionnez "GDPR" en objet pour priorisation. Formulaire également disponible sur /contact. Pas de support téléphonique mais visioconférence sur demande pour les besoins entreprises.',
 });
 
 const esFaq = makeFaq('es', {
@@ -328,13 +328,13 @@ const esFaq = makeFaq('es', {
   q8: '¿Pueden recuperarse los archivos eliminados?',
   a8: 'No. La eliminación es permanente e irreversible. No mantenemos copias de seguridad de archivos de usuario (las copias de la base de datos excluyen archivos a propósito). Esto respalda su derecho de supresión (Art. 17 RGPD). Descargue siempre sus archivos en 24 horas y guárdelos localmente.',
   q9: '¿Cuál es el tamaño máximo de archivo?',
-  a9: '200 MB por archivo para conversiones estándar. Smart Functions limitadas a 25 MB por archivo (límite estricto de la API OpenAI). Para archivos mayores, divídalos localmente (por ejemplo con ffmpeg) y convierta cada parte. Para necesidades empresariales, escriba a support@convertanyformat.com.',
+  a9: '200 MB por archivo para conversiones estándar. Smart Functions limitadas a 25 MB por archivo (límite estricto de la API OpenAI). Para archivos mayores, divídalos localmente (por ejemplo con ffmpeg) y convierta cada parte. Para necesidades empresariales, escriba a Support@convertanyformat.com.',
   q10: '¿Qué navegadores están soportados?',
   a10: 'Todos los navegadores modernos actualizados en los últimos dos años: Chrome 90+, Firefox 90+, Safari 14+, Edge 90+, y la mayoría de móviles. JavaScript y cookies habilitados requeridos. Para grabación de micrófono (Voz a texto), conceda permiso cuando se solicite. Internet Explorer no soportado.',
   q11: '¿Funciona en móvil?',
   a11: 'Sí — completamente optimizado para móvil. Interfaz adaptada desde 320 px, tarjetas de herramientas en dos columnas en pantallas pequeñas, y todas las funciones incluyendo grabación de audio desde el micrófono funcionan en iOS Safari y Android Chrome. Instalable como Progressive Web App.',
   q12: '¿Cómo cancelar u obtener reembolso?',
-  a12: 'Sin suscripciones que cancelar — los créditos son compras únicas sin caducidad. Para reembolso de créditos no usados, escriba a support@convertanyformat.com en 14 días tras la compra (Fernabsatzgesetz). Reembolso en 5–10 días hábiles. Créditos usados no reembolsables salvo fallo nuestro. Eliminar cuenta vía Perfil → Zona peligrosa.',
+  a12: 'Sin suscripciones que cancelar — los créditos son compras únicas sin caducidad. Para reembolso de créditos no usados, escriba a Support@convertanyformat.com en 14 días tras la compra (Fernabsatzgesetz). Reembolso en 5–10 días hábiles. Créditos usados no reembolsables salvo fallo nuestro. Eliminar cuenta vía Perfil → Zona peligrosa.',
   q13: '¿Qué son las herramientas Smart Functions?',
   a13: 'Herramientas con IA más allá de conversión: OCR (extrae texto de PDFs e imágenes escaneadas), Comprimir PDF con IA, Texto a voz (audio MP3/OPUS/AAC vía OpenAI TTS-1), Voz a texto (transcripción TXT/DOCX vía Whisper) y Generador automático de subtítulos (SRT/VTT desde vídeo). Facturados por uso.',
   q14: '¿Qué es el OCR y cuándo usarlo?',
@@ -350,7 +350,7 @@ const esFaq = makeFaq('es', {
   q19: '¿Cómo cambio los ajustes de cuenta?',
   a19: 'Haga clic en su nombre en la navegación para ir al Perfil. Allí puede actualizar email (con verificación), nombre de visualización, cambiar contraseña, configurar notificaciones, ver historial y saldo, generar clave API, encontrar código de referido, y eliminar la cuenta (Zona peligrosa). La eliminación borra todos los datos asociados en 30 días.',
   q20: '¿Cómo contactar con soporte?',
-  a20: 'Escriba a support@convertanyformat.com. Respuesta en 24h en días hábiles, 48h fines de semana. Consultas RGPD: incluya "GDPR" en el asunto para priorización. También formulario en /contact. Sin soporte telefónico, pero videollamada disponible para consultas empresariales.',
+  a20: 'Escriba a Support@convertanyformat.com. Respuesta en 24h en días hábiles, 48h fines de semana. Consultas RGPD: incluya "GDPR" en el asunto para priorización. También formulario en /contact. Sin soporte telefónico, pero videollamada disponible para consultas empresariales.',
 });
 
 const itFaq = makeFaq('it', {
@@ -374,13 +374,13 @@ const itFaq = makeFaq('it', {
   q8: 'I file possono essere recuperati dopo l\'eliminazione?',
   a8: 'No. L\'eliminazione è permanente e irreversibile. Non manteniamo backup dei file utente (i backup del database escludono i file di proposito). Questo supporta il tuo diritto alla cancellazione (Art. 17 GDPR). Scarica sempre i file convertiti entro 24 ore e conservali localmente.',
   q9: 'Qual è la dimensione massima del file?',
-  a9: '200 MB per file per le conversioni standard. Smart Functions limitate a 25 MB per file (limite rigido dell\'API OpenAI). Per file più grandi, dividili localmente (ad esempio con ffmpeg) e converti ogni parte. Per esigenze aziendali, scrivi a support@convertanyformat.com.',
+  a9: '200 MB per file per le conversioni standard. Smart Functions limitate a 25 MB per file (limite rigido dell\'API OpenAI). Per file più grandi, dividili localmente (ad esempio con ffmpeg) e converti ogni parte. Per esigenze aziendali, scrivi a Support@convertanyformat.com.',
   q10: 'Quali browser sono supportati?',
   a10: 'Tutti i browser moderni aggiornati negli ultimi due anni: Chrome 90+, Firefox 90+, Safari 14+, Edge 90+, e la maggior parte dei browser mobili. JavaScript e cookie devono essere attivi. Per la registrazione del microfono (Da voce a testo), concedi il permesso quando richiesto. Internet Explorer non supportato.',
   q11: 'Funziona su mobile?',
   a11: 'Sì — completamente ottimizzato per mobile. L\'interfaccia si adatta a schermi da 320 px, le card degli strumenti sono in due colonne su schermi piccoli, e tutte le funzioni inclusa la registrazione audio dal microfono funzionano su iOS Safari e Android Chrome. Installabile come Progressive Web App.',
   q12: 'Come annullare o ottenere un rimborso?',
-  a12: 'Nessun abbonamento da annullare — i crediti sono acquisti una tantum senza scadenza. Per il rimborso dei crediti non usati, scrivi a support@convertanyformat.com entro 14 giorni dall\'acquisto (Fernabsatzgesetz). Rimborso in 5–10 giorni lavorativi. I crediti usati di solito non sono rimborsabili tranne in caso di malfunzionamento. Eliminazione account via Profilo → Zona pericolosa.',
+  a12: 'Nessun abbonamento da annullare — i crediti sono acquisti una tantum senza scadenza. Per il rimborso dei crediti non usati, scrivi a Support@convertanyformat.com entro 14 giorni dall\'acquisto (Fernabsatzgesetz). Rimborso in 5–10 giorni lavorativi. I crediti usati di solito non sono rimborsabili tranne in caso di malfunzionamento. Eliminazione account via Profilo → Zona pericolosa.',
   q13: 'Cosa sono gli strumenti Smart Functions?',
   a13: 'Strumenti basati sull\'IA oltre la conversione: OCR (estrae testo da PDF e immagini scansionati), Comprimi PDF con IA, Da testo a voce (audio MP3/OPUS/AAC tramite OpenAI TTS-1), Da voce a testo (trascrizione TXT/DOCX tramite Whisper) e Generatore automatico di sottotitoli (SRT/VTT da video). Fatturati a consumo.',
   q14: 'Cos\'è l\'OCR e quando usarlo?',
@@ -396,7 +396,7 @@ const itFaq = makeFaq('it', {
   q19: 'Come modifico le impostazioni dell\'account?',
   a19: 'Clicca sul tuo nome nella navigazione per andare al Profilo. Lì puoi aggiornare l\'email (con verifica), impostare un nome visualizzato, cambiare la password, configurare le notifiche, vedere cronologia e saldo, generare una chiave API, trovare il codice di invito ed eliminare definitivamente l\'account (Zona pericolosa). La cancellazione rimuove tutti i dati associati entro 30 giorni.',
   q20: 'Come contattare il supporto?',
-  a20: 'Scrivi a support@convertanyformat.com. Risposta entro 24h nei giorni feriali, 48h nei weekend. Richieste GDPR: indica "GDPR" nell\'oggetto per priorità. Anche modulo di contatto su /contact. Niente supporto telefonico, ma videochiamata disponibile per richieste aziendali.',
+  a20: 'Scrivi a Support@convertanyformat.com. Risposta entro 24h nei giorni feriali, 48h nei weekend. Richieste GDPR: indica "GDPR" nell\'oggetto per priorità. Anche modulo di contatto su /contact. Niente supporto telefonico, ma videochiamata disponibile per richieste aziendali.',
 });
 
 const ptFaq = makeFaq('pt', {
@@ -420,13 +420,13 @@ const ptFaq = makeFaq('pt', {
   q8: 'Os ficheiros podem ser recuperados após eliminação?',
   a8: 'Não. A eliminação é permanente e irreversível. Não mantemos backups de ficheiros de utilizador (os backups da base de dados excluem ficheiros propositadamente). Isto apoia o seu direito ao apagamento (Art. 17 RGPD). Descarregue sempre os ficheiros em 24 horas e guarde-os localmente.',
   q9: 'Qual é o tamanho máximo do ficheiro?',
-  a9: '200 MB por ficheiro para conversões padrão. Smart Functions limitadas a 25 MB por ficheiro (limite rígido da API OpenAI). Para ficheiros maiores, divida-os localmente (por exemplo com ffmpeg) e converta cada parte. Para necessidades empresariais, escreva para support@convertanyformat.com.',
+  a9: '200 MB por ficheiro para conversões padrão. Smart Functions limitadas a 25 MB por ficheiro (limite rígido da API OpenAI). Para ficheiros maiores, divida-os localmente (por exemplo com ffmpeg) e converta cada parte. Para necessidades empresariais, escreva para Support@convertanyformat.com.',
   q10: 'Que navegadores são suportados?',
   a10: 'Todos os navegadores modernos atualizados nos últimos dois anos: Chrome 90+, Firefox 90+, Safari 14+, Edge 90+, e a maioria dos navegadores móveis. JavaScript e cookies têm de estar ativos. Para gravação de microfone (Fala para texto), conceda permissão quando solicitado. Internet Explorer não é suportado.',
   q11: 'Funciona em telemóvel?',
   a11: 'Sim — totalmente otimizado para telemóvel. A interface adapta-se a ecrãs a partir de 320 px, os cartões de ferramentas aparecem em duas colunas em ecrãs pequenos, e todas as funcionalidades incluindo gravação de áudio do microfone funcionam em iOS Safari e Android Chrome. Instalável como Progressive Web App.',
   q12: 'Como cancelar ou obter reembolso?',
-  a12: 'Sem subscrições para cancelar — os créditos são compras únicas sem expiração. Para reembolso de créditos não usados, escreva para support@convertanyformat.com em 14 dias após a compra (Fernabsatzgesetz). Reembolso em 5–10 dias úteis. Créditos usados normalmente não reembolsáveis exceto por falha nossa. Eliminar conta via Perfil → Zona perigosa.',
+  a12: 'Sem subscrições para cancelar — os créditos são compras únicas sem expiração. Para reembolso de créditos não usados, escreva para Support@convertanyformat.com em 14 dias após a compra (Fernabsatzgesetz). Reembolso em 5–10 dias úteis. Créditos usados normalmente não reembolsáveis exceto por falha nossa. Eliminar conta via Perfil → Zona perigosa.',
   q13: 'O que são as ferramentas Smart Functions?',
   a13: 'Ferramentas com IA além da conversão: OCR (extrai texto de PDFs e imagens digitalizados), Comprimir PDF com IA, Texto para fala (áudio MP3/OPUS/AAC via OpenAI TTS-1), Fala para texto (transcrição TXT/DOCX via Whisper) e Gerador automático de legendas (SRT/VTT a partir de vídeo). Cobradas por uso.',
   q14: 'O que é OCR e quando usar?',
@@ -442,7 +442,7 @@ const ptFaq = makeFaq('pt', {
   q19: 'Como altero as definições da conta?',
   a19: 'Clique no seu nome na navegação para ir ao Perfil. Lá pode atualizar o email (com verificação), definir nome de exibição, alterar palavra-passe, configurar notificações, ver histórico e saldo, gerar chave API, encontrar o seu código de referência e eliminar a conta permanentemente (Zona perigosa). A eliminação remove todos os dados associados em 30 dias.',
   q20: 'Como contactar o suporte?',
-  a20: 'Escreva para support@convertanyformat.com. Resposta em 24h em dias úteis, 48h ao fim de semana. Pedidos RGPD: inclua "GDPR" no assunto para priorização. Também formulário em /contact. Sem suporte telefónico, mas videochamada disponível para pedidos empresariais.',
+  a20: 'Escreva para Support@convertanyformat.com. Resposta em 24h em dias úteis, 48h ao fim de semana. Pedidos RGPD: inclua "GDPR" no assunto para priorização. Também formulário em /contact. Sem suporte telefónico, mas videochamada disponível para pedidos empresariais.',
 });
 
 const nlFaq = makeFaq('nl', {
@@ -466,13 +466,13 @@ const nlFaq = makeFaq('nl', {
   q8: 'Kunnen bestanden worden hersteld na verwijdering?',
   a8: 'Nee. Verwijdering is permanent en onomkeerbaar. We bewaren geen back-ups van gebruikersbestanden (databasereback-ups sluiten bestanden bewust uit). Dit ondersteunt je recht op gegevenswissing (Art. 17 AVG). Download je geconverteerde bestanden altijd binnen 24 uur en bewaar ze lokaal.',
   q9: 'Wat is de maximale bestandsgrootte?',
-  a9: '200 MB per bestand voor standaardconversies. Smart Functions beperkt tot 25 MB per bestand (harde limiet van de OpenAI API). Voor grotere bestanden, splits ze lokaal (bijv. met ffmpeg) en converteer elk deel. Voor bedrijfsbehoeften, schrijf naar support@convertanyformat.com.',
+  a9: '200 MB per bestand voor standaardconversies. Smart Functions beperkt tot 25 MB per bestand (harde limiet van de OpenAI API). Voor grotere bestanden, splits ze lokaal (bijv. met ffmpeg) en converteer elk deel. Voor bedrijfsbehoeften, schrijf naar Support@convertanyformat.com.',
   q10: 'Welke browsers worden ondersteund?',
   a10: 'Alle moderne browsers die in de afgelopen twee jaar zijn bijgewerkt: Chrome 90+, Firefox 90+, Safari 14+, Edge 90+ en de meeste mobiele browsers. JavaScript en cookies moeten zijn ingeschakeld. Voor microfoonopname (Spraak naar tekst) verleen toestemming wanneer gevraagd. Internet Explorer wordt niet ondersteund.',
   q11: 'Werkt het op mobiel?',
   a11: 'Ja — volledig geoptimaliseerd voor mobiel. De interface past zich aan schermen vanaf 320 px aan, toolkaarten worden op kleine schermen in twee kolommen weergegeven, en alle functies inclusief audio-opname via de microfoon werken op iOS Safari en Android Chrome. Installeerbaar als Progressive Web App.',
   q12: 'Hoe annuleer ik of krijg ik terugbetaling?',
-  a12: 'Geen abonnementen om op te zeggen — credits zijn eenmalige aankopen zonder vervaldatum. Voor terugbetaling van ongebruikte credits, schrijf naar support@convertanyformat.com binnen 14 dagen na aankoop (Fernabsatzgesetz). Terugbetaling binnen 5–10 werkdagen. Gebruikte credits normaal niet terugbetaalbaar tenzij defect aan onze kant. Account verwijderen via Profiel → Gevarenzone.',
+  a12: 'Geen abonnementen om op te zeggen — credits zijn eenmalige aankopen zonder vervaldatum. Voor terugbetaling van ongebruikte credits, schrijf naar Support@convertanyformat.com binnen 14 dagen na aankoop (Fernabsatzgesetz). Terugbetaling binnen 5–10 werkdagen. Gebruikte credits normaal niet terugbetaalbaar tenzij defect aan onze kant. Account verwijderen via Profiel → Gevarenzone.',
   q13: 'Wat zijn de Smart Functions tools?',
   a13: 'Tools met AI naast conversie: OCR (extraheert tekst uit gescande PDFs en afbeeldingen), PDF comprimeren met AI, Tekst naar spraak (MP3/OPUS/AAC audio via OpenAI TTS-1), Spraak naar tekst (transcriptie TXT/DOCX via Whisper) en Automatische ondertitelgenerator (SRT/VTT vanuit video). Per gebruik gefactureerd.',
   q14: 'Wat is OCR en wanneer gebruik je het?',
@@ -488,7 +488,7 @@ const nlFaq = makeFaq('nl', {
   q19: 'Hoe wijzig ik mijn accountinstellingen?',
   a19: 'Klik op je naam in de navigatie om naar je Profiel te gaan. Daar kun je je email bijwerken (met verificatie), een weergavenaam instellen, je wachtwoord wijzigen, e-mailmeldingen configureren, geschiedenis en saldo bekijken, een API-sleutel genereren, je verwijscode vinden en je account permanent verwijderen (Gevarenzone). Verwijdering wist alle gerelateerde gegevens binnen 30 dagen.',
   q20: 'Hoe neem ik contact op met support?',
-  a20: 'Email naar support@convertanyformat.com. Reactie binnen 24u op werkdagen, 48u in het weekend. AVG-vragen: vermeld "GDPR" in het onderwerp voor prioriteit. Ook contactformulier op /contact. Geen telefonische ondersteuning, maar videogesprek beschikbaar voor zakelijke aanvragen.',
+  a20: 'Email naar Support@convertanyformat.com. Reactie binnen 24u op werkdagen, 48u in het weekend. AVG-vragen: vermeld "GDPR" in het onderwerp voor prioriteit. Ook contactformulier op /contact. Geen telefonische ondersteuning, maar videogesprek beschikbaar voor zakelijke aanvragen.',
 });
 
 const plFaq = makeFaq('pl', {
@@ -512,13 +512,13 @@ const plFaq = makeFaq('pl', {
   q8: 'Czy pliki można odzyskać po usunięciu?',
   a8: 'Nie. Usuwanie jest trwałe i nieodwracalne. Nie przechowujemy kopii zapasowych plików użytkownika (kopie zapasowe bazy danych celowo wykluczają pliki). Wspiera to Twoje prawo do usunięcia (Art. 17 RODO). Zawsze pobieraj konwertowane pliki w ciągu 24 godzin i przechowuj je lokalnie.',
   q9: 'Jaki jest maksymalny rozmiar pliku?',
-  a9: '200 MB na plik dla standardowych konwersji. Smart Functions ograniczone do 25 MB na plik (twardy limit API OpenAI). Dla większych plików, podziel je lokalnie (np. ffmpeg) i konwertuj każdą część. Dla potrzeb biznesowych pisz na support@convertanyformat.com.',
+  a9: '200 MB na plik dla standardowych konwersji. Smart Functions ograniczone do 25 MB na plik (twardy limit API OpenAI). Dla większych plików, podziel je lokalnie (np. ffmpeg) i konwertuj każdą część. Dla potrzeb biznesowych pisz na Support@convertanyformat.com.',
   q10: 'Jakie przeglądarki są obsługiwane?',
   a10: 'Wszystkie nowoczesne przeglądarki zaktualizowane w ciągu ostatnich dwóch lat: Chrome 90+, Firefox 90+, Safari 14+, Edge 90+ i większość mobilnych. JavaScript i ciasteczka muszą być włączone. Dla nagrywania mikrofonem (Mowa na tekst) udziel pozwolenia po wyświetleniu monitu. Internet Explorer nie jest obsługiwany.',
   q11: 'Czy działa na telefonie?',
   a11: 'Tak — w pełni zoptymalizowane dla urządzeń mobilnych. Interfejs dostosowuje się do ekranów od 320 px, karty narzędzi wyświetlane są w dwóch kolumnach na małych ekranach, a wszystkie funkcje, w tym nagrywanie audio z mikrofonu, działają na iOS Safari i Android Chrome. Można zainstalować jako Progressive Web App.',
   q12: 'Jak anulować lub uzyskać zwrot?',
-  a12: 'Brak abonamentów do anulowania — kredyty to jednorazowe zakupy bez wygaśnięcia. Aby otrzymać zwrot za niewykorzystane kredyty, napisz na support@convertanyformat.com w ciągu 14 dni od zakupu (Fernabsatzgesetz). Zwrot w 5–10 dni roboczych. Wykorzystane kredyty zwykle bezzwrotne, chyba że błąd po naszej stronie. Usuwanie konta przez Profil → Strefa zagrożenia.',
+  a12: 'Brak abonamentów do anulowania — kredyty to jednorazowe zakupy bez wygaśnięcia. Aby otrzymać zwrot za niewykorzystane kredyty, napisz na Support@convertanyformat.com w ciągu 14 dni od zakupu (Fernabsatzgesetz). Zwrot w 5–10 dni roboczych. Wykorzystane kredyty zwykle bezzwrotne, chyba że błąd po naszej stronie. Usuwanie konta przez Profil → Strefa zagrożenia.',
   q13: 'Czym są narzędzia Smart Functions?',
   a13: 'Narzędzia oparte na AI poza konwersją: OCR (wyodrębnia tekst ze zeskanowanych PDF i obrazów), Kompresja PDF z AI, Tekst na mowę (audio MP3/OPUS/AAC przez OpenAI TTS-1), Mowa na tekst (transkrypcja TXT/DOCX przez Whisper) i Automatyczny generator napisów (SRT/VTT z wideo). Rozliczane za użycie.',
   q14: 'Czym jest OCR i kiedy go używać?',
@@ -534,7 +534,7 @@ const plFaq = makeFaq('pl', {
   q19: 'Jak zmienić ustawienia konta?',
   a19: 'Kliknij swoje imię w nawigacji, aby przejść do Profilu. Tam możesz zaktualizować e-mail (z weryfikacją), ustawić nazwę wyświetlaną, zmienić hasło, skonfigurować powiadomienia, zobaczyć historię i saldo, wygenerować klucz API, znaleźć kod polecający i trwale usunąć konto (Strefa zagrożenia). Usunięcie wymazuje wszystkie powiązane dane w 30 dni.',
   q20: 'Jak skontaktować się z pomocą techniczną?',
-  a20: 'Napisz na support@convertanyformat.com. Odpowiedź w 24h w dni robocze, 48h w weekendy. Pytania RODO: dodaj "GDPR" w temacie dla priorytetu. Również formularz na /contact. Brak wsparcia telefonicznego, ale rozmowa wideo dostępna dla zapytań biznesowych.',
+  a20: 'Napisz na Support@convertanyformat.com. Odpowiedź w 24h w dni robocze, 48h w weekendy. Pytania RODO: dodaj "GDPR" w temacie dla priorytetu. Również formularz na /contact. Brak wsparcia telefonicznego, ale rozmowa wideo dostępna dla zapytań biznesowych.',
 });
 
 const svFaq = makeFaq('sv', {
@@ -558,13 +558,13 @@ const svFaq = makeFaq('sv', {
   q8: 'Kan filer återskapas efter radering?',
   a8: 'Nej. Raderingen är permanent och oåterkallelig. Vi behåller inga säkerhetskopior av användarfiler (databassäkerhetskopior utesluter filer avsiktligt). Detta stöder din rätt till radering (Art. 17 GDPR). Ladda alltid ner dina konverterade filer inom 24 timmar och spara dem lokalt.',
   q9: 'Vad är den maximala filstorleken?',
-  a9: '200 MB per fil för standardkonverteringar. Smart Functions begränsade till 25 MB per fil (hård gräns från OpenAI API). För större filer, dela upp dem lokalt (t.ex. med ffmpeg) och konvertera varje del. För företagsbehov, skriv till support@convertanyformat.com.',
+  a9: '200 MB per fil för standardkonverteringar. Smart Functions begränsade till 25 MB per fil (hård gräns från OpenAI API). För större filer, dela upp dem lokalt (t.ex. med ffmpeg) och konvertera varje del. För företagsbehov, skriv till Support@convertanyformat.com.',
   q10: 'Vilka webbläsare stöds?',
   a10: 'Alla moderna webbläsare uppdaterade under de senaste två åren: Chrome 90+, Firefox 90+, Safari 14+, Edge 90+ och de flesta mobila webbläsare. JavaScript och cookies måste vara aktiverade. För mikrofoninspelning (Tal till text), bevilja behörighet när du blir tillfrågad. Internet Explorer stöds inte.',
   q11: 'Fungerar det på mobil?',
   a11: 'Ja — fullt mobiloptimerat. Gränssnittet anpassar sig till skärmar från 320 px, verktygskort visas i två kolumner på små skärmar, och alla funktioner inklusive ljudinspelning från mikrofonen fungerar på iOS Safari och Android Chrome. Installerbar som Progressive Web App.',
   q12: 'Hur avbryter jag eller får återbetalning?',
-  a12: 'Inga prenumerationer att avbryta — krediter är engångsköp utan utgång. För återbetalning av oanvända krediter, skriv till support@convertanyformat.com inom 14 dagar efter köpet (Fernabsatzgesetz). Återbetalning inom 5–10 arbetsdagar. Använda krediter återbetalas vanligen inte utom vid fel hos oss. Radera konto via Profil → Farozonen.',
+  a12: 'Inga prenumerationer att avbryta — krediter är engångsköp utan utgång. För återbetalning av oanvända krediter, skriv till Support@convertanyformat.com inom 14 dagar efter köpet (Fernabsatzgesetz). Återbetalning inom 5–10 arbetsdagar. Använda krediter återbetalas vanligen inte utom vid fel hos oss. Radera konto via Profil → Farozonen.',
   q13: 'Vad är Smart Functions-verktygen?',
   a13: 'AI-drivna verktyg utöver konvertering: OCR (extraherar text från skannade PDF och bilder), Komprimera PDF med AI, Text till tal (MP3/OPUS/AAC-ljud via OpenAI TTS-1), Tal till text (transkription TXT/DOCX via Whisper) och Automatisk undertextgenerator (SRT/VTT från video). Debiteras efter användning.',
   q14: 'Vad är OCR och när ska jag använda det?',
@@ -580,7 +580,7 @@ const svFaq = makeFaq('sv', {
   q19: 'Hur ändrar jag mina kontoinställningar?',
   a19: 'Klicka på ditt namn i navigeringen för att gå till Profilen. Där kan du uppdatera din e-post (med verifiering), ange ett visningsnamn, ändra lösenord, konfigurera aviseringar, se historik och saldo, generera en API-nyckel, hitta din värvningskod och permanent radera ditt konto (Farozonen). Radering raderar all tillhörande data inom 30 dagar.',
   q20: 'Hur kontaktar jag supporten?',
-  a20: 'Skriv till support@convertanyformat.com. Svar inom 24h på vardagar, 48h på helger. GDPR-frågor: skriv "GDPR" i ämnet för prioritering. Även kontaktformulär på /contact. Ingen telefonsupport, men videosamtal tillgängligt för företagsförfrågningar.',
+  a20: 'Skriv till Support@convertanyformat.com. Svar inom 24h på vardagar, 48h på helger. GDPR-frågor: skriv "GDPR" i ämnet för prioritering. Även kontaktformulär på /contact. Ingen telefonsupport, men videosamtal tillgängligt för företagsförfrågningar.',
 });
 
 const noFaq = makeFaq('no', {
@@ -604,13 +604,13 @@ const noFaq = makeFaq('no', {
   q8: 'Kan filer gjenopprettes etter sletting?',
   a8: 'Nei. Sletting er permanent og ugjenkallelig. Vi vedlikeholder ikke sikkerhetskopier av brukerfiler (databasesikkerhetskopier ekskluderer filer med vilje). Dette støtter din rett til sletting (Art. 17 GDPR). Last alltid ned konverterte filer innen 24 timer og lagre dem lokalt.',
   q9: 'Hva er maksimal filstørrelse?',
-  a9: '200 MB per fil for standardkonverteringer. Smart Functions begrenset til 25 MB per fil (hard grense fra OpenAI-API). For større filer, del dem opp lokalt (f.eks. med ffmpeg) og konverter hver del. For bedriftsbehov, skriv til support@convertanyformat.com.',
+  a9: '200 MB per fil for standardkonverteringer. Smart Functions begrenset til 25 MB per fil (hard grense fra OpenAI-API). For større filer, del dem opp lokalt (f.eks. med ffmpeg) og konverter hver del. For bedriftsbehov, skriv til Support@convertanyformat.com.',
   q10: 'Hvilke nettlesere støttes?',
   a10: 'Alle moderne nettlesere oppdatert i løpet av de siste to årene: Chrome 90+, Firefox 90+, Safari 14+, Edge 90+ og de fleste mobile nettlesere. JavaScript og informasjonskapsler må være aktivert. For mikrofonopptak (Tale til tekst), gi tillatelse når du blir bedt om det. Internet Explorer støttes ikke.',
   q11: 'Fungerer det på mobil?',
   a11: 'Ja — fullt mobiloptimalisert. Grensesnittet tilpasser seg skjermer fra 320 px, verktøykort vises i to kolonner på små skjermer, og alle funksjoner inkludert lydopptak fra mikrofonen fungerer på iOS Safari og Android Chrome. Kan installeres som Progressive Web App.',
   q12: 'Hvordan kansellerer jeg eller får refusjon?',
-  a12: 'Ingen abonnementer å kansellere — kreditter er engangskjøp uten utløp. For refusjon av ubrukte kreditter, skriv til support@convertanyformat.com innen 14 dager etter kjøp (Fernabsatzgesetz). Refusjon innen 5–10 virkedager. Brukte kreditter er vanligvis ikke refunderbare unntatt ved feil hos oss. Slett konto via Profil → Faresonen.',
+  a12: 'Ingen abonnementer å kansellere — kreditter er engangskjøp uten utløp. For refusjon av ubrukte kreditter, skriv til Support@convertanyformat.com innen 14 dager etter kjøp (Fernabsatzgesetz). Refusjon innen 5–10 virkedager. Brukte kreditter er vanligvis ikke refunderbare unntatt ved feil hos oss. Slett konto via Profil → Faresonen.',
   q13: 'Hva er Smart Functions-verktøyene?',
   a13: 'AI-drevne verktøy utover konvertering: OCR (henter tekst fra skannede PDF-er og bilder), Komprimer PDF med AI, Tekst til tale (MP3/OPUS/AAC-lyd via OpenAI TTS-1), Tale til tekst (transkripsjon TXT/DOCX via Whisper) og Automatisk undertekstgenerator (SRT/VTT fra video). Belastes per bruk.',
   q14: 'Hva er OCR og når bør jeg bruke det?',
@@ -626,7 +626,7 @@ const noFaq = makeFaq('no', {
   q19: 'Hvordan endrer jeg kontoinnstillinger?',
   a19: 'Klikk på navnet ditt i navigasjonen for å gå til Profilen. Der kan du oppdatere e-posten din (med verifisering), angi et visningsnavn, endre passord, konfigurere varsler, se historikk og saldo, generere en API-nøkkel, finne vervekoden din og permanent slette kontoen (Faresonen). Sletting fjerner alle tilknyttede data innen 30 dager.',
   q20: 'Hvordan kontakter jeg support?',
-  a20: 'Skriv til support@convertanyformat.com. Svar innen 24 timer på virkedager, 48 timer i helger. GDPR-henvendelser: skriv "GDPR" i emnet for prioritering. Også kontaktskjema på /contact. Ingen telefonsupport, men videosamtale tilgjengelig for bedriftsforespørsler.',
+  a20: 'Skriv til Support@convertanyformat.com. Svar innen 24 timer på virkedager, 48 timer i helger. GDPR-henvendelser: skriv "GDPR" i emnet for prioritering. Også kontaktskjema på /contact. Ingen telefonsupport, men videosamtale tilgjengelig for bedriftsforespørsler.',
 });
 
 // =====================================================================
