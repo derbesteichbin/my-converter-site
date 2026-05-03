@@ -28,6 +28,7 @@ const Faq = lazy(() => import('./pages/Faq.jsx'));
 const About = lazy(() => import('./pages/About.jsx'));
 const Terms = lazy(() => import('./pages/Terms.jsx'));
 const Privacy = lazy(() => import('./pages/Privacy.jsx'));
+const Impressum = lazy(() => import('./pages/Impressum.jsx'));
 const NotFound = lazy(() => import('./pages/NotFound.jsx'));
 const Changelog = lazy(() => import('./pages/Changelog.jsx'));
 
@@ -62,6 +63,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path="about" element={<About />} />
           <Route path="terms" element={<Terms />} />
           <Route path="privacy" element={<Privacy />} />
+          <Route path="impressum" element={<Impressum />} />
           <Route path="changelog" element={<Changelog />} />
           <Route path="*" element={<NotFound />} />
         </Route>
