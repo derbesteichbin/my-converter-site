@@ -37,6 +37,11 @@ export default function About() {
       </section>
 
       <section className="about-section">
+        <h2>{t('about.teamTitle')}</h2>
+        <p>{t('about.teamBody', { brand: 'ConvertAnyFormat' })}</p>
+      </section>
+
+      <section className="about-section">
         <h2>Get in touch</h2>
         <p>
           Questions, feedback, or partnership ideas? Email us at{' '}
@@ -65,6 +70,12 @@ export default function About() {
             <p>{t('about.qualityBody')}</p>
           </div>
         </div>
+      </section>
+
+      <section className="about-cta">
+        <h2>{t('about.ctaTitle')}</h2>
+        <p>{t('about.ctaBody')}</p>
+        <Link to="/tools" className="btn-primary">{t('about.ctaButton')}</Link>
       </section>
     </div>
   );

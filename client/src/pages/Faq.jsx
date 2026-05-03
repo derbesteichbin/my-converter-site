@@ -5,7 +5,7 @@ import SEO from '../components/SEO';
 export default function Faq() {
   const { t } = useTranslation();
   const [openIndex, setOpenIndex] = useState(null);
-  const faqs = Array.from({ length: 12 }, (_, i) => ({ q: t(`faq.q${i + 1}`), a: t(`faq.a${i + 1}`, { brand: 'ConvertAnyFormat' }) }));
+  const faqs = Array.from({ length: 20 }, (_, i) => ({ q: t(`faq.q${i + 1}`), a: t(`faq.a${i + 1}`, { brand: 'ConvertAnyFormat' }) }));
 
   return (
     <div className="page">
