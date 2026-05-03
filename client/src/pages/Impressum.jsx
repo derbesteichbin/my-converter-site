@@ -17,7 +17,7 @@ export default function Impressum() {
         <h2>Angaben gemäß § 5 TMG</h2>
         <p>
           <strong>Name:</strong> Arwand Moobed Mehdiabadi<br />
-          <strong>Adresse:</strong> Volmerswerther str. 346, 40221 Düsseldorf, Deutschland
+          <strong>Adresse:</strong> Suitbertus Str. 3, 40223 Düsseldorf, Deutschland
         </p>
       </section>
 
@@ -32,8 +32,8 @@ export default function Impressum() {
         <h2>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h2>
         <p>
           Arwand Moobed Mehdiabadi<br />
-          Volmerswerther str. 346<br />
-          40221 Düsseldorf
+          Suitbertus Str. 3<br />
+          40223 Düsseldorf
         </p>
       </section>
 
