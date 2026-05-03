@@ -94,7 +94,7 @@ export default function Profile() {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setPwdError(data.error || 'Failed to change password');
+        setPwdError(data.error || t('profile.changeFailed'));
         return;
       }
       toast('Password changed', 'success');
@@ -204,12 +204,12 @@ export default function Profile() {
       </div>
 
       <div className="profile-card profile-pwd-section" style={{ marginTop: '1.5rem' }}>
-        <h2 style={{ marginTop: 0 }}>Change password</h2>
+        <h2 style={{ marginTop: 0 }}>{t('profile.changePassword')}</h2>
         <form onSubmit={handleChangePassword} className="pwd-form">
           {pwdError && <p className="auth-error">{pwdError}</p>}
 
           <div className="pwd-field">
-            <label htmlFor="currentPwd">Current password</label>
+            <label htmlFor="currentPwd">{t('profile.currentPassword')}</label>
             <PasswordInput
               id="currentPwd"
               value={currentPwd}
@@ -219,7 +219,7 @@ export default function Profile() {
           </div>
 
           <div className="pwd-field">
-            <label htmlFor="newPwd">New password</label>
+            <label htmlFor="newPwd">{t('profile.newPassword')}</label>
             <PasswordInput
               id="newPwd"
               value={newPwd}
@@ -235,7 +235,7 @@ export default function Profile() {
           </div>
 
           <div className="pwd-field">
-            <label htmlFor="confirmPwd">Confirm new password</label>
+            <label htmlFor="confirmPwd">{t('profile.confirmNewPassword')}</label>
             <PasswordInput
               id="confirmPwd"
               value={confirmPwd}
@@ -248,19 +248,19 @@ export default function Profile() {
           </div>
 
           <button className="btn-primary pwd-submit" type="submit" disabled={!canSubmitPwd}>
-            {changingPwd ? 'Changing...' : 'Change password'}
+            {changingPwd ? t('profile.changing') : t('profile.changePassword')}
           </button>
         </form>
 
         <div className="pwd-reset-block">
-          <p>Forgot your current password? Reset via email</p>
+          <p>{t('profile.forgotPasswordPrompt')}</p>
           <button
             className="btn-ghost"
             type="button"
             onClick={handleSendResetEmail}
             disabled={sendingResetEmail}
           >
-            {sendingResetEmail ? t('forgot.sending') : 'Send reset link'}
+            {sendingResetEmail ? t('forgot.sending') : t('profile.sendResetLink')}
           </button>
         </div>
       </div>
