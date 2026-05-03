@@ -81,9 +81,9 @@ export default function Pricing() {
   return (
     <div className="page">
       <SEO
-        title="Pricing - Free Tier + Affordable Credit Packs"
+        title="Pricing - Affordable Credit Packs"
         path="/pricing"
-        description="Free 1-credit tier. Affordable conversion credit packs from €0.99. Pay-as-you-go file conversion with no subscription. Credits never expire."
+        description="Affordable conversion credit packs from €0.99. Pay-as-you-go file conversion with no subscription. Credits never expire."
       />
       <h1 style={{ textAlign: 'center' }}>{t('pricing.title')}</h1>
       <p style={{ textAlign: 'center', color: 'var(--text-muted)', marginBottom: '2rem' }}>
@@ -108,23 +108,7 @@ export default function Pricing() {
         </p>
       )}
 
-      <div className="pricing-grid pricing-grid-4">
-        <div className="pricing-card">
-          <h2>{t('pricing.free')}</h2>
-          <p className="pricing-price">&euro;0</p>
-          <p className="pricing-desc">{t('pricing.freeDesc')}</p>
-          <ul className="pricing-features">
-            <li>{t('pricing.freeFeat1')}</li>
-            <li>{t('pricing.feat50')}</li>
-            <li>{t('pricing.feat200')}</li>
-            <li>{t('pricing.featDelete')}</li>
-            <li>{t('pricing.featNoCard')}</li>
-          </ul>
-          <Link to="/register" className="btn-primary" style={{ display: 'block', textAlign: 'center' }}>
-            {t('pricing.getStarted')}
-          </Link>
-        </div>
-
+      <div className="pricing-grid">
         {PACK_IDS.map((pack) => (
           <div className={`pricing-card ${pack.popular ? 'pricing-card-highlight' : ''}`} key={pack.id}>
             <h2>{packLabel(pack.credits)}</h2>

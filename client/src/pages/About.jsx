@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import SEO from '../components/SEO';
 
@@ -40,7 +41,7 @@ export default function About() {
         <p>
           Questions, feedback, or partnership ideas? Email us at{' '}
           <a href="mailto:support@convertanyformat.com">support@convertanyformat.com</a>
-          {' '}or use our <a href="/contact">Contact page</a>.
+          {' '}or use our <Link to="/contact">Contact page</Link>.
         </p>
       </section>
 

@@ -2629,6 +2629,31 @@ h2 { font-size: 1.5rem; }
   cursor: pointer;
 }
 
+/* In dark mode the closed select sits transparently on the navbar — but the
+   dropdown panel itself is rendered by the OS / browser and ignores the
+   transparent background, falling back to system white with white text on
+   some themes. Force an explicit dark background on the <option>s so the
+   list is readable. Same fix applies to any other native <select> that
+   could end up on a dark background. */
+[data-theme="dark"] .lang-select {
+  background: #18181d;
+  color: #f0f0f5;
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+[data-theme="dark"] .lang-select option,
+[data-theme="dark"] select option {
+  background: #18181d;
+  color: #f0f0f5;
+}
+
+/* The mobile drawer's lang select rendered in its own row */
+[data-theme="dark"] .mobile-nav-lang {
+  background: #18181d;
+  color: #f0f0f5;
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
 /* ---- Cookie consent banner ---- */
 .cookie-banner {
   position: fixed;
