@@ -41,6 +41,7 @@ export default function Footer() {
             <h4>{t('footer.legal')}</h4>
             <Link to="/terms">{t('footer.terms')}</Link>
             <Link to="/privacy">{t('footer.privacy')}</Link>
+            <Link to="/impressum">Impressum</Link>
             <Link to="/faq">{t('footer.faq')}</Link>
           </div>
           <div className="footer-col">

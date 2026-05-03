@@ -22,6 +22,7 @@ const staticPages = [
   ['/register',   '0.5', 'yearly'],
   ['/terms',      '0.4', 'yearly'],
   ['/privacy',    '0.4', 'yearly'],
+  ['/impressum',  '0.3', 'yearly'],
 ];
 
 // Tool pages: priority 0.8 each, exclude coming-soon (no real content).
