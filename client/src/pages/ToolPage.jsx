@@ -150,7 +150,10 @@ export default function ToolPage() {
   const [buyingPack, setBuyingPack] = useState('');
 
   const translatedLabel = getToolLabel(toolDef, t);
-  const smartDescription = getToolDescription(toolDef, t);
+  // Translated description from toolDescriptions.<slug> (covers all 51+
+  // tools), falling back to legacy smartFunctions strings for any tool
+  // not yet migrated. Replaces the previous English-only inline copy.
+  const toolDescription = getToolDescription(toolDef, t);
   const seoTitle = toolDef ? `${translatedLabel} - Free Online Converter` : 'File Converter';
   // Build a keyword-rich description. For format-conversion tools we name
   // the input/output formats explicitly (e.g. "PDF to DOCX") so the page
@@ -159,8 +162,8 @@ export default function ToolPage() {
   // how users phrase converter searches.
   function buildSeoDesc() {
     if (!toolDef) return 'Free online file converter. Fast, secure, no signup required. Files deleted after 24 hours.';
-    if (smartDescription) {
-      return `${smartDescription} Free online tool. No installation needed. Files deleted after 24 hours.`;
+    if (toolDescription) {
+      return `${toolDescription} Free online tool. No installation needed. Files deleted after 24 hours.`;
     }
     const fromList = (toolDef.inputFormats || []).map((f) => f.toUpperCase()).join(', ');
     const toList = (toolDef.outputFormats || []).map((f) => f.toUpperCase()).join(', ');
@@ -783,41 +786,10 @@ export default function ToolPage() {
       {offline && <div className="offline-banner" role="alert">{t('tool.offline')}</div>}
       <h1>{translatedLabel || formatToolName(toolName)}</h1>
 
-      {/* Smart Functions tools get their translated description */}
-      {smartDescription && (
-        <p className="tool-description">{smartDescription}</p>
-      )}
-
-      {/* Tool description (generic fallback for tools without a specific description) */}
-      {toolDef && !toolDef.toolType && !smartDescription && (
-        <p className="tool-description">
-          Convert {toolDef.inputFormats?.map((f) => '.' + f.toUpperCase()).join(', ')} files
-          to {toolDef.outputFormats?.map((f) => '.' + f.toUpperCase()).join(', ')} format.
-          Upload up to 200 MB per file. Drag and drop or click to browse.
-          Your files are processed securely and deleted automatically after 24 hours.
-        </p>
-      )}
-      {toolDef?.toolType === 'pdf-merge' && (
-        <p className="tool-description">
-          Combine multiple PDF files into a single document. Drag files in the order you want them merged.
-          Upload up to 20 files at once, 200 MB max per file.
-        </p>
-      )}
-      {toolDef?.toolType === 'pdf-compress' && !smartDescription && (
-        <p className="tool-description">
-          Reduce the file size of your PDF without losing quality. Great for email attachments and uploads.
-          See the before/after size comparison when done.
-        </p>
-      )}
-      {toolDef?.toolType === 'pdf-split' && (
-        <p className="tool-description">
-          Extract specific pages from a PDF. Enter page ranges like "1-3, 5, 7-10" to create a new PDF with only those pages.
-        </p>
-      )}
-      {toolDef?.toolType === 'metadata' && (
-        <p className="tool-description">
-          Upload any file to inspect its metadata — dimensions, duration, author, camera info, codec, and more.
-        </p>
+      {/* Translated description from toolDescriptions.<slug>. One source
+          of truth for every tool type. */}
+      {toolDescription && (
+        <p className="tool-description">{toolDescription}</p>
       )}
 
       {/* Dropzone */}

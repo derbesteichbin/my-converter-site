@@ -125,6 +125,11 @@ export function getToolLabel(tool, t) {
 
 export function getToolDescription(tool, t) {
   if (!tool || !t) return '';
+  // Primary source: per-tool translations under toolDescriptions.<slug>.
+  // Falls back to the older Smart Functions strings for tools that haven't
+  // been migrated yet (covers older language packs without toolDescriptions).
+  const fromTable = t(`toolDescriptions.${tool.slug}`, { defaultValue: '' });
+  if (fromTable) return fromTable;
   const key = SMART_FUNCTION_I18N[tool.slug];
   if (key) return t(`smartFunctions.${key}.description`, { defaultValue: '' });
   return '';
