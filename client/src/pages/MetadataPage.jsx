@@ -10,47 +10,23 @@ function formatSize(bytes) {
   return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
 }
 
-const LABEL_MAP = {
-  fileName: 'File Name',
-  fileSize: 'File Size',
-  format: 'Format',
-  mimeType: 'MIME Type',
-  lastModified: 'Last Modified',
-  pageCount: 'Pages',
-  pageWidth: 'Page Width (pt)',
-  pageHeight: 'Page Height (pt)',
-  title: 'Title',
-  author: 'Author',
-  subject: 'Subject',
-  creator: 'Creator',
-  producer: 'Producer',
-  creationDate: 'Creation Date',
-  modificationDate: 'Modification Date',
-  width: 'Width (px)',
-  height: 'Height (px)',
-  cameraMake: 'Camera Make',
-  cameraModel: 'Camera Model',
-  dateTaken: 'Date Taken',
-  iso: 'ISO',
-  focalLength: 'Focal Length',
-  exposureTime: 'Exposure Time',
-  aperture: 'Aperture',
-  gpsLatitude: 'GPS Latitude',
-  gpsLongitude: 'GPS Longitude',
-  colorSpace: 'Color Space',
-  bitDepth: 'Bit Depth',
-  mediaType: 'Media Type',
-  duration: 'Duration',
-  durationSeconds: 'Duration (seconds)',
-  sampleRate: 'Sample Rate',
-  bitrate: 'Bitrate',
-  channels: 'Channels',
-  codec: 'Codec',
-  artist: 'Artist',
-  album: 'Album',
-  year: 'Year',
-  genre: 'Genre',
-};
+// Backend metadata keys → translation key under metadataPage.labels.
+// We list the keys explicitly (rather than reusing the value as a key)
+// so the i18n extractor can detect every label used here.
+const LABEL_KEYS = [
+  'fileName', 'fileSize', 'format', 'mimeType', 'lastModified',
+  'pageCount', 'pageWidth', 'pageHeight',
+  'title', 'author', 'subject', 'creator', 'producer',
+  'creationDate', 'modificationDate',
+  'width', 'height',
+  'cameraMake', 'cameraModel', 'dateTaken',
+  'iso', 'focalLength', 'exposureTime', 'aperture',
+  'gpsLatitude', 'gpsLongitude',
+  'colorSpace', 'bitDepth',
+  'mediaType', 'duration', 'durationSeconds',
+  'sampleRate', 'bitrate', 'channels', 'codec',
+  'artist', 'album', 'year', 'genre',
+];
 
 const SKIP_KEYS = ['fileSizeFormatted', 'pdfError'];
 
@@ -98,9 +74,9 @@ export default function MetadataPage() {
   return (
     <div className="page">
       <SEO
-        title="File Info — View File Metadata"
+        title={t('metadataPage.title')}
         path="/tools/view-metadata"
-        description="View file metadata online for free. Inspect dimensions, duration, author, camera info, codec, page count and more. Works with PDF, images, video and audio."
+        description={t('metadataPage.seoDesc')}
       />
       <h1>{t('metadataPage.title')}</h1>
       <p style={{ color: '#666', marginBottom: '1.5rem' }}>{t('metadataPage.body')}</p>
@@ -131,7 +107,9 @@ export default function MetadataPage() {
                 .filter(([key, val]) => val !== null && val !== undefined && !SKIP_KEYS.includes(key))
                 .map(([key, val]) => (
                   <tr key={key}>
-                    <td className="metadata-label">{LABEL_MAP[key] || key}</td>
+                    <td className="metadata-label">
+                      {LABEL_KEYS.includes(key) ? t(`metadataPage.labels.${key}`) : key}
+                    </td>
                     <td className="metadata-value">
                       {key === 'fileSize' ? formatSize(val) : String(val)}
                     </td>
