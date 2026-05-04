@@ -9,10 +9,13 @@ import SEO from '../components/SEO';
 // "Coming soon" button and a notice appears above the pricing cards.
 const PAYMENTS_ENABLED = true;
 
+// Savings vs buying `credits` × the single-conversion price (€0.99).
+//   10 × 0.99 = 9.90 → 7.99 saves 19.3% (round to 19)
+//   30 × 0.99 = 29.70 → 20.99 saves 29.3% (round to 29)
 const PACK_IDS = [
   { id: 'pack1', credits: 1, price: '0.99' },
-  { id: 'pack10', credits: 10, price: '7.99', popular: true },
-  { id: 'pack30', credits: 30, price: '20.99' },
+  { id: 'pack10', credits: 10, price: '7.99', popular: true, savings: 19 },
+  { id: 'pack30', credits: 30, price: '20.99', savings: 29 },
 ];
 
 export default function Pricing() {
@@ -111,6 +114,11 @@ export default function Pricing() {
       <div className="pricing-grid">
         {PACK_IDS.map((pack) => (
           <div className={`pricing-card ${pack.popular ? 'pricing-card-highlight' : ''}`} key={pack.id}>
+            {pack.savings && (
+              <span className="pricing-savings-badge" aria-label={t('pricing.save', { percent: pack.savings })}>
+                {t('pricing.save', { percent: pack.savings })}
+              </span>
+            )}
             <h2>{packLabel(pack.credits)}</h2>
             <p className="pricing-price">&euro;{pack.price}</p>
             <p className="pricing-desc">{packDesc(pack.credits)}</p>

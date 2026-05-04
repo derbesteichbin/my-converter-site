@@ -1174,6 +1174,31 @@ h2 { font-size: 1.5rem; }
   font-size: 1.25rem;
 }
 
+/* Savings badge — green pill in top-right corner of pack cards */
+.pricing-savings-badge {
+  position: absolute;
+  top: 0.875rem;
+  right: 0.875rem;
+  z-index: 1;
+  padding: 0.3125rem 0.625rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #fff;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border: 1px solid rgba(16, 185, 129, 0.45);
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.35);
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+[data-theme="dark"] .pricing-savings-badge {
+  background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+  border-color: rgba(52, 211, 153, 0.55);
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.45);
+}
+
 .pricing-card-highlight {
   border-color: #7c3aed;
   box-shadow: 0 4px 20px rgba(124,58,237,0.15);

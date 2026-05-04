@@ -279,6 +279,7 @@ const en = {
     featAdvanced: 'Advanced settings (OCR, resize)',
     redirecting: 'Redirecting...',
     buyFor: 'Buy for €{{price}}',
+    save: 'Save {{percent}}%',
     business: 'Business',
     businessDesc: 'Need unlimited conversions, API access, or a custom solution? Contact us for a tailored plan.',
     contactUs: 'Contact us',
