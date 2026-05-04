@@ -13,6 +13,14 @@ const CREDIT_PACKS = {
   pack30: { priceId: 'price_1TRKADCwJPjxuD4WbeKGz1n0', credits: 30 },
 };
 
+// Public-facing promo code → resolves to STRIPE_COUPON_ID at checkout time.
+// The user types this; we map it to the Stripe coupon ID server-side so
+// the actual coupon can be rotated without changing the customer-facing
+// code. Comparison is case-insensitive.
+const PROMO_CODES = {
+  'convertanyformat2026': () => process.env.STRIPE_COUPON_ID,
+};
+
 // Reverse lookup: Stripe priceId -> credits
 const PRICE_TO_CREDITS = {};
 for (const [, pack] of Object.entries(CREDIT_PACKS)) {
@@ -31,12 +39,23 @@ router.post('/create-checkout', protect, async (req, res) => {
     const stripe = getStripe();
     if (!stripe) return res.status(503).json({ error: 'Billing is not configured' });
 
-    const { pack } = req.body;
+    const { pack, promoCode } = req.body;
     const packDef = CREDIT_PACKS[pack];
     if (!packDef) return res.status(400).json({ error: 'Invalid pack. Use pack1, pack10, or pack30.' });
 
     const user = await prisma.user.findUnique({ where: { id: req.userId } });
     if (!user) return res.status(404).json({ error: 'User not found' });
+
+    // Resolve promo code → Stripe coupon ID. We accept the friendly code
+    // ("convertanyformat2026") and look up the real coupon ID from env.
+    // Silently ignore unknown codes / unconfigured coupons so checkout
+    // still proceeds at full price rather than failing.
+    const discounts = [];
+    if (promoCode && typeof promoCode === 'string') {
+      const resolver = PROMO_CODES[promoCode.trim().toLowerCase()];
+      const couponId = resolver && resolver();
+      if (couponId) discounts.push({ coupon: couponId });
+    }
 
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
@@ -44,7 +63,8 @@ router.post('/create-checkout', protect, async (req, res) => {
       line_items: [{ price: packDef.priceId, quantity: 1 }],
       customer_email: user.email,
       client_reference_id: user.id,
-      metadata: { pack, priceId: packDef.priceId },
+      metadata: { pack, priceId: packDef.priceId, promoCode: promoCode || '' },
+      ...(discounts.length > 0 ? { discounts } : {}),
       success_url: `${process.env.CLIENT_URL || 'http://localhost:5173'}/dashboard?purchased=1`,
       cancel_url: `${process.env.CLIENT_URL || 'http://localhost:5173'}/pricing`,
     });

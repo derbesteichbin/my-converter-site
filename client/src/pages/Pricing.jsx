@@ -18,6 +18,15 @@ const PACK_IDS = [
   { id: 'pack30', credits: 30, price: '20.99', savings: 29 },
 ];
 
+// Public-facing promo code. Server has the same constant in
+// server/routes/billing.js — both must agree. Comparison is case-insensitive.
+const PROMO_CODE = 'convertanyformat2026';
+const PROMO_DISCOUNT = 0.5; // 50% off
+
+function applyDiscount(price) {
+  return (parseFloat(price) * (1 - PROMO_DISCOUNT)).toFixed(2);
+}
+
 export default function Pricing() {
   const { t } = useTranslation();
   const toast = useToast();
@@ -25,6 +34,20 @@ export default function Pricing() {
   const [showContact, setShowContact] = useState(false);
   const [contactForm, setContactForm] = useState({ name: '', companyEmail: '', description: '' });
   const [sending, setSending] = useState(false);
+  const [promoInput, setPromoInput] = useState('');
+  const [appliedPromo, setAppliedPromo] = useState(''); // '' | PROMO_CODE
+  const promoActive = appliedPromo === PROMO_CODE;
+
+  function handleApplyPromo(e) {
+    e.preventDefault();
+    const trimmed = promoInput.trim().toLowerCase();
+    if (trimmed === PROMO_CODE) {
+      setAppliedPromo(PROMO_CODE);
+    } else {
+      setAppliedPromo('');
+      toast(t('pricing.promoInvalid'), 'error');
+    }
+  }
 
   async function handleBuy(packId) {
     setLoading(packId);
@@ -32,7 +55,7 @@ export default function Pricing() {
       const res = await api('/api/billing/create-checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pack: packId }),
+        body: JSON.stringify({ pack: packId, promoCode: promoActive ? PROMO_CODE : undefined }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -89,9 +112,38 @@ export default function Pricing() {
         description="Affordable conversion credit packs from €0.99. Pay-as-you-go file conversion with no subscription. Credits never expire."
       />
       <h1 style={{ textAlign: 'center' }}>{t('pricing.title')}</h1>
-      <p style={{ textAlign: 'center', color: 'var(--text-muted)', marginBottom: '2rem' }}>
+      <p style={{ textAlign: 'center', color: 'var(--text-muted)', marginBottom: '1.25rem' }}>
         {t('pricing.subtitle')}
       </p>
+
+      {/* Promo banner — visible on every visit until a different one is launched */}
+      <div className="promo-banner" role="region" aria-label="Promotion">
+        <p className="promo-banner-text">
+          {t('pricing.promoBannerText', { code: PROMO_CODE.toUpperCase() })}
+        </p>
+        <form className="promo-input-row" onSubmit={handleApplyPromo}>
+          <label htmlFor="promo-code" className="promo-label">
+            {t('pricing.promoLabel')}
+          </label>
+          <input
+            id="promo-code"
+            type="text"
+            className="promo-input"
+            placeholder={t('pricing.promoPlaceholder')}
+            value={promoInput}
+            onChange={(e) => setPromoInput(e.target.value)}
+            autoComplete="off"
+          />
+          <button type="submit" className="btn-primary promo-apply-btn">
+            {t('pricing.promoApply')}
+          </button>
+        </form>
+        {promoActive && (
+          <p className="promo-applied" role="status">
+            ✓ {t('pricing.promoApplied')}
+          </p>
+        )}
+      </div>
 
       {!PAYMENTS_ENABLED && (
         <p
@@ -120,7 +172,14 @@ export default function Pricing() {
               </span>
             )}
             <h2>{packLabel(pack.credits)}</h2>
-            <p className="pricing-price">&euro;{pack.price}</p>
+            {promoActive ? (
+              <p className="pricing-price">
+                <span className="pricing-price-original">&euro;{pack.price}</span>
+                <span className="pricing-price-discounted">&euro;{applyDiscount(pack.price)}</span>
+              </p>
+            ) : (
+              <p className="pricing-price">&euro;{pack.price}</p>
+            )}
             <p className="pricing-desc">{packDesc(pack.credits)}</p>
             <ul className="pricing-features">
               <li>{pack.credits === 1 ? t('pricing.featCreditSingular', { count: pack.credits }) : t('pricing.featCreditPlural', { count: pack.credits })}</li>
@@ -142,7 +201,7 @@ export default function Pricing() {
                 ? 'Coming soon'
                 : loading === pack.id
                 ? t('pricing.redirecting')
-                : t('pricing.buyFor', { price: pack.price })}
+                : t('pricing.buyFor', { price: promoActive ? applyDiscount(pack.price) : pack.price })}
             </button>
           </div>
         ))}
