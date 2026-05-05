@@ -16,11 +16,17 @@ function getRecentTools() {
 
 export default function Home() {
   const [recentTools, setRecentTools] = useState([]);
+  const [openFaq, setOpenFaq] = useState(null);
   const { t } = useTranslation();
 
   useEffect(() => {
     setRecentTools(getRecentTools());
   }, []);
+
+  const topFaqs = Array.from({ length: 5 }, (_, i) => ({
+    q: t(`faq.q${i + 1}`),
+    a: t(`faq.a${i + 1}`, { brand: 'ConvertAnyFormat' }),
+  }));
 
   return (
     <div className="page">
@@ -117,6 +123,34 @@ export default function Home() {
               <span className="tool-card-label">{getToolLabel(tool, t)}</span>
             </Link>
           ))}
+        </div>
+      </section>
+
+      {/* FAQ preview */}
+      <section className="home-faq-section">
+        <h2>{t('home.faqTitle')}</h2>
+        <div className="faq-list home-faq-list">
+          {topFaqs.map((faq, i) => (
+            <div className={`faq-item ${openFaq === i ? 'faq-open' : ''}`} key={i}>
+              <button
+                className="faq-question"
+                onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                type="button"
+                aria-expanded={openFaq === i}
+              >
+                <span>{faq.q}</span>
+                <span className="faq-arrow">{openFaq === i ? '−' : '+'}</span>
+              </button>
+              <div className="home-faq-answer-wrapper">
+                <div className="home-faq-answer-inner">
+                  <p className="faq-answer">{faq.a}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="home-faq-cta">
+          <Link to="/faq" className="btn-primary">{t('home.faqViewAll')}</Link>
         </div>
       </section>
     </div>

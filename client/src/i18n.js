@@ -62,6 +62,8 @@ const en = {
     step2Desc: 'Select the output format you need. Adjust quality, resolution, or enable OCR with our advanced settings.',
     step3Title: 'Download instantly',
     step3Desc: 'Your converted file is ready in seconds. Download it directly or share the link. Files are auto-deleted after 24 hours for your privacy.',
+    faqTitle: 'Frequently asked questions',
+    faqViewAll: 'View all FAQs',
   },
   toolsPage: {
     title: 'All conversion tools',

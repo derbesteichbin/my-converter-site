@@ -3342,6 +3342,43 @@ select:focus-visible {
   padding-right: 2rem;
 }
 
+/* ---- Home FAQ preview ---- */
+.home-faq-section {
+  margin-bottom: 3rem;
+}
+
+.home-faq-section h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.home-faq-list {
+  margin: 0 auto 1.5rem;
+}
+
+.home-faq-section .faq-question {
+  padding: 1rem 0.25rem;
+}
+
+.home-faq-answer-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+}
+
+.home-faq-section .faq-open .home-faq-answer-wrapper {
+  grid-template-rows: 1fr;
+}
+
+.home-faq-answer-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.home-faq-cta {
+  text-align: center;
+}
+
 /* ---- About page ---- */
 .about-section {
   margin-bottom: 2.5rem;
