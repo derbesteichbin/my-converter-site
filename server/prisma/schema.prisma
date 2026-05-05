@@ -29,6 +29,7 @@ model User {
   createdAt        DateTime       @default(now())
   jobs             Job[]
   subscription     Subscription?
+  reviews          Review[]
 }
 
 model Job {
@@ -63,4 +64,16 @@ model Contact {
   subject   String
   message   String
   createdAt DateTime @default(now())
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  userId    String
+  rating    Int
+  comment   String?
+  language  String?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
 }

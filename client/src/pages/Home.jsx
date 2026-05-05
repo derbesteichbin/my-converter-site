@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import SEO from '../components/SEO';
+import HomeReviews from '../components/HomeReviews';
 import { TOOLS, getToolBySlug, getToolLabel } from '../toolsConfig';
 
 const POPULAR_SLUGS = ['pdf-to-word', 'jpg-to-png', 'mp4-to-mp3', 'merge-pdf', 'heic-to-jpg', 'compress-pdf'];
@@ -153,6 +154,9 @@ export default function Home() {
           <Link to="/faq" className="btn-primary">{t('home.faqViewAll')}</Link>
         </div>
       </section>
+
+      {/* User reviews */}
+      <HomeReviews />
     </div>
   );
 }

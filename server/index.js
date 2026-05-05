@@ -10,6 +10,7 @@ const billingRoutes = require('./routes/billing');
 const metadataRoutes = require('./routes/metadata');
 const profileRoutes = require('./routes/profile');
 const smartFunctionsRoutes = require('./routes/smartFunctions');
+const reviewsRoutes = require('./routes/reviews');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -78,6 +79,9 @@ app.use('/api/profile', profileRoutes);
 
 // Smart Functions (OpenAI TTS / Whisper) routes
 app.use('/api/smart', smartFunctionsRoutes);
+
+// User reviews
+app.use('/api/reviews', reviewsRoutes);
 
 // Contact form
 app.post('/api/contact', async (req, res) => {
