@@ -5,13 +5,22 @@ import { api } from '../api';
 
 const SEED_REVIEWS = [
   {
+    id: 'seed-nl-1',
+    author: 'Sanne de Vries',
+    language: 'nl',
+    rating: 5,
+    comment:
+      'Razendsnel een grote videocollectie van MOV naar MP4 omgezet. Werkt feilloos op mijn Mac, geen gedoe met software downloaden. De automatische verwijdering na 24 uur is fijn voor privé materiaal.',
+    createdAt: '2026-04-29T10:30:00Z',
+  },
+  {
     id: 'seed-en-1',
     author: 'Sarah Johnson',
     language: 'en',
     rating: 5,
     comment:
       'Converted a 180 MB MOV file to MP4 in under a minute. The interface is clean, no surprise paywalls, and the file was deleted automatically afterwards. Exactly what I needed.',
-    createdAt: '2026-03-12T09:14:00Z',
+    createdAt: '2026-04-22T09:14:00Z',
   },
   {
     id: 'seed-de-1',
@@ -20,43 +29,7 @@ const SEED_REVIEWS = [
     rating: 5,
     comment:
       'Endlich ein deutscher Konverter mit ordentlichem Datenschutz. Habe ein 80-seitiges PDF in Word umgewandelt – die Formatierung blieb fast perfekt erhalten. Sehr empfehlenswert!',
-    createdAt: '2026-03-04T17:22:00Z',
-  },
-  {
-    id: 'seed-fr-1',
-    author: 'Camille Martin',
-    language: 'fr',
-    rating: 4,
-    comment:
-      "Très pratique pour convertir des images HEIC de mon iPhone en JPG. Tout fonctionne dans le navigateur, pas besoin d'installer un logiciel. Le seul reproche : j'aimerais un mode batch plus rapide.",
-    createdAt: '2026-02-21T11:48:00Z',
-  },
-  {
-    id: 'seed-es-1',
-    author: 'Diego Fernández',
-    language: 'es',
-    rating: 5,
-    comment:
-      'Lo uso casi cada semana para comprimir PDFs antes de enviarlos por correo. Calidad impecable y los archivos se eliminan en 24 horas, lo que me da mucha tranquilidad con documentos confidenciales.',
-    createdAt: '2026-02-15T08:03:00Z',
-  },
-  {
-    id: 'seed-it-1',
-    author: 'Giulia Rossi',
-    language: 'it',
-    rating: 5,
-    comment:
-      'Ho convertito un MP4 in MP3 per estrarre l’audio di una conferenza, in pochi secondi. Niente filigrane, niente registrazioni obbligatorie. Davvero un ottimo strumento.',
-    createdAt: '2026-02-08T14:35:00Z',
-  },
-  {
-    id: 'seed-pt-1',
-    author: 'André Silva',
-    language: 'pt',
-    rating: 4,
-    comment:
-      'Excelente para juntar PDFs antes de assinar digitalmente. A função de mesclar manteve a ordem das páginas perfeitamente. Só faltava uma opção para reordenar com arrastar e soltar.',
-    createdAt: '2026-01-30T19:12:00Z',
+    createdAt: '2026-04-15T17:22:00Z',
   },
   {
     id: 'seed-en-2',
@@ -65,7 +38,97 @@ const SEED_REVIEWS = [
     rating: 5,
     comment:
       'Tried four different sites before this one. ConvertAnyFormat just works — fast, no signup wall for small files, and the OCR on a scanned PDF was surprisingly accurate. Bookmarked.',
-    createdAt: '2026-01-22T13:07:00Z',
+    createdAt: '2026-04-08T13:07:00Z',
+  },
+  {
+    id: 'seed-fr-1',
+    author: 'Camille Martin',
+    language: 'fr',
+    rating: 4,
+    comment:
+      "Très pratique pour convertir des images HEIC de mon iPhone en JPG. Tout fonctionne dans le navigateur, pas besoin d'installer un logiciel. Le seul reproche : j'aimerais un mode batch plus rapide.",
+    createdAt: '2026-04-02T11:48:00Z',
+  },
+  {
+    id: 'seed-es-1',
+    author: 'Diego Fernández',
+    language: 'es',
+    rating: 5,
+    comment:
+      'Lo uso casi cada semana para comprimir PDFs antes de enviarlos por correo. Calidad impecable y los archivos se eliminan en 24 horas, lo que me da mucha tranquilidad con documentos confidenciales.',
+    createdAt: '2026-03-26T08:03:00Z',
+  },
+  {
+    id: 'seed-it-1',
+    author: 'Giulia Rossi',
+    language: 'it',
+    rating: 5,
+    comment:
+      'Ho convertito un MP4 in MP3 per estrarre l’audio di una conferenza, in pochi secondi. Niente filigrane, niente registrazioni obbligatorie. Davvero un ottimo strumento.',
+    createdAt: '2026-03-19T14:35:00Z',
+  },
+  {
+    id: 'seed-pt-1',
+    author: 'André Silva',
+    language: 'pt',
+    rating: 4,
+    comment:
+      'Excelente para juntar PDFs antes de assinar digitalmente. A função de mesclar manteve a ordem das páginas perfeitamente. Só faltava uma opção para reordenar com arrastar e soltar.',
+    createdAt: '2026-03-12T19:12:00Z',
+  },
+  {
+    id: 'seed-pl-1',
+    author: 'Krzysztof Nowak',
+    language: 'pl',
+    rating: 5,
+    comment:
+      'Świetne narzędzie do konwersji DOCX na PDF przed wysyłką do klientów. Czcionki i tabele zachowane jeden do jednego. Brak natrętnych reklam i działa szybko nawet na słabszym łączu.',
+    createdAt: '2026-03-05T12:55:00Z',
+  },
+  {
+    id: 'seed-nl-2',
+    author: 'Bram Jansen',
+    language: 'nl',
+    rating: 4,
+    comment:
+      "Gebruik dit nu wekelijks voor het samenvoegen van klantcontracten. De volgorde van pagina's blijft perfect bewaard en de download is direct beschikbaar. Voor zakelijk gebruik zou ik graag teamaccounts zien.",
+    createdAt: '2026-02-26T16:18:00Z',
+  },
+  {
+    id: 'seed-sv-1',
+    author: 'Emma Lindqvist',
+    language: 'sv',
+    rating: 5,
+    comment:
+      'Använder den nästan dagligen för att komprimera PDF-filer innan jag skickar dem till kunder. Kvaliteten håller och filerna blir betydligt mindre. Skönt att veta att de raderas automatiskt.',
+    createdAt: '2026-02-18T09:42:00Z',
+  },
+  {
+    id: 'seed-no-1',
+    author: 'Henrik Olsen',
+    language: 'no',
+    rating: 4,
+    comment:
+      'Konverterte et helt møtearkiv fra WAV til MP3 på under fem minutter. Lydkvaliteten er fortsatt god og prosessen er enkel. Hadde gjerne sett støtte for litt større filer enn 200 MB.',
+    createdAt: '2026-02-11T15:08:00Z',
+  },
+  {
+    id: 'seed-da-1',
+    author: 'Mette Jensen',
+    language: 'da',
+    rating: 4,
+    comment:
+      'Bruger den til at trække tekst ud af scannede dokumenter med OCR. Resultatet er imponerende præcist på dansk. Indimellem vil jeg gerne kunne gemme indstillinger til næste gang, men ellers fungerer det fint.',
+    createdAt: '2026-02-04T18:24:00Z',
+  },
+  {
+    id: 'seed-cs-1',
+    author: 'Tomáš Novák',
+    language: 'cs',
+    rating: 5,
+    comment:
+      'Konečně konvertor, který opravdu funguje bez registrace u malých souborů. Převod PDF do Wordu zachoval i obrázky a tabulky správně. Doporučuji každému, kdo potřebuje rychlý a čistý výsledek.',
+    createdAt: '2026-01-28T11:36:00Z',
   },
   {
     id: 'seed-de-2',
