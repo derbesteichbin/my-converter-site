@@ -3,6 +3,7 @@ const Stripe = require('stripe');
 const prisma = require('../lib/prisma');
 const { protect } = require('../middleware/auth');
 const { Resend } = require('resend');
+const { notifyNewPurchase, notifyBusinessInquiry } = require('../lib/notifyOwner');
 
 const router = express.Router();
 
@@ -109,18 +110,14 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
           });
           console.log(`User ${userId} purchased ${creditsToAdd} credits`);
 
-          // Notify owner
-          if (process.env.RESEND_API_KEY && process.env.OWNER_EMAIL) {
-            const resend = new Resend(process.env.RESEND_API_KEY);
-            const amount = session.amount_total ? (session.amount_total / 100).toFixed(2) : 'N/A';
-            const currency = (session.currency || 'eur').toUpperCase();
-            resend.emails.send({
-              from: 'ConvertAnyFormat <noreply@convertanyformat.com>',
-              to: process.env.OWNER_EMAIL,
-              subject: 'New Pro upgrade on ConvertAnyFormat',
-              html: `<p>A user just purchased credits:</p><ul><li><strong>Email:</strong> ${user.email}</li><li><strong>Credits:</strong> ${creditsToAdd}</li><li><strong>Amount:</strong> ${amount} ${currency}</li><li><strong>Date:</strong> ${new Date().toISOString()}</li></ul>`,
-            }).catch((err) => console.error('[billing] Owner notification failed:', err.message));
-          }
+          const amountEuros = typeof session.amount_total === 'number'
+            ? session.amount_total / 100
+            : null;
+          notifyNewPurchase({
+            email: user.email,
+            pack: session.metadata?.pack,
+            amountEuros,
+          });
         } catch (err) {
           console.error('Failed to add credits:', err);
         }
@@ -162,20 +159,17 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
 // POST /api/billing/contact — Business plan contact form
 router.post('/contact', protect, async (req, res) => {
   try {
-    const { name, companyEmail, description } = req.body;
+    const { name, company, companyEmail, description } = req.body;
     if (!name || !companyEmail || !description) {
       return res.status(400).json({ error: 'All fields are required' });
     }
 
-    const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
-    if (resend) {
-      await resend.emails.send({
-        from: 'ConvertAnyFormat <noreply@convertanyformat.com>',
-        to: process.env.CONTACT_EMAIL || 'Support@convertanyformat.com',
-        subject: `Business inquiry from ${name}`,
-        html: `<p><strong>Name:</strong> ${name}</p><p><strong>Company Email:</strong> ${companyEmail}</p><p><strong>Description:</strong></p><p>${description}</p>`,
-      });
-    }
+    await notifyBusinessInquiry({
+      name,
+      company,
+      email: companyEmail,
+      message: description,
+    });
 
     res.json({ ok: true });
   } catch (err) {

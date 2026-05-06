@@ -311,6 +311,7 @@ const en = {
     businessDesc: 'Need unlimited conversions, API access, or a custom solution? Contact us for a tailored plan.',
     contactUs: 'Contact us',
     contactName: 'Your name',
+    contactCompanyName: 'Company name (optional)',
     contactCompany: 'Company email',
     contactNeeds: 'Tell us about your needs...',
     sendMessage: 'Send message',

@@ -31,12 +31,14 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
         where: { OR: [{ googleId: profile.id }, { email }] },
       });
 
+      let isNew = false;
       if (user && !user.googleId) {
         user = await prisma.user.update({
           where: { id: user.id },
           data: { googleId: profile.id, displayName: user.displayName || profile.displayName },
         });
       } else if (!user) {
+        isNew = true;
         const referralCode = 'ref_' + crypto.randomBytes(6).toString('hex');
         user = await prisma.user.create({
           data: {
@@ -49,7 +51,7 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
         });
       }
 
-      done(null, user);
+      done(null, user, { isNew });
     } catch (err) { done(err); }
   }));
 }

@@ -32,7 +32,7 @@ export default function Pricing() {
   const toast = useToast();
   const [loading, setLoading] = useState('');
   const [showContact, setShowContact] = useState(false);
-  const [contactForm, setContactForm] = useState({ name: '', companyEmail: '', description: '' });
+  const [contactForm, setContactForm] = useState({ name: '', company: '', companyEmail: '', description: '' });
   const [sending, setSending] = useState(false);
   const [promoInput, setPromoInput] = useState('');
   const [appliedPromo, setAppliedPromo] = useState(''); // '' | PROMO_CODE
@@ -82,7 +82,7 @@ export default function Pricing() {
       if (res.ok) {
         toast(t('pricing.messageSent'), 'success');
         setShowContact(false);
-        setContactForm({ name: '', companyEmail: '', description: '' });
+        setContactForm({ name: '', company: '', companyEmail: '', description: '' });
       } else {
         toast(t('pricing.messageFail'), 'error');
       }
@@ -217,6 +217,7 @@ export default function Pricing() {
         ) : (
           <form className="contact-form" onSubmit={handleContact}>
             <input type="text" placeholder={t('pricing.contactName')} required value={contactForm.name} onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })} />
+            <input type="text" placeholder={t('pricing.contactCompanyName')} value={contactForm.company} onChange={(e) => setContactForm({ ...contactForm, company: e.target.value })} />
             <input type="email" placeholder={t('pricing.contactCompany')} required value={contactForm.companyEmail} onChange={(e) => setContactForm({ ...contactForm, companyEmail: e.target.value })} />
             <textarea placeholder={t('pricing.contactNeeds')} required rows={4} value={contactForm.description} onChange={(e) => setContactForm({ ...contactForm, description: e.target.value })} />
             <div className="contact-form-actions">

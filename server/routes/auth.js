@@ -5,6 +5,7 @@ const crypto = require('crypto');
 const prisma = require('../lib/prisma');
 const passport = require('../lib/passport');
 const { protect } = require('../middleware/auth');
+const { notifyNewRegistration } = require('../lib/notifyOwner');
 
 const router = express.Router();
 
@@ -59,16 +60,7 @@ router.post('/register', async (req, res) => {
       }).catch(() => {});
     }
 
-    // Notify site owner
-    if (process.env.RESEND_API_KEY && process.env.OWNER_EMAIL) {
-      const { Resend } = require('resend');
-      new Resend(process.env.RESEND_API_KEY).emails.send({
-        from: 'ConvertAnyFormat <noreply@convertanyformat.com>',
-        to: process.env.OWNER_EMAIL,
-        subject: 'New user registered on ConvertAnyFormat',
-        html: `<p>A new user just registered:</p><ul><li><strong>Email:</strong> ${email}</li><li><strong>Date:</strong> ${new Date().toISOString()}</li><li><strong>Plan:</strong> free</li></ul>`,
-      }).catch((err) => console.error('[register] Owner notification failed:', err.message));
-    }
+    notifyNewRegistration({ email, method: 'email' });
 
     setTokenCookie(res, user.id);
     res.status(201).json({ user: { id: user.id, email: user.email, plan: user.plan } });
@@ -130,6 +122,9 @@ router.get('/google/callback', (req, res, next) => {
       return res.redirect(`${CLIENT_URL}/login?error=google_no_user`);
     }
     console.log('[google-auth] Success, user:', user.id, user.email);
+    if (info && info.isNew) {
+      notifyNewRegistration({ email: user.email, method: 'google' });
+    }
     setTokenCookie(res, user.id);
     res.redirect(`${CLIENT_URL}/dashboard`);
   })(req, res, next);

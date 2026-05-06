@@ -1,6 +1,7 @@
 const express = require('express');
 const prisma = require('../lib/prisma');
 const { protect } = require('../middleware/auth');
+const { notifyNewReview } = require('../lib/notifyOwner');
 
 const router = express.Router();
 
@@ -63,6 +64,17 @@ router.post('/', protect, async (req, res) => {
         comment: trimmed || null,
         language: lang,
       },
+    });
+
+    const author = await prisma.user.findUnique({
+      where: { id: req.userId },
+      select: { email: true },
+    });
+    notifyNewReview({
+      email: author?.email || 'unknown@user',
+      rating: r,
+      comment: trimmed || '',
+      createdAt: created.createdAt,
     });
 
     res.json({ ok: true, id: created.id });
