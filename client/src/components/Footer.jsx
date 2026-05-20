@@ -25,10 +25,10 @@ export default function Footer() {
           <div className="footer-col">
             <h4>{t('footer.toolsCol')}</h4>
             <Link to="/tools">{t('footer.allTools')}</Link>
-            <Link to="/tools/pdf-to-word">PDF to Word</Link>
-            <Link to="/tools/jpg-to-png">JPG to PNG</Link>
-            <Link to="/tools/mp4-to-mp3">MP4 to MP3</Link>
-            <Link to="/tools/compress-pdf">Compress PDF</Link>
+            <Link to="/tools/pdf-to-word">{t('popularTools.pdfToWord')}</Link>
+            <Link to="/tools/jpg-to-png">{t('popularTools.jpgToPng')}</Link>
+            <Link to="/tools/mp4-to-mp3">{t('popularTools.mp4ToMp3')}</Link>
+            <Link to="/tools/compress-pdf">{t('popularTools.compressPdf')}</Link>
           </div>
           <div className="footer-col">
             <h4>{t('footer.company')}</h4>

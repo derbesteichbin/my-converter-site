@@ -13,6 +13,18 @@ const savedLang = (() => {
 
 const en = {
   brand: 'ConvertAnyFormat',
+  seo: {
+    defaultDesc: 'Convert any file format online for free. 50+ formats supported. PDF, images, video, audio, archives and more. Fast, secure, no signup required.',
+    defaultTitleSuffix: 'Free Online File Converter',
+    loginTitle: 'Log in',
+    loginDesc: 'Log in to ConvertAnyFormat to access your conversion credits, history and tools.',
+    registerTitle: 'Create a free account',
+    registerDesc: 'Sign up free to start converting files. 1 free conversion credit, no credit card required. Sign up by email or with Google.',
+    dashboardTitle: 'Dashboard',
+    dashboardDesc: 'Your ConvertAnyFormat dashboard — recent tools, conversion history and credit balance.',
+    toolsTitle: 'All Conversion Tools',
+    toolsDesc: 'Browse 50+ free online file conversion tools. PDF, Word, Excel, JPG, PNG, MP4, MP3 and more. Fast, secure conversions with no installation. Files deleted after 24 hours.',
+  },
   common: {
     cancel: 'Cancel',
     save: 'Save',
@@ -40,6 +52,9 @@ const en = {
     language: 'Language',
     toggleDark: 'Toggle dark mode',
     home: 'Home',
+    mainNavigation: 'Main navigation',
+    openMenu: 'Open menu',
+    closeMenu: 'Close menu',
   },
   skip: 'Skip to main content',
   home: {
@@ -83,6 +98,9 @@ const en = {
     reviewsThanks: 'Thanks for your review — it has been posted.',
     reviewsError: 'Could not submit review. Please try again.',
     reviewsPickRating: 'Please pick a rating from 1 to 5 stars.',
+    reviewsStarsAria: '{{value}} out of 5',
+    reviewsStarSingular: '{{n}} star',
+    reviewsStarPlural: '{{n}} stars',
   },
   toolsPage: {
     title: 'All conversion tools',
@@ -233,6 +251,8 @@ const en = {
     recordBtn: 'Record from microphone',
     stopRecording: 'Stop recording',
     micPermissionDenied: 'Microphone access denied. Check your browser permissions and try again.',
+    previewAlt: 'Preview',
+    creditPillTitle: 'Conversion credits',
   },
   dash: {
     title: 'Dashboard',
@@ -307,6 +327,11 @@ const en = {
     promoApply: 'Apply',
     promoApplied: '50% discount applied!',
     promoInvalid: 'Invalid promo code',
+    promotionAria: 'Promotion',
+    paymentsUnavailable: 'Payments are temporarily unavailable. Check back soon.',
+    comingSoonBtn: 'Coming soon',
+    seoTitle: 'Pricing - Affordable Credit Packs',
+    seoDesc: 'Affordable conversion credit packs from €0.99. Pay-as-you-go file conversion with no subscription. Credits never expire.',
     business: 'Business',
     businessDesc: 'Need unlimited conversions, API access, or a custom solution? Contact us for a tailored plan.',
     contactUs: 'Contact us',
@@ -431,6 +456,10 @@ const en = {
     ctaTitle: "Ready to convert something?",
     ctaBody: "Browse the full catalogue of conversion tools, pick the one you need, and have a converted file in your downloads folder in seconds. No installation, no signup hurdles for browsing, transparent pay-as-you-go pricing once you do create a free account.",
     ctaButton: "Browse all tools",
+    getInTouchTitle: "Get in touch",
+    getInTouchBody: "Questions, feedback, or partnership ideas? Email us at",
+    getInTouchOr: "or use our",
+    getInTouchContactLink: "Contact page",
   },
   faq: {
     title: "Frequently asked questions",
@@ -491,6 +520,7 @@ const en = {
     sending: 'Sending...',
     sentToast: 'Message sent successfully!',
     sendFail: 'Failed to send',
+    orEmailDirectly: 'Or email us directly at',
   },
   changelog: {
     title: 'Changelog',
@@ -529,6 +559,14 @@ const en = {
     goHome: 'Go to Home',
     browseTools: 'Browse Tools',
     popular: 'Popular tools',
+  },
+  popularTools: {
+    pdfToWord: 'PDF to Word',
+    jpgToPng: 'JPG to PNG',
+    mp4ToMp3: 'MP4 to MP3',
+    compressPdf: 'Compress PDF',
+    mergePdf: 'Merge PDF',
+    heicToJpg: 'HEIC to JPG',
   },
   metadataPage: {
     title: "File Info",
@@ -615,6 +653,8 @@ const en = {
     forgotPasswordPrompt: 'Forgot your current password? Reset via email',
     sendResetLink: 'Send reset link',
     changeFailed: 'Failed to change password',
+    passwordChanged: 'Password changed',
+    resetLinkSent: 'Password reset link sent — check your inbox',
   },
   settings: {
     title: 'Notification Settings',

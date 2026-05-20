@@ -142,9 +142,10 @@ const SEED_REVIEWS = [
 ];
 
 function Stars({ value, size = 18, ariaLabel }) {
+  const { t } = useTranslation();
   const full = Math.round(value);
   return (
-    <span className="rev-stars" aria-label={ariaLabel || `${value} out of 5`} role="img">
+    <span className="rev-stars" aria-label={ariaLabel || t('home.reviewsStarsAria', { value })} role="img">
       {[1, 2, 3, 4, 5].map((n) => (
         <svg
           key={n}
@@ -165,6 +166,7 @@ function Stars({ value, size = 18, ariaLabel }) {
 }
 
 function StarPicker({ value, onChange }) {
+  const { t } = useTranslation();
   const [hover, setHover] = useState(0);
   return (
     <div className="rev-picker" onMouseLeave={() => setHover(0)}>
@@ -177,7 +179,7 @@ function StarPicker({ value, onChange }) {
             className={`rev-picker-btn ${active ? 'rev-picker-on' : ''}`}
             onClick={() => onChange(n)}
             onMouseEnter={() => setHover(n)}
-            aria-label={`${n} ${n === 1 ? 'star' : 'stars'}`}
+            aria-label={n === 1 ? t('home.reviewsStarSingular', { n }) : t('home.reviewsStarPlural', { n })}
           >
             <svg width="32" height="32" viewBox="0 0 24 24" aria-hidden="true">
               <path

@@ -37,7 +37,7 @@ export default function Contact() {
       <h1>{t('contact.title')}</h1>
       <p className="page-subtitle">{t('contact.subtitle')}</p>
       <p style={{ color: 'var(--text-muted)', marginTop: '-0.25rem', marginBottom: '1.5rem', fontSize: '0.9375rem' }}>
-        Or email us directly at <a href="mailto:Support@convertanyformat.com">Support@convertanyformat.com</a>.
+        {t('contact.orEmailDirectly')} <a href="mailto:Support@convertanyformat.com">Support@convertanyformat.com</a>.
       </p>
 
       {sent ? (

@@ -107,9 +107,9 @@ export default function Pricing() {
   return (
     <div className="page">
       <SEO
-        title="Pricing - Affordable Credit Packs"
+        title={t('pricing.seoTitle')}
         path="/pricing"
-        description="Affordable conversion credit packs from €0.99. Pay-as-you-go file conversion with no subscription. Credits never expire."
+        description={t('pricing.seoDesc')}
       />
       <h1 style={{ textAlign: 'center' }}>{t('pricing.title')}</h1>
       <p style={{ textAlign: 'center', color: 'var(--text-muted)', marginBottom: '1.25rem' }}>
@@ -117,7 +117,7 @@ export default function Pricing() {
       </p>
 
       {/* Promo banner — visible on every visit until a different one is launched */}
-      <div className="promo-banner" role="region" aria-label="Promotion">
+      <div className="promo-banner" role="region" aria-label={t('pricing.promotionAria')}>
         <p className="promo-banner-text">
           {t('pricing.promoBannerText', { code: PROMO_CODE.toUpperCase() })}
         </p>
@@ -159,7 +159,7 @@ export default function Pricing() {
             fontSize: '0.9375rem',
           }}
         >
-          Payments are temporarily unavailable. Check back soon.
+          {t('pricing.paymentsUnavailable')}
         </p>
       )}
 
@@ -198,7 +198,7 @@ export default function Pricing() {
               type="button"
             >
               {!PAYMENTS_ENABLED
-                ? 'Coming soon'
+                ? t('pricing.comingSoonBtn')
                 : loading === pack.id
                 ? t('pricing.redirecting')
                 : t('pricing.buyFor', { price: promoActive ? applyDiscount(pack.price) : pack.price })}

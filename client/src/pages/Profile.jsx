@@ -97,7 +97,7 @@ export default function Profile() {
         setPwdError(data.error || t('profile.changeFailed'));
         return;
       }
-      toast('Password changed', 'success');
+      toast(t('profile.passwordChanged'), 'success');
       setCurrentPwd('');
       setNewPwd('');
       setConfirmPwd('');
@@ -118,7 +118,7 @@ export default function Profile() {
         body: JSON.stringify({ email: profile.email }),
       });
       if (res.ok) {
-        toast('Password reset link sent — check your inbox', 'success');
+        toast(t('profile.resetLinkSent'), 'success');
       } else {
         toast(t('forgot.somethingWrong'), 'error');
       }

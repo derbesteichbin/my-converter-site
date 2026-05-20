@@ -96,9 +96,9 @@ export default function Tools() {
   return (
     <div className="page">
       <SEO
-        title="All Conversion Tools"
+        title={t('seo.toolsTitle')}
         path="/tools"
-        description="Browse 50+ free online file conversion tools. PDF, Word, Excel, JPG, PNG, MP4, MP3 and more. Fast, secure conversions with no installation. Files deleted after 24 hours."
+        description={t('seo.toolsDesc')}
       />
       <div className="tools-header">
         <h1>{t('toolsPage.title')}</h1>

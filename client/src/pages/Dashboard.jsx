@@ -87,7 +87,7 @@ export default function Dashboard() {
 
   return (
     <div className="page">
-      <SEO title="Dashboard" path="/dashboard" description="Your ConvertAnyFormat dashboard — recent tools, conversion history and credit balance." />
+      <SEO title={t('seo.dashboardTitle')} path="/dashboard" description={t('seo.dashboardDesc')} />
       <h1>{t('dash.title')}</h1>
 
       {recentTools.length > 0 && (

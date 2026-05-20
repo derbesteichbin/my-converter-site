@@ -19,12 +19,12 @@ export default function NotFound() {
       <div className="not-found-popular">
         <h3>{t('notFound.popular')}</h3>
         <div className="not-found-links">
-          <Link to="/tools/pdf-to-word">PDF to Word</Link>
-          <Link to="/tools/jpg-to-png">JPG to PNG</Link>
-          <Link to="/tools/mp4-to-mp3">MP4 to MP3</Link>
-          <Link to="/tools/compress-pdf">Compress PDF</Link>
-          <Link to="/tools/merge-pdf">Merge PDF</Link>
-          <Link to="/tools/heic-to-jpg">HEIC to JPG</Link>
+          <Link to="/tools/pdf-to-word">{t('popularTools.pdfToWord')}</Link>
+          <Link to="/tools/jpg-to-png">{t('popularTools.jpgToPng')}</Link>
+          <Link to="/tools/mp4-to-mp3">{t('popularTools.mp4ToMp3')}</Link>
+          <Link to="/tools/compress-pdf">{t('popularTools.compressPdf')}</Link>
+          <Link to="/tools/merge-pdf">{t('popularTools.mergePdf')}</Link>
+          <Link to="/tools/heic-to-jpg">{t('popularTools.heicToJpg')}</Link>
         </div>
       </div>
     </div>

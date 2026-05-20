@@ -57,9 +57,9 @@ export default function Register() {
   return (
     <div className="auth-page">
       <SEO
-        title="Create a free account"
+        title={t('seo.registerTitle')}
         path="/register"
-        description="Sign up free to start converting files. 1 free conversion credit, no credit card required. Sign up by email or with Google."
+        description={t('seo.registerDesc')}
       />
       <form className="auth-form" onSubmit={handleSubmit}>
         <h1>{t('auth.createAccount')}</h1>

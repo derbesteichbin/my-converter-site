@@ -42,11 +42,11 @@ export default function About() {
       </section>
 
       <section className="about-section">
-        <h2>Get in touch</h2>
+        <h2>{t('about.getInTouchTitle')}</h2>
         <p>
-          Questions, feedback, or partnership ideas? Email us at{' '}
+          {t('about.getInTouchBody')}{' '}
           <a href="mailto:Support@convertanyformat.com">Support@convertanyformat.com</a>
-          {' '}or use our <Link to="/contact">Contact page</Link>.
+          {' '}{t('about.getInTouchOr')} <Link to="/contact">{t('about.getInTouchContactLink')}</Link>.
         </p>
       </section>
 

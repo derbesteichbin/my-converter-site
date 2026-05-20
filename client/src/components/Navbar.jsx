@@ -116,7 +116,7 @@ export default function Navbar({ scrolled = false }) {
   const closeMenu = () => setMenuOpen(false);
 
   return (
-    <nav className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`} role="navigation" aria-label="Main navigation">
+    <nav className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`} role="navigation" aria-label={t('nav.mainNavigation')}>
       <Link to="/" className="navbar-logo" aria-label={t('nav.home')} onClick={closeMenu}>
         <img
           src={theme === 'dark' ? '/images/logo-dark.png' : '/images/logo-light.png'}
@@ -145,7 +145,7 @@ export default function Navbar({ scrolled = false }) {
           console.log('[Navbar] hamburger clicked, current menuOpen =', menuOpen);
           setMenuOpen((prev) => !prev);
         }}
-        aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+        aria-label={menuOpen ? t('nav.closeMenu') : t('nav.openMenu')}
         aria-expanded={menuOpen}
         aria-controls="mobile-nav-panel"
         type="button"

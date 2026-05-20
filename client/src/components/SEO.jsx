@@ -1,13 +1,16 @@
 import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
 
 const SITE_NAME = 'ConvertAnyFormat';
-const DEFAULT_DESC = 'Convert any file format online for free. 50+ formats supported. PDF, images, video, audio, archives and more. Fast, secure, no signup required.';
 const DEFAULT_IMAGE = '/images/logo-light.png';
 const SITE_URL = 'https://www.convertanyformat.com';
 
 export default function SEO({ title, description, path = '', image, jsonLd, twitterCard = 'summary_large_image' }) {
-  const fullTitle = title ? `${title} - ${SITE_NAME}` : `${SITE_NAME} - Free Online File Converter`;
-  const desc = description || DEFAULT_DESC;
+  const { t } = useTranslation();
+  const defaultDesc = t('seo.defaultDesc');
+  const defaultTitleSuffix = t('seo.defaultTitleSuffix');
+  const fullTitle = title ? `${title} - ${SITE_NAME}` : `${SITE_NAME} - ${defaultTitleSuffix}`;
+  const desc = description || defaultDesc;
   const url = `${SITE_URL}${path}`;
   const img = image || `${SITE_URL}${DEFAULT_IMAGE}`;
 

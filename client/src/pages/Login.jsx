@@ -53,9 +53,9 @@ export default function Login() {
   return (
     <div className="auth-page">
       <SEO
-        title="Log in"
+        title={t('seo.loginTitle')}
         path="/login"
-        description="Log in to ConvertAnyFormat to access your conversion credits, history and tools."
+        description={t('seo.loginDesc')}
       />
       <form className="auth-form" onSubmit={handleSubmit}>
         <h1>{t('auth.logIn')}</h1>

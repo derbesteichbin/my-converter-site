@@ -701,9 +701,9 @@ export default function ToolPage() {
       const succeeded = batchJobs.filter((j) => j.status === 'done').length;
       const failed = batchJobs.filter((j) => j.status === 'failed').length;
       if (failed === 0) {
-        toast(`${succeeded} file${succeeded > 1 ? 's' : ''} converted successfully!`, 'success');
+        toast(t(succeeded === 1 ? 'tool.succeeded' : 'tool.succeededPlural', { count: succeeded }), 'success');
       } else {
-        toast(`${succeeded} succeeded, ${failed} failed`, 'error');
+        toast(t('tool.mixedResult', { ok: succeeded, fail: failed }), 'error');
       }
       // Start 24h expiry countdown
       setExpiryTime(Date.now() + 24 * 60 * 60 * 1000);
@@ -716,7 +716,7 @@ export default function ToolPage() {
     const tick = setInterval(() => {
       const remaining = expiryTime - Date.now();
       if (remaining <= 0) {
-        setCountdown('Expired');
+        setCountdown(t('tool.expired'));
         clearInterval(tick);
         return;
       }
@@ -742,7 +742,7 @@ export default function ToolPage() {
         body: JSON.stringify({ filenames }),
       });
 
-      if (!res.ok) throw new Error('ZIP download failed');
+      if (!res.ok) throw new Error(t('tool.zipFailed'));
 
       const blob = await res.blob();
       const url = URL.createObjectURL(blob);
@@ -751,7 +751,7 @@ export default function ToolPage() {
       a.download = 'converted-files.zip';
       a.click();
       URL.revokeObjectURL(url);
-      toast('ZIP downloaded!', 'success');
+      toast(t('tool.zipDownloaded'), 'success');
     } catch (err) {
       toast(err.message, 'error');
     }
@@ -801,7 +801,7 @@ export default function ToolPage() {
         {hasFiles && files.length === 1 && !isPdfMerge ? (
           <div className="dropzone-file">
             {isImageFile(files[0]) && (
-              <img className="file-preview-thumb" src={URL.createObjectURL(files[0])} alt="Preview" />
+              <img className="file-preview-thumb" src={URL.createObjectURL(files[0])} alt={t('tool.previewAlt')} />
             )}
             {!isImageFile(files[0]) && (
               <span className="file-preview-icon">{files[0].name.split('.').pop().toUpperCase()}</span>
@@ -842,11 +842,11 @@ export default function ToolPage() {
       {/* File info bar */}
       {hasFiles && overallStatus === 'idle' && (
         <div className="file-info-bar">
-          <span>{files.length} {files.length === 1 ? 'file' : 'files'} — {formatSize(files.reduce((s, f) => s + f.size, 0))} total</span>
+          <span>{t('tool.fileInfoSummary', { count: files.length, label: t(files.length === 1 ? 'tool.fileSingular' : 'tool.filePlural'), size: formatSize(files.reduce((s, f) => s + f.size, 0)) })}</span>
           <span className="file-info-details">
             {files.length === 1 && toolDef?.inputFormats && (
               <span className="file-info-output">
-                Est. output: ~{formatSize(estimateOutputSize(files[0].size, files[0].name.split('.').pop().toLowerCase(), outputFormat))}
+                {t('tool.estOutputLabel', { size: formatSize(estimateOutputSize(files[0].size, files[0].name.split('.').pop().toLowerCase(), outputFormat)) })}
               </span>
             )}
             <span className="file-info-time">{t('tool.estTime')}: {estimateTime(files)}</span>
@@ -985,15 +985,15 @@ export default function ToolPage() {
                     {isCompressTool && job.outputSize && job.inputSize && (
                       <span className="compression-stat">
                         {formatSize(job.inputSize)} &rarr; {formatSize(job.outputSize)}
-                        ({Math.round((1 - job.outputSize / job.inputSize) * 100)}% smaller)
+                        {' '}({t('tool.smaller', { pct: Math.round((1 - job.outputSize / job.inputSize) * 100) })})
                       </span>
                     )}
                     <a href={`${API_URL}${job.downloadUrl}`} className="batch-download" download>{t('common.download')}</a>
                     <button className="btn-share" aria-label={t('tool.share')} onClick={async () => {
                       const url = `${window.location.origin}${API_URL}${job.downloadUrl}`;
                       const result = await shareOrCopy(url);
-                      if (result === 'copied') toast('Download link copied!', 'success');
-                      else if (result === 'shared') toast('Shared!', 'success');
+                      if (result === 'copied') toast(t('tool.linkCopied'), 'success');
+                      else if (result === 'shared') toast(t('tool.shared'), 'success');
                     }} type="button">{t('tool.share')}</button>
                   </>
                 )}
@@ -1007,7 +1007,7 @@ export default function ToolPage() {
           {overallStatus === 'done' && (
             <div className="batch-done-actions">
               {batchJobs.filter((j) => j.status === 'done').length > 1 && (
-                <button className="btn-primary" onClick={handleDownloadAll} type="button" aria-label="Download all as ZIP">{t('tool.downloadAll')}</button>
+                <button className="btn-primary" onClick={handleDownloadAll} type="button" aria-label={t('tool.downloadAll')}>{t('tool.downloadAll')}</button>
               )}
               <button className="btn-ghost" onClick={handleReset}>{t('tool.convertMore')}</button>
               {countdown && (
@@ -1065,7 +1065,7 @@ export default function ToolPage() {
             {authState.status === 'authed' && (
               <span
                 className="credit-pill"
-                title="Conversion credits"
+                title={t('tool.creditPillTitle')}
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
