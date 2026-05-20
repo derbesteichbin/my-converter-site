@@ -31,15 +31,15 @@ export default function Impressum() {
       <section>
         <h2>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h2>
         <p>
-          Arwand Moobed Mehdiabadi<br />
-          Suitbertus Str. 3<br />
+          Owjan Moobed Mehdiabadi<br />
+          Suitbertus Str. 5<br />
           40223 Düsseldorf
         </p>
       </section>
 
       <section>
         <h2>Steuernummer</h2>
-        <p>Wird nach Gewerbeanmeldung ergänzt.</p>
+        <p>49085276153</p>
       </section>
 
       <section>

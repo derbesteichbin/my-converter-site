@@ -1,7 +1,30 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(git *)",
+      "Bash(node --check server/routes/auth.js)",
+      "Bash(node --check C:/Users/lordc/Documents/Claude/my-converter-site/server/routes/auth.js)",
+      "Bash(node --check C:/Users/lordc/Documents/Claude/my-converter-site/server/routes/convert.js)",
+      "Bash(npm run *)",
+      "Bash(node -e \"require\\('./toolsConfig.js'\\); require\\('./routes/convert.js'\\); console.log\\('OK'\\);\")",
+      "Bash(pkill -f \"vite\")",
+      "Bash(node *)",
+      "Bash(pkill -f vite)",
+      "Bash(curl -s http://localhost:5173/ -o /tmp/index.html)",
+      "Read(//tmp/**)",
+      "Bash(curl -sf http://localhost:5174/ -o /dev/null)",
+      "Read(//c/c/Users/lordc/Documents/Claude/my-converter-site/client/src/pages/**)",
+      "Bash(curl -fsS http://127.0.0.1:5180/src/pages/Home.jsx -o /tmp/home_jsx.txt)",
+      "Bash(curl -fsS http://127.0.0.1:5180/src/index.css -o /tmp/css.txt)",
+      "Bash(pkill -f \"vite --port 5180\")",
+      "Bash(npx prisma *)",
+      "Bash(tasklist)",
+      "Bash(curl -fsS http://127.0.0.1:5181 -o /tmp/h2.html)",
+      "Bash(curl -fsS http://127.0.0.1:5181/src/components/HomeReviews.jsx -o /tmp/r.txt)",
+      "Bash(curl -fsS http://127.0.0.1:5181/src/pages/Home.jsx -o /tmp/h.txt)",
+      "Bash(pkill -f \"vite --port 5181\")",
+      "Bash(grep -nB2 -A8 \"/api/billing/contact\\\\|business\" client/src/pages/Pricing.jsx)"
     ]
   }
 }
