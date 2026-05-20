@@ -1,61 +1,74 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import SEO from '../components/SEO';
 import { useToast } from '../components/Toast';
 
 function CodeBlock({ label, code }) {
+  const { t } = useTranslation();
   const toast = useToast();
   return (
     <div className="code-block">
       <div className="code-block-header">
         <span>{label}</span>
-        <button className="btn-copy-code" onClick={() => { navigator.clipboard.writeText(code); toast('Copied!', 'success'); }} type="button">Copy</button>
+        <button className="btn-copy-code" onClick={() => { navigator.clipboard.writeText(code); toast(t('apiDocs.copiedToast'), 'success'); }} type="button">{t('apiDocs.copyBtn')}</button>
       </div>
       <pre className="code-block-body"><code>{code}</code></pre>
     </div>
   );
 }
 
-const NAV_SECTIONS = [
-  { id: 'docs', title: 'Documentation', items: [
-    { id: 'overview', label: 'API Overview' },
-    { id: 'auth', label: 'Authentication' },
-    { id: 'endpoints', label: 'Endpoints' },
-    { id: 'examples', label: 'Code Examples' },
-    { id: 'rate-limits', label: 'Rate Limits' },
-  ]},
-  { id: 'conversion', title: 'Conversion APIs', items: [
-    { label: 'File Conversion API', slug: 'pdf-to-word' },
-    { label: 'Image Conversion API', slug: 'jpg-to-png' },
-    { label: 'Audio Conversion API', slug: 'mp3-to-wav' },
-    { label: 'Document Conversion API', slug: 'word-to-pdf' },
-    { label: 'PDF Conversion API', slug: 'compress-pdf' },
-    { label: 'MP4 Conversion API', slug: 'mp4-to-avi' },
-    { label: 'Video Conversion API', slug: 'mov-to-mp4' },
-  ]},
-  { id: 'specific', title: 'Specific APIs', items: [
-    { label: 'JPG to PDF API', slug: 'jpg-to-png', format: 'pdf' },
-    { label: 'Video to MP3 API', slug: 'mp4-to-mp3' },
-    { label: 'HEIC to JPG API', slug: 'heic-to-jpg' },
-    { label: 'PDF to JPG API', slug: 'pdf-to-word', format: 'jpg' },
-    { label: 'WebP to PNG API', slug: 'webp-to-png' },
-    { label: 'PDF to Word API', slug: 'pdf-to-word' },
-    { label: 'MP4 to MP3 API', slug: 'mp4-to-mp3' },
-    { label: 'WebP to JPG API', slug: 'webp-to-jpg' },
-    { label: 'Word to PDF API', slug: 'word-to-pdf' },
-    { label: 'HTML to PDF API', slug: 'html-to-pdf' },
-    { label: 'Website Screenshot API', slug: 'html-to-pdf' },
-  ]},
-  { id: 'compression', title: 'Compression APIs', items: [
-    { label: 'Video Compression API', slug: 'mp4-to-avi' },
-    { label: 'Compress PDF API', slug: 'compress-pdf' },
-    { label: 'Image Compression API', slug: 'jpg-to-png' },
-  ]},
-];
+// Sidebar structure. Anchor items use `id` for in-page navigation; tool-link
+// items use `slug` to route to the actual conversion tool. Labels are keys
+// into the apiDocs.* namespace so the whole sidebar localises.
+function buildNavSections(t) {
+  return [
+    { id: 'docs', title: t('apiDocs.navDocs'), items: [
+      { id: 'overview', label: t('apiDocs.navOverview') },
+      { id: 'auth', label: t('apiDocs.navAuth') },
+      { id: 'endpoints', label: t('apiDocs.navEndpoints') },
+      { id: 'examples', label: t('apiDocs.navExamples') },
+      { id: 'rate-limits', label: t('apiDocs.navRateLimits') },
+    ]},
+    { id: 'conversion', title: t('apiDocs.navConversion'), items: [
+      { label: t('apiDocs.navFileConversion'), slug: 'pdf-to-word' },
+      { label: t('apiDocs.navImageConversion'), slug: 'jpg-to-png' },
+      { label: t('apiDocs.navAudioConversion'), slug: 'mp3-to-wav' },
+      { label: t('apiDocs.navDocumentConversion'), slug: 'word-to-pdf' },
+      { label: t('apiDocs.navPdfConversion'), slug: 'compress-pdf' },
+      { label: t('apiDocs.navMp4Conversion'), slug: 'mp4-to-avi' },
+      { label: t('apiDocs.navVideoConversion'), slug: 'mov-to-mp4' },
+    ]},
+    { id: 'specific', title: t('apiDocs.navSpecific'), items: [
+      { label: t('apiDocs.navJpgToPdf'), slug: 'jpg-to-png', format: 'pdf' },
+      { label: t('apiDocs.navVideoToMp3'), slug: 'mp4-to-mp3' },
+      { label: t('apiDocs.navHeicToJpg'), slug: 'heic-to-jpg' },
+      { label: t('apiDocs.navPdfToJpg'), slug: 'pdf-to-word', format: 'jpg' },
+      { label: t('apiDocs.navWebpToPng'), slug: 'webp-to-png' },
+      { label: t('apiDocs.navPdfToWord'), slug: 'pdf-to-word' },
+      { label: t('apiDocs.navMp4ToMp3'), slug: 'mp4-to-mp3' },
+      { label: t('apiDocs.navWebpToJpg'), slug: 'webp-to-jpg' },
+      { label: t('apiDocs.navWordToPdf'), slug: 'word-to-pdf' },
+      { label: t('apiDocs.navHtmlToPdf'), slug: 'html-to-pdf' },
+      { label: t('apiDocs.navWebsiteScreenshot'), slug: 'html-to-pdf' },
+    ]},
+    { id: 'compression', title: t('apiDocs.navCompression'), items: [
+      { label: t('apiDocs.navVideoCompression'), slug: 'mp4-to-avi' },
+      { label: t('apiDocs.navCompressPdf'), slug: 'compress-pdf' },
+      { label: t('apiDocs.navImageCompression'), slug: 'jpg-to-png' },
+    ]},
+  ];
+}
 
 export default function ApiDocs() {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('curl');
 
+  const navSections = buildNavSections(t);
+
+  // Code-example snippets stay in English: programming languages (cURL,
+  // JavaScript, Python) are universally written that way, and the code
+  // itself is a technical artefact, not UI text.
   const examples = {
     curl: {
       label: 'cURL',
@@ -122,11 +135,11 @@ with open("output.docx", "wb") as f:
 
   return (
     <div className="api-docs-layout">
-      <SEO title="API Documentation" path="/api-docs" description="ConvertAnyFormat REST API documentation. Code examples in cURL, JavaScript, and Python." />
+      <SEO title={t('apiDocs.seoTitle')} path="/api-docs" description={t('apiDocs.seoDesc')} />
 
       {/* Sidebar navigation */}
       <aside className="api-sidebar">
-        {NAV_SECTIONS.map((section) => (
+        {navSections.map((section) => (
           <div key={section.id} className="api-sidebar-group">
             <h4 className="api-sidebar-title">{section.title}</h4>
             {section.items.map((item) => (
@@ -142,95 +155,95 @@ with open("output.docx", "wb") as f:
 
       {/* Main content */}
       <div className="api-docs-main">
-        <h1>API Documentation</h1>
+        <h1>{t('apiDocs.pageTitle')}</h1>
         <p style={{ color: 'var(--text-muted)', marginBottom: '2rem' }}>
-          Integrate file conversion into your applications with our REST API. Generate an API key from your <Link to="/dashboard">Dashboard</Link>.
+          {t('apiDocs.pageIntro')} <Link to="/dashboard">{t('apiDocs.pageIntroLinkText')}</Link>.
         </p>
 
         <section className="api-section" id="overview">
-          <h2>API Overview</h2>
-          <p>The ConvertAnyFormat API allows you to programmatically convert files between 50+ formats. The workflow is simple:</p>
+          <h2>{t('apiDocs.overviewTitle')}</h2>
+          <p>{t('apiDocs.overviewIntro')}</p>
           <ol>
-            <li><strong>Upload</strong> a file with your desired output format</li>
-            <li><strong>Poll</strong> the job status until it's done</li>
-            <li><strong>Download</strong> the converted file</li>
+            <li><strong>{t('apiDocs.workflowUpload')}</strong> {t('apiDocs.workflowUploadDesc')}</li>
+            <li><strong>{t('apiDocs.workflowPoll')}</strong> {t('apiDocs.workflowPollDesc')}</li>
+            <li><strong>{t('apiDocs.workflowDownload')}</strong> {t('apiDocs.workflowDownloadDesc')}</li>
           </ol>
-          <p>Base URL: <code>https://your-api.railway.app</code></p>
+          <p>{t('apiDocs.baseUrl')} <code>https://your-api.railway.app</code></p>
         </section>
 
         <section className="api-section" id="auth">
-          <h2>Authentication</h2>
-          <p>All requests require authentication via a session cookie. Log in through the web interface or pass your JWT token as a cookie header.</p>
+          <h2>{t('apiDocs.authTitle')}</h2>
+          <p>{t('apiDocs.authBody')}</p>
         </section>
 
         <section className="api-section" id="endpoints">
-          <h2>Endpoints</h2>
-          <div className="api-endpoint"><span className="api-method api-method-post">POST</span><code>/api/convert</code><span className="api-desc">Upload and start conversion</span></div>
-          <div className="api-endpoint"><span className="api-method api-method-post">POST</span><code>/api/convert/pdf-tool</code><span className="api-desc">PDF operations (merge, split, compress)</span></div>
-          <div className="api-endpoint"><span className="api-method api-method-get">GET</span><code>/api/jobs/:id</code><span className="api-desc">Check job status</span></div>
-          <div className="api-endpoint"><span className="api-method api-method-get">GET</span><code>/api/jobs</code><span className="api-desc">List all your jobs</span></div>
-          <div className="api-endpoint"><span className="api-method api-method-get">GET</span><code>/api/download/:filename</code><span className="api-desc">Download converted file</span></div>
-          <div className="api-endpoint"><span className="api-method api-method-post">POST</span><code>/api/download-zip</code><span className="api-desc">Download multiple files as ZIP</span></div>
-          <div className="api-endpoint"><span className="api-method api-method-post">POST</span><code>/api/metadata</code><span className="api-desc">Extract file metadata</span></div>
+          <h2>{t('apiDocs.endpointsTitle')}</h2>
+          <div className="api-endpoint"><span className="api-method api-method-post">POST</span><code>/api/convert</code><span className="api-desc">{t('apiDocs.endpointConvert')}</span></div>
+          <div className="api-endpoint"><span className="api-method api-method-post">POST</span><code>/api/convert/pdf-tool</code><span className="api-desc">{t('apiDocs.endpointPdfTool')}</span></div>
+          <div className="api-endpoint"><span className="api-method api-method-get">GET</span><code>/api/jobs/:id</code><span className="api-desc">{t('apiDocs.endpointJobStatus')}</span></div>
+          <div className="api-endpoint"><span className="api-method api-method-get">GET</span><code>/api/jobs</code><span className="api-desc">{t('apiDocs.endpointJobsList')}</span></div>
+          <div className="api-endpoint"><span className="api-method api-method-get">GET</span><code>/api/download/:filename</code><span className="api-desc">{t('apiDocs.endpointDownload')}</span></div>
+          <div className="api-endpoint"><span className="api-method api-method-post">POST</span><code>/api/download-zip</code><span className="api-desc">{t('apiDocs.endpointDownloadZip')}</span></div>
+          <div className="api-endpoint"><span className="api-method api-method-post">POST</span><code>/api/metadata</code><span className="api-desc">{t('apiDocs.endpointMetadata')}</span></div>
 
-          <h3>Parameters for POST /api/convert</h3>
+          <h3>{t('apiDocs.paramsTitle')}</h3>
           <table className="api-params-table">
-            <thead><tr><th>Field</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>
+            <thead><tr><th>{t('apiDocs.paramField')}</th><th>{t('apiDocs.paramType')}</th><th>{t('apiDocs.paramRequired')}</th><th>{t('apiDocs.paramDescription')}</th></tr></thead>
             <tbody>
-              <tr><td><code>file</code></td><td>File</td><td>Yes</td><td>The file to convert (multipart form, max 200MB)</td></tr>
-              <tr><td><code>outputFormat</code></td><td>String</td><td>Yes</td><td>Target format (e.g. docx, png, mp3)</td></tr>
-              <tr><td><code>toolSlug</code></td><td>String</td><td>Yes</td><td>Tool identifier (e.g. pdf-to-word, jpg-to-png)</td></tr>
-              <tr><td><code>notifyEmail</code></td><td>String</td><td>No</td><td>Set to "true" to receive email when done</td></tr>
+              <tr><td><code>file</code></td><td>{t('apiDocs.paramTypeFile')}</td><td>{t('apiDocs.paramYes')}</td><td>{t('apiDocs.paramFileDesc')}</td></tr>
+              <tr><td><code>outputFormat</code></td><td>{t('apiDocs.paramTypeString')}</td><td>{t('apiDocs.paramYes')}</td><td>{t('apiDocs.paramOutputFormatDesc')}</td></tr>
+              <tr><td><code>toolSlug</code></td><td>{t('apiDocs.paramTypeString')}</td><td>{t('apiDocs.paramYes')}</td><td>{t('apiDocs.paramToolSlugDesc')}</td></tr>
+              <tr><td><code>notifyEmail</code></td><td>{t('apiDocs.paramTypeString')}</td><td>{t('apiDocs.paramNo')}</td><td>{t('apiDocs.paramNotifyEmailDesc')}</td></tr>
             </tbody>
           </table>
 
-          <h3>Job status response</h3>
+          <h3>{t('apiDocs.jobResponseTitle')}</h3>
           <table className="api-params-table">
-            <thead><tr><th>Field</th><th>Description</th></tr></thead>
+            <thead><tr><th>{t('apiDocs.paramField')}</th><th>{t('apiDocs.paramDescription')}</th></tr></thead>
             <tbody>
-              <tr><td><code>id</code></td><td>Job ID</td></tr>
-              <tr><td><code>status</code></td><td>pending, processing, done, or failed</td></tr>
-              <tr><td><code>downloadUrl</code></td><td>Available when status is "done"</td></tr>
-              <tr><td><code>outputSize</code></td><td>Output file size in bytes (when done)</td></tr>
+              <tr><td><code>id</code></td><td>{t('apiDocs.jobResponseId')}</td></tr>
+              <tr><td><code>status</code></td><td>{t('apiDocs.jobResponseStatus')}</td></tr>
+              <tr><td><code>downloadUrl</code></td><td>{t('apiDocs.jobResponseDownloadUrl')}</td></tr>
+              <tr><td><code>outputSize</code></td><td>{t('apiDocs.jobResponseOutputSize')}</td></tr>
             </tbody>
           </table>
         </section>
 
         <section className="api-section" id="examples">
-          <h2>Code Examples</h2>
+          <h2>{t('apiDocs.examplesTitle')}</h2>
           <div className="api-tabs">
             {Object.entries(examples).map(([key, val]) => (
               <button key={key} className={`api-tab ${activeTab === key ? 'api-tab-active' : ''}`} onClick={() => setActiveTab(key)} type="button">{val.label}</button>
             ))}
           </div>
-          <h3>1. Upload and convert a file</h3>
+          <h3>{t('apiDocs.exampleStep1')}</h3>
           <CodeBlock label={active.label} code={active.upload} />
-          <h3>2. Check conversion status</h3>
+          <h3>{t('apiDocs.exampleStep2')}</h3>
           <CodeBlock label={active.label} code={active.status} />
-          <h3>3. Download the result</h3>
+          <h3>{t('apiDocs.exampleStep3')}</h3>
           <CodeBlock label={active.label} code={active.download} />
         </section>
 
         <section className="api-section" id="rate-limits">
-          <h2>Rate Limits</h2>
+          <h2>{t('apiDocs.rateLimitsTitle')}</h2>
           <table className="api-params-table">
-            <thead><tr><th>Plan</th><th>Limit</th><th>File Size</th></tr></thead>
+            <thead><tr><th>{t('apiDocs.rateLimitsPlan')}</th><th>{t('apiDocs.rateLimitsLimit')}</th><th>{t('apiDocs.rateLimitsFileSize')}</th></tr></thead>
             <tbody>
-              <tr><td>Free</td><td>1 credit (included)</td><td>200 MB</td></tr>
-              <tr><td>Pay-as-you-go</td><td>Credits never expire</td><td>200 MB</td></tr>
-              <tr><td>Business</td><td>Unlimited</td><td>Custom</td></tr>
+              <tr><td>{t('apiDocs.rateLimitsFree')}</td><td>{t('apiDocs.rateLimitsFreeLimit')}</td><td>200 MB</td></tr>
+              <tr><td>{t('apiDocs.rateLimitsPayg')}</td><td>{t('apiDocs.rateLimitsPaygLimit')}</td><td>200 MB</td></tr>
+              <tr><td>{t('apiDocs.rateLimitsBusiness')}</td><td>{t('apiDocs.rateLimitsBusinessLimit')}</td><td>{t('apiDocs.rateLimitsBusinessSize')}</td></tr>
             </tbody>
           </table>
-          <p>Files are automatically deleted after 24 hours.</p>
+          <p>{t('apiDocs.rateLimitsNote')}</p>
         </section>
 
         {/* Conversion API sections */}
         <section className="api-section">
-          <h2>Available Conversion APIs</h2>
-          <p>All conversions use the same <code>POST /api/convert</code> endpoint. Set the <code>toolSlug</code> parameter to the desired tool.</p>
+          <h2>{t('apiDocs.availableTitle')}</h2>
+          <p>{t('apiDocs.availableIntroPart1')} <code>POST /api/convert</code> {t('apiDocs.availableIntroPart2')} <code>toolSlug</code> {t('apiDocs.availableIntroPart3')}</p>
 
           <div className="api-tools-grid">
-            {NAV_SECTIONS.filter((s) => s.id !== 'docs').map((section) => (
+            {navSections.filter((s) => s.id !== 'docs').map((section) => (
               <div key={section.id}>
                 <h3>{section.title}</h3>
                 <div className="api-tools-list">
