@@ -16,8 +16,8 @@ export default function Impressum() {
       <section>
         <h2>Angaben gemäß § 5 TMG</h2>
         <p>
-          <strong>Name:</strong> Arwand Moobed Mehdiabadi<br />
-          <strong>Adresse:</strong> Suitbertus Str. 3, 40223 Düsseldorf, Deutschland
+          <strong>Name:</strong> Owjan Moobed Mehdiabadi<br />
+          <strong>Adresse:</strong> Suitbertus Str. 5, 40223 Düsseldorf, Deutschland
         </p>
       </section>
 
