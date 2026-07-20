@@ -64,20 +64,30 @@ router.post('/', protect, async (req, res) => {
         comment: trimmed || null,
         language: lang,
       },
+      include: { user: { select: { displayName: true, email: true } } },
     });
 
-    const author = await prisma.user.findUnique({
-      where: { id: req.userId },
-      select: { email: true },
-    });
     notifyNewReview({
-      email: author?.email || 'unknown@user',
+      email: created.user?.email || 'unknown@user',
       rating: r,
       comment: trimmed || '',
       createdAt: created.createdAt,
     });
 
-    res.json({ ok: true, id: created.id });
+    // Return the created review in the same shape as GET /api/reviews items,
+    // so the client can append it to the list immediately without a reload.
+    const review = {
+      id: created.id,
+      rating: created.rating,
+      comment: created.comment,
+      language: created.language,
+      createdAt: created.createdAt,
+      author:
+        created.user?.displayName ||
+        (created.user?.email ? created.user.email.split('@')[0] : 'User'),
+    };
+
+    res.status(201).json({ ok: true, review });
   } catch (err) {
     console.error('Create review error:', err);
     res.status(500).json({ error: 'Failed to submit review' });

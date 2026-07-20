@@ -3,141 +3,41 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { api } from '../api';
 
-const SEED_REVIEWS = [
+// Exactly three illustrative example reviews. These are NOT real customer
+// reviews — they are shown as clearly-labelled examples (see the "Example
+// review" badge in the UI) so the section is transparent and legally
+// compliant. Real, user-submitted reviews are loaded from the API and shown
+// separately, above these, without the example label.
+const EXAMPLE_REVIEWS = [
   {
-    id: 'seed-nl-1',
-    author: 'Sanne de Vries',
-    language: 'nl',
-    rating: 5,
-    comment:
-      'Razendsnel een grote videocollectie van MOV naar MP4 omgezet. Werkt feilloos op mijn Mac, geen gedoe met software downloaden. De automatische verwijdering na 24 uur is fijn voor privé materiaal.',
-    createdAt: '2026-05-04T08:42:00Z',
-  },
-  {
-    id: 'seed-en-1',
+    id: 'example-en-1',
     author: 'Sarah Johnson',
     language: 'en',
     rating: 5,
     comment:
       'Converted a 180 MB MOV file to MP4 in under a minute. The interface is clean, no surprise paywalls, and the file was deleted automatically afterwards. Exactly what I needed.',
     createdAt: '2026-05-02T19:11:00Z',
+    isExample: true,
   },
   {
-    id: 'seed-de-1',
+    id: 'example-de-1',
     author: 'Lukas Schneider',
     language: 'de',
     rating: 5,
     comment:
       'Endlich ein deutscher Konverter mit ordentlichem Datenschutz. Habe ein 80-seitiges PDF in Word umgewandelt – die Formatierung blieb fast perfekt erhalten. Sehr empfehlenswert!',
     createdAt: '2026-05-02T13:25:00Z',
+    isExample: true,
   },
   {
-    id: 'seed-en-2',
-    author: 'James Carter',
-    language: 'en',
-    rating: 5,
-    comment:
-      'Tried four different sites before this one. ConvertAnyFormat just works — fast, no signup wall for small files, and the OCR on a scanned PDF was surprisingly accurate. Bookmarked.',
-    createdAt: '2026-04-18T22:07:00Z',
-  },
-  {
-    id: 'seed-fr-1',
+    id: 'example-fr-1',
     author: 'Camille Martin',
     language: 'fr',
-    rating: 4,
+    rating: 5,
     comment:
-      "Très pratique pour convertir des images HEIC de mon iPhone en JPG. Tout fonctionne dans le navigateur, pas besoin d'installer un logiciel. Le seul reproche : j'aimerais un mode batch plus rapide.",
+      "Très pratique pour convertir des images HEIC de mon iPhone en JPG. Tout fonctionne dans le navigateur, pas besoin d'installer un logiciel. Rapide et sans inscription pour les petits fichiers.",
     createdAt: '2026-04-16T11:33:00Z',
-  },
-  {
-    id: 'seed-es-1',
-    author: 'Diego Fernández',
-    language: 'es',
-    rating: 5,
-    comment:
-      'Lo uso casi cada semana para comprimir PDFs antes de enviarlos por correo. Calidad impecable y los archivos se eliminan en 24 horas, lo que me da mucha tranquilidad con documentos confidenciales.',
-    createdAt: '2026-04-15T16:48:00Z',
-  },
-  {
-    id: 'seed-it-1',
-    author: 'Giulia Rossi',
-    language: 'it',
-    rating: 5,
-    comment:
-      'Ho convertito un MP4 in MP3 per estrarre l’audio di una conferenza, in pochi secondi. Niente filigrane, niente registrazioni obbligatorie. Davvero un ottimo strumento.',
-    createdAt: '2026-04-13T09:54:00Z',
-  },
-  {
-    id: 'seed-pt-1',
-    author: 'André Silva',
-    language: 'pt',
-    rating: 4,
-    comment:
-      'Excelente para juntar PDFs antes de assinar digitalmente. A função de mesclar manteve a ordem das páginas perfeitamente. Só faltava uma opção para reordenar com arrastar e soltar.',
-    createdAt: '2026-03-27T14:02:00Z',
-  },
-  {
-    id: 'seed-pl-1',
-    author: 'Krzysztof Nowak',
-    language: 'pl',
-    rating: 5,
-    comment:
-      'Świetne narzędzie do konwersji DOCX na PDF przed wysyłką do klientów. Czcionki i tabele zachowane jeden do jednego. Brak natrętnych reklam i działa szybko nawet na słabszym łączu.',
-    createdAt: '2026-03-25T10:19:00Z',
-  },
-  {
-    id: 'seed-nl-2',
-    author: 'Bram Jansen',
-    language: 'nl',
-    rating: 4,
-    comment:
-      "Gebruik dit nu wekelijks voor het samenvoegen van klantcontracten. De volgorde van pagina's blijft perfect bewaard en de download is direct beschikbaar. Voor zakelijk gebruik zou ik graag teamaccounts zien.",
-    createdAt: '2026-03-12T17:46:00Z',
-  },
-  {
-    id: 'seed-sv-1',
-    author: 'Emma Lindqvist',
-    language: 'sv',
-    rating: 5,
-    comment:
-      'Använder den nästan dagligen för att komprimera PDF-filer innan jag skickar dem till kunder. Kvaliteten håller och filerna blir betydligt mindre. Skönt att veta att de raderas automatiskt.',
-    createdAt: '2026-02-26T20:35:00Z',
-  },
-  {
-    id: 'seed-no-1',
-    author: 'Henrik Olsen',
-    language: 'no',
-    rating: 4,
-    comment:
-      'Konverterte et helt møtearkiv fra WAV til MP3 på under fem minutter. Lydkvaliteten er fortsatt god og prosessen er enkel. Hadde gjerne sett støtte for litt større filer enn 200 MB.',
-    createdAt: '2026-02-24T13:08:00Z',
-  },
-  {
-    id: 'seed-da-1',
-    author: 'Mette Jensen',
-    language: 'da',
-    rating: 4,
-    comment:
-      'Bruger den til at trække tekst ud af scannede dokumenter med OCR. Resultatet er imponerende præcist på dansk. Indimellem vil jeg gerne kunne gemme indstillinger til næste gang, men ellers fungerer det fint.',
-    createdAt: '2026-02-22T15:51:00Z',
-  },
-  {
-    id: 'seed-cs-1',
-    author: 'Tomáš Novák',
-    language: 'cs',
-    rating: 5,
-    comment:
-      'Konečně konvertor, který opravdu funguje bez registrace u malých souborů. Převod PDF do Wordu zachoval i obrázky a tabulky správně. Doporučuji každému, kdo potřebuje rychlý a čistý výsledek.',
-    createdAt: '2026-02-10T11:15:00Z',
-  },
-  {
-    id: 'seed-de-2',
-    author: 'Hannah Müller',
-    language: 'de',
-    rating: 4,
-    comment:
-      'Die Smart-Funktionen sparen mir richtig Zeit, vor allem die automatischen Untertitel für meine YouTube-Videos. Hin und wieder dauert die Verarbeitung etwas länger, aber das Ergebnis stimmt.',
-    createdAt: '2026-02-09T18:42:00Z',
+    isExample: true,
   },
 ];
 
@@ -241,24 +141,29 @@ export default function HomeReviews() {
     };
   }, []);
 
-  const allReviews = useMemo(() => {
-    const fromDb = dbReviews.map((r) => ({
-      id: r.id,
-      author: r.author,
-      language: r.language || null,
-      rating: r.rating,
-      comment: r.comment || '',
-      createdAt: r.createdAt,
-    }));
-    return [...fromDb, ...SEED_REVIEWS];
-  }, [dbReviews]);
+  // Real, user-submitted reviews only. The headline rating and count are
+  // based exclusively on these — the example reviews are never counted, so
+  // the aggregate we display is never inflated by illustrative content.
+  const realReviews = useMemo(
+    () =>
+      dbReviews.map((r) => ({
+        id: r.id,
+        author: r.author,
+        language: r.language || null,
+        rating: r.rating,
+        comment: r.comment || '',
+        createdAt: r.createdAt,
+      })),
+    [dbReviews]
+  );
 
-  const total = allReviews.length;
+  const total = dbTotal;
   const average = useMemo(() => {
-    if (!total) return 0;
-    const sum = allReviews.reduce((acc, r) => acc + (r.rating || 0), 0);
-    return sum / total;
-  }, [allReviews, total]);
+    if (typeof dbAvg === 'number' && dbTotal > 0) return dbAvg;
+    if (!realReviews.length) return 0;
+    const sum = realReviews.reduce((acc, r) => acc + (r.rating || 0), 0);
+    return sum / realReviews.length;
+  }, [dbAvg, dbTotal, realReviews]);
 
   // Close modal on Escape
   useEffect(() => {
@@ -295,23 +200,43 @@ export default function HomeReviews() {
           language: i18n.language || null,
         }),
       });
-      if (!res.ok) throw new Error('failed');
-      setThanks(true);
-      const refreshed = await api('/api/reviews?limit=50&offset=0').then((r) => r.json()).catch(() => null);
-      if (refreshed) {
-        setDbReviews(refreshed.items || []);
-        setDbAvg(refreshed.average || null);
-        setDbTotal(refreshed.total || 0);
+
+      // Read the JSON body regardless of status so we can surface the exact
+      // reason a submission failed (e.g. not signed in, validation error).
+      const data = await res.json().catch(() => null);
+      if (!res.ok) {
+        const msg =
+          res.status === 401
+            ? t('home.reviewsAuthError', {
+                defaultValue: 'Your session has expired. Please sign in again to post your review.',
+              })
+            : (data && data.error) || t('home.reviewsError');
+        setSubmitError(msg);
+        return;
       }
+
+      // Append the newly created review to the top of the list immediately,
+      // so it shows without a page reload, and bump the aggregate rating.
+      if (data && data.review) {
+        const prevTotal = dbTotal || 0;
+        const prevSum = (typeof dbAvg === 'number' ? dbAvg : 0) * prevTotal;
+        const nextTotal = prevTotal + 1;
+        setDbReviews((prev) => [data.review, ...prev]);
+        setDbTotal(nextTotal);
+        setDbAvg((prevSum + data.review.rating) / nextTotal);
+      }
+
+      setThanks(true);
       setTimeout(() => setModalOpen(false), 1500);
     } catch {
+      // Network / CORS / server-unreachable failures land here.
       setSubmitError(t('home.reviewsError'));
     } finally {
       setSubmitting(false);
     }
   }
 
-  const shown = allReviews.slice(0, visible);
+  const shown = realReviews.slice(0, visible);
   const charsLeft = 280 - comment.length;
 
   return (
@@ -319,13 +244,23 @@ export default function HomeReviews() {
       <h2>{t('home.reviewsTitle')}</h2>
 
       <div className="reviews-summary">
-        <div className="reviews-summary-rating">{average.toFixed(1)}</div>
-        <div className="reviews-summary-meta">
-          <Stars value={average} size={22} />
-          <p className="reviews-summary-count">
-            {total === 1 ? t('home.reviewsBasedOnOne') : t('home.reviewsBasedOn', { count: total })}
-          </p>
-        </div>
+        {total > 0 ? (
+          <>
+            <div className="reviews-summary-rating">{average.toFixed(1)}</div>
+            <div className="reviews-summary-meta">
+              <Stars value={average} size={22} />
+              <p className="reviews-summary-count">
+                {total === 1 ? t('home.reviewsBasedOnOne') : t('home.reviewsBasedOn', { count: total })}
+              </p>
+            </div>
+          </>
+        ) : (
+          <div className="reviews-summary-meta">
+            <p className="reviews-summary-count">
+              {t('home.reviewsNoneYet', { defaultValue: 'No customer reviews yet — be the first to leave one.' })}
+            </p>
+          </div>
+        )}
         <div className="reviews-summary-cta">
           {loggedIn ? (
             <button className="btn-primary" type="button" onClick={openModal}>
@@ -339,18 +274,21 @@ export default function HomeReviews() {
         </div>
       </div>
 
-      <div className="reviews-grid">
-        {shown.map((r) => (
-          <article className="review-card" key={r.id}>
-            <Stars value={r.rating} size={16} />
-            {r.comment && <p className="review-comment">{r.comment}</p>}
-            <footer className="review-meta">
-              <span className="review-author">{r.author}</span>
-              <span className="review-date">{formatDate(r.createdAt, i18n.language)}</span>
-            </footer>
-          </article>
-        ))}
-      </div>
+      {/* Real, user-submitted reviews — shown normally, no example label */}
+      {shown.length > 0 && (
+        <div className="reviews-grid">
+          {shown.map((r) => (
+            <article className="review-card" key={r.id}>
+              <Stars value={r.rating} size={16} />
+              {r.comment && <p className="review-comment">{r.comment}</p>}
+              <footer className="review-meta">
+                <span className="review-author">{r.author}</span>
+                <span className="review-date">{formatDate(r.createdAt, i18n.language)}</span>
+              </footer>
+            </article>
+          ))}
+        </div>
+      )}
 
       {visible < total && (
         <div className="reviews-loadmore">
@@ -359,6 +297,35 @@ export default function HomeReviews() {
           </button>
         </div>
       )}
+
+      {/* Example reviews — clearly labelled as illustrative, not verified
+          customer reviews, and kept separate from the real ones above. */}
+      <div className="reviews-examples">
+        <h3 className="reviews-examples-heading">
+          {t('home.reviewsExamplesHeading', { defaultValue: 'Example reviews' })}
+        </h3>
+        <p className="reviews-examples-note">
+          {t('home.reviewsExamplesNote', {
+            defaultValue:
+              'The reviews below are illustrative examples to show how feedback appears here. They are not verified customer reviews and are not included in the rating above.',
+          })}
+        </p>
+        <div className="reviews-grid">
+          {EXAMPLE_REVIEWS.map((r) => (
+            <article className="review-card review-card-example" key={r.id}>
+              <span className="review-example-badge">
+                {t('home.reviewsExampleBadge', { defaultValue: 'Example review' })}
+              </span>
+              <Stars value={r.rating} size={16} />
+              {r.comment && <p className="review-comment">{r.comment}</p>}
+              <footer className="review-meta">
+                <span className="review-author">{r.author}</span>
+                <span className="review-date">{formatDate(r.createdAt, i18n.language)}</span>
+              </footer>
+            </article>
+          ))}
+        </div>
+      </div>
 
       {modalOpen && (
         <div

@@ -3483,6 +3483,45 @@ select:focus-visible {
   margin-top: 1.5rem;
 }
 
+/* Example reviews — clearly separated and labelled as illustrative */
+.reviews-examples {
+  margin-top: 2.25rem;
+  padding-top: 1.75rem;
+  border-top: 1px dashed var(--border);
+}
+
+.reviews-examples-heading {
+  margin: 0 0 0.375rem;
+  font-size: 1.0625rem;
+}
+
+.reviews-examples-note {
+  margin: 0 0 1.125rem;
+  max-width: 62ch;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.review-card-example {
+  border-style: dashed;
+  position: relative;
+}
+
+.review-example-badge {
+  align-self: flex-start;
+  display: inline-block;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+}
+
 /* Review modal */
 .rev-modal-overlay {
   position: fixed;
