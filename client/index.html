@@ -3,15 +3,103 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Static title & description (fallbacks for crawlers before JS runs).
+         react-helmet-async overrides these per-route at runtime, but these
+         raw values guarantee search engines always see real content. -->
     <title>ConvertAnyFormat - Free Online File Converter</title>
+    <meta
+      name="description"
+      content="Convert any file format online for free with ConvertAnyFormat. 50+ formats supported — PDF, images, video, audio, and archives. Fast, secure, no signup required, files auto-deleted after 24 hours."
+    />
+    <meta
+      name="keywords"
+      content="file converter, online converter, free file converter, PDF converter, image converter, video converter, audio converter, PDF to Word, JPG to PNG, MP4 to MP3, HEIC to JPG, compress PDF, merge PDF"
+    />
+    <meta name="author" content="ConvertAnyFormat" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.convertanyformat.com/" />
+
+    <!-- Open Graph (Facebook / WhatsApp / LinkedIn) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="ConvertAnyFormat" />
+    <meta property="og:title" content="ConvertAnyFormat - Free Online File Converter" />
+    <meta
+      property="og:description"
+      content="Convert any file format online for free. 50+ formats supported — PDF, images, video, audio, and archives. Fast, secure, and no signup required."
+    />
+    <meta property="og:url" content="https://www.convertanyformat.com/" />
+    <meta property="og:image" content="https://www.convertanyformat.com/images/logo-light.png" />
+    <meta property="og:image:alt" content="ConvertAnyFormat" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ConvertAnyFormat - Free Online File Converter" />
+    <meta
+      name="twitter:description"
+      content="Convert any file format online for free. 50+ formats supported — PDF, images, video, audio, and archives. Fast, secure, and no signup required."
+    />
+    <meta name="twitter:image" content="https://www.convertanyformat.com/images/logo-light.png" />
+    <meta name="twitter:image:alt" content="ConvertAnyFormat" />
+
     <link rel="icon" href="/images/logo-light.png" />
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#7c3aed" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+    <!-- Structured data so crawlers can index the entity without running JS -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "ConvertAnyFormat",
+        "url": "https://www.convertanyformat.com",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Web",
+        "description": "Free online file converter. Convert PDF, images, video, audio, and archives. 50+ formats supported. Fast, secure, no signup required.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- Static fallback shown to crawlers and users without JavaScript.
+         Guarantees real, indexable text describing the site and its features
+         even when the JavaScript app has not executed. -->
+    <noscript>
+      <div style="max-width: 720px; margin: 0 auto; padding: 2rem; font-family: system-ui, -apple-system, sans-serif; line-height: 1.6;">
+        <h1>ConvertAnyFormat — Free Online File Converter</h1>
+        <p>
+          ConvertAnyFormat is a free online file converter that lets you convert
+          between 50+ file formats right in your browser. Convert PDFs, images,
+          video, audio, and archives quickly and securely — no software to
+          install and no signup required.
+        </p>
+        <h2>What you can do</h2>
+        <ul>
+          <li><strong>Documents:</strong> PDF to Word, merge PDF, compress PDF, and more.</li>
+          <li><strong>Images:</strong> JPG to PNG, HEIC to JPG, WebP conversion, and resizing.</li>
+          <li><strong>Video:</strong> MP4 to MP3 and other video/audio format conversions.</li>
+          <li><strong>Audio:</strong> Convert between common audio formats.</li>
+          <li><strong>Archives:</strong> Create and convert ZIP and other archive formats.</li>
+        </ul>
+        <h2>Why ConvertAnyFormat</h2>
+        <ul>
+          <li>50+ formats supported</li>
+          <li>Fast, secure conversions</li>
+          <li>Files are automatically deleted after 24 hours</li>
+          <li>Free to use with no signup required</li>
+        </ul>
+        <p>
+          This application requires JavaScript to run the interactive converter.
+          Please enable JavaScript in your browser to upload and convert your files.
+        </p>
+      </div>
+    </noscript>
+
     <script type="module" src="/src/main.jsx"></script>
     <script>
       if ('serviceWorker' in navigator) {
