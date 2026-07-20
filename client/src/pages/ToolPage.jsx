@@ -407,7 +407,7 @@ export default function ToolPage() {
         if (isBulk) {
           toast(
             t('tool.folderAdded', {
-              defaultValue: `${matched.length} files added.`,
+              defaultValue: `Files added: ${matched.length}`,
               count: matched.length,
             }),
             'success'
@@ -968,13 +968,13 @@ export default function ToolPage() {
         <div className="batch-summary">
           <span className="batch-summary-count">
             {t('tool.batchSummaryFiles', {
-              defaultValue: `${files.length} ${files.length === 1 ? 'file' : 'files'} selected`,
+              defaultValue: `Files selected: ${files.length}`,
               count: files.length,
             })}
           </span>
           <span className="batch-summary-cost">
             {t('tool.batchSummaryCost', {
-              defaultValue: `Total: ${creditCost} ${creditCost === 1 ? 'credit' : 'credits'}`,
+              defaultValue: `Total credits: ${creditCost}`,
               count: creditCost,
             })}
           </span>
@@ -1356,12 +1356,17 @@ export default function ToolPage() {
               <>
                 <h2 style={{ margin: '0 0 0.5rem' }}>{t('tool.confirmModalTitle')}</h2>
                 <p style={{ margin: '0 0 1.25rem', color: 'var(--text)' }}>
-                  {t('tool.confirmBatchBody', {
-                    defaultValue: `This will convert ${creditCost} ${creditCost === 1 ? 'file' : 'files'} and use ${creditCost} ${creditCost === 1 ? 'credit' : 'credits'}. You have ${authState.credits ?? 0} ${(authState.credits ?? 0) === 1 ? 'credit' : 'credits'} remaining.`,
-                    files: creditCost,
-                    credits: creditCost,
-                    remaining: authState.credits ?? 0,
-                  })}
+                  {creditCost === 1
+                    ? t('tool.confirmBatchBodySingular', {
+                        defaultValue: `This will convert 1 file and use 1 credit. You have ${authState.credits ?? 0} credits remaining.`,
+                        remaining: authState.credits ?? 0,
+                      })
+                    : t('tool.confirmBatchBodyPlural', {
+                        defaultValue: `This will convert ${creditCost} files and use ${creditCost} credits. You have ${authState.credits ?? 0} credits remaining.`,
+                        files: creditCost,
+                        credits: creditCost,
+                        remaining: authState.credits ?? 0,
+                      })}
                 </p>
                 <div style={{ display: 'flex', gap: '0.625rem', justifyContent: 'flex-end' }}>
                   <button className="btn-ghost" onClick={() => setModal(null)} type="button">{t('common.cancel')}</button>
