@@ -11,6 +11,7 @@ const metadataRoutes = require('./routes/metadata');
 const profileRoutes = require('./routes/profile');
 const smartFunctionsRoutes = require('./routes/smartFunctions');
 const reviewsRoutes = require('./routes/reviews');
+const reportRoutes = require('./routes/report');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -82,6 +83,9 @@ app.use('/api/smart', smartFunctionsRoutes);
 
 // User reviews
 app.use('/api/reviews', reviewsRoutes);
+
+// Problem reports (owner-only; never displayed publicly)
+app.use('/api/report', reportRoutes);
 
 // Contact form
 app.post('/api/contact', async (req, res) => {

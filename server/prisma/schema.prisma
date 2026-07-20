@@ -77,3 +77,16 @@ model Review {
 
   @@index([createdAt])
 }
+
+model ProblemReport {
+  id           String   @id @default(uuid())
+  message      String
+  contactEmail String?
+  pageUrl      String
+  userAgent    String
+  userId       String?
+  userEmail    String?
+  createdAt    DateTime @default(now())
+
+  @@index([createdAt])
+}
