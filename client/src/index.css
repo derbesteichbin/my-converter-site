@@ -22,6 +22,7 @@
   --cat-image: #4f46e5;
   --cat-video: #0e7490;
   --cat-audio: #d97706;
+  --cat-gif: #047857;
   --cat-archive: #57534e;
   --cat-pdf: #be185d;
   --cat-utility: #6d28d9;
@@ -51,6 +52,7 @@
   --cat-image: #7c3aed;
   --cat-video: #06b6d4;
   --cat-audio: #f59e0b;
+  --cat-gif: #10b981;
   --cat-archive: #78716c;
   --cat-pdf: #ec4899;
   --cat-utility: #a78bfa;
@@ -780,6 +782,7 @@ h2 { font-size: 1.5rem; }
 .tool-card[data-category="Image"] { border-left-color: var(--cat-image); }
 .tool-card[data-category="Video"] { border-left-color: var(--cat-video); }
 .tool-card[data-category="Audio"] { border-left-color: var(--cat-audio); }
+.tool-card[data-category="GIF"] { border-left-color: var(--cat-gif); }
 .tool-card[data-category="Archive"] { border-left-color: var(--cat-archive); }
 .tool-card[data-category="PDF Tools"] { border-left-color: var(--cat-pdf); }
 .tool-card[data-category="Utilities"] { border-left-color: var(--cat-utility); }
@@ -789,6 +792,7 @@ h2 { font-size: 1.5rem; }
 [data-theme="dark"] .tool-card[data-category="Image"],
 [data-theme="dark"] .tool-card[data-category="Video"],
 [data-theme="dark"] .tool-card[data-category="Audio"],
+[data-theme="dark"] .tool-card[data-category="GIF"],
 [data-theme="dark"] .tool-card[data-category="Archive"],
 [data-theme="dark"] .tool-card[data-category="PDF Tools"],
 [data-theme="dark"] .tool-card[data-category="Utilities"],
@@ -800,6 +804,7 @@ h2 { font-size: 1.5rem; }
 .tool-card[data-category="Image"]::before { background: var(--cat-image); }
 .tool-card[data-category="Video"]::before { background: var(--cat-video); }
 .tool-card[data-category="Audio"]::before { background: var(--cat-audio); }
+.tool-card[data-category="GIF"]::before { background: var(--cat-gif); }
 .tool-card[data-category="Archive"]::before { background: var(--cat-archive); }
 .tool-card[data-category="PDF Tools"]::before { background: var(--cat-pdf); }
 .tool-card[data-category="Utilities"]::before { background: var(--cat-utility); }
@@ -809,6 +814,7 @@ h2 { font-size: 1.5rem; }
 [data-theme="dark"] .tool-card[data-category="Image"]:hover { box-shadow: var(--card-glow) rgba(124,58,237,0.2); }
 [data-theme="dark"] .tool-card[data-category="Video"]:hover { box-shadow: var(--card-glow) rgba(6,182,212,0.15); }
 [data-theme="dark"] .tool-card[data-category="Audio"]:hover { box-shadow: var(--card-glow) rgba(245,158,11,0.15); }
+[data-theme="dark"] .tool-card[data-category="GIF"]:hover { box-shadow: var(--card-glow) rgba(16,185,129,0.18); }
 [data-theme="dark"] .tool-card[data-category="Archive"]:hover { box-shadow: var(--card-glow) rgba(120,113,108,0.15); }
 [data-theme="dark"] .tool-card[data-category="PDF Tools"]:hover { box-shadow: var(--card-glow) rgba(236,72,153,0.2); }
 [data-theme="dark"] .tool-card[data-category="Utilities"]:hover { box-shadow: var(--card-glow) rgba(167,139,250,0.2); }

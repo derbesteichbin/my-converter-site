@@ -162,9 +162,19 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
 
     const notifyEmail = req.body.notifyEmail === 'true';
 
-    convertFile(job.id, req.file, outputFormat, advancedOptions, notifyEmail ? req.userId : null, req.userId).catch((err) => {
-      console.error(`Conversion failed for job ${job.id}:`, err);
-    });
+    // Compressor tools ("image-compressor", "jpeg-compressor", …) run the
+    // CloudConvert optimize task and keep the input format. Everything else
+    // is a straightforward format conversion.
+    const toolDef = toolSlug ? VALID_TOOLS[toolSlug] : null;
+    if (toolDef && toolDef.toolType === 'compress') {
+      optimizeFile(job.id, req.file, req.userId).catch((err) => {
+        console.error(`Compression failed for job ${job.id}:`, err);
+      });
+    } else {
+      convertFile(job.id, req.file, outputFormat, advancedOptions, notifyEmail ? req.userId : null, req.userId).catch((err) => {
+        console.error(`Conversion failed for job ${job.id}:`, err);
+      });
+    }
 
     res.status(201).json({ jobId: job.id, status: 'pending' });
   } catch (err) {
@@ -212,6 +222,47 @@ async function convertFile(jobId, file, outputFormat, advancedOptions = {}, noti
     await prisma.job.update({ where: { id: jobId }, data: { status: 'failed' } });
     // Refund the credit reserved at request time: a failed conversion must
     // not be charged, so credits charged always equal successful conversions.
+    if (chargedUserId) {
+      prisma.user.update({
+        where: { id: chargedUserId },
+        data: { credits: { increment: 1 } },
+      }).catch(() => {});
+    }
+  }
+}
+
+// ── Compression via CloudConvert optimize (image/jpeg/png/gif) ─────────
+// Keeps the input format and shrinks the file. The optimize task supports
+// png, jpg, gif (and pdf/svg); jpeg is normalised to jpg.
+async function optimizeFile(jobId, file, chargedUserId = null) {
+  try {
+    await prisma.job.update({ where: { id: jobId }, data: { status: 'processing' } });
+
+    let fmt = path.extname(file.originalname).replace('.', '').toLowerCase();
+    if (fmt === 'jpeg') fmt = 'jpg';
+    const filePath = path.join(UPLOAD_DIR, file.filename);
+
+    const ccJob = await cloudConvert.jobs.create({
+      tasks: {
+        'upload-file': { operation: 'import/upload' },
+        'optimize-file': { operation: 'optimize', input: ['upload-file'], input_format: fmt },
+        'export-file': { operation: 'export/url', input: ['optimize-file'] },
+      },
+    });
+
+    const uploadTask = ccJob.tasks.find((t) => t.name === 'upload-file');
+    await cloudConvert.tasks.upload(uploadTask, fs.createReadStream(filePath), file.originalname);
+
+    const outputFilename = await downloadExportedFile(ccJob, fmt);
+
+    await prisma.job.update({
+      where: { id: jobId },
+      data: { status: 'done', outputFile: outputFilename },
+    });
+  } catch (err) {
+    console.error(`optimizeFile error for job ${jobId}:`, err);
+    await prisma.job.update({ where: { id: jobId }, data: { status: 'failed' } });
+    // Refund the reserved credit on failure (see convertFile).
     if (chargedUserId) {
       prisma.user.update({
         where: { id: chargedUserId },

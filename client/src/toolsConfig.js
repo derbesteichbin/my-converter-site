@@ -76,6 +76,38 @@ export const TOOLS = [
   { slug: 'text-to-speech',       label: 'Text to Speech',           category: 'Smart Functions', inputFormats: ['txt'], outputFormats: ['mp3', 'opus', 'aac'], acceptMime: '.txt', toolType: 'smart' },
   { slug: 'speech-to-text',       label: 'Speech to Text',           category: 'Smart Functions', inputFormats: ['mp3', 'wav', 'm4a', 'ogg', 'mp4', 'webm'], outputFormats: ['txt', 'docx'], acceptMime: '.mp3,.wav,.m4a,.ogg,.mp4,.webm', toolType: 'smart' },
   { slug: 'auto-subtitle',        label: 'Auto Subtitle Generator',  category: 'Smart Functions', inputFormats: ['mp4', 'mov', 'avi', 'mkv'], outputFormats: ['srt', 'vtt'], acceptMime: '.mp4,.mov,.avi,.mkv', toolType: 'smart' },
+
+  // ── Added: Audio ──
+  { slug: 'mp3-to-ogg',      label: 'MP3 to OGG',       category: 'Audio', inputFormats: ['mp3'], outputFormats: ['ogg', 'wav', 'flac', 'aac'], acceptMime: '.mp3' },
+  { slug: 'audio-converter', label: 'Audio Converter',  category: 'Audio', inputFormats: ['mp3', 'wav', 'flac', 'aac', 'ogg', 'm4a', 'wma', 'aiff'], outputFormats: ['mp3', 'wav', 'flac', 'aac', 'ogg', 'm4a'], acceptMime: '.mp3,.wav,.flac,.aac,.ogg,.m4a,.wma,.aiff' },
+
+  // ── Added: Video ──
+  { slug: 'video-to-mp3',    label: 'Video to MP3',     category: 'Video', inputFormats: ['mp4', 'mov', 'avi', 'mkv', 'webm', 'flv', 'wmv', 'm4v'], outputFormats: ['mp3', 'wav', 'aac', 'ogg', 'flac'], acceptMime: '.mp4,.mov,.avi,.mkv,.webm,.flv,.wmv,.m4v' },
+  { slug: 'mp4-converter',   label: 'MP4 Converter',    category: 'Video', inputFormats: ['mov', 'avi', 'mkv', 'webm', 'flv', 'wmv', 'm4v', 'mpeg', 'mpg', '3gp'], outputFormats: ['mp4'], acceptMime: '.mov,.avi,.mkv,.webm,.flv,.wmv,.m4v,.mpeg,.mpg,.3gp' },
+  { slug: 'video-converter', label: 'Video Converter',  category: 'Video', inputFormats: ['mp4', 'mov', 'avi', 'mkv', 'webm', 'flv', 'wmv', 'm4v'], outputFormats: ['mp4', 'avi', 'mov', 'mkv', 'webm'], acceptMime: '.mp4,.mov,.avi,.mkv,.webm,.flv,.wmv,.m4v' },
+
+  // ── Added: Image ──
+  { slug: 'jfif-to-png',      label: 'JFIF to PNG',      category: 'Image', inputFormats: ['jfif'],                  outputFormats: ['png', 'jpg', 'webp'], acceptMime: '.jfif' },
+  { slug: 'heic-to-pdf',      label: 'HEIC to PDF',      category: 'Image', inputFormats: ['heic', 'heif'],          outputFormats: ['pdf'],                acceptMime: '.heic,.heif' },
+  { slug: 'image-compressor', label: 'Image Compressor', category: 'Image', inputFormats: ['jpg', 'jpeg', 'png', 'gif'], outputFormats: ['jpg'], acceptMime: '.jpg,.jpeg,.png,.gif', toolType: 'compress' },
+  { slug: 'jpeg-compressor',  label: 'JPEG Compressor',  category: 'Image', inputFormats: ['jpg', 'jpeg'],           outputFormats: ['jpg'], acceptMime: '.jpg,.jpeg', toolType: 'compress' },
+  { slug: 'png-compressor',   label: 'PNG Compressor',   category: 'Image', inputFormats: ['png'],                   outputFormats: ['png'], acceptMime: '.png',       toolType: 'compress' },
+
+  // ── Added: Document / Ebook ──
+  { slug: 'pdf-to-epub',        label: 'PDF to EPUB',        category: 'Document', inputFormats: ['pdf'],                                        outputFormats: ['epub'],                            acceptMime: '.pdf' },
+  { slug: 'epub-to-pdf',        label: 'EPUB to PDF',        category: 'Document', inputFormats: ['epub'],                                       outputFormats: ['pdf', 'docx'],                     acceptMime: '.epub' },
+  { slug: 'document-converter', label: 'Document Converter', category: 'Document', inputFormats: ['docx', 'doc', 'odt', 'rtf', 'txt', 'html', 'pdf'], outputFormats: ['pdf', 'docx', 'txt', 'html', 'rtf'], acceptMime: '.docx,.doc,.odt,.rtf,.txt,.html,.pdf' },
+  { slug: 'ebook-converter',    label: 'Ebook Converter',    category: 'Document', inputFormats: ['epub', 'mobi', 'azw3', 'fb2', 'lit', 'lrf'],  outputFormats: ['epub', 'pdf', 'mobi', 'azw3', 'fb2'], acceptMime: '.epub,.mobi,.azw3,.fb2,.lit,.lrf' },
+
+  // ── GIF ──
+  { slug: 'video-to-gif',   label: 'Video to GIF',   category: 'GIF', inputFormats: ['mp4', 'mov', 'avi', 'mkv', 'webm', 'flv', 'wmv'], outputFormats: ['gif'],          acceptMime: '.mp4,.mov,.avi,.mkv,.webm,.flv,.wmv' },
+  { slug: 'mp4-to-gif',     label: 'MP4 to GIF',     category: 'GIF', inputFormats: ['mp4'],                                          outputFormats: ['gif'],          acceptMime: '.mp4' },
+  { slug: 'webm-to-gif',    label: 'WebM to GIF',    category: 'GIF', inputFormats: ['webm'],                                         outputFormats: ['gif'],          acceptMime: '.webm' },
+  { slug: 'mov-to-gif',     label: 'MOV to GIF',     category: 'GIF', inputFormats: ['mov'],                                          outputFormats: ['gif'],          acceptMime: '.mov' },
+  { slug: 'avi-to-gif',     label: 'AVI to GIF',     category: 'GIF', inputFormats: ['avi'],                                          outputFormats: ['gif'],          acceptMime: '.avi' },
+  { slug: 'gif-to-mp4',     label: 'GIF to MP4',     category: 'GIF', inputFormats: ['gif'],                                          outputFormats: ['mp4', 'webm'],  acceptMime: '.gif' },
+  { slug: 'image-to-gif',   label: 'Image to GIF',   category: 'GIF', inputFormats: ['jpg', 'jpeg', 'png', 'webp', 'bmp'],            outputFormats: ['gif'],          acceptMime: '.jpg,.jpeg,.png,.webp,.bmp' },
+  { slug: 'gif-compressor', label: 'GIF Compressor', category: 'GIF', inputFormats: ['gif'],                                          outputFormats: ['gif'],          acceptMime: '.gif', toolType: 'compress' },
 ];
 
 // ── Advanced Settings (per category) ─────────────────────────────────
@@ -135,7 +167,7 @@ export function getToolDescription(tool, t) {
   return '';
 }
 
-export const CATEGORY_ORDER = ['Document', 'Image', 'Video', 'Audio', 'Archive', 'PDF Tools', 'Utilities', 'Smart Functions'];
+export const CATEGORY_ORDER = ['Document', 'Image', 'Video', 'Audio', 'GIF', 'Archive', 'PDF Tools', 'Utilities', 'Smart Functions'];
 
 export function getCategories() {
   return CATEGORY_ORDER.filter((cat) => TOOLS.some((t) => t.category === cat));

@@ -72,6 +72,38 @@ const VALID_TOOLS = {
   'text-to-speech':  { inputFormats: ['txt'], outputFormats: ['mp3', 'opus', 'aac'], toolType: 'smart' },
   'speech-to-text':  { inputFormats: ['mp3', 'wav', 'm4a', 'ogg', 'mp4', 'webm'], outputFormats: ['txt', 'docx'], toolType: 'smart' },
   'auto-subtitle':   { inputFormats: ['mp4', 'mov', 'avi', 'mkv'], outputFormats: ['srt', 'vtt'], toolType: 'smart' },
+
+  // Added: Audio
+  'mp3-to-ogg':      { inputFormats: ['mp3'], outputFormats: ['ogg', 'wav', 'flac', 'aac'] },
+  'audio-converter': { inputFormats: ['mp3', 'wav', 'flac', 'aac', 'ogg', 'm4a', 'wma', 'aiff'], outputFormats: ['mp3', 'wav', 'flac', 'aac', 'ogg', 'm4a'] },
+
+  // Added: Video
+  'video-to-mp3':    { inputFormats: ['mp4', 'mov', 'avi', 'mkv', 'webm', 'flv', 'wmv', 'm4v'], outputFormats: ['mp3', 'wav', 'aac', 'ogg', 'flac'] },
+  'mp4-converter':   { inputFormats: ['mov', 'avi', 'mkv', 'webm', 'flv', 'wmv', 'm4v', 'mpeg', 'mpg', '3gp'], outputFormats: ['mp4'] },
+  'video-converter': { inputFormats: ['mp4', 'mov', 'avi', 'mkv', 'webm', 'flv', 'wmv', 'm4v'], outputFormats: ['mp4', 'avi', 'mov', 'mkv', 'webm'] },
+
+  // Added: Image
+  'jfif-to-png':      { inputFormats: ['jfif'], outputFormats: ['png', 'jpg', 'webp'] },
+  'heic-to-pdf':      { inputFormats: ['heic', 'heif'], outputFormats: ['pdf'] },
+  'image-compressor': { inputFormats: ['jpg', 'jpeg', 'png', 'gif'], outputFormats: ['jpg'], toolType: 'compress' },
+  'jpeg-compressor':  { inputFormats: ['jpg', 'jpeg'], outputFormats: ['jpg'], toolType: 'compress' },
+  'png-compressor':   { inputFormats: ['png'], outputFormats: ['png'], toolType: 'compress' },
+
+  // Added: Document / Ebook
+  'pdf-to-epub':        { inputFormats: ['pdf'], outputFormats: ['epub'] },
+  'epub-to-pdf':        { inputFormats: ['epub'], outputFormats: ['pdf', 'docx'] },
+  'document-converter': { inputFormats: ['docx', 'doc', 'odt', 'rtf', 'txt', 'html', 'pdf'], outputFormats: ['pdf', 'docx', 'txt', 'html', 'rtf'] },
+  'ebook-converter':    { inputFormats: ['epub', 'mobi', 'azw3', 'fb2', 'lit', 'lrf'], outputFormats: ['epub', 'pdf', 'mobi', 'azw3', 'fb2'] },
+
+  // Added: GIF
+  'video-to-gif':   { inputFormats: ['mp4', 'mov', 'avi', 'mkv', 'webm', 'flv', 'wmv'], outputFormats: ['gif'] },
+  'mp4-to-gif':     { inputFormats: ['mp4'], outputFormats: ['gif'] },
+  'webm-to-gif':    { inputFormats: ['webm'], outputFormats: ['gif'] },
+  'mov-to-gif':     { inputFormats: ['mov'], outputFormats: ['gif'] },
+  'avi-to-gif':     { inputFormats: ['avi'], outputFormats: ['gif'] },
+  'gif-to-mp4':     { inputFormats: ['gif'], outputFormats: ['mp4', 'webm'] },
+  'image-to-gif':   { inputFormats: ['jpg', 'jpeg', 'png', 'webp', 'bmp'], outputFormats: ['gif'] },
+  'gif-compressor': { inputFormats: ['gif'], outputFormats: ['gif'], toolType: 'compress' },
 };
 
 // Allowed advanced setting keys (whitelist for sanitizing request body)
