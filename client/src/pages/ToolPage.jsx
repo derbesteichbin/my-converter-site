@@ -220,6 +220,14 @@ export default function ToolPage() {
   const [error, setError] = useState('');
   const pollRefs = useRef([]);
 
+  // Credit cost = one credit per file for standard batch conversion. PDF
+  // operations and Smart Functions run as a single job, so they cost 1.
+  const creditCost = isPdfTool || isSmartTool ? 1 : files.length;
+
+  // Persistent note shown when a folder/multi-file selection had some files
+  // skipped for not matching the tool's input format (the toast is transient).
+  const [skippedNote, setSkippedNote] = useState('');
+
   const [pageRanges, setPageRanges] = useState('');
   const [rotation, setRotation] = useState('90');
   const [password, setPassword] = useState('');
@@ -354,30 +362,94 @@ export default function ToolPage() {
     setShowAdvanced(false);
     setAdvancedValues({});
     setNotifyEmail(false);
+    setSkippedNote('');
   }, [toolName]);
 
-  const onDrop = useCallback((accepted) => {
-    if (accepted.length === 0) return;
+  // Add files to the batch. When a folder (or several files) is added, keep
+  // only those matching the tool's accepted input format(s) and tell the user
+  // how many were matched vs skipped. `isBulk` is true for folder / multi-file
+  // selections so we surface a summary toast even when nothing was skipped.
+  const addFiles = useCallback((incoming, isBulk = false) => {
+    if (!incoming || incoming.length === 0) return;
 
-    // Validate file types
+    let toAdd = incoming;
     if (toolDef?.inputFormats) {
-      const invalid = accepted.map((f) => validateFileType(f, toolDef)).filter(Boolean);
-      if (invalid.length > 0) {
-        toast(invalid[0], 'error');
+      const fmtList = toolDef.inputFormats.map((f) => f.toUpperCase()).join(', ');
+      const matched = [];
+      const skipped = [];
+      for (const f of incoming) {
+        const ext = (f.name.split('.').pop() || '').toLowerCase();
+        (toolDef.inputFormats.includes(ext) ? matched : skipped).push(f);
+      }
+
+      if (matched.length === 0) {
+        toast(
+          t('tool.folderNoneMatched', {
+            defaultValue: `No files matched. This tool accepts ${fmtList} files.`,
+            formats: fmtList,
+          }),
+          'error'
+        );
         return;
       }
+
+      if (skipped.length > 0) {
+        const msg = t('tool.folderFiltered', {
+          defaultValue: `${matched.length} files matched and will be converted, ${skipped.length} files were skipped because they are not ${fmtList} files.`,
+          matched: matched.length,
+          skipped: skipped.length,
+          formats: fmtList,
+        });
+        setSkippedNote(msg);
+        toast(msg, 'info');
+      } else {
+        setSkippedNote('');
+        if (isBulk) {
+          toast(
+            t('tool.folderAdded', {
+              defaultValue: `${matched.length} files added.`,
+              count: matched.length,
+            }),
+            'success'
+          );
+        }
+      }
+      toAdd = matched;
     }
 
-    setFiles((prev) => [...prev, ...accepted]);
+    setFiles((prev) => [...prev, ...toAdd]);
     setOverallStatus('idle');
     setBatchJobs([]);
     setError('');
-  }, [toolDef]);
+  }, [toolDef, t, toast]);
+
+  const onDrop = useCallback((accepted) => {
+    addFiles(accepted, accepted.length > 1);
+  }, [addFiles]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     multiple: true,
     onDrop,
   });
+
+  // Folder upload. `webkitdirectory` lets desktop browsers pick a whole folder
+  // (files are read recursively by the browser). It is unsupported on most
+  // mobile browsers, where we fall back to plain multi-file selection.
+  const folderInputRef = useRef(null);
+  const [supportsDirectoryUpload] = useState(
+    () => typeof document !== 'undefined' && 'webkitdirectory' in document.createElement('input')
+  );
+  useEffect(() => {
+    const el = folderInputRef.current;
+    if (el && supportsDirectoryUpload) {
+      el.setAttribute('webkitdirectory', '');
+      el.setAttribute('directory', '');
+    }
+  }, [supportsDirectoryUpload]);
+
+  // Folder/multi-file upload only makes sense for standard batch conversion
+  // tools — not PDF operations (single job) or Smart Functions.
+  const allowFolderUpload = !isPdfTool && !isSmartTool;
 
   function removeFile(index) {
     setFiles((prev) => prev.filter((_, i) => i !== index));
@@ -544,9 +616,11 @@ export default function ToolPage() {
 
     if (authState.status === 'loading') return;
     if (authState.status === 'guest') { setModal('guest'); return; }
-    if ((authState.credits ?? 0) <= 0) { setModal('no_credits'); return; }
+    // Need one credit per file — if the folder/batch costs more credits than
+    // the user has, send them to the pricing modal instead of the confirm.
+    if ((authState.credits ?? 0) < creditCost) { setModal('no_credits'); return; }
 
-    // Authed + has credits — show confirm step
+    // Authed + enough credits — show confirm step
     setModal('confirm');
   }
 
@@ -764,6 +838,7 @@ export default function ToolPage() {
     setBatchJobs([]);
     setOverallStatus('idle');
     setError('');
+    setSkippedNote('');
   }
 
   const busy = overallStatus === 'converting';
@@ -816,6 +891,39 @@ export default function ToolPage() {
         )}
       </div>
 
+      {/* Folder upload — pick a whole folder (desktop) or many files (mobile
+          fallback). Files are filtered to the tool's accepted input format. */}
+      {allowFolderUpload && overallStatus === 'idle' && batchJobs.length === 0 && (
+        <div className="folder-upload-row">
+          <input
+            ref={folderInputRef}
+            type="file"
+            multiple
+            style={{ display: 'none' }}
+            onChange={(e) => {
+              addFiles(Array.from(e.target.files || []), true);
+              e.target.value = '';
+            }}
+          />
+          <button
+            type="button"
+            className="folder-upload-btn"
+            onClick={() => folderInputRef.current?.click()}
+            disabled={busy}
+          >
+            <span aria-hidden="true">🗀</span>
+            {supportsDirectoryUpload
+              ? t('tool.uploadFolder', { defaultValue: 'Upload a folder' })
+              : t('tool.uploadFiles', { defaultValue: 'Upload multiple files' })}
+          </button>
+          <span className="folder-upload-hint">
+            {supportsDirectoryUpload
+              ? t('tool.uploadFolderHint', { defaultValue: 'All files in the folder will be converted to your chosen format.' })
+              : t('tool.uploadFilesHint', { defaultValue: 'Select several files to convert them all at once.' })}
+          </span>
+        </div>
+      )}
+
       {/* Mobile camera capture */}
       {toolDef?.category === 'Image' && (
         <label className="camera-btn" aria-label={t('tool.photo')}>
@@ -852,6 +960,30 @@ export default function ToolPage() {
             <span className="file-info-time">{t('tool.estTime')}: {estimateTime(files)}</span>
           </span>
         </div>
+      )}
+
+      {/* Batch summary — total file count and total credit cost, shown clearly
+          before the user starts the conversion. */}
+      {hasFiles && overallStatus === 'idle' && batchJobs.length === 0 && !isSmartTool && (
+        <div className="batch-summary">
+          <span className="batch-summary-count">
+            {t('tool.batchSummaryFiles', {
+              defaultValue: `${files.length} ${files.length === 1 ? 'file' : 'files'} selected`,
+              count: files.length,
+            })}
+          </span>
+          <span className="batch-summary-cost">
+            {t('tool.batchSummaryCost', {
+              defaultValue: `Total: ${creditCost} ${creditCost === 1 ? 'credit' : 'credits'}`,
+              count: creditCost,
+            })}
+          </span>
+        </div>
+      )}
+
+      {/* Persistent note about files skipped during folder/multi-file upload */}
+      {skippedNote && hasFiles && overallStatus === 'idle' && (
+        <p className="folder-skip-note" role="status">{skippedNote}</p>
       )}
 
       {/* File list with drag reorder for PDF merge */}
@@ -1224,7 +1356,12 @@ export default function ToolPage() {
               <>
                 <h2 style={{ margin: '0 0 0.5rem' }}>{t('tool.confirmModalTitle')}</h2>
                 <p style={{ margin: '0 0 1.25rem', color: 'var(--text)' }}>
-                  {t((authState.credits ?? 0) === 1 ? 'tool.confirmBodySingular' : 'tool.confirmBodyPlural', { count: authState.credits ?? 0 })}
+                  {t('tool.confirmBatchBody', {
+                    defaultValue: `This will convert ${creditCost} ${creditCost === 1 ? 'file' : 'files'} and use ${creditCost} ${creditCost === 1 ? 'credit' : 'credits'}. You have ${authState.credits ?? 0} ${(authState.credits ?? 0) === 1 ? 'credit' : 'credits'} remaining.`,
+                    files: creditCost,
+                    credits: creditCost,
+                    remaining: authState.credits ?? 0,
+                  })}
                 </p>
                 <div style={{ display: 'flex', gap: '0.625rem', justifyContent: 'flex-end' }}>
                   <button className="btn-ghost" onClick={() => setModal(null)} type="button">{t('common.cancel')}</button>

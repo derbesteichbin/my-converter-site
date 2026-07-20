@@ -162,7 +162,7 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
 
     const notifyEmail = req.body.notifyEmail === 'true';
 
-    convertFile(job.id, req.file, outputFormat, advancedOptions, notifyEmail ? req.userId : null).catch((err) => {
+    convertFile(job.id, req.file, outputFormat, advancedOptions, notifyEmail ? req.userId : null, req.userId).catch((err) => {
       console.error(`Conversion failed for job ${job.id}:`, err);
     });
 
@@ -173,7 +173,7 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
   }
 });
 
-async function convertFile(jobId, file, outputFormat, advancedOptions = {}, notifyUserId = null) {
+async function convertFile(jobId, file, outputFormat, advancedOptions = {}, notifyUserId = null, chargedUserId = null) {
   try {
     await prisma.job.update({ where: { id: jobId }, data: { status: 'processing' } });
 
@@ -210,6 +210,14 @@ async function convertFile(jobId, file, outputFormat, advancedOptions = {}, noti
   } catch (err) {
     console.error(`convertFile error for job ${jobId}:`, err);
     await prisma.job.update({ where: { id: jobId }, data: { status: 'failed' } });
+    // Refund the credit reserved at request time: a failed conversion must
+    // not be charged, so credits charged always equal successful conversions.
+    if (chargedUserId) {
+      prisma.user.update({
+        where: { id: chargedUserId },
+        data: { credits: { increment: 1 } },
+      }).catch(() => {});
+    }
   }
 }
 
@@ -250,7 +258,7 @@ router.post('/pdf-tool', protect, upload.array('files', 20), async (req, res) =>
       update: { count: { increment: 1 } },
     }).catch(() => {});
 
-    convertPdfTool(job.id, uploadedFiles, toolDef.toolType, req.body).catch((err) => {
+    convertPdfTool(job.id, uploadedFiles, toolDef.toolType, req.body, req.userId).catch((err) => {
       console.error(`PDF tool failed for job ${job.id}:`, err);
     });
 
@@ -261,7 +269,7 @@ router.post('/pdf-tool', protect, upload.array('files', 20), async (req, res) =>
   }
 });
 
-async function convertPdfTool(jobId, files, toolType, body) {
+async function convertPdfTool(jobId, files, toolType, body, chargedUserId = null) {
   try {
     await prisma.job.update({ where: { id: jobId }, data: { status: 'processing' } });
 
@@ -336,6 +344,13 @@ async function convertPdfTool(jobId, files, toolType, body) {
   } catch (err) {
     console.error(`convertPdfTool error for job ${jobId}:`, err);
     await prisma.job.update({ where: { id: jobId }, data: { status: 'failed' } });
+    // Refund the reserved credit on failure (see convertFile).
+    if (chargedUserId) {
+      prisma.user.update({
+        where: { id: chargedUserId },
+        data: { credits: { increment: 1 } },
+      }).catch(() => {});
+    }
   }
 }
 
