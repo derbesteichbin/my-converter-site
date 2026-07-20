@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { api } from '../api';
@@ -165,14 +166,20 @@ export default function HomeReviews() {
     return sum / realReviews.length;
   }, [dbAvg, dbTotal, realReviews]);
 
-  // Close modal on Escape
+  // Close modal on Escape, and lock background scroll while it is open so the
+  // page behind the overlay stays put. Restored when the modal closes/unmounts.
   useEffect(() => {
     if (!modalOpen) return;
     function onKey(e) {
       if (e.key === 'Escape') setModalOpen(false);
     }
     window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.body.style.overflow = prevOverflow;
+    };
   }, [modalOpen]);
 
   function openModal() {
@@ -327,7 +334,7 @@ export default function HomeReviews() {
         </div>
       </div>
 
-      {modalOpen && (
+      {modalOpen && createPortal(
         <div
           className="rev-modal-overlay"
           onClick={() => !submitting && setModalOpen(false)}
@@ -386,7 +393,8 @@ export default function HomeReviews() {
               </>
             )}
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </section>
   );

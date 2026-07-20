@@ -3522,7 +3522,9 @@ select:focus-visible {
   padding: 0.15rem 0.55rem;
 }
 
-/* Review modal */
+/* Review modal — rendered via a portal on document.body so it overlays the
+   viewport regardless of any transformed ancestor (e.g. the page transition
+   wrapper, which would otherwise become the containing block for fixed). */
 .rev-modal-overlay {
   position: fixed;
   inset: 0;
@@ -3533,6 +3535,9 @@ select:focus-visible {
   align-items: center;
   justify-content: center;
   padding: 1rem;
+  /* If the modal is taller than the screen, allow the overlay itself to
+     scroll so the top of the modal can never be clipped/unreachable. */
+  overflow-y: auto;
 }
 
 .rev-modal {
@@ -3544,6 +3549,11 @@ select:focus-visible {
   width: 100%;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
   color: var(--text);
+  /* Cap height to the viewport and scroll internally on short screens
+     (mobile). 100dvh accounts for mobile browser chrome; vh is the fallback. */
+  max-height: calc(100vh - 2rem);
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
 }
 
 .rev-modal-title {
