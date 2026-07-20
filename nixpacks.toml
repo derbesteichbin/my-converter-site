@@ -5,4 +5,8 @@ nixPkgs = ['nodejs_23']
 cmds = ['npm install']
 
 [start]
-cmd = 'node index.js'
+# Apply any pending Prisma migrations before booting the server. This runs on
+# every deploy/restart; `migrate deploy` is idempotent (a no-op once applied),
+# and DATABASE_URL is always available at runtime. railway.json's startCommand
+# overrides this, so both are kept in sync.
+cmd = 'npx prisma migrate deploy && node index.js'
