@@ -465,6 +465,7 @@ const de = {
     availableIntroPart2: 'Endpunkt. Setzen Sie den Parameter',
     availableIntroPart3: 'auf das gewünschte Werkzeug.',
   },
+  toolContent: { aboutTitle: "Über die Konvertierung von {{from}} zu {{to}}", aboutTitleTool: "Über {{tool}}", howToTitle: "So konvertieren Sie {{from}} zu {{to}}", howToTitleTool: "So verwenden Sie {{tool}}", faqTitle: "Häufig gestellte Fragen", englishOnly: "Diese Anleitung ist derzeit nur auf Englisch verfügbar." },
 };
 
 const fr = {
@@ -785,6 +786,7 @@ const fr = {
     availableIntroPart2: '. Définissez le paramètre',
     availableIntroPart3: 'sur l\'outil souhaité.',
   },
+  toolContent: { aboutTitle: "À propos de la conversion {{from}} en {{to}}", aboutTitleTool: "À propos de {{tool}}", howToTitle: "Comment convertir un fichier {{from}} en {{to}}", howToTitleTool: "Comment utiliser {{tool}}", faqTitle: "Questions fréquentes", englishOnly: "Ce guide n’est actuellement disponible qu’en anglais." },
 };
 
 const es = {
@@ -1211,6 +1213,7 @@ const es = {
     availableIntroPart2: '. Establezca el parámetro',
     availableIntroPart3: 'a la herramienta deseada.',
   },
+  toolContent: { aboutTitle: "Acerca de la conversión de {{from}} a {{to}}", aboutTitleTool: "Acerca de {{tool}}", howToTitle: "Cómo convertir {{from}} a {{to}}", howToTitleTool: "Cómo usar {{tool}}", faqTitle: "Preguntas frecuentes", englishOnly: "Esta guía solo está disponible en inglés por el momento." },
 };
 
 const it = {
@@ -1637,6 +1640,7 @@ const it = {
     availableIntroPart2: '. Imposta il parametro',
     availableIntroPart3: 'sullo strumento desiderato.',
   },
+  toolContent: { aboutTitle: "Informazioni sulla conversione da {{from}} a {{to}}", aboutTitleTool: "Informazioni su {{tool}}", howToTitle: "Come convertire {{from}} in {{to}}", howToTitleTool: "Come usare {{tool}}", faqTitle: "Domande frequenti", englishOnly: "Questa guida è al momento disponibile solo in inglese." },
 };
 
 const pt = {
@@ -2063,6 +2067,7 @@ const pt = {
     availableIntroPart2: '. Defina o parâmetro',
     availableIntroPart3: 'para a ferramenta desejada.',
   },
+  toolContent: { aboutTitle: "Sobre a conversão de {{from}} para {{to}}", aboutTitleTool: "Sobre {{tool}}", howToTitle: "Como converter {{from}} para {{to}}", howToTitleTool: "Como usar {{tool}}", faqTitle: "Perguntas frequentes", englishOnly: "Este guia está disponível apenas em inglês por enquanto." },
 };
 
 const nl = {
@@ -2489,6 +2494,7 @@ const nl = {
     availableIntroPart2: '. Stel de parameter',
     availableIntroPart3: 'in op de gewenste tool.',
   },
+  toolContent: { aboutTitle: "Over het converteren van {{from}} naar {{to}}", aboutTitleTool: "Over {{tool}}", howToTitle: "Zo converteer je {{from}} naar {{to}}", howToTitleTool: "Zo gebruik je {{tool}}", faqTitle: "Veelgestelde vragen", englishOnly: "Deze handleiding is momenteel alleen in het Engels beschikbaar." },
 };
 
 const pl = {
@@ -2915,6 +2921,7 @@ const pl = {
     availableIntroPart2: '. Ustaw parametr',
     availableIntroPart3: 'na wybrane narzędzie.',
   },
+  toolContent: { aboutTitle: "Informacje o konwersji {{from}} na {{to}}", aboutTitleTool: "Informacje o narzędziu {{tool}}", howToTitle: "Jak przekonwertować {{from}} na {{to}}", howToTitleTool: "Jak korzystać z narzędzia {{tool}}", faqTitle: "Najczęściej zadawane pytania", englishOnly: "Ten przewodnik jest obecnie dostępny tylko w języku angielskim." },
 };
 
 const sv = {
@@ -3341,6 +3348,7 @@ const sv = {
     availableIntroPart2: '. Sätt parametern',
     availableIntroPart3: 'till det önskade verktyget.',
   },
+  toolContent: { aboutTitle: "Om konvertering från {{from}} till {{to}}", aboutTitleTool: "Om {{tool}}", howToTitle: "Så konverterar du {{from}} till {{to}}", howToTitleTool: "Så använder du {{tool}}", faqTitle: "Vanliga frågor", englishOnly: "Den här guiden finns för närvarande endast på engelska." },
 };
 
 const no = {
@@ -3767,6 +3775,7 @@ const no = {
     availableIntroPart2: '. Sett parameteren',
     availableIntroPart3: 'til ønsket verktøy.',
   },
+  toolContent: { aboutTitle: "Om konvertering fra {{from}} til {{to}}", aboutTitleTool: "Om {{tool}}", howToTitle: "Slik konverterer du {{from}} til {{to}}", howToTitleTool: "Slik bruker du {{tool}}", faqTitle: "Ofte stilte spørsmål", englishOnly: "Denne veiledningen er foreløpig kun tilgjengelig på engelsk." },
 };
 
 const da = {
@@ -4322,6 +4331,7 @@ const da = {
     availableIntroPart2: '. Sæt parameteren',
     availableIntroPart3: 'til det ønskede værktøj.',
   },
+  toolContent: { aboutTitle: "Om konvertering fra {{from}} til {{to}}", aboutTitleTool: "Om {{tool}}", howToTitle: "Sådan konverterer du {{from}} til {{to}}", howToTitleTool: "Sådan bruger du {{tool}}", faqTitle: "Ofte stillede spørgsmål", englishOnly: "Denne vejledning er i øjeblikket kun tilgængelig på engelsk." },
 };
 
 const fi = {
@@ -4877,6 +4887,7 @@ const fi = {
     availableIntroPart2: '. Aseta parametri',
     availableIntroPart3: 'haluamaasi työkaluun.',
   },
+  toolContent: { aboutTitle: "Tietoa {{from}}–{{to}}-muunnoksesta", aboutTitleTool: "Tietoa työkalusta {{tool}}", howToTitle: "Näin muunnat {{from}}-tiedoston {{to}}-muotoon", howToTitleTool: "Näin käytät työkalua {{tool}}", faqTitle: "Usein kysytyt kysymykset", englishOnly: "Tämä opas on tällä hetkellä saatavilla vain englanniksi." },
 };
 
 const cs = {
@@ -5432,6 +5443,7 @@ const cs = {
     availableIntroPart2: '. Nastavte parametr',
     availableIntroPart3: 'na požadovaný nástroj.',
   },
+  toolContent: { aboutTitle: "O převodu {{from}} na {{to}}", aboutTitleTool: "O nástroji {{tool}}", howToTitle: "Jak převést {{from}} na {{to}}", howToTitleTool: "Jak používat nástroj {{tool}}", faqTitle: "Často kladené dotazy", englishOnly: "Tento návod je momentálně k dispozici pouze v angličtině." },
 };
 
 const ro = {
@@ -5987,6 +5999,7 @@ const ro = {
     availableIntroPart2: '. Setează parametrul',
     availableIntroPart3: 'la instrumentul dorit.',
   },
+  toolContent: { aboutTitle: "Despre conversia din {{from}} în {{to}}", aboutTitleTool: "Despre {{tool}}", howToTitle: "Cum convertești {{from}} în {{to}}", howToTitleTool: "Cum folosești {{tool}}", faqTitle: "Întrebări frecvente", englishOnly: "Acest ghid este disponibil momentan doar în limba engleză." },
 };
 
 const hu = {
@@ -6542,6 +6555,7 @@ const hu = {
     availableIntroPart2: '. Állítsa a paramétert',
     availableIntroPart3: 'a kívánt eszközre.',
   },
+  toolContent: { aboutTitle: "A {{from}} – {{to}} átalakításról", aboutTitleTool: "A(z) {{tool}} eszközről", howToTitle: "Így alakíthat át {{from}} fájlt {{to}} formátumba", howToTitleTool: "Így használhatja a(z) {{tool}} eszközt", faqTitle: "Gyakran ismételt kérdések", englishOnly: "Ez az útmutató jelenleg csak angol nyelven érhető el." },
 };
 
 const el = {
@@ -7097,6 +7111,7 @@ const el = {
     availableIntroPart2: '. Ορίστε την παράμετρο',
     availableIntroPart3: 'στο επιθυμητό εργαλείο.',
   },
+  toolContent: { aboutTitle: "Σχετικά με τη μετατροπή {{from}} σε {{to}}", aboutTitleTool: "Σχετικά με το {{tool}}", howToTitle: "Πώς να μετατρέψετε {{from}} σε {{to}}", howToTitleTool: "Πώς να χρησιμοποιήσετε το {{tool}}", faqTitle: "Συχνές ερωτήσεις", englishOnly: "Αυτός ο οδηγός είναι προς το παρόν διαθέσιμος μόνο στα αγγλικά." },
 };
 
 const tr = {
@@ -7652,6 +7667,7 @@ const tr = {
     availableIntroPart2: '. Parametreyi',
     availableIntroPart3: 'istenen araca ayarlayın.',
   },
+  toolContent: { aboutTitle: "{{from}} – {{to}} dönüştürme hakkında", aboutTitleTool: "{{tool}} hakkında", howToTitle: "{{from}} dosyası {{to}} biçimine nasıl dönüştürülür", howToTitleTool: "{{tool}} nasıl kullanılır", faqTitle: "Sıkça sorulan sorular", englishOnly: "Bu kılavuz şu anda yalnızca İngilizce olarak mevcuttur." },
 };
 
 export const translations = { de, fr, es, it, pt, nl, pl, sv, no, da, fi, cs, ro, hu, el, tr };

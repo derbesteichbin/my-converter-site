@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback, lazy, Suspense } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
@@ -6,6 +6,11 @@ import SEO from '../components/SEO';
 import { api, API_URL } from '../api';
 import { getToolBySlug, getToolLabel, getToolDescription, ADVANCED_SETTINGS } from '../toolsConfig';
 import { useToast } from '../components/Toast';
+
+// The per-tool SEO content (intro, how-to, FAQ + FAQPage structured data)
+// carries a sizeable format knowledge base, so it is code-split into its own
+// chunk and fetched after the converter above it is already interactive.
+const ToolContentSection = lazy(() => import('../components/ToolContentSection'));
 
 // Credit packs surfaced in the no-credits modal. Mirrors PACK_IDS in
 // Pricing.jsx; kept in sync manually. The label is a translation key
@@ -1266,6 +1271,13 @@ export default function ToolPage() {
           )}
         </>
       )}
+
+      {/* SEO content block: unique per-tool intro, how-to steps and FAQ.
+          Rendered last so it never competes with the converter for the main
+          thread; no fallback because it sits below the fold. */}
+      <Suspense fallback={null}>
+        <ToolContentSection tool={toolDef} />
+      </Suspense>
 
       {modal && (
         <div

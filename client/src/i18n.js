@@ -961,6 +961,18 @@ const en = {
     s13Body: "For data-protection inquiries, requests to exercise your GDPR rights, or any other privacy-related concern, please email Support@convertanyformat.com. We aim to respond within one month. Without prejudice to any other administrative or judicial remedy, you have the right under Art. 77 GDPR to lodge a complaint with the supervisory authority of the EU member state where you reside, work, or where the alleged infringement occurred. The competent supervisory authority for {{brand}} is the Landesbeauftragte für Datenschutz und Informationsfreiheit Nordrhein-Westfalen, Kavalleriestraße 2-4, 40213 Düsseldorf.",
   },
 
+  // Headings for the per-tool SEO content block (intro / how-to / FAQ)
+  // rendered below the conversion area. The body copy itself is composed in
+  // toolContent.js and is English-only for now.
+  toolContent: {
+    aboutTitle: "About {{from}} to {{to}} conversion",
+    aboutTitleTool: "About {{tool}}",
+    howToTitle: "How to convert {{from}} to {{to}}",
+    howToTitleTool: "How to use {{tool}}",
+    faqTitle: "Frequently asked questions",
+    englishOnly: "This guide is currently available in English only.",
+  },
+
   toolDescriptions: {
     "mp3-to-ogg": "Convert MP3 audio to the open OGG Vorbis format for smaller files and great quality on open-source players.",
     "audio-converter": "Convert audio between MP3, WAV, FLAC, AAC, OGG, and M4A. One tool for every common audio format.",

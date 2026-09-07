@@ -5007,3 +5007,131 @@ select:focus-visible {
   /* Toast notifications */
   .toast { font-size: 0.875rem; }
 }
+
+/* ---- Tool page SEO content (intro / how-to / FAQ) ------------------
+   Sits below the conversion area on every tool page. Uses the shared theme
+   tokens so it inverts correctly in dark mode with no extra rules. */
+.tool-seo {
+  margin-top: 3.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--border);
+  max-width: 760px;
+  text-align: left;
+}
+
+.tool-seo-block + .tool-seo-block {
+  margin-top: 2.5rem;
+}
+
+.tool-seo h2 {
+  font-size: 1.375rem;
+  line-height: 1.3;
+  margin: 0 0 0.875rem;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.tool-seo-intro {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+/* How-to steps — numbered badges rather than plain list markers so the
+   sequence reads at a glance on a phone. */
+.tool-seo-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  counter-reset: tool-seo-step;
+}
+
+.tool-seo-steps li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+}
+
+.tool-seo-step-num {
+  flex: 0 0 auto;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--accent);
+  background: rgba(124, 58, 237, 0.1);
+  border: 1px solid rgba(124, 58, 237, 0.22);
+  margin-top: 0.0625rem;
+}
+
+[data-theme="dark"] .tool-seo-step-num {
+  background: rgba(139, 92, 246, 0.14);
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+.tool-seo-step-text {
+  min-width: 0;
+}
+
+/* FAQ — plain visible headings and paragraphs (no accordion) so every answer
+   is in the rendered DOM for crawlers and screen readers alike. */
+.tool-seo-faq {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.tool-seo-faq-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.125rem 1.25rem;
+}
+
+.tool-seo-faq-item h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.tool-seo-faq-item p {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+.tool-seo-lang-note {
+  margin: 2rem 0 0;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  opacity: 0.75;
+}
+
+@media (max-width: 640px) {
+  .tool-seo {
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+  }
+  .tool-seo-block + .tool-seo-block { margin-top: 2rem; }
+  .tool-seo h2 { font-size: 1.1875rem; }
+  .tool-seo-intro,
+  .tool-seo-steps li,
+  .tool-seo-faq-item p { font-size: 0.875rem; }
+  .tool-seo-faq-item { padding: 1rem; border-radius: 10px; }
+  .tool-seo-faq-item h3 { font-size: 0.9375rem; }
+  .tool-seo-step-num { width: 1.5rem; height: 1.5rem; font-size: 0.75rem; }
+}
