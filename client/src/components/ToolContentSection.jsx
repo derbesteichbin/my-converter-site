@@ -1,19 +1,28 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { buildToolContent, buildFaqJsonLd } from '../toolContent';
+import { buildToolContent, buildFaqJsonLd, loadPack, packLanguage } from '../toolContent';
 
 // Per-tool SEO content rendered below the conversion area.
 //
-// This component is loaded lazily by ToolPage (see the React.lazy call there)
-// so the format knowledge base in toolContent.js lands in its own chunk and
-// never delays the converter itself becoming interactive.
+// This component is loaded lazily by ToolPage, and the language pack holding
+// the prose is loaded lazily again from here — so a visitor downloads exactly
+// one language's text and the converter above never waits for it.
 //
-// The body copy is composed in toolContent.js from format metadata; only the
-// section headings come from i18n, so they localise while the body stays in
-// English for now.
+// The body copy is composed by the engine from format metadata in the active
+// language, so headings, intro, steps, FAQ and the FAQPage JSON-LD are all in
+// the same language as the rest of the interface.
 export default function ToolContentSection({ tool }) {
   const { t, i18n } = useTranslation();
-  const content = useMemo(() => buildToolContent(tool), [tool]);
+  const lang = packLanguage(i18n.resolvedLanguage || i18n.language);
+  const [pack, setPack] = useState(null);
+
+  useEffect(() => {
+    let live = true;
+    loadPack(lang).then((p) => { if (live) setPack(p); });
+    return () => { live = false; };
+  }, [lang]);
+
+  const content = useMemo(() => (pack ? buildToolContent(tool, pack) : null), [tool, pack]);
   const faqJsonLd = useMemo(() => buildFaqJsonLd(content), [content]);
 
   if (!content) return null;
@@ -26,21 +35,16 @@ export default function ToolContentSection({ tool }) {
     ? t('toolContent.howToTitle', { from, to, defaultValue: `How to convert ${from} to ${to}` })
     : t('toolContent.howToTitleTool', { tool: label, defaultValue: `How to use ${label}` });
 
-  // The body copy is English regardless of the interface language, so mark it
-  // up as such for search engines and screen readers.
-  const uiIsEnglish = (i18n.resolvedLanguage || i18n.language || 'en').startsWith('en');
-  const bodyLang = uiIsEnglish ? undefined : 'en';
-
   return (
     <section className="tool-seo" aria-labelledby="tool-seo-about">
       <div className="tool-seo-block">
         <h2 id="tool-seo-about">{aboutTitle}</h2>
-        <p className="tool-seo-intro" lang={bodyLang}>{intro}</p>
+        <p className="tool-seo-intro">{intro}</p>
       </div>
 
       <div className="tool-seo-block">
         <h2>{howToTitle}</h2>
-        <ol className="tool-seo-steps" lang={bodyLang}>
+        <ol className="tool-seo-steps">
           {steps.map((step, i) => (
             <li key={i}>
               <span className="tool-seo-step-num" aria-hidden="true">{i + 1}</span>
@@ -52,7 +56,7 @@ export default function ToolContentSection({ tool }) {
 
       <div className="tool-seo-block">
         <h2>{t('toolContent.faqTitle', { defaultValue: 'Frequently asked questions' })}</h2>
-        <div className="tool-seo-faq" lang={bodyLang}>
+        <div className="tool-seo-faq">
           {faq.map((item, i) => (
             <div className="tool-seo-faq-item" key={i}>
               <h3>{item.q}</h3>
@@ -62,17 +66,8 @@ export default function ToolContentSection({ tool }) {
         </div>
       </div>
 
-      {!uiIsEnglish && (
-        <p className="tool-seo-lang-note">
-          {t('toolContent.englishOnly', {
-            defaultValue: 'This guide is currently available in English only.',
-          })}
-        </p>
-      )}
-
-      {/* FAQPage structured data, so these questions can surface as rich
-          results. Google reads JSON-LD anywhere in the document, and keeping
-          it next to the markup it describes means the two cannot drift. */}
+      {/* FAQPage structured data, in the same language as the markup above —
+          it is built from the very same objects, so the two cannot diverge. */}
       {faqJsonLd && (
         <script
           type="application/ld+json"

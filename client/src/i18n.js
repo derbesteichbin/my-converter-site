@@ -963,14 +963,13 @@ const en = {
 
   // Headings for the per-tool SEO content block (intro / how-to / FAQ)
   // rendered below the conversion area. The body copy itself is composed in
-  // toolContent.js and is English-only for now.
+  // toolContent.js and the per-language packs under toolContent/packs/.
   toolContent: {
     aboutTitle: "About {{from}} to {{to}} conversion",
     aboutTitleTool: "About {{tool}}",
     howToTitle: "How to convert {{from}} to {{to}}",
     howToTitleTool: "How to use {{tool}}",
     faqTitle: "Frequently asked questions",
-    englishOnly: "This guide is currently available in English only.",
   },
 
   toolDescriptions: {
