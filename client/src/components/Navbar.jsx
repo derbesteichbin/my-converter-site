@@ -118,13 +118,28 @@ export default function Navbar({ scrolled = false }) {
   return (
     <nav className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`} role="navigation" aria-label={t('nav.mainNavigation')}>
       <Link to="/" className="navbar-logo" aria-label={t('nav.home')} onClick={closeMenu}>
+        {/* Display-sized variants. The navbar draws the logo at 44px (32px
+            below 768px), so 64px covers 1x screens and 128px covers 2x/3x —
+            the 2 MB / 3.8 MB originals were being downloaded on every page
+            view for this. They are still used for the Open Graph share
+            image, which genuinely needs to stay large. Regenerate the
+            variants with scripts/generate-logos.mjs.
+
+            Not lazy-loaded: the logo is above the fold on every route, and
+            deferring it only delays first paint of the header. */}
         <img
-          src={theme === 'dark' ? '/images/logo-dark.png' : '/images/logo-light.png'}
+          src={theme === 'dark' ? '/images/logo-dark-128.png' : '/images/logo-light-128.png'}
+          srcSet={
+            theme === 'dark'
+              ? '/images/logo-dark-64.png 64w, /images/logo-dark-128.png 128w'
+              : '/images/logo-light-64.png 64w, /images/logo-light-128.png 128w'
+          }
+          sizes="(max-width: 768px) 32px, 44px"
           alt="ConvertAnyFormat"
           className="navbar-logo-img"
           width="44"
           height="44"
-          loading="lazy"
+          decoding="async"
         />
         <span>ConvertAnyFormat</span>
       </Link>

@@ -7,7 +7,7 @@
 // Bump CACHE_NAME on every meaningful change: the activate handler deletes
 // every cache that is not the current one, which is what forces returning
 // users onto the new shell.
-const CACHE_NAME = 'convertanyformat-v6';
+const CACHE_NAME = 'convertanyformat-v7';
 
 // The SPA shell plus the icons the manifest and the install prompt reference,
 // so an installed app still renders its own chrome offline.
@@ -18,6 +18,12 @@ const SHELL_URLS = [
   '/icons/icon-192.png',
   '/icons/icon-512.png',
   '/icons/apple-touch-icon.png',
+  // Navbar logo variants, all four so the header renders correctly offline
+  // whatever the theme and pixel density (35 kB for the set).
+  '/images/logo-light-64.png',
+  '/images/logo-light-128.png',
+  '/images/logo-dark-64.png',
+  '/images/logo-dark-128.png',
 ];
 
 self.addEventListener('install', (event) => {

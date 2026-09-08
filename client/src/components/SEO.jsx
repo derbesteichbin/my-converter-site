@@ -2,6 +2,10 @@ import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
 const SITE_NAME = 'ConvertAnyFormat';
+// Deliberately the full-size 2048px logo, not one of the small navbar
+// variants in /images/logo-*-128.png. This is the Open Graph / Twitter share
+// image: it is fetched by crawlers rather than by visitors' browsers, and
+// social platforms want a large source to crop from.
 const DEFAULT_IMAGE = '/images/logo-light.png';
 const SITE_URL = 'https://www.convertanyformat.com';
 
