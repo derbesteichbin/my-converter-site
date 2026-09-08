@@ -26,10 +26,34 @@ model User {
   notifyPromo      Boolean        @default(false)
   resetToken       String?        @unique
   resetTokenExpiry DateTime?
+  // Persistent Stripe Customer. Required for promotion-code restrictions like
+  // first_time_transaction, which Stripe evaluates against a customer's own
+  // charge history — a per-session customer_email cannot carry that history.
+  stripeCustomerId String?        @unique
   createdAt        DateTime       @default(now())
   jobs             Job[]
   subscription     Subscription?
   reviews          Review[]
+  purchases        Purchase[]
+}
+
+// Local order history. Written in the same transaction as the credit grant in
+// the Stripe webhook, so it is an exact record of what was actually paid for.
+// Also backs the local first-purchase check (Stripe remains the authority).
+model Purchase {
+  id              String   @id @default(uuid())
+  userId          String
+  stripeSessionId String   @unique
+  paymentIntentId String?
+  pack            String
+  credits         Int
+  amountPaid      Int      // minor units (cents), as Stripe reports it
+  currency        String   @default("eur")
+  promoCodeUsed   String?
+  createdAt       DateTime @default(now())
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
 }
 
 model Job {

@@ -18,14 +18,12 @@ const PACK_IDS = [
   { id: 'pack30', credits: 30, price: '20.99', savings: 29 },
 ];
 
-// Public-facing promo code. Server has the same constant in
-// server/routes/billing.js — both must agree. Comparison is case-insensitive.
+// Public-facing promo code, shown in the banner. The browser deliberately
+// does NOT know the discount amount: every discounted price comes from
+// POST /api/billing/validate-promo, which reads the real Stripe Price and
+// Coupon. That is the only way the quoted price and the charged price
+// cannot drift apart.
 const PROMO_CODE = 'convertanyformat2026';
-const PROMO_DISCOUNT = 0.5; // 50% off
-
-function applyDiscount(price) {
-  return (parseFloat(price) * (1 - PROMO_DISCOUNT)).toFixed(2);
-}
 
 export default function Pricing() {
   const { t } = useTranslation();
@@ -35,18 +33,72 @@ export default function Pricing() {
   const [contactForm, setContactForm] = useState({ name: '', company: '', companyEmail: '', description: '' });
   const [sending, setSending] = useState(false);
   const [promoInput, setPromoInput] = useState('');
-  const [appliedPromo, setAppliedPromo] = useState(''); // '' | PROMO_CODE
-  const promoActive = appliedPromo === PROMO_CODE;
+  const [checkingPromo, setCheckingPromo] = useState(false);
+  // Server-validated promo, or null. Shape mirrors the validate-promo
+  // response: { code, packs: { pack1: { baseFormatted, finalFormatted } },
+  // eligible, ineligibleReason, discount }.
+  const [promo, setPromo] = useState(null);
+  const [promoNotice, setPromoNotice] = useState('');
+  // Prices are only ever discounted when the server said so AND the server
+  // did not tell us this account is ineligible.
+  const promoActive = Boolean(promo && promo.eligible);
 
-  function handleApplyPromo(e) {
+  function clearPromo(message) {
+    setPromo(null);
+    setPromoNotice(message || '');
+  }
+
+  async function handleApplyPromo(e) {
     e.preventDefault();
-    const trimmed = promoInput.trim().toLowerCase();
-    if (trimmed === PROMO_CODE) {
-      setAppliedPromo(PROMO_CODE);
-    } else {
-      setAppliedPromo('');
-      toast(t('pricing.promoInvalid'), 'error');
+    const trimmed = promoInput.trim();
+    if (!trimmed) return;
+
+    setCheckingPromo(true);
+    setPromoNotice('');
+    try {
+      const res = await api('/api/billing/validate-promo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ promoCode: trimmed }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        // Includes both "wrong code" (400) and "promotion misconfigured"
+        // (503). Either way the user is told, and prices stay at full price.
+        clearPromo('');
+        toast(data.error || t('pricing.promoInvalid'), 'error');
+        return;
+      }
+
+      setPromo(data);
+      if (data.eligible) {
+        setPromoNotice('');
+      } else {
+        // Valid code, but this account has already bought before. Show the
+        // reason and leave full prices on screen.
+        setPromoNotice(data.ineligibleReason || t('pricing.promoFirstPurchaseOnly', {
+          defaultValue: 'This code is valid for your first purchase only.',
+        }));
+      }
+    } catch {
+      clearPromo('');
+      toast(t('common.connectError'), 'error');
+    } finally {
+      setCheckingPromo(false);
     }
+  }
+
+  // Price to show for a pack: the server's discounted figure when a promo is
+  // active, otherwise the list price. Never computed here.
+  function displayPrice(pack) {
+    if (promoActive && promo.packs?.[pack.id]) return promo.packs[pack.id].finalFormatted;
+    return pack.price;
+  }
+
+  function basePrice(pack) {
+    if (promoActive && promo.packs?.[pack.id]) return promo.packs[pack.id].baseFormatted;
+    return pack.price;
   }
 
   async function handleBuy(packId) {
@@ -55,10 +107,16 @@ export default function Pricing() {
       const res = await api('/api/billing/create-checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pack: packId, promoCode: promoActive ? PROMO_CODE : undefined }),
+        body: JSON.stringify({ pack: packId, promoCode: promoActive ? promo.code : undefined }),
       });
       const data = await res.json();
       if (!res.ok) {
+        // The server refused the discount (already purchased, or the
+        // promotion is unavailable). Drop it from the UI so the displayed
+        // price can never stay discounted after a rejection.
+        if (data.code === 'promo_not_first_purchase' || data.code === 'promo_not_configured' || data.code === 'invalid_promo') {
+          clearPromo(data.error);
+        }
         toast(data.error || t('pricing.checkoutFail'), 'error');
         return;
       }
@@ -134,13 +192,25 @@ export default function Pricing() {
             onChange={(e) => setPromoInput(e.target.value)}
             autoComplete="off"
           />
-          <button type="submit" className="btn-primary promo-apply-btn">
-            {t('pricing.promoApply')}
+          <button type="submit" className="btn-primary promo-apply-btn" disabled={checkingPromo}>
+            {checkingPromo
+              ? t('pricing.promoChecking', { defaultValue: 'Checking…' })
+              : t('pricing.promoApply')}
           </button>
         </form>
         {promoActive && (
           <p className="promo-applied" role="status">
-            ✓ {t('pricing.promoApplied')}
+            ✓ {promo.discount?.percentOff
+              ? t('pricing.promoAppliedPercent', {
+                  percent: promo.discount.percentOff,
+                  defaultValue: `${promo.discount.percentOff}% discount applied!`,
+                })
+              : t('pricing.promoApplied')}
+          </p>
+        )}
+        {promoNotice && (
+          <p className="promo-notice" role="status" style={{ color: 'var(--text-muted)', marginTop: '0.5rem' }}>
+            {promoNotice}
           </p>
         )}
       </div>
@@ -174,8 +244,8 @@ export default function Pricing() {
             <h2>{packLabel(pack.credits)}</h2>
             {promoActive ? (
               <p className="pricing-price">
-                <span className="pricing-price-original">&euro;{pack.price}</span>
-                <span className="pricing-price-discounted">&euro;{applyDiscount(pack.price)}</span>
+                <span className="pricing-price-original">&euro;{basePrice(pack)}</span>
+                <span className="pricing-price-discounted">&euro;{displayPrice(pack)}</span>
               </p>
             ) : (
               <p className="pricing-price">&euro;{pack.price}</p>
@@ -201,7 +271,7 @@ export default function Pricing() {
                 ? t('pricing.comingSoonBtn')
                 : loading === pack.id
                 ? t('pricing.redirecting')
-                : t('pricing.buyFor', { price: promoActive ? applyDiscount(pack.price) : pack.price })}
+                : t('pricing.buyFor', { price: displayPrice(pack) })}
             </button>
           </div>
         ))}

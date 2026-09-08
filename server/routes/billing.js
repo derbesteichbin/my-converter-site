@@ -1,5 +1,6 @@
 const express = require('express');
 const Stripe = require('stripe');
+const jwt = require('jsonwebtoken');
 const prisma = require('../lib/prisma');
 const { protect } = require('../middleware/auth');
 const { Resend } = require('resend');
@@ -14,13 +15,10 @@ const CREDIT_PACKS = {
   pack30: { priceId: 'price_1TRKADCwJPjxuD4WbeKGz1n0', credits: 30 },
 };
 
-// Public-facing promo code → resolves to STRIPE_COUPON_ID at checkout time.
-// The user types this; we map it to the Stripe coupon ID server-side so
-// the actual coupon can be rotated without changing the customer-facing
-// code. Comparison is case-insensitive.
-const PROMO_CODES = {
-  'convertanyformat2026': () => process.env.STRIPE_COUPON_ID,
-};
+// Customer-facing promo codes we accept. Membership here only decides whether
+// we bother asking Stripe — Stripe remains the authority on whether the
+// discount is real, still active, and applicable to this customer.
+const PROMO_CODES = new Set(['convertanyformat2026']);
 
 // Reverse lookup: Stripe priceId -> credits
 const PRICE_TO_CREDITS = {};
@@ -33,6 +31,225 @@ function getStripe() {
   try { return new Stripe(process.env.STRIPE_SECRET_KEY); }
   catch { return null; }
 }
+
+// ── Promotions ───────────────────────────────────────────────────────
+
+// Resolve the configured discount to a Stripe *promotion code* object.
+//
+// Restrictions such as first_time_transaction live on the promotion code,
+// not on the coupon underneath it, so a promotion code is what checkout must
+// be given. STRIPE_COUPON_ID may hold either form, so accept both: a
+// "promo_..." id is used directly, a bare coupon id is resolved to the active
+// promotion code that wraps it, and as a last resort we look the code up by
+// the customer-facing string.
+//
+// Returns { promotionCode } or { error } — never throws.
+async function resolvePromotionCode(stripe, typedCode) {
+  const configured = (process.env.STRIPE_COUPON_ID || '').trim();
+  if (!configured) return { error: 'not_configured' };
+
+  try {
+    if (configured.startsWith('promo_')) {
+      const pc = await stripe.promotionCodes.retrieve(configured);
+      if (!pc || !pc.active) return { error: 'inactive' };
+      return { promotionCode: pc };
+    }
+
+    const byCoupon = await stripe.promotionCodes.list({ coupon: configured, active: true, limit: 1 });
+    if (byCoupon.data.length > 0) return { promotionCode: byCoupon.data[0] };
+
+    const byCode = await stripe.promotionCodes.list({
+      code: String(typedCode || '').toUpperCase(),
+      active: true,
+      limit: 1,
+    });
+    if (byCode.data.length > 0) return { promotionCode: byCode.data[0] };
+
+    return { error: 'not_found' };
+  } catch (err) {
+    console.error('[billing] Promotion code lookup failed:', err.message);
+    return { error: 'lookup_failed' };
+  }
+}
+
+// Load the Coupon behind a promotion code.
+//
+// The promotion code object exposes it differently across Stripe API
+// versions: older versions embed an expanded `coupon` object, current ones
+// return `promotion: { coupon: '<id>', type: 'coupon' }` carrying only an id
+// and no `coupon` field at all. Resolve every shape to a real Coupon instead
+// of trusting one — reading percent_off off the wrong shape yields undefined,
+// which would quietly quote an undiscounted price.
+async function loadCoupon(stripe, promotionCode) {
+  const direct = promotionCode.coupon;
+  if (direct && typeof direct === 'object') return direct;
+
+  const couponId =
+    (typeof direct === 'string' && direct) ||
+    (typeof promotionCode.promotion?.coupon === 'string' && promotionCode.promotion.coupon) ||
+    null;
+
+  if (!couponId) return null;
+  try {
+    return await stripe.coupons.retrieve(couponId);
+  } catch (err) {
+    console.error('[billing] Could not load coupon for promotion code:', err.message);
+    return null;
+  }
+}
+
+// Mirror Stripe's own discount arithmetic: the *discount* is rounded to the
+// nearest minor unit (ties up) and then subtracted, which is not the same as
+// rounding the discounted total. For 799 at 50% off that is 799 - 400 = 399,
+// not 400. Getting this backwards is a one-cent mismatch between the quoted
+// and charged price, which is the whole bug this endpoint exists to prevent.
+function applyCoupon(amountMinor, coupon) {
+  if (coupon.percent_off != null) {
+    const discount = Math.round((amountMinor * coupon.percent_off) / 100);
+    return Math.max(0, amountMinor - discount);
+  }
+  if (coupon.amount_off != null) {
+    return Math.max(0, amountMinor - coupon.amount_off);
+  }
+  return amountMinor;
+}
+
+const formatMinor = (minor) => (minor / 100).toFixed(2);
+
+// Local first-purchase check. Stripe's first_time_transaction restriction is
+// the real gate; this exists so the UI can say so up front instead of the
+// user discovering it at the payment step.
+async function hasPurchased(userId) {
+  const count = await prisma.purchase.count({ where: { userId } });
+  return count > 0;
+}
+
+// A persistent Stripe Customer per user. first_time_transaction is evaluated
+// against a customer's charge history, so a fresh per-session customer_email
+// would make every purchase look like a first purchase.
+async function getOrCreateStripeCustomer(stripe, user) {
+  if (user.stripeCustomerId) {
+    try {
+      const existing = await stripe.customers.retrieve(user.stripeCustomerId);
+      if (existing && !existing.deleted) return existing.id;
+    } catch {
+      // Customer was deleted in Stripe — fall through and make a new one.
+    }
+  }
+
+  const customer = await stripe.customers.create({
+    email: user.email,
+    metadata: { userId: user.id },
+  });
+  await prisma.user.update({
+    where: { id: user.id },
+    data: { stripeCustomerId: customer.id },
+  });
+  return customer.id;
+}
+
+// POST /api/billing/validate-promo — verify a promo code against Stripe and
+// return the real price of every pack under it.
+//
+// This is the single source of pricing truth: base amounts come from the
+// Stripe Price objects and the discount from the Stripe Coupon, so the
+// browser never invents a number. Auth is optional — a signed-out visitor
+// still gets accurate prices; only the eligibility flag needs an account.
+router.post('/validate-promo', async (req, res) => {
+  try {
+    const stripe = getStripe();
+    if (!stripe) return res.status(503).json({ error: 'Billing is not configured' });
+
+    const raw = typeof req.body?.promoCode === 'string' ? req.body.promoCode.trim() : '';
+    if (!raw) return res.status(400).json({ error: 'Enter a promo code', code: 'invalid_promo' });
+
+    // Unknown code: reject clearly. Never fall through to full price.
+    if (!PROMO_CODES.has(raw.toLowerCase())) {
+      return res.status(400).json({ error: 'Invalid or expired promo code', code: 'invalid_promo' });
+    }
+
+    const resolved = await resolvePromotionCode(stripe, raw);
+    if (resolved.error) {
+      // The code is one of ours but the discount is not usable. This is a
+      // server misconfiguration, not user error — say so loudly rather than
+      // quietly charging full price.
+      console.error(`[billing] Promo "${raw}" is accepted but unusable (${resolved.error}). Check STRIPE_COUPON_ID.`);
+      return res.status(503).json({
+        error: 'This promotion is temporarily unavailable. Please try again later.',
+        code: 'promo_not_configured',
+      });
+    }
+
+    const { promotionCode } = resolved;
+    const coupon = await loadCoupon(stripe, promotionCode);
+    // A coupon that carries no discount would quote the list price while the
+    // UI claims a promotion is applied — refuse rather than show that.
+    if (
+      !coupon ||
+      coupon.valid === false ||
+      (coupon.percent_off == null && coupon.amount_off == null)
+    ) {
+      console.error(`[billing] Promotion ${promotionCode.id} resolves to an unusable coupon.`);
+      return res.status(503).json({
+        error: 'This promotion is temporarily unavailable. Please try again later.',
+        code: 'promo_not_configured',
+      });
+    }
+
+    // Real amounts, straight from Stripe.
+    const entries = Object.entries(CREDIT_PACKS);
+    const prices = await Promise.all(entries.map(([, p]) => stripe.prices.retrieve(p.priceId)));
+
+    const packs = {};
+    let currency = 'eur';
+    entries.forEach(([packId], i) => {
+      const price = prices[i];
+      const base = price.unit_amount;
+      const final = applyCoupon(base, coupon);
+      currency = price.currency || currency;
+      packs[packId] = {
+        base,
+        final,
+        baseFormatted: formatMinor(base),
+        finalFormatted: formatMinor(final),
+      };
+    });
+
+    // Eligibility, when we know who is asking.
+    const firstPurchaseOnly = Boolean(promotionCode.restrictions?.first_time_transaction);
+    let eligible = true;
+    let ineligibleReason = null;
+    const token = req.cookies?.token;
+    if (token) {
+      try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        if (firstPurchaseOnly && (await hasPurchased(decoded.userId))) {
+          eligible = false;
+          ineligibleReason = 'This code is valid for your first purchase only.';
+        }
+      } catch {
+        // Not signed in — leave eligibility unknown/true and let checkout decide.
+      }
+    }
+
+    res.json({
+      valid: true,
+      code: promotionCode.code,
+      currency,
+      firstPurchaseOnly,
+      eligible,
+      ineligibleReason,
+      discount: {
+        percentOff: coupon.percent_off ?? null,
+        amountOff: coupon.amount_off ?? null,
+      },
+      packs,
+    });
+  } catch (err) {
+    console.error('Validate promo error:', err);
+    res.status(500).json({ error: 'Could not validate promo code' });
+  }
+});
 
 // POST /api/billing/create-checkout — create a Stripe Checkout Session for credit packs
 router.post('/create-checkout', protect, async (req, res) => {
@@ -47,24 +264,51 @@ router.post('/create-checkout', protect, async (req, res) => {
     const user = await prisma.user.findUnique({ where: { id: req.userId } });
     if (!user) return res.status(404).json({ error: 'User not found' });
 
-    // Resolve promo code → Stripe coupon ID. We accept the friendly code
-    // ("convertanyformat2026") and look up the real coupon ID from env.
-    // Silently ignore unknown codes / unconfigured coupons so checkout
-    // still proceeds at full price rather than failing.
+    // Resolve the promo code, if one was supplied. Every failure below is
+    // surfaced to the user — a discount that cannot be applied must stop the
+    // purchase, never quietly proceed at full price.
     const discounts = [];
-    if (promoCode && typeof promoCode === 'string') {
-      const resolver = PROMO_CODES[promoCode.trim().toLowerCase()];
-      const couponId = resolver && resolver();
-      if (couponId) discounts.push({ coupon: couponId });
+    let appliedCode = '';
+    if (promoCode && typeof promoCode === 'string' && promoCode.trim()) {
+      const raw = promoCode.trim();
+
+      if (!PROMO_CODES.has(raw.toLowerCase())) {
+        return res.status(400).json({ error: 'Invalid or expired promo code', code: 'invalid_promo' });
+      }
+
+      const resolved = await resolvePromotionCode(stripe, raw);
+      if (resolved.error) {
+        console.error(`[billing] Promo "${raw}" accepted but unusable (${resolved.error}). Check STRIPE_COUPON_ID.`);
+        return res.status(503).json({
+          error: 'This promotion is temporarily unavailable. Please try again later.',
+          code: 'promo_not_configured',
+        });
+      }
+
+      const { promotionCode } = resolved;
+      if (promotionCode.restrictions?.first_time_transaction && (await hasPurchased(user.id))) {
+        return res.status(400).json({
+          error: 'This code is valid for your first purchase only.',
+          code: 'promo_not_first_purchase',
+        });
+      }
+
+      discounts.push({ promotion_code: promotionCode.id });
+      appliedCode = promotionCode.code;
     }
+
+    // Persistent customer, so Stripe can evaluate first_time_transaction
+    // against real charge history. Note `customer` and `customer_email` are
+    // mutually exclusive in the Checkout API.
+    const customerId = await getOrCreateStripeCustomer(stripe, user);
 
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       payment_method_types: ['card'],
       line_items: [{ price: packDef.priceId, quantity: 1 }],
-      customer_email: user.email,
+      customer: customerId,
       client_reference_id: user.id,
-      metadata: { pack, priceId: packDef.priceId, promoCode: promoCode || '' },
+      metadata: { pack, priceId: packDef.priceId, promoCode: appliedCode },
       ...(discounts.length > 0 ? { discounts } : {}),
       success_url: `${process.env.CLIENT_URL || 'http://localhost:5173'}/dashboard?purchased=1`,
       cancel_url: `${process.env.CLIENT_URL || 'http://localhost:5173'}/pricing`,
@@ -72,6 +316,16 @@ router.post('/create-checkout', protect, async (req, res) => {
 
     res.json({ url: session.url });
   } catch (err) {
+    // Stripe refuses the session when a promotion code's restrictions are not
+    // met (e.g. the customer already has a charge). Translate that into a
+    // clear message instead of a generic failure.
+    if (err?.type === 'StripeInvalidRequestError' && /promotion|coupon|discount/i.test(err.message || '')) {
+      console.error('Checkout rejected the promotion:', err.message);
+      return res.status(400).json({
+        error: 'This code is valid for your first purchase only.',
+        code: 'promo_not_first_purchase',
+      });
+    }
     console.error('Checkout error:', err);
     res.status(500).json({ error: 'Failed to create checkout session' });
   }
@@ -122,11 +376,27 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
       const creditsToAdd = PRICE_TO_CREDITS[priceId] || 0;
       if (creditsToAdd > 0) {
         try {
-          // Recording the event and granting the credits in one transaction
-          // makes this exactly-once: a concurrent retry hits the primary-key
-          // conflict and the whole thing rolls back, granting nothing.
-          const [, user] = await prisma.$transaction([
+          // Recording the event, the order and the credits in one transaction
+          // makes this exactly-once: a concurrent retry hits a unique
+          // constraint (event id or session id) and the whole thing rolls
+          // back, granting nothing and recording nothing.
+          const [, , user] = await prisma.$transaction([
             prisma.stripeEvent.create({ data: { id: event.id, type: event.type } }),
+            prisma.purchase.create({
+              data: {
+                userId,
+                stripeSessionId: session.id,
+                paymentIntentId:
+                  typeof session.payment_intent === 'string' ? session.payment_intent : null,
+                pack: session.metadata?.pack || 'unknown',
+                credits: creditsToAdd,
+                // What was actually paid, after any discount — the audit trail
+                // must reflect Stripe, not our quote.
+                amountPaid: typeof session.amount_total === 'number' ? session.amount_total : 0,
+                currency: session.currency || 'eur',
+                promoCodeUsed: session.metadata?.promoCode || null,
+              },
+            }),
             prisma.user.update({
               where: { id: userId },
               data: { credits: { increment: creditsToAdd } },
