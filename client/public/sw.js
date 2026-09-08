@@ -7,7 +7,7 @@
 // Bump CACHE_NAME on every meaningful change: the activate handler deletes
 // every cache that is not the current one, which is what forces returning
 // users onto the new shell.
-const CACHE_NAME = 'convertanyformat-v7';
+const CACHE_NAME = 'convertanyformat-v8';
 
 // The SPA shell plus the icons the manifest and the install prompt reference,
 // so an installed app still renders its own chrome offline.

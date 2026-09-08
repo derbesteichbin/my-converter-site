@@ -9,7 +9,7 @@
 //
 // The source logo is a 2048x2048 RGBA PNG whose artwork is a wide two-ring
 // mark occupying only the middle ~25% of the canvas, so every icon is built by
-// cropping to the artwork's real bounding box and re-centring it on the brand
+// cropping to the artwork's real bounding box and re-centring it on a white
 // background. Scaling the raw file instead would leave the mark small and
 // off-centre inside a sea of transparency.
 
@@ -21,8 +21,11 @@ const ROOT = path.resolve(import.meta.dirname, '..');
 const SRC = path.join(ROOT, 'client', 'public', 'images', 'logo-light.png');
 const OUT_DIR = path.join(ROOT, 'client', 'public', 'icons');
 
-// Brand background, matching manifest background_color / theme_color.
-const BG = [0x0a, 0x0a, 0x0a, 255];
+// Icon background. White, not the app's #0a0a0a interface colour: the icons
+// sit on a launcher wallpaper or a browser tab strip rather than inside the
+// app, and the mark reads as a distinct object there. This deliberately
+// differs from manifest theme_color, which still colours the browser chrome.
+const BG = [0xff, 0xff, 0xff, 255];
 
 // Crop transparent padding so the artwork's true extent is known.
 function trim(img, threshold = 16) {
@@ -48,7 +51,7 @@ function trim(img, threshold = 16) {
 }
 
 // Fit `art` inside `size` so its longest edge spans `coverage` of the canvas,
-// centred on the brand background.
+// centred on the icon background.
 function build(art, size, coverage) {
   const scale = (size * coverage) / Math.max(art.width, art.height);
   const w = Math.max(1, Math.round(art.width * scale));
@@ -76,7 +79,7 @@ const TARGETS = [
   { file: 'icon-maskable-192.png', size: 192, coverage: 0.62 },
   { file: 'icon-maskable-512.png', size: 512, coverage: 0.62 },
   // iOS ignores PNG alpha on home-screen icons and composites onto black, so
-  // this one is flattened explicitly to guarantee the intended background.
+  // this one is flattened explicitly to guarantee the intended white ground.
   { file: 'apple-touch-icon.png', size: 180, coverage: 0.74, opaque: true },
   { file: 'favicon-32.png', size: 32, coverage: 0.92 },
   { file: 'favicon-16.png', size: 16, coverage: 0.92 },
