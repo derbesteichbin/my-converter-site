@@ -17,8 +17,20 @@ const de = {
     promoLabel: "Hast du einen Aktionscode?",
     promoPlaceholder: "Aktionscode eingeben",
     promoApply: "Anwenden",
-    promoApplied: "50% Rabatt angewendet!",
-    promoInvalid: "Ungültiger Aktionscode",
+    promoApplied: "Rabatt angewendet!",
+    promoInvalid: "Diesen Aktionscode gibt es nicht oder er ist nicht mehr gültig.",
+
+    promoAppliedPercent: "{{percent}}% Rabatt angewendet!",
+
+    promoChecking: "Wird geprüft...",
+
+    promoUnavailable: "Diese Aktion ist vorübergehend nicht verfügbar. Bitte versuche es später noch einmal.",
+
+    promoAlreadyUsed: "Du hast diesen Code bereits verwendet — er gilt nur für deinen ersten Kauf.",
+
+    promoEnded: "Diese Aktion ist beendet und nicht mehr verfügbar.",
+
+    promoFirstPurchaseOnly: "Dieser Code gilt nur für deinen ersten Kauf.",
     contactCompanyName: 'Firmenname (optional)',
     promotionAria: 'Aktion',
     paymentsUnavailable: 'Zahlungen sind vorübergehend nicht verfügbar. Bitte später erneut versuchen.',
@@ -485,8 +497,20 @@ const fr = {
     promoLabel: "Vous avez un code promo ?",
     promoPlaceholder: "Saisir le code promo",
     promoApply: "Appliquer",
-    promoApplied: "Remise de 50% appliquée !",
-    promoInvalid: "Code promo invalide",
+    promoApplied: "Remise appliquée !",
+    promoInvalid: "Ce code promo n'existe pas ou n'est plus valide.",
+
+    promoAppliedPercent: "Remise de {{percent}} % appliquée !",
+
+    promoChecking: "Vérification...",
+
+    promoUnavailable: "Cette promotion est temporairement indisponible. Veuillez réessayer plus tard.",
+
+    promoAlreadyUsed: "Vous avez déjà utilisé ce code — il n'est valable que pour votre premier achat.",
+
+    promoEnded: "Cette promotion est terminée et n'est plus disponible.",
+
+    promoFirstPurchaseOnly: "Ce code n'est valable que pour votre premier achat.",
     contactCompanyName: "Nom de l'entreprise (optionnel)",
     promotionAria: 'Promotion',
     paymentsUnavailable: 'Les paiements sont temporairement indisponibles. Revenez bientôt.',
@@ -807,8 +831,20 @@ const es = {
     promoLabel: "¿Tienes un código promocional?",
     promoPlaceholder: "Introduce el código",
     promoApply: "Aplicar",
-    promoApplied: "¡50% de descuento aplicado!",
-    promoInvalid: "Código no válido",
+    promoApplied: "¡Descuento aplicado!",
+    promoInvalid: "Este código promocional no existe o ya no es válido.",
+
+    promoAppliedPercent: "¡{{percent}}% de descuento aplicado!",
+
+    promoChecking: "Comprobando...",
+
+    promoUnavailable: "Esta promoción no está disponible temporalmente. Inténtalo de nuevo más tarde.",
+
+    promoAlreadyUsed: "Ya has usado este código: solo es válido en tu primera compra.",
+
+    promoEnded: "Esta promoción ha finalizado y ya no está disponible.",
+
+    promoFirstPurchaseOnly: "Este código solo es válido en tu primera compra.",
     contactCompanyName: 'Nombre de la empresa (opcional)',
     promotionAria: 'Promoción',
     paymentsUnavailable: 'Los pagos no están disponibles temporalmente. Vuelve a intentarlo pronto.',
@@ -1235,8 +1271,20 @@ const it = {
     promoLabel: "Hai un codice promo?",
     promoPlaceholder: "Inserisci il codice promo",
     promoApply: "Applica",
-    promoApplied: "Sconto del 50% applicato!",
-    promoInvalid: "Codice promo non valido",
+    promoApplied: "Sconto applicato!",
+    promoInvalid: "Questo codice promo non esiste o non è più valido.",
+
+    promoAppliedPercent: "Sconto del {{percent}}% applicato!",
+
+    promoChecking: "Verifica in corso...",
+
+    promoUnavailable: "Questa promozione non è temporaneamente disponibile. Riprova più tardi.",
+
+    promoAlreadyUsed: "Hai già utilizzato questo codice: è valido solo per il primo acquisto.",
+
+    promoEnded: "Questa promozione è terminata e non è più disponibile.",
+
+    promoFirstPurchaseOnly: "Questo codice è valido solo per il primo acquisto.",
     contactCompanyName: 'Nome azienda (facoltativo)',
     promotionAria: 'Promozione',
     paymentsUnavailable: 'I pagamenti sono temporaneamente non disponibili. Riprova a breve.',
@@ -1663,8 +1711,20 @@ const pt = {
     promoLabel: "Tem um código promocional?",
     promoPlaceholder: "Introduza o código",
     promoApply: "Aplicar",
-    promoApplied: "Desconto de 50% aplicado!",
-    promoInvalid: "Código promocional inválido",
+    promoApplied: "Desconto aplicado!",
+    promoInvalid: "Este código promocional não existe ou já não é válido.",
+
+    promoAppliedPercent: "Desconto de {{percent}}% aplicado!",
+
+    promoChecking: "A verificar...",
+
+    promoUnavailable: "Esta promoção está temporariamente indisponível. Tente novamente mais tarde.",
+
+    promoAlreadyUsed: "Já utilizou este código — só é válido na sua primeira compra.",
+
+    promoEnded: "Esta promoção terminou e já não está disponível.",
+
+    promoFirstPurchaseOnly: "Este código só é válido na sua primeira compra.",
     contactCompanyName: 'Nome da empresa (opcional)',
     promotionAria: 'Promoção',
     paymentsUnavailable: 'Os pagamentos estão temporariamente indisponíveis. Volte em breve.',
@@ -2091,8 +2151,20 @@ const nl = {
     promoLabel: "Heb je een promocode?",
     promoPlaceholder: "Voer promocode in",
     promoApply: "Toepassen",
-    promoApplied: "50% korting toegepast!",
-    promoInvalid: "Ongeldige promocode",
+    promoApplied: "Korting toegepast!",
+    promoInvalid: "Deze promocode bestaat niet of is niet meer geldig.",
+
+    promoAppliedPercent: "{{percent}}% korting toegepast!",
+
+    promoChecking: "Controleren...",
+
+    promoUnavailable: "Deze actie is tijdelijk niet beschikbaar. Probeer het later opnieuw.",
+
+    promoAlreadyUsed: "Je hebt deze code al gebruikt — hij geldt alleen bij je eerste aankoop.",
+
+    promoEnded: "Deze actie is afgelopen en niet meer beschikbaar.",
+
+    promoFirstPurchaseOnly: "Deze code geldt alleen bij je eerste aankoop.",
     contactCompanyName: 'Bedrijfsnaam (optioneel)',
     promotionAria: 'Promotie',
     paymentsUnavailable: 'Betalingen zijn tijdelijk niet beschikbaar. Kom binnenkort terug.',
@@ -2519,8 +2591,20 @@ const pl = {
     promoLabel: "Masz kod promocyjny?",
     promoPlaceholder: "Wprowadź kod promocyjny",
     promoApply: "Zastosuj",
-    promoApplied: "Zastosowano zniżkę 50%!",
-    promoInvalid: "Nieprawidłowy kod promocyjny",
+    promoApplied: "Zniżka zastosowana!",
+    promoInvalid: "Ten kod promocyjny nie istnieje lub nie jest już ważny.",
+
+    promoAppliedPercent: "Zastosowano zniżkę {{percent}}%!",
+
+    promoChecking: "Sprawdzanie...",
+
+    promoUnavailable: "Ta promocja jest tymczasowo niedostępna. Spróbuj ponownie później.",
+
+    promoAlreadyUsed: "Ten kod został już wykorzystany — obowiązuje tylko przy pierwszym zakupie.",
+
+    promoEnded: "Ta promocja zakończyła się i nie jest już dostępna.",
+
+    promoFirstPurchaseOnly: "Ten kod obowiązuje tylko przy pierwszym zakupie.",
     contactCompanyName: 'Nazwa firmy (opcjonalnie)',
     promotionAria: 'Promocja',
     paymentsUnavailable: 'Płatności są chwilowo niedostępne. Sprawdź ponownie wkrótce.',
@@ -2947,8 +3031,20 @@ const sv = {
     promoLabel: "Har du en kampanjkod?",
     promoPlaceholder: "Ange kampanjkod",
     promoApply: "Använd",
-    promoApplied: "50 % rabatt tillämpad!",
-    promoInvalid: "Ogiltig kampanjkod",
+    promoApplied: "Rabatt tillämpad!",
+    promoInvalid: "Den här kampanjkoden finns inte eller är inte längre giltig.",
+
+    promoAppliedPercent: "{{percent}} % rabatt tillämpad!",
+
+    promoChecking: "Kontrollerar...",
+
+    promoUnavailable: "Den här kampanjen är tillfälligt otillgänglig. Försök igen senare.",
+
+    promoAlreadyUsed: "Du har redan använt den här koden — den gäller bara vid ditt första köp.",
+
+    promoEnded: "Den här kampanjen har avslutats och är inte längre tillgänglig.",
+
+    promoFirstPurchaseOnly: "Den här koden gäller bara vid ditt första köp.",
     contactCompanyName: 'Företagsnamn (valfritt)',
     promotionAria: 'Kampanj',
     paymentsUnavailable: 'Betalningar är tillfälligt otillgängliga. Kom tillbaka snart.',
@@ -3375,8 +3471,20 @@ const no = {
     promoLabel: "Har du en kampanjekode?",
     promoPlaceholder: "Skriv inn kampanjekode",
     promoApply: "Bruk",
-    promoApplied: "50 % rabatt brukt!",
-    promoInvalid: "Ugyldig kampanjekode",
+    promoApplied: "Rabatt brukt!",
+    promoInvalid: "Denne kampanjekoden finnes ikke eller er ikke lenger gyldig.",
+
+    promoAppliedPercent: "{{percent}} % rabatt brukt!",
+
+    promoChecking: "Sjekker...",
+
+    promoUnavailable: "Denne kampanjen er midlertidig utilgjengelig. Prøv igjen senere.",
+
+    promoAlreadyUsed: "Du har allerede brukt denne koden — den gjelder bare ved ditt første kjøp.",
+
+    promoEnded: "Denne kampanjen er avsluttet og er ikke lenger tilgjengelig.",
+
+    promoFirstPurchaseOnly: "Denne koden gjelder bare ved ditt første kjøp.",
     contactCompanyName: 'Firmanavn (valgfritt)',
     promotionAria: 'Kampanje',
     paymentsUnavailable: 'Betalinger er midlertidig utilgjengelige. Kom tilbake snart.',
@@ -3803,8 +3911,20 @@ const da = {
     promoLabel: "Har du en rabatkode?",
     promoPlaceholder: "Indtast rabatkode",
     promoApply: "Anvend",
-    promoApplied: "50 % rabat anvendt!",
-    promoInvalid: "Ugyldig rabatkode",
+    promoApplied: "Rabat anvendt!",
+    promoInvalid: "Denne rabatkode findes ikke eller er ikke længere gyldig.",
+
+    promoAppliedPercent: "{{percent}} % rabat anvendt!",
+
+    promoChecking: "Kontrollerer...",
+
+    promoUnavailable: "Denne kampagne er midlertidigt utilgængelig. Prøv igen senere.",
+
+    promoAlreadyUsed: "Du har allerede brugt denne kode — den gælder kun ved dit første køb.",
+
+    promoEnded: "Denne kampagne er afsluttet og er ikke længere tilgængelig.",
+
+    promoFirstPurchaseOnly: "Denne kode gælder kun ved dit første køb.",
     contactCompanyName: 'Firmanavn (valgfrit)',
     promotionAria: 'Kampagne',
     paymentsUnavailable: 'Betalinger er midlertidigt utilgængelige. Prøv igen senere.',
@@ -4360,8 +4480,20 @@ const fi = {
     promoLabel: "Onko sinulla alennuskoodi?",
     promoPlaceholder: "Syötä alennuskoodi",
     promoApply: "Käytä",
-    promoApplied: "50 % alennus käytössä!",
-    promoInvalid: "Virheellinen alennuskoodi",
+    promoApplied: "Alennus käytössä!",
+    promoInvalid: "Tätä alennuskoodia ei ole olemassa tai se ei ole enää voimassa.",
+
+    promoAppliedPercent: "{{percent}} % alennus käytössä!",
+
+    promoChecking: "Tarkistetaan...",
+
+    promoUnavailable: "Tämä tarjous ei ole tilapäisesti käytettävissä. Yritä myöhemmin uudelleen.",
+
+    promoAlreadyUsed: "Olet jo käyttänyt tämän koodin — se on voimassa vain ensimmäisessä ostoksessasi.",
+
+    promoEnded: "Tämä tarjous on päättynyt eikä ole enää käytettävissä.",
+
+    promoFirstPurchaseOnly: "Tämä koodi on voimassa vain ensimmäisessä ostoksessasi.",
     contactCompanyName: 'Yrityksen nimi (valinnainen)',
     promotionAria: 'Tarjous',
     paymentsUnavailable: 'Maksut eivät ole väliaikaisesti käytettävissä. Tarkista pian uudelleen.',
@@ -4917,8 +5049,20 @@ const cs = {
     promoLabel: "Máte propagační kód?",
     promoPlaceholder: "Zadejte propagační kód",
     promoApply: "Použít",
-    promoApplied: "Sleva 50 % uplatněna!",
-    promoInvalid: "Neplatný propagační kód",
+    promoApplied: "Sleva uplatněna!",
+    promoInvalid: "Tento propagační kód neexistuje nebo již není platný.",
+
+    promoAppliedPercent: "Sleva {{percent}} % uplatněna!",
+
+    promoChecking: "Ověřování...",
+
+    promoUnavailable: "Tato akce je dočasně nedostupná. Zkuste to prosím později.",
+
+    promoAlreadyUsed: "Tento kód jste již použili — platí pouze pro první nákup.",
+
+    promoEnded: "Tato akce skončila a již není dostupná.",
+
+    promoFirstPurchaseOnly: "Tento kód platí pouze pro první nákup.",
     contactCompanyName: 'Název společnosti (volitelné)',
     promotionAria: 'Akce',
     paymentsUnavailable: 'Platby jsou dočasně nedostupné. Zkuste to brzy znovu.',
@@ -5474,8 +5618,20 @@ const ro = {
     promoLabel: "Aveți un cod promoțional?",
     promoPlaceholder: "Introduceți codul promoțional",
     promoApply: "Aplicați",
-    promoApplied: "Reducere de 50% aplicată!",
-    promoInvalid: "Cod promoțional invalid",
+    promoApplied: "Reducere aplicată!",
+    promoInvalid: "Acest cod promoțional nu există sau nu mai este valabil.",
+
+    promoAppliedPercent: "Reducere de {{percent}}% aplicată!",
+
+    promoChecking: "Se verifică...",
+
+    promoUnavailable: "Această promoție este temporar indisponibilă. Încercați din nou mai târziu.",
+
+    promoAlreadyUsed: "Ați folosit deja acest cod — este valabil doar la prima achiziție.",
+
+    promoEnded: "Această promoție s-a încheiat și nu mai este disponibilă.",
+
+    promoFirstPurchaseOnly: "Acest cod este valabil doar la prima achiziție.",
     contactCompanyName: 'Nume companie (opțional)',
     promotionAria: 'Promoție',
     paymentsUnavailable: 'Plățile sunt temporar indisponibile. Reveniți în curând.',
@@ -6031,8 +6187,20 @@ const hu = {
     promoLabel: "Van promóciós kódja?",
     promoPlaceholder: "Adja meg a promóciós kódot",
     promoApply: "Alkalmaz",
-    promoApplied: "50% kedvezmény alkalmazva!",
-    promoInvalid: "Érvénytelen promóciós kód",
+    promoApplied: "Kedvezmény alkalmazva!",
+    promoInvalid: "Ez a promóciós kód nem létezik, vagy már nem érvényes.",
+
+    promoAppliedPercent: "{{percent}}% kedvezmény alkalmazva!",
+
+    promoChecking: "Ellenőrzés...",
+
+    promoUnavailable: "Ez az akció átmenetileg nem érhető el. Kérjük, próbálja meg később.",
+
+    promoAlreadyUsed: "Ezt a kódot már felhasználta — csak az első vásárlásnál érvényes.",
+
+    promoEnded: "Ez az akció véget ért, és már nem érhető el.",
+
+    promoFirstPurchaseOnly: "Ez a kód csak az első vásárlásnál érvényes.",
     contactCompanyName: 'Cégnév (opcionális)',
     promotionAria: 'Promóció',
     paymentsUnavailable: 'A fizetés átmenetileg nem elérhető. Próbáld hamarosan újra.',
@@ -6588,8 +6756,20 @@ const el = {
     promoLabel: "Έχετε προωθητικό κωδικό;",
     promoPlaceholder: "Εισάγετε προωθητικό κωδικό",
     promoApply: "Εφαρμογή",
-    promoApplied: "Εφαρμόστηκε έκπτωση 50%!",
-    promoInvalid: "Μη έγκυρος κωδικός",
+    promoApplied: "Η έκπτωση εφαρμόστηκε!",
+    promoInvalid: "Αυτός ο προωθητικός κωδικός δεν υπάρχει ή δεν ισχύει πλέον.",
+
+    promoAppliedPercent: "Εφαρμόστηκε έκπτωση {{percent}}%!",
+
+    promoChecking: "Έλεγχος...",
+
+    promoUnavailable: "Αυτή η προσφορά δεν είναι προσωρινά διαθέσιμη. Δοκιμάστε ξανά αργότερα.",
+
+    promoAlreadyUsed: "Έχετε ήδη χρησιμοποιήσει αυτόν τον κωδικό — ισχύει μόνο για την πρώτη σας αγορά.",
+
+    promoEnded: "Αυτή η προσφορά έχει λήξει και δεν είναι πλέον διαθέσιμη.",
+
+    promoFirstPurchaseOnly: "Αυτός ο κωδικός ισχύει μόνο για την πρώτη σας αγορά.",
     contactCompanyName: 'Όνομα εταιρείας (προαιρετικό)',
     promotionAria: 'Προσφορά',
     paymentsUnavailable: 'Οι πληρωμές είναι προσωρινά μη διαθέσιμες. Ελέγξτε σύντομα ξανά.',
@@ -7145,8 +7325,20 @@ const tr = {
     promoLabel: "Promosyon kodunuz var mı?",
     promoPlaceholder: "Promosyon kodunu girin",
     promoApply: "Uygula",
-    promoApplied: "%50 indirim uygulandı!",
-    promoInvalid: "Geçersiz promosyon kodu",
+    promoApplied: "İndirim uygulandı!",
+    promoInvalid: "Bu promosyon kodu mevcut değil veya artık geçerli değil.",
+
+    promoAppliedPercent: "%{{percent}} indirim uygulandı!",
+
+    promoChecking: "Kontrol ediliyor...",
+
+    promoUnavailable: "Bu promosyon geçici olarak kullanılamıyor. Lütfen daha sonra tekrar deneyin.",
+
+    promoAlreadyUsed: "Bu kodu zaten kullandınız — yalnızca ilk alışverişinizde geçerlidir.",
+
+    promoEnded: "Bu promosyon sona erdi ve artık kullanılamıyor.",
+
+    promoFirstPurchaseOnly: "Bu kod yalnızca ilk alışverişinizde geçerlidir.",
     contactCompanyName: 'Şirket adı (isteğe bağlı)',
     promotionAria: 'Promosyon',
     paymentsUnavailable: 'Ödemeler geçici olarak kullanılamıyor. Yakında tekrar kontrol edin.',

@@ -215,7 +215,11 @@ async function getOrCreateStripeCustomer(stripe, user) {
 router.post('/validate-promo', async (req, res) => {
   try {
     const stripe = getStripe();
-    if (!stripe) return res.status(503).json({ error: 'Billing is not configured' });
+    // Every response on this route carries a `code` the client maps to a
+    // localized string, so nothing here reaches the user as fixed English.
+    if (!stripe) {
+      return res.status(503).json({ error: MSG_PROMO_MISCONFIGURED, code: 'promo_not_configured' });
+    }
 
     const raw = typeof req.body?.promoCode === 'string' ? req.body.promoCode.trim() : '';
     if (!raw) return res.status(400).json({ error: 'Enter a promo code', code: 'invalid_promo' });
@@ -319,7 +323,9 @@ router.post('/validate-promo', async (req, res) => {
     });
   } catch (err) {
     console.error('Validate promo error:', err);
-    res.status(500).json({ error: 'Could not validate promo code' });
+    // Transient failure. Reuses the "try again later" code so the client can
+    // localize it, rather than surfacing an English string.
+    res.status(500).json({ error: MSG_PROMO_MISCONFIGURED, code: 'promo_not_configured' });
   }
 });
 
