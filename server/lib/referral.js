@@ -1,20 +1,20 @@
 // ── Referral program ─────────────────────────────────────────────────
 //
-// A referral is worth 5 credits, so signup-time payouts were free money:
-// register N throwaway accounts with your own ?ref= code and mint 5N credits.
-// Nothing stopped it — no email verification, no self-referral check, no cap.
+// Referrals originally paid out at signup, which was free money: register N
+// throwaway accounts with your own ?ref= code and mint credits. Nothing
+// stopped it — no email verification, no self-referral check, no cap.
 //
-// Credits are now paid when the REFERRED account makes its first purchase.
-// A throwaway that never pays is worth nothing, which removes the farm
-// entirely. It does not make abuse free-of-charge impossible, though: a
-// pack1 costs €0.99 and yields the referrer 5 credits, which is cheaper per
-// credit than buying a pack. Hence the per-referrer cap below — the payout
-// is bounded even if someone is willing to spend real money (and burn a
-// distinct card per throwaway) to game it.
+// Credits are paid when the REFERRED account makes its first purchase, so a
+// throwaway that never pays is worth nothing. The reward is 2 credits, not
+// 5: at 5 a throwaway buying the €0.99 pack1 returned more value than the
+// purchase cost, leaving farming profitable despite the gate. At 2 the trade
+// is not worth making. The per-referrer cap below bounds the exposure even
+// so, for anyone willing to spend real money (and a distinct card per
+// throwaway) to game it.
 
 const prisma = require('./prisma');
 
-const REFERRAL_CREDITS = 5;
+const REFERRAL_CREDITS = 2;
 
 // Lifetime ceiling on paid referrals per referrer. Far above any plausible
 // real user, low enough that farming cannot scale.

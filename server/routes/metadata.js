@@ -23,6 +23,12 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage, limits: { fileSize: 200 * 1024 * 1024 } });
 
+// Delete an upload immediately rather than leaving it for the 24h sweep.
+function discardUpload(file) {
+  if (!file || !file.filename) return;
+  fs.promises.unlink(path.join(UPLOAD_DIR, file.filename)).catch(() => {});
+}
+
 // POST /api/metadata — extract metadata from an uploaded file
 router.post('/', protect, upload.single('file'), async (req, res) => {
   try {
@@ -120,13 +126,16 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
       }
     }
 
-    // Clean up the uploaded file
-    fs.unlinkSync(filePath);
-
     res.json(metadata);
   } catch (err) {
     console.error('Metadata extraction error:', err);
     res.status(500).json({ error: 'Failed to extract metadata' });
+  } finally {
+    // Always delete the upload. This used to sit on the success path only,
+    // so any parser error (a corrupt PDF, an unreadable container) orphaned
+    // the file until the 24h sweep. Metadata extraction produces no output
+    // file, so nothing here is needed after the response.
+    discardUpload(req.file);
   }
 });
 

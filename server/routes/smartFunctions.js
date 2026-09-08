@@ -64,6 +64,23 @@ const CHARS_PER_CREDIT = 1000;
 
 // ── Helpers ──────────────────────────────────────────────────────────
 
+// Delete uploads and intermediates as soon as they are done with, rather
+// than leaving them for the 24h sweep. Mirrors discardUploads() in
+// convert.js. Output files are NOT touched here — the user still has to
+// download those.
+function discardUploads(files) {
+  for (const file of [].concat(files || [])) {
+    if (!file || !file.filename) continue;
+    fs.promises.unlink(path.join(UPLOAD_DIR, file.filename)).catch(() => {});
+  }
+}
+
+// Same, for a bare path (the MP3 extracted from a video container).
+function discardPath(filePath) {
+  if (!filePath) return;
+  fs.promises.unlink(filePath).catch(() => {});
+}
+
 function requireOpenAIKey(res) {
   if (!process.env.OPENAI_API_KEY) {
     res.status(503).json({ error: 'OpenAI API key is not configured on the server.' });
@@ -230,11 +247,23 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
   // async job owns the work, `chargedAmount` is what its failure refunds.
   let charged = 0;
   let chargedAmount = 0;
+  // Once the async job is running it owns the upload's lifetime; before that
+  // this route does.
+  let dispatched = false;
+  // Every early return discards the upload instead of leaving it for the
+  // 24h sweep.
+  const reject = (status, payload) => {
+    discardUploads(req.file);
+    return res.status(status).json(payload);
+  };
   try {
-    if (!requireOpenAIKey(res)) return;
+    if (!requireOpenAIKey(res)) {
+      discardUploads(req.file); // requireOpenAIKey already sent the 503
+      return;
+    }
     const { toolSlug } = req.body;
     if (!['text-to-speech', 'speech-to-text', 'auto-subtitle'].includes(toolSlug)) {
-      return res.status(400).json({ error: 'Unknown smart tool' });
+      return reject(400, { error: 'Unknown smart tool' });
     }
 
     // Compute credit cost from input parameters BEFORE charging.
@@ -246,7 +275,7 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
 
     // Reserve the credits atomically before any work starts.
     const charge = await chargeCreditsFor(req.userId, required);
-    if (charge.error) return res.status(429).json({ ...charge.error });
+    if (charge.error) return reject(429, { ...charge.error });
     // What was actually deducted (0 on a business plan) — this, not
     // `required`, is what any refund must give back.
     chargedAmount = charge.charged;
@@ -281,6 +310,7 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
     };
 
     const userId = req.userId;
+    dispatched = true;
     runSmartJob(job.id, handlerArgs).catch((err) => {
       console.error(`Smart job ${job.id} failed:`, err);
       // Mark failed AND refund. Previously the credits were kept, so a failed
@@ -300,6 +330,9 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
         .update({ where: { id: req.userId }, data: { credits: { increment: charged } } })
         .catch(() => {});
     }
+    // If the job never started, nothing else will clean the upload up.
+    // Once dispatched, runSmartJob's finally owns it.
+    if (!dispatched) discardUploads(req.file);
     res.status(500).json({ error: 'Failed to start smart conversion' });
   }
 });
@@ -307,21 +340,28 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
 // ── Async dispatch ───────────────────────────────────────────────────
 
 async function runSmartJob(jobId, args) {
-  await prisma.job.update({ where: { id: jobId }, data: { status: 'processing' } });
+  try {
+    await prisma.job.update({ where: { id: jobId }, data: { status: 'processing' } });
 
-  let outputFilename;
-  if (args.toolSlug === 'text-to-speech') {
-    outputFilename = await runTextToSpeech(args);
-  } else if (args.toolSlug === 'speech-to-text') {
-    outputFilename = await runSpeechToText(args);
-  } else if (args.toolSlug === 'auto-subtitle') {
-    outputFilename = await runAutoSubtitle(args);
+    let outputFilename;
+    if (args.toolSlug === 'text-to-speech') {
+      outputFilename = await runTextToSpeech(args);
+    } else if (args.toolSlug === 'speech-to-text') {
+      outputFilename = await runSpeechToText(args);
+    } else if (args.toolSlug === 'auto-subtitle') {
+      outputFilename = await runAutoSubtitle(args);
+    }
+
+    await prisma.job.update({
+      where: { id: jobId },
+      data: { status: 'done', outputFile: outputFilename },
+    });
+  } finally {
+    // The upload has been sent to OpenAI/CloudConvert and is not needed
+    // again, on success or failure. The OUTPUT stays for the normal
+    // retention window so the user can download it.
+    discardUploads(args.file);
   }
-
-  await prisma.job.update({
-    where: { id: jobId },
-    data: { status: 'done', outputFile: outputFilename },
-  });
 }
 
 // ── Text to Speech ───────────────────────────────────────────────────
@@ -424,41 +464,50 @@ async function runAutoSubtitle({ file, subtitleFormat, languageHint }) {
 
   let blobSource;
   let sourceName;
-  if (WHISPER_NATIVE.has(inputExt)) {
-    blobSource = path.join(UPLOAD_DIR, file.filename);
-    sourceName = file.originalname;
-  } else {
-    const extracted = await videoToMp3(file);
-    blobSource = extracted.path;
-    sourceName = extracted.originalname;
+  // Set only when we had to transcode: an extra MP3 in UPLOAD_DIR that
+  // nothing else knows about, so this function has to clean it up itself.
+  let extractedPath = null;
+
+  try {
+    if (WHISPER_NATIVE.has(inputExt)) {
+      blobSource = path.join(UPLOAD_DIR, file.filename);
+      sourceName = file.originalname;
+    } else {
+      const extracted = await videoToMp3(file);
+      blobSource = extracted.path;
+      extractedPath = extracted.path;
+      sourceName = extracted.originalname;
+    }
+
+    const blob = fileToBlob(blobSource, 'audio/mpeg');
+    const chosenFormat = SUBTITLE_FORMATS.includes((subtitleFormat || '').toLowerCase()) ? subtitleFormat.toLowerCase() : 'srt';
+
+    const formData = new FormData();
+    formData.append('file', blob, sourceName);
+    formData.append('model', 'whisper-1');
+    formData.append('response_format', chosenFormat);
+    if (WHISPER_LANGUAGES.includes((languageHint || '').toLowerCase())) {
+      formData.append('language', languageHint.toLowerCase());
+    }
+
+    const response = await fetch(`${OPENAI_BASE}/audio/transcriptions`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY}` },
+      body: formData,
+    });
+
+    if (!response.ok) {
+      const errBody = await response.text().catch(() => '');
+      throw new Error(`OpenAI Whisper subtitle error ${response.status}: ${errBody.slice(0, 200)}`);
+    }
+
+    const subtitle = await response.text();
+    const outName = newOutputFilename(chosenFormat);
+    fs.writeFileSync(path.join(OUTPUT_DIR, outName), subtitle, 'utf8');
+    return outName;
+  } finally {
+    discardPath(extractedPath);
   }
-
-  const blob = fileToBlob(blobSource, 'audio/mpeg');
-  const chosenFormat = SUBTITLE_FORMATS.includes((subtitleFormat || '').toLowerCase()) ? subtitleFormat.toLowerCase() : 'srt';
-
-  const formData = new FormData();
-  formData.append('file', blob, sourceName);
-  formData.append('model', 'whisper-1');
-  formData.append('response_format', chosenFormat);
-  if (WHISPER_LANGUAGES.includes((languageHint || '').toLowerCase())) {
-    formData.append('language', languageHint.toLowerCase());
-  }
-
-  const response = await fetch(`${OPENAI_BASE}/audio/transcriptions`, {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY}` },
-    body: formData,
-  });
-
-  if (!response.ok) {
-    const errBody = await response.text().catch(() => '');
-    throw new Error(`OpenAI Whisper subtitle error ${response.status}: ${errBody.slice(0, 200)}`);
-  }
-
-  const subtitle = await response.text();
-  const outName = newOutputFilename(chosenFormat);
-  fs.writeFileSync(path.join(OUTPUT_DIR, outName), subtitle, 'utf8');
-  return outName;
 }
 
 module.exports = router;
