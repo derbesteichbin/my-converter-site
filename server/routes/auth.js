@@ -6,6 +6,7 @@ const prisma = require('../lib/prisma');
 const passport = require('../lib/passport');
 const { protect } = require('../middleware/auth');
 const { notifyNewRegistration } = require('../lib/notifyOwner');
+const { resolveReferrer } = require('../lib/referral');
 
 const router = express.Router();
 
@@ -48,17 +49,21 @@ router.post('/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const referralCode = 'ref_' + crypto.randomBytes(6).toString('hex');
 
-    const user = await prisma.user.create({
-      data: { email, password: hashedPassword, referralCode, referredBy: ref || null, credits: 0 },
-    });
+    // Validate the referral code now, but pay nothing yet. Credits are
+    // granted only once this account makes its first purchase, so signing up
+    // throwaway accounts with your own code is worthless. Unknown codes and
+    // obvious self-referrals are simply not recorded.
+    const referrer = await resolveReferrer(ref, email);
 
-    // Give referrer 5 bonus credits
-    if (ref) {
-      prisma.user.updateMany({
-        where: { referralCode: ref },
-        data: { credits: { increment: 5 } },
-      }).catch(() => {});
-    }
+    const user = await prisma.user.create({
+      data: {
+        email,
+        password: hashedPassword,
+        referralCode,
+        referredBy: referrer ? ref.trim() : null,
+        credits: 0,
+      },
+    });
 
     notifyNewRegistration({ email, method: 'email' });
 

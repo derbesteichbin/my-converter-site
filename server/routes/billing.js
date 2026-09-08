@@ -5,6 +5,7 @@ const prisma = require('../lib/prisma');
 const { protect } = require('../middleware/auth');
 const { Resend } = require('resend');
 const { notifyNewPurchase, notifyBusinessInquiry } = require('../lib/notifyOwner');
+const { awardReferralIfEligible } = require('../lib/referral');
 
 const router = express.Router();
 
@@ -486,6 +487,16 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
             }),
           ]);
           console.log(`User ${userId} purchased ${creditsToAdd} credits`);
+
+          // Referral payout happens here, not at signup: a referred account
+          // is only worth credits once it has actually paid. Guarded so it
+          // fires on the first purchase only, and kept outside the
+          // transaction so a referral problem can never undo a real purchase.
+          try {
+            await awardReferralIfEligible(userId);
+          } catch (referralErr) {
+            console.error('[referral] Payout failed after purchase:', referralErr.message);
+          }
 
           const amountEuros = typeof session.amount_total === 'number'
             ? session.amount_total / 100

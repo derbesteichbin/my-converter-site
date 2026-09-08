@@ -20,6 +20,10 @@ model User {
   apiKey           String?        @unique
   referralCode     String?        @unique
   referredBy       String?
+  // Set once the referred account makes its first purchase, so a referral
+  // is paid out at most once. Also set when a payout is REFUSED (self-
+  // referral, cap reached), which marks it adjudicated and stops retries.
+  referralCreditedAt DateTime?
   bonusCredits     Int            @default(0)
   notifyConversion Boolean        @default(true)
   notifyWeekly     Boolean        @default(false)

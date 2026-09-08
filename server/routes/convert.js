@@ -144,6 +144,47 @@ function refundCredits(userId, amount = 1) {
     .catch(() => {});
 }
 
+// Delete uploads immediately instead of waiting for the 24h sweep. Called on
+// every rejection path and once each job finishes, so an input file lives
+// only as long as the conversion that needs it.
+function discardUploads(files) {
+  for (const file of [].concat(files || [])) {
+    if (!file || !file.filename) continue;
+    fs.promises
+      .unlink(path.join(UPLOAD_DIR, file.filename))
+      .catch(() => {}); // already gone, or swept — nothing to do
+  }
+}
+
+// Refuse hopeless requests BEFORE multer streams a 200 MB body to disk.
+//
+// multer runs as middleware, so it used to write the whole upload and only
+// then discover the user had no credits — an unauthenticated-adjacent way to
+// fill the Railway volume, since the file then sat there for 24 hours. This
+// is a cheap advisory read; the authoritative gate is still the atomic
+// chargeCredits() after the upload, which is what makes the race impossible.
+async function preflightCredits(req, res, next) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: req.userId },
+      select: { plan: true, credits: true },
+    });
+    if (!user) {
+      return res.status(401).json({ error: 'Not authorized', code: 'unauthorized' });
+    }
+    if (user.plan !== 'business' && user.credits <= 0) {
+      return res.status(429).json({
+        error: 'You need credits to convert files. Buy a pack to continue.',
+        code: 'no_credits',
+      });
+    }
+    next();
+  } catch (err) {
+    console.error('Credit preflight error:', err);
+    next(); // never block a paying user on a transient read failure
+  }
+}
+
 async function downloadExportedFile(ccJob, outputFormat) {
   const finished = await cloudConvert.jobs.wait(ccJob.id);
 
@@ -168,8 +209,14 @@ async function downloadExportedFile(ccJob, outputFormat) {
 
 // ── Standard file conversion ─────────────────────────────────────────
 
-router.post('/', protect, upload.single('file'), async (req, res) => {
+router.post('/', protect, preflightCredits, upload.single('file'), async (req, res) => {
   let charged = false;
+  // Every early return below discards the upload rather than leaving it for
+  // the 24h sweep.
+  const reject = (status, payload) => {
+    discardUploads(req.file);
+    return res.status(status).json(payload);
+  };
   try {
     if (!req.file) {
       return res.status(400).json({ error: 'No file uploaded' });
@@ -177,17 +224,17 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
 
     const { outputFormat, toolSlug } = req.body;
     if (!outputFormat) {
-      return res.status(400).json({ error: 'outputFormat is required' });
+      return reject(400, { error: 'outputFormat is required' });
     }
 
     // Validate tool + format
     if (toolSlug) {
       const toolDef = VALID_TOOLS[toolSlug];
       if (!toolDef) {
-        return res.status(400).json({ error: 'Unknown tool' });
+        return reject(400, { error: 'Unknown tool' });
       }
       if (!toolDef.outputFormats.includes(outputFormat)) {
-        return res.status(400).json({ error: `Format .${outputFormat} is not supported for this tool` });
+        return reject(400, { error: `Format .${outputFormat} is not supported for this tool` });
       }
     }
 
@@ -196,7 +243,7 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
     // credit. Refunded below if the job fails (or never starts).
     const limitError = await chargeCredits(req.userId, 1);
     if (limitError) {
-      return res.status(429).json({ error: limitError.message, code: limitError.code });
+      return reject(429, { error: limitError.message, code: limitError.code });
     }
     charged = true;
 
@@ -243,6 +290,7 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
   } catch (err) {
     console.error('Convert route error:', err);
     if (charged) refundCredits(req.userId, 1);
+    discardUploads(req.file);
     res.status(500).json({ error: 'Failed to start conversion' });
   }
 });
@@ -292,6 +340,11 @@ async function convertFile(jobId, file, outputFormat, advancedOptions = {}, noti
         data: { credits: { increment: 1 } },
       }).catch(() => {});
     }
+  } finally {
+    // The upload has been sent to CloudConvert and is not needed again,
+    // whether the job succeeded or failed. The output stays until the 24h
+    // sweep so the user can still download it.
+    discardUploads(file);
   }
 }
 
@@ -333,13 +386,19 @@ async function optimizeFile(jobId, file, chargedUserId = null) {
         data: { credits: { increment: 1 } },
       }).catch(() => {});
     }
+  } finally {
+    discardUploads(file);
   }
 }
 
 // ── PDF tool conversion (merge, split, compress, rotate, protect, unlock) ──
 
-router.post('/pdf-tool', protect, upload.array('files', 20), async (req, res) => {
+router.post('/pdf-tool', protect, preflightCredits, upload.array('files', 20), async (req, res) => {
   let charged = false;
+  const reject = (status, payload) => {
+    discardUploads(req.files);
+    return res.status(status).json(payload);
+  };
   try {
     const uploadedFiles = req.files || [];
     if (uploadedFiles.length === 0) {
@@ -349,13 +408,13 @@ router.post('/pdf-tool', protect, upload.array('files', 20), async (req, res) =>
     const { toolSlug } = req.body;
     const toolDef = VALID_TOOLS[toolSlug];
     if (!toolDef || !toolDef.toolType) {
-      return res.status(400).json({ error: 'Unknown PDF tool' });
+      return reject(400, { error: 'Unknown PDF tool' });
     }
 
     // Reserve a credit atomically before any work starts (see chargeCredits).
     const limitError = await chargeCredits(req.userId, 1);
     if (limitError) {
-      return res.status(429).json({ error: limitError.message, code: limitError.code });
+      return reject(429, { error: limitError.message, code: limitError.code });
     }
     charged = true;
 
@@ -380,6 +439,7 @@ router.post('/pdf-tool', protect, upload.array('files', 20), async (req, res) =>
   } catch (err) {
     console.error('PDF tool route error:', err);
     if (charged) refundCredits(req.userId, 1);
+    discardUploads(req.files);
     res.status(500).json({ error: 'Failed to start PDF operation' });
   }
 });
@@ -466,6 +526,9 @@ async function convertPdfTool(jobId, files, toolType, body, chargedUserId = null
         data: { credits: { increment: 1 } },
       }).catch(() => {});
     }
+  } finally {
+    // Merge takes up to 20 uploads; drop them all.
+    discardUploads(files);
   }
 }
 
