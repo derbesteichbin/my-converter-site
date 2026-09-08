@@ -5259,3 +5259,57 @@ select:focus-visible {
   .install-prompt-raised { bottom: 7.5rem; }
   .install-prompt-text { font-size: 0.78125rem; }
 }
+
+/* ---- Home refer-a-friend teaser ---- */
+/* Same card treatment as .reviews-summary so it reads as one of the home
+   sections rather than a banner. All colours come from theme tokens, so
+   light and dark follow the rest of the page with no separate rules. */
+.referral-promo {
+  margin-bottom: 3rem;
+}
+
+.referral-promo-card {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  text-align: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.referral-promo-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+}
+
+.referral-promo-body {
+  margin: 0 0 1.25rem;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.referral-promo-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  /* Reserved so the card does not jump when the auth check resolves. */
+  min-height: 3.25rem;
+}
+
+.referral-promo-hint {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+@media (max-width: 640px) {
+  .referral-promo-card {
+    padding: 1.25rem 1rem;
+  }
+  .referral-promo-cta .btn-primary {
+    width: 100%;
+  }
+}

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import SEO from '../components/SEO';
 import HomeReviews from '../components/HomeReviews';
+import ReferralPromo from '../components/ReferralPromo';
 import { TOOLS, getToolBySlug, getToolLabel } from '../toolsConfig';
 
 const POPULAR_SLUGS = ['pdf-to-word', 'jpg-to-png', 'mp4-to-mp3', 'merge-pdf', 'heic-to-jpg', 'compress-pdf'];
@@ -157,6 +158,10 @@ export default function Home() {
 
       {/* User reviews */}
       <HomeReviews />
+
+      {/* Refer a friend — advertises the programme only; the code itself
+          lives in the dashboard for signed-in users. */}
+      <ReferralPromo />
     </div>
   );
 }
