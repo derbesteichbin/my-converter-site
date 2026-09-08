@@ -44,26 +44,33 @@ function getStripe() {
 // the customer-facing string.
 //
 // Returns { promotionCode } or { error } — never throws.
+//
+// Deliberately does NOT filter on active:true. A deactivated promotion code
+// still reports its `restrictions`, and we need those to tell a returning
+// customer "you already used this" instead of a generic failure. Whether the
+// promotion is still usable is decided separately, by promotionUnusableReason().
 async function resolvePromotionCode(stripe, typedCode) {
   const configured = (process.env.STRIPE_COUPON_ID || '').trim();
   if (!configured) return { error: 'not_configured' };
 
+  // Prefer an active promotion code, but fall back to an inactive one so the
+  // caller can explain *why* rather than treating it as misconfiguration.
+  const pick = (list) => list.find((p) => p.active) || list[0] || null;
+
   try {
     if (configured.startsWith('promo_')) {
       const pc = await stripe.promotionCodes.retrieve(configured);
-      if (!pc || !pc.active) return { error: 'inactive' };
+      if (!pc) return { error: 'not_found' };
       return { promotionCode: pc };
     }
 
-    const byCoupon = await stripe.promotionCodes.list({ coupon: configured, active: true, limit: 1 });
-    if (byCoupon.data.length > 0) return { promotionCode: byCoupon.data[0] };
+    const byCoupon = pick((await stripe.promotionCodes.list({ coupon: configured, limit: 100 })).data);
+    if (byCoupon) return { promotionCode: byCoupon };
 
-    const byCode = await stripe.promotionCodes.list({
-      code: String(typedCode || '').toUpperCase(),
-      active: true,
-      limit: 1,
-    });
-    if (byCode.data.length > 0) return { promotionCode: byCode.data[0] };
+    const byCode = pick(
+      (await stripe.promotionCodes.list({ code: String(typedCode || '').toUpperCase(), limit: 100 })).data
+    );
+    if (byCode) return { promotionCode: byCode };
 
     return { error: 'not_found' };
   } catch (err) {
@@ -71,6 +78,32 @@ async function resolvePromotionCode(stripe, typedCode) {
     return { error: 'lookup_failed' };
   }
 }
+
+// Why a promotion cannot be used right now, or null if it can.
+//
+// These are "the offer is over" conditions — distinct from the server being
+// misconfigured, and they must never share a message with it. Note that a
+// coupon carrying max_redemptions is exhausted *globally* after that many
+// redemptions (a common mix-up with per-customer limits), which deactivates
+// the promotion code for everyone.
+function promotionUnusableReason(promotionCode, coupon) {
+  if (promotionCode.active === false) return 'inactive';
+  if (promotionCode.expires_at && promotionCode.expires_at * 1000 < Date.now()) return 'expired';
+  if (
+    promotionCode.max_redemptions != null &&
+    promotionCode.times_redeemed >= promotionCode.max_redemptions
+  ) {
+    return 'exhausted';
+  }
+  if (coupon && coupon.valid === false) return 'coupon_exhausted';
+  return null;
+}
+
+// User-facing messages. Kept as named constants so the three failure modes
+// can never drift into sharing wording again.
+const MSG_ALREADY_USED = "You've already used this code — it's valid only on your first purchase.";
+const MSG_PROMO_ENDED = 'This promotion has ended and is no longer available.';
+const MSG_PROMO_MISCONFIGURED = 'This promotion is temporarily unavailable. Please try again later.';
 
 // Load the Coupon behind a promotion code.
 //
@@ -116,12 +149,35 @@ function applyCoupon(amountMinor, coupon) {
 
 const formatMinor = (minor) => (minor / 100).toFixed(2);
 
-// Local first-purchase check. Stripe's first_time_transaction restriction is
-// the real gate; this exists so the UI can say so up front instead of the
-// user discovering it at the payment step.
-async function hasPurchased(userId) {
-  const count = await prisma.purchase.count({ where: { userId } });
-  return count > 0;
+// Has this user ever paid us before?
+//
+// Local order history is authoritative when it exists, but the Purchase table
+// only starts from its migration: accounts that bought earlier have no rows,
+// and older accounts also have no stripeCustomerId, so a purely local check
+// would call them first-time buyers. Fall back to Stripe's own record, by
+// stored customer id or by email.
+//
+// Fails open on a lookup error: Stripe still enforces first_time_transaction
+// when the session is created, so the worst case is a clear refusal at
+// checkout rather than an unearned discount.
+async function hasPurchasedBefore(stripe, user) {
+  const local = await prisma.purchase.count({ where: { userId: user.id } });
+  if (local > 0) return true;
+
+  try {
+    let customerId = user.stripeCustomerId;
+    if (!customerId) {
+      const found = await stripe.customers.list({ email: user.email, limit: 1 });
+      customerId = found.data[0]?.id || null;
+    }
+    if (!customerId) return false;
+
+    const charges = await stripe.charges.list({ customer: customerId, limit: 10 });
+    return charges.data.some((c) => c.paid && !c.refunded);
+  } catch (err) {
+    console.error('[billing] Stripe purchase-history lookup failed:', err.message);
+    return false;
+  }
 }
 
 // A persistent Stripe Customer per user. first_time_transaction is evaluated
@@ -170,30 +226,59 @@ router.post('/validate-promo', async (req, res) => {
 
     const resolved = await resolvePromotionCode(stripe, raw);
     if (resolved.error) {
-      // The code is one of ours but the discount is not usable. This is a
-      // server misconfiguration, not user error — say so loudly rather than
-      // quietly charging full price.
-      console.error(`[billing] Promo "${raw}" is accepted but unusable (${resolved.error}). Check STRIPE_COUPON_ID.`);
-      return res.status(503).json({
-        error: 'This promotion is temporarily unavailable. Please try again later.',
-        code: 'promo_not_configured',
-      });
+      // Genuine server-side misconfiguration: the env var is missing, or it
+      // names a promotion Stripe does not have. Distinct from "the offer
+      // ended" and from "you already used it".
+      console.error(`[billing] Promo "${raw}" could not be resolved (${resolved.error}). Check STRIPE_COUPON_ID.`);
+      return res.status(503).json({ error: MSG_PROMO_MISCONFIGURED, code: 'promo_not_configured' });
     }
 
     const { promotionCode } = resolved;
-    const coupon = await loadCoupon(stripe, promotionCode);
-    // A coupon that carries no discount would quote the list price while the
-    // UI claims a promotion is applied — refuse rather than show that.
-    if (
-      !coupon ||
-      coupon.valid === false ||
-      (coupon.percent_off == null && coupon.amount_off == null)
-    ) {
-      console.error(`[billing] Promotion ${promotionCode.id} resolves to an unusable coupon.`);
-      return res.status(503).json({
-        error: 'This promotion is temporarily unavailable. Please try again later.',
-        code: 'promo_not_configured',
+    const firstPurchaseOnly = Boolean(promotionCode.restrictions?.first_time_transaction);
+
+    // Who is asking? Needed before the checks below, because "you already used
+    // this" must win over any global state of the promotion.
+    let viewer = null;
+    const token = req.cookies?.token;
+    if (token) {
+      try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        viewer = await prisma.user.findUnique({ where: { id: decoded.userId } });
+      } catch {
+        // Signed out or stale token — eligibility is decided at checkout.
+      }
+    }
+
+    // ── User-specific rejection comes FIRST ──────────────────────────
+    // A returning customer must be told they already used the code, even when
+    // the promotion has since been exhausted or deactivated globally. Checking
+    // the promotion's own state first is what made this report a misleading
+    // "temporarily unavailable".
+    if (firstPurchaseOnly && viewer && (await hasPurchasedBefore(stripe, viewer))) {
+      return res.json({
+        valid: true,
+        code: promotionCode.code,
+        firstPurchaseOnly: true,
+        eligible: false,
+        ineligibleReason: MSG_ALREADY_USED,
+        reasonCode: 'promo_already_used',
+        packs: null,
       });
+    }
+
+    const coupon = await loadCoupon(stripe, promotionCode);
+
+    // ── The offer itself is over (ended, expired, fully redeemed) ────
+    const unusable = promotionUnusableReason(promotionCode, coupon);
+    if (unusable) {
+      console.warn(`[billing] Promotion ${promotionCode.id} is not usable (${unusable}).`);
+      return res.status(400).json({ error: MSG_PROMO_ENDED, code: 'promo_ended' });
+    }
+
+    // ── Actual misconfiguration: no discount attached ────────────────
+    if (!coupon || (coupon.percent_off == null && coupon.amount_off == null)) {
+      console.error(`[billing] Promotion ${promotionCode.id} has no usable discount attached.`);
+      return res.status(503).json({ error: MSG_PROMO_MISCONFIGURED, code: 'promo_not_configured' });
     }
 
     // Real amounts, straight from Stripe.
@@ -215,30 +300,16 @@ router.post('/validate-promo', async (req, res) => {
       };
     });
 
-    // Eligibility, when we know who is asking.
-    const firstPurchaseOnly = Boolean(promotionCode.restrictions?.first_time_transaction);
-    let eligible = true;
-    let ineligibleReason = null;
-    const token = req.cookies?.token;
-    if (token) {
-      try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        if (firstPurchaseOnly && (await hasPurchased(decoded.userId))) {
-          eligible = false;
-          ineligibleReason = 'This code is valid for your first purchase only.';
-        }
-      } catch {
-        // Not signed in — leave eligibility unknown/true and let checkout decide.
-      }
-    }
-
+    // Reaching here means the promotion is live and this viewer is eligible
+    // (ineligible viewers returned above).
     res.json({
       valid: true,
       code: promotionCode.code,
       currency,
       firstPurchaseOnly,
-      eligible,
-      ineligibleReason,
+      eligible: true,
+      ineligibleReason: null,
+      reasonCode: null,
       discount: {
         percentOff: coupon.percent_off ?? null,
         amountOff: coupon.amount_off ?? null,
@@ -278,19 +349,27 @@ router.post('/create-checkout', protect, async (req, res) => {
 
       const resolved = await resolvePromotionCode(stripe, raw);
       if (resolved.error) {
-        console.error(`[billing] Promo "${raw}" accepted but unusable (${resolved.error}). Check STRIPE_COUPON_ID.`);
-        return res.status(503).json({
-          error: 'This promotion is temporarily unavailable. Please try again later.',
-          code: 'promo_not_configured',
-        });
+        console.error(`[billing] Promo "${raw}" could not be resolved (${resolved.error}). Check STRIPE_COUPON_ID.`);
+        return res.status(503).json({ error: MSG_PROMO_MISCONFIGURED, code: 'promo_not_configured' });
       }
 
       const { promotionCode } = resolved;
-      if (promotionCode.restrictions?.first_time_transaction && (await hasPurchased(user.id))) {
-        return res.status(400).json({
-          error: 'This code is valid for your first purchase only.',
-          code: 'promo_not_first_purchase',
-        });
+
+      // Same ordering as validate-promo: the user-specific answer wins, so a
+      // returning customer is never told the promotion is "unavailable".
+      if (promotionCode.restrictions?.first_time_transaction && (await hasPurchasedBefore(stripe, user))) {
+        return res.status(400).json({ error: MSG_ALREADY_USED, code: 'promo_already_used' });
+      }
+
+      const coupon = await loadCoupon(stripe, promotionCode);
+      const unusable = promotionUnusableReason(promotionCode, coupon);
+      if (unusable) {
+        console.warn(`[billing] Promotion ${promotionCode.id} is not usable (${unusable}).`);
+        return res.status(400).json({ error: MSG_PROMO_ENDED, code: 'promo_ended' });
+      }
+      if (!coupon || (coupon.percent_off == null && coupon.amount_off == null)) {
+        console.error(`[billing] Promotion ${promotionCode.id} has no usable discount attached.`);
+        return res.status(503).json({ error: MSG_PROMO_MISCONFIGURED, code: 'promo_not_configured' });
       }
 
       discounts.push({ promotion_code: promotionCode.id });
@@ -321,10 +400,7 @@ router.post('/create-checkout', protect, async (req, res) => {
     // clear message instead of a generic failure.
     if (err?.type === 'StripeInvalidRequestError' && /promotion|coupon|discount/i.test(err.message || '')) {
       console.error('Checkout rejected the promotion:', err.message);
-      return res.status(400).json({
-        error: 'This code is valid for your first purchase only.',
-        code: 'promo_not_first_purchase',
-      });
+      return res.status(400).json({ error: MSG_ALREADY_USED, code: 'promo_already_used' });
     }
     console.error('Checkout error:', err);
     res.status(500).json({ error: 'Failed to create checkout session' });

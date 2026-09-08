@@ -342,6 +342,8 @@ const en = {
     promoApplied: 'Discount applied!',
     promoAppliedPercent: '{{percent}}% discount applied!',
     promoFirstPurchaseOnly: 'This code is valid for your first purchase only.',
+    promoAlreadyUsed: "You've already used this code — it's valid only on your first purchase.",
+    promoEnded: 'This promotion has ended and is no longer available.',
     promoInvalid: 'Invalid or expired promo code',
     promotionAria: 'Promotion',
     paymentsUnavailable: 'Payments are temporarily unavailable. Check back soon.',

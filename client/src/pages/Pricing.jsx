@@ -64,9 +64,16 @@ export default function Pricing() {
       const data = await res.json();
 
       if (!res.ok) {
-        // Includes both "wrong code" (400) and "promotion misconfigured"
-        // (503). Either way the user is told, and prices stay at full price.
+        // Three distinct cases, three distinct messages: wrong code (400),
+        // the offer has ended (400 promo_ended), and a server-side
+        // misconfiguration (503). Prices stay at full price in all of them.
         clearPromo('');
+        if (data.code === 'promo_ended') {
+          setPromoNotice(t('pricing.promoEnded', {
+            defaultValue: 'This promotion has ended and is no longer available.',
+          }));
+          return;
+        }
         toast(data.error || t('pricing.promoInvalid'), 'error');
         return;
       }
@@ -77,9 +84,16 @@ export default function Pricing() {
       } else {
         // Valid code, but this account has already bought before. Show the
         // reason and leave full prices on screen.
-        setPromoNotice(data.ineligibleReason || t('pricing.promoFirstPurchaseOnly', {
-          defaultValue: 'This code is valid for your first purchase only.',
-        }));
+        setPromoNotice(
+          data.reasonCode === 'promo_already_used'
+            ? t('pricing.promoAlreadyUsed', {
+                defaultValue: "You've already used this code — it's valid only on your first purchase.",
+              })
+            : data.ineligibleReason ||
+                t('pricing.promoFirstPurchaseOnly', {
+                  defaultValue: 'This code is valid for your first purchase only.',
+                })
+        );
       }
     } catch {
       clearPromo('');
@@ -114,7 +128,14 @@ export default function Pricing() {
         // The server refused the discount (already purchased, or the
         // promotion is unavailable). Drop it from the UI so the displayed
         // price can never stay discounted after a rejection.
-        if (data.code === 'promo_not_first_purchase' || data.code === 'promo_not_configured' || data.code === 'invalid_promo') {
+        if (
+          data.code === 'promo_already_used' ||
+          data.code === 'promo_ended' ||
+          data.code === 'promo_not_configured' ||
+          data.code === 'invalid_promo'
+        ) {
+          // Drop the discount from the UI so a rejected promo can never leave
+          // a discounted price on screen.
           clearPromo(data.error);
         }
         toast(data.error || t('pricing.checkoutFail'), 'error');
