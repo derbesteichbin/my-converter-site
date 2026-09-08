@@ -113,8 +113,12 @@ async function computeRequiredCredits({ toolSlug, file, text }) {
   return 1;
 }
 
-// Charge `required` credits atomically. Returns null when the request may
-// proceed, or an error descriptor for the 429 response.
+// Charge `required` credits atomically.
+//
+// Returns { charged: n } when the request may proceed — n is what was actually
+// deducted, which is 0 for business plans — or { error } for the 429 response.
+// Reporting the real amount matters because refunds are driven by it: a
+// business plan is never debited, so a failed job must not credit it either.
 //
 // The guard and the decrement are one conditional UPDATE, so parallel
 // requests cannot all pass a check before any of them writes, and the
@@ -124,8 +128,8 @@ async function chargeCreditsFor(userId, required) {
     where: { id: userId },
     select: { plan: true, credits: true },
   });
-  if (!user) return { code: 'unauthorized', message: 'User not found.' };
-  if (user.plan === 'business') return null; // unlimited — nothing to charge
+  if (!user) return { error: { code: 'unauthorized', message: 'User not found.' } };
+  if (user.plan === 'business') return { charged: 0 }; // unlimited — nothing to charge
 
   const { count } = await prisma.user.updateMany({
     where: { id: userId, credits: { gte: required } },
@@ -134,13 +138,39 @@ async function chargeCreditsFor(userId, required) {
 
   if (count === 0) {
     return {
-      code: 'no_credits',
-      message: `This conversion needs ${required} credit${required === 1 ? '' : 's'} but you have ${user.credits}.`,
-      required,
-      available: user.credits,
+      error: {
+        code: 'no_credits',
+        message: `This conversion needs ${required} credit${required === 1 ? '' : 's'} but you have ${user.credits}.`,
+        required,
+        available: user.credits,
+      },
     };
   }
-  return null;
+  return { charged: required };
+}
+
+// Give back credits for a job that produced nothing, exactly once.
+//
+// The job's status transition is the guard: updateMany reports a row only if
+// the job was not already marked failed, so a failure path that somehow runs
+// twice refunds once. Mirrors convertFile/optimizeFile in convert.js, which
+// already refund on failure — and which the tool-page FAQ promises in all 17
+// languages ("a conversion that fails never costs you anything").
+async function failJobAndRefund(jobId, userId, amount) {
+  try {
+    const { count } = await prisma.job.updateMany({
+      where: { id: jobId, status: { not: 'failed' } },
+      data: { status: 'failed' },
+    });
+    if (count > 0 && amount > 0) {
+      await prisma.user.update({
+        where: { id: userId },
+        data: { credits: { increment: amount } },
+      });
+    }
+  } catch (err) {
+    console.error(`Smart job ${jobId}: could not mark failed / refund:`, err.message);
+  }
 }
 
 // CloudConvert: extract MP3 audio track from a non-Whisper video container.
@@ -196,7 +226,10 @@ async function txtToDocx(txtPath) {
 // ── Single dispatch endpoint ─────────────────────────────────────────
 
 router.post('/', protect, upload.single('file'), async (req, res) => {
+  // `charged` covers only the window before the job is dispatched; once the
+  // async job owns the work, `chargedAmount` is what its failure refunds.
   let charged = 0;
+  let chargedAmount = 0;
   try {
     if (!requireOpenAIKey(res)) return;
     const { toolSlug } = req.body;
@@ -212,9 +245,12 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
     });
 
     // Reserve the credits atomically before any work starts.
-    const limitError = await chargeCreditsFor(req.userId, required);
-    if (limitError) return res.status(429).json({ ...limitError });
-    charged = required;
+    const charge = await chargeCreditsFor(req.userId, required);
+    if (charge.error) return res.status(429).json({ ...charge.error });
+    // What was actually deducted (0 on a business plan) — this, not
+    // `required`, is what any refund must give back.
+    chargedAmount = charge.charged;
+    charged = chargedAmount;
 
     const inputDescriptor =
       toolSlug === 'text-to-speech' && !req.file
@@ -244,13 +280,17 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
       languageHint: req.body.languageHint,
     };
 
+    const userId = req.userId;
     runSmartJob(job.id, handlerArgs).catch((err) => {
       console.error(`Smart job ${job.id} failed:`, err);
-      prisma.job.update({ where: { id: job.id }, data: { status: 'failed' } }).catch(() => {});
+      // Mark failed AND refund. Previously the credits were kept, so a failed
+      // TTS/Whisper job — which can cost several credits — charged the user
+      // for nothing.
+      failJobAndRefund(job.id, userId, chargedAmount);
     });
 
-    charged = 0; // handed off to the async job
-    res.status(201).json({ jobId: job.id, status: 'pending', creditsCharged: required });
+    charged = 0; // handed off to the async job, which now owns the refund
+    res.status(201).json({ jobId: job.id, status: 'pending', creditsCharged: chargedAmount });
   } catch (err) {
     console.error('Smart route error:', err);
     // Only covers failures before the job was dispatched — credits reserved

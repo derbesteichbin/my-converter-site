@@ -227,9 +227,10 @@ router.post('/forgot-password', async (req, res) => {
     const resetLink = `${clientUrl}/reset-password?token=${resetToken}`;
 
     // Send email via Resend
-    console.log('[forgot-password] RESEND_API_KEY:', process.env.RESEND_API_KEY ? 'SET (' + process.env.RESEND_API_KEY.substring(0, 8) + '...)' : 'MISSING');
-    console.log('[forgot-password] CLIENT_URL:', clientUrl);
-    console.log('[forgot-password] Reset link:', resetLink);
+    // Never log the reset link or token: anyone with log access could use it
+    // to take over the account. Nor any part of an API key — a prefix is
+    // still key material. The user id is enough to trace a request.
+    console.log(`[forgot-password] Reset requested for user ${user.id}`);
 
     if (!process.env.RESEND_API_KEY) {
       console.error('[forgot-password] RESEND_API_KEY is not set — cannot send email');
@@ -239,7 +240,6 @@ router.post('/forgot-password', async (req, res) => {
     const { Resend } = require('resend');
     const resend = new Resend(process.env.RESEND_API_KEY);
 
-    console.log('[forgot-password] Attempting to send email to:', email);
     const emailResult = await resend.emails.send({
       from: 'ConvertAnyFormat <noreply@convertanyformat.com>',
       to: email,
@@ -260,7 +260,7 @@ router.post('/forgot-password', async (req, res) => {
       console.error('[forgot-password] Resend error:', JSON.stringify(emailResult.error));
       return res.status(500).json({ error: 'Failed to send reset email: ' + (emailResult.error.message || 'unknown error') });
     }
-    console.log('[forgot-password] Email sent successfully, id:', emailResult?.data?.id);
+    console.log('[forgot-password] Reset email sent, id:', emailResult?.data?.id);
     res.json({ ok: true });
   } catch (err) {
     console.error('[forgot-password] Caught error:', err);
