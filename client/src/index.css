@@ -1267,11 +1267,29 @@ h2 { font-size: 1.5rem; }
 
 .promo-apply-btn:hover { background: #f3f4f6; color: #6d28d9; }
 
+/* Promo feedback sits INSIDE .promo-banner, whose purple-to-pink gradient is
+   the same in light and dark mode. Coloured text on that gradient cannot
+   reach usable contrast (grey managed 1.0-1.4:1, and a plain red is no
+   better at 1.0-1.4:1), so both states are solid pills that carry their own
+   background. That makes them gradient-proof and identical in both themes.
+   Colours match .toast-success / .toast-error so feedback is consistent
+   wherever it appears. */
 .promo-applied {
   margin: 0.875rem 0 0;
   padding: 0.5rem 0.875rem;
   border-radius: 8px;
-  background: rgba(16, 185, 129, 0.95);
+  background: #166534; /* white on this = 7.13:1 */
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  display: inline-block;
+}
+
+.promo-notice {
+  margin: 0.875rem 0 0;
+  padding: 0.5rem 0.875rem;
+  border-radius: 8px;
+  background: #991b1b; /* white on this = 8.31:1 */
   color: #fff;
   font-weight: 700;
   font-size: 0.9375rem;

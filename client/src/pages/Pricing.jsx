@@ -230,7 +230,7 @@ export default function Pricing() {
           </p>
         )}
         {promoNotice && (
-          <p className="promo-notice" role="status" style={{ color: 'var(--text-muted)', marginTop: '0.5rem' }}>
+          <p className="promo-notice" role="status">
             {promoNotice}
           </p>
         )}
