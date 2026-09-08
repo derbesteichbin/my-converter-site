@@ -1,21 +1,55 @@
 {
+  "id": "/",
   "name": "ConvertAnyFormat",
   "short_name": "Convert",
-  "description": "Free online file converter. 50+ formats supported.",
+  "description": "Free online file converter. Convert PDF, images, video, audio and archives between 50+ formats. Fast, secure, no installation needed.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "theme_color": "#7c3aed",
-  "background_color": "#ffffff",
+  "orientation": "portrait",
+  "theme_color": "#0a0a0a",
+  "background_color": "#0a0a0a",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["utilities", "productivity"],
   "icons": [
     {
-      "src": "/images/logo-light.png",
+      "src": "/icons/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "/images/logo-light.png",
+      "src": "/icons/icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "All tools",
+      "short_name": "Tools",
+      "url": "/tools",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "PDF to Word",
+      "short_name": "PDF to Word",
+      "url": "/tools/pdf-to-word",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     }
   ]
 }

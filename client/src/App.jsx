@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import Navbar from './components/Navbar.jsx';
 import CommandPalette from './components/CommandPalette.jsx';
 import CookieConsent from './components/CookieConsent.jsx';
+import InstallPrompt from './components/InstallPrompt.jsx';
 import Footer from './components/Footer.jsx';
 import PageTransition from './components/PageTransition.jsx';
 import LoadingBar from './components/LoadingBar.jsx';
@@ -27,6 +28,7 @@ export default function App() {
       </main>
       <Footer />
       <CookieConsent />
+      <InstallPrompt />
     </>
   );
 }

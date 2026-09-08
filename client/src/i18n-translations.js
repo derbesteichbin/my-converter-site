@@ -466,6 +466,7 @@ const de = {
     availableIntroPart3: 'auf das gewünschte Werkzeug.',
   },
   toolContent: { aboutTitle: "Über die Konvertierung von {{from}} zu {{to}}", aboutTitleTool: "Über {{tool}}", howToTitle: "So konvertieren Sie {{from}} zu {{to}}", howToTitleTool: "So verwenden Sie {{tool}}", faqTitle: "Häufig gestellte Fragen" },
+  install: { text: "ConvertAnyFormat zum Startbildschirm hinzufügen", action: "Installieren", dismiss: "Schließen", aria: "App installieren" },
 };
 
 const fr = {
@@ -787,6 +788,7 @@ const fr = {
     availableIntroPart3: 'sur l\'outil souhaité.',
   },
   toolContent: { aboutTitle: "À propos de la conversion {{from}} en {{to}}", aboutTitleTool: "À propos de {{tool}}", howToTitle: "Comment convertir un fichier {{from}} en {{to}}", howToTitleTool: "Comment utiliser {{tool}}", faqTitle: "Questions fréquentes" },
+  install: { text: "Ajoutez ConvertAnyFormat à votre écran d’accueil", action: "Installer", dismiss: "Fermer", aria: "Installer l’application" },
 };
 
 const es = {
@@ -1214,6 +1216,7 @@ const es = {
     availableIntroPart3: 'a la herramienta deseada.',
   },
   toolContent: { aboutTitle: "Acerca de la conversión de {{from}} a {{to}}", aboutTitleTool: "Acerca de {{tool}}", howToTitle: "Cómo convertir {{from}} a {{to}}", howToTitleTool: "Cómo usar {{tool}}", faqTitle: "Preguntas frecuentes" },
+  install: { text: "Añade ConvertAnyFormat a tu pantalla de inicio", action: "Instalar", dismiss: "Cerrar", aria: "Instalar la aplicación" },
 };
 
 const it = {
@@ -1641,6 +1644,7 @@ const it = {
     availableIntroPart3: 'sullo strumento desiderato.',
   },
   toolContent: { aboutTitle: "Informazioni sulla conversione da {{from}} a {{to}}", aboutTitleTool: "Informazioni su {{tool}}", howToTitle: "Come convertire {{from}} in {{to}}", howToTitleTool: "Come usare {{tool}}", faqTitle: "Domande frequenti" },
+  install: { text: "Aggiungi ConvertAnyFormat alla schermata Home", action: "Installa", dismiss: "Chiudi", aria: "Installa l’app" },
 };
 
 const pt = {
@@ -2068,6 +2072,7 @@ const pt = {
     availableIntroPart3: 'para a ferramenta desejada.',
   },
   toolContent: { aboutTitle: "Sobre a conversão de {{from}} para {{to}}", aboutTitleTool: "Sobre {{tool}}", howToTitle: "Como converter {{from}} para {{to}}", howToTitleTool: "Como usar {{tool}}", faqTitle: "Perguntas frequentes" },
+  install: { text: "Adicione o ConvertAnyFormat ao seu ecrã principal", action: "Instalar", dismiss: "Fechar", aria: "Instalar a aplicação" },
 };
 
 const nl = {
@@ -2495,6 +2500,7 @@ const nl = {
     availableIntroPart3: 'in op de gewenste tool.',
   },
   toolContent: { aboutTitle: "Over het converteren van {{from}} naar {{to}}", aboutTitleTool: "Over {{tool}}", howToTitle: "Zo converteer je {{from}} naar {{to}}", howToTitleTool: "Zo gebruik je {{tool}}", faqTitle: "Veelgestelde vragen" },
+  install: { text: "Zet ConvertAnyFormat op je beginscherm", action: "Installeren", dismiss: "Sluiten", aria: "App installeren" },
 };
 
 const pl = {
@@ -2922,6 +2928,7 @@ const pl = {
     availableIntroPart3: 'na wybrane narzędzie.',
   },
   toolContent: { aboutTitle: "Informacje o konwersji {{from}} na {{to}}", aboutTitleTool: "Informacje o narzędziu {{tool}}", howToTitle: "Jak przekonwertować {{from}} na {{to}}", howToTitleTool: "Jak korzystać z narzędzia {{tool}}", faqTitle: "Najczęściej zadawane pytania" },
+  install: { text: "Dodaj ConvertAnyFormat do ekranu głównego", action: "Zainstaluj", dismiss: "Zamknij", aria: "Zainstaluj aplikację" },
 };
 
 const sv = {
@@ -3349,6 +3356,7 @@ const sv = {
     availableIntroPart3: 'till det önskade verktyget.',
   },
   toolContent: { aboutTitle: "Om konvertering från {{from}} till {{to}}", aboutTitleTool: "Om {{tool}}", howToTitle: "Så konverterar du {{from}} till {{to}}", howToTitleTool: "Så använder du {{tool}}", faqTitle: "Vanliga frågor" },
+  install: { text: "Lägg till ConvertAnyFormat på hemskärmen", action: "Installera", dismiss: "Stäng", aria: "Installera appen" },
 };
 
 const no = {
@@ -3776,6 +3784,7 @@ const no = {
     availableIntroPart3: 'til ønsket verktøy.',
   },
   toolContent: { aboutTitle: "Om konvertering fra {{from}} til {{to}}", aboutTitleTool: "Om {{tool}}", howToTitle: "Slik konverterer du {{from}} til {{to}}", howToTitleTool: "Slik bruker du {{tool}}", faqTitle: "Ofte stilte spørsmål" },
+  install: { text: "Legg ConvertAnyFormat til på hjemskjermen", action: "Installer", dismiss: "Lukk", aria: "Installer appen" },
 };
 
 const da = {
@@ -4332,6 +4341,7 @@ const da = {
     availableIntroPart3: 'til det ønskede værktøj.',
   },
   toolContent: { aboutTitle: "Om konvertering fra {{from}} til {{to}}", aboutTitleTool: "Om {{tool}}", howToTitle: "Sådan konverterer du {{from}} til {{to}}", howToTitleTool: "Sådan bruger du {{tool}}", faqTitle: "Ofte stillede spørgsmål" },
+  install: { text: "Føj ConvertAnyFormat til din hjemmeskærm", action: "Installer", dismiss: "Luk", aria: "Installer appen" },
 };
 
 const fi = {
@@ -4888,6 +4898,7 @@ const fi = {
     availableIntroPart3: 'haluamaasi työkaluun.',
   },
   toolContent: { aboutTitle: "Tietoa {{from}}–{{to}}-muunnoksesta", aboutTitleTool: "Tietoa työkalusta {{tool}}", howToTitle: "Näin muunnat {{from}}-tiedoston {{to}}-muotoon", howToTitleTool: "Näin käytät työkalua {{tool}}", faqTitle: "Usein kysytyt kysymykset" },
+  install: { text: "Lisää ConvertAnyFormat aloitusnäyttöön", action: "Asenna", dismiss: "Sulje", aria: "Asenna sovellus" },
 };
 
 const cs = {
@@ -5444,6 +5455,7 @@ const cs = {
     availableIntroPart3: 'na požadovaný nástroj.',
   },
   toolContent: { aboutTitle: "O převodu {{from}} na {{to}}", aboutTitleTool: "O nástroji {{tool}}", howToTitle: "Jak převést {{from}} na {{to}}", howToTitleTool: "Jak používat nástroj {{tool}}", faqTitle: "Často kladené dotazy" },
+  install: { text: "Přidejte ConvertAnyFormat na plochu", action: "Nainstalovat", dismiss: "Zavřít", aria: "Nainstalovat aplikaci" },
 };
 
 const ro = {
@@ -6000,6 +6012,7 @@ const ro = {
     availableIntroPart3: 'la instrumentul dorit.',
   },
   toolContent: { aboutTitle: "Despre conversia din {{from}} în {{to}}", aboutTitleTool: "Despre {{tool}}", howToTitle: "Cum convertești {{from}} în {{to}}", howToTitleTool: "Cum folosești {{tool}}", faqTitle: "Întrebări frecvente" },
+  install: { text: "Adaugă ConvertAnyFormat pe ecranul principal", action: "Instalează", dismiss: "Închide", aria: "Instalează aplicaţia" },
 };
 
 const hu = {
@@ -6556,6 +6569,7 @@ const hu = {
     availableIntroPart3: 'a kívánt eszközre.',
   },
   toolContent: { aboutTitle: "A {{from}} – {{to}} átalakításról", aboutTitleTool: "A(z) {{tool}} eszközről", howToTitle: "Így alakíthat át {{from}} fájlt {{to}} formátumba", howToTitleTool: "Így használhatja a(z) {{tool}} eszközt", faqTitle: "Gyakran ismételt kérdések" },
+  install: { text: "Add hozzá a ConvertAnyFormatot a kezdőképernyődhöz", action: "Telepítés", dismiss: "Bezárás", aria: "Alkalmazás telepítése" },
 };
 
 const el = {
@@ -7112,6 +7126,7 @@ const el = {
     availableIntroPart3: 'στο επιθυμητό εργαλείο.',
   },
   toolContent: { aboutTitle: "Σχετικά με τη μετατροπή {{from}} σε {{to}}", aboutTitleTool: "Σχετικά με το {{tool}}", howToTitle: "Πώς να μετατρέψετε {{from}} σε {{to}}", howToTitleTool: "Πώς να χρησιμοποιήσετε το {{tool}}", faqTitle: "Συχνές ερωτήσεις" },
+  install: { text: "Πρόσθεσε το ConvertAnyFormat στην αρχική οθόνη", action: "Εγκατάσταση", dismiss: "Κλείσιμο", aria: "Εγκατάσταση εφαρμογής" },
 };
 
 const tr = {
@@ -7668,6 +7683,7 @@ const tr = {
     availableIntroPart3: 'istenen araca ayarlayın.',
   },
   toolContent: { aboutTitle: "{{from}} – {{to}} dönüştürme hakkında", aboutTitleTool: "{{tool}} hakkında", howToTitle: "{{from}} dosyası {{to}} biçimine nasıl dönüştürülür", howToTitleTool: "{{tool}} nasıl kullanılır", faqTitle: "Sıkça sorulan sorular" },
+  install: { text: "ConvertAnyFormat’ı ana ekranına ekle", action: "Yükle", dismiss: "Kapat", aria: "Uygulamayı yükle" },
 };
 
 export const translations = { de, fr, es, it, pt, nl, pl, sv, no, da, fi, cs, ro, hu, el, tr };

@@ -43,11 +43,28 @@
     <meta name="twitter:image" content="https://www.convertanyformat.com/images/logo-light.png" />
     <meta name="twitter:image:alt" content="ConvertAnyFormat" />
 
-    <link rel="icon" href="/images/logo-light.png" />
+    <!-- Favicons. These are small purpose-built files; the 2 MB logo PNG that
+         used to be the favicon was downloaded on every single page view. -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16.png" />
+
+    <!-- PWA: manifest drives Android/desktop install; the apple-* tags below
+         drive iOS Safari's "Add to Home Screen", which ignores the manifest. -->
     <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#7c3aed" />
+    <meta name="theme-color" content="#0a0a0a" />
+
+    <!-- iOS standalone mode. Safari reads none of the manifest, so the icon,
+         the home-screen label and the status bar style all have to be
+         declared here. apple-touch-icon must be a flattened 180x180 PNG:
+         iOS discards transparency and applies its own rounded mask. -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Convert" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <!-- Standardised replacement for apple-mobile-web-app-capable; Chrome
+         warns when only the apple-prefixed one is present. -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="ConvertAnyFormat" />
 
     <!-- Structured data so crawlers can index the entity without running JS -->
     <script type="application/ld+json">

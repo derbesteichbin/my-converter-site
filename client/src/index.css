@@ -5135,3 +5135,109 @@ select:focus-visible {
   .tool-seo-faq-item h3 { font-size: 0.9375rem; }
   .tool-seo-step-num { width: 1.5rem; height: 1.5rem; font-size: 0.75rem; }
 }
+
+/* ---- PWA install prompt -------------------------------------------
+   Shown only when the browser fires beforeinstallprompt (Chromium on
+   Android/desktop). Sits below the cookie banner's z-index and lifts above
+   it on phones while that banner is still on screen. */
+.install-prompt {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 7900;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: min(24rem, calc(100vw - 2rem));
+  padding: 0.625rem 0.75rem 0.625rem 0.875rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.14);
+  animation: install-prompt-in 0.28s ease-out both;
+}
+
+[data-theme="dark"] .install-prompt {
+  background: var(--bg-elevated);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.45);
+}
+
+@keyframes install-prompt-in {
+  from { opacity: 0; transform: translateY(0.75rem); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .install-prompt { animation: none; }
+}
+
+.install-prompt-icon {
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+}
+
+.install-prompt-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  color: var(--text);
+}
+
+.install-prompt-btn {
+  flex: 0 0 auto;
+  padding: 0.4375rem 0.875rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.install-prompt-btn:hover { filter: brightness(1.08); }
+
+.install-prompt-close {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 1.125rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.install-prompt-close:hover {
+  background: var(--border);
+  color: var(--text);
+}
+
+.install-prompt-btn:focus-visible,
+.install-prompt-close:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+  .install-prompt {
+    left: 0.5rem;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    max-width: none;
+  }
+  /* Clear the cookie banner while it is still on screen. */
+  .install-prompt-raised { bottom: 7.5rem; }
+  .install-prompt-text { font-size: 0.78125rem; }
+}
