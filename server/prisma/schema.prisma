@@ -51,6 +51,15 @@ model Subscription {
   user             User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+// One row per Stripe webhook event we have fully processed. Written in the
+// same transaction as the credit grant, so a retried event can never grant
+// credits twice.
+model StripeEvent {
+  id          String   @id
+  type        String
+  processedAt DateTime @default(now())
+}
+
 model ToolUsage {
   id        String @id @default(uuid())
   toolSlug  String @unique

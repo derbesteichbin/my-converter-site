@@ -55,6 +55,36 @@ console.log('CloudConvert initialized, sandbox: false, key starts with: ' + proc
 
 // ── Helpers ──────────────────────────────────────────────────────────
 
+// Resolve a user-supplied output filename to a real path inside OUTPUT_DIR.
+// Returns null if the name is unusable or escapes the directory.
+//
+// Express URI-decodes route params AFTER routing, so a request for
+// "..%2F..%2Findex.js" arrives here as "../../index.js". path.basename()
+// strips the traversal; the containment check that follows is a second,
+// independent guard so this stays safe even if the input shape changes.
+function resolveOutputFile(filename) {
+  if (typeof filename !== 'string' || !filename) return null;
+  const base = path.basename(filename);
+  if (!base || base === '.' || base === '..') return null;
+
+  const root = path.resolve(OUTPUT_DIR);
+  const full = path.resolve(root, base);
+  if (full !== path.join(root, base) || !full.startsWith(root + path.sep)) return null;
+
+  return { base, full };
+}
+
+// A user may only download output files produced by their own jobs. Mirrors
+// the ownership check on GET /jobs/:id. Returns the subset of `basenames`
+// that belong to this user.
+async function ownedOutputFiles(userId, basenames) {
+  const jobs = await prisma.job.findMany({
+    where: { userId, outputFile: { in: basenames } },
+    select: { outputFile: true },
+  });
+  return new Set(jobs.map((j) => j.outputFile));
+}
+
 function extractAdvancedOptions(body) {
   const opts = {};
   for (const key of ALLOWED_ADVANCED_KEYS) {
@@ -72,14 +102,45 @@ function extractAdvancedOptions(body) {
   return opts;
 }
 
-async function checkCredits(userId) {
-  const user = await prisma.user.findUnique({ where: { id: userId } });
-  if (user.plan === 'business') return null; // unlimited
+// Charge `amount` credits atomically. Returns null when the request may
+// proceed, or an error descriptor for the 429 response.
+//
+// The deduction is a single conditional UPDATE: the `credits: { gte: amount }`
+// guard and the decrement happen in one statement, so concurrent requests
+// cannot all pass a check before any of them writes, and the balance can
+// never go negative. `count === 0` means the guard failed — insufficient
+// credits — which is the only way to be refused.
+async function chargeCredits(userId, amount = 1) {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { plan: true, credits: true },
+  });
+  // A valid token for a deleted account used to throw here.
+  if (!user) return { code: 'unauthorized', message: 'User not found.' };
+  if (user.plan === 'business') return null; // unlimited — nothing to charge
 
-  if (user.credits <= 0) {
-    return { code: 'no_credits', message: 'You need credits to convert files. Buy a pack to continue.' };
+  const { count } = await prisma.user.updateMany({
+    where: { id: userId, credits: { gte: amount } },
+    data: { credits: { decrement: amount } },
+  });
+
+  if (count === 0) {
+    return {
+      code: 'no_credits',
+      message: 'You need credits to convert files. Buy a pack to continue.',
+      required: amount,
+      available: user.credits,
+    };
   }
   return null;
+}
+
+// Give back credits charged for work that never started. Same shape as the
+// refunds in convertFile/optimizeFile/convertPdfTool.
+function refundCredits(userId, amount = 1) {
+  prisma.user
+    .update({ where: { id: userId }, data: { credits: { increment: amount } } })
+    .catch(() => {});
 }
 
 async function downloadExportedFile(ccJob, outputFormat) {
@@ -107,6 +168,7 @@ async function downloadExportedFile(ccJob, outputFormat) {
 // ── Standard file conversion ─────────────────────────────────────────
 
 router.post('/', protect, upload.single('file'), async (req, res) => {
+  let charged = false;
   try {
     if (!req.file) {
       return res.status(400).json({ error: 'No file uploaded' });
@@ -128,21 +190,18 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
       }
     }
 
-    // Require an unused conversion credit
-    const limitError = await checkCredits(req.userId);
+    // Reserve a conversion credit before any work starts. Atomically checks
+    // and deducts in one statement, so parallel requests cannot share one
+    // credit. Refunded below if the job fails (or never starts).
+    const limitError = await chargeCredits(req.userId, 1);
     if (limitError) {
       return res.status(429).json({ error: limitError.message, code: limitError.code });
     }
+    charged = true;
 
     const job = await prisma.job.create({
       data: { userId: req.userId, inputFile: req.file.filename, status: 'pending' },
     });
-
-    // Deduct credit
-    prisma.user.update({
-      where: { id: req.userId },
-      data: { credits: { decrement: 1 } },
-    }).catch(() => {});
 
     // Track tool usage
     if (toolSlug) {
@@ -176,9 +235,13 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
       });
     }
 
+    // The worker owns the refund from here on (see convertFile/optimizeFile),
+    // so the route-level fallback below must not fire as well.
+    charged = false;
     res.status(201).json({ jobId: job.id, status: 'pending' });
   } catch (err) {
     console.error('Convert route error:', err);
+    if (charged) refundCredits(req.userId, 1);
     res.status(500).json({ error: 'Failed to start conversion' });
   }
 });
@@ -275,6 +338,7 @@ async function optimizeFile(jobId, file, chargedUserId = null) {
 // ── PDF tool conversion (merge, split, compress, rotate, protect, unlock) ──
 
 router.post('/pdf-tool', protect, upload.array('files', 20), async (req, res) => {
+  let charged = false;
   try {
     const uploadedFiles = req.files || [];
     if (uploadedFiles.length === 0) {
@@ -287,20 +351,16 @@ router.post('/pdf-tool', protect, upload.array('files', 20), async (req, res) =>
       return res.status(400).json({ error: 'Unknown PDF tool' });
     }
 
-    const limitError = await checkCredits(req.userId);
+    // Reserve a credit atomically before any work starts (see chargeCredits).
+    const limitError = await chargeCredits(req.userId, 1);
     if (limitError) {
       return res.status(429).json({ error: limitError.message, code: limitError.code });
     }
+    charged = true;
 
     const job = await prisma.job.create({
       data: { userId: req.userId, inputFile: uploadedFiles.map((f) => f.filename).join(','), status: 'pending' },
     });
-
-    // Deduct credit
-    prisma.user.update({
-      where: { id: req.userId },
-      data: { credits: { decrement: 1 } },
-    }).catch(() => {});
 
     // Track tool usage
     prisma.toolUsage.upsert({
@@ -313,9 +373,12 @@ router.post('/pdf-tool', protect, upload.array('files', 20), async (req, res) =>
       console.error(`PDF tool failed for job ${job.id}:`, err);
     });
 
+    // convertPdfTool owns the refund from here on.
+    charged = false;
     res.status(201).json({ jobId: job.id, status: 'pending' });
   } catch (err) {
     console.error('PDF tool route error:', err);
+    if (charged) refundCredits(req.userId, 1);
     res.status(500).json({ error: 'Failed to start PDF operation' });
   }
 });
@@ -431,9 +494,21 @@ router.get('/jobs/:id', protect, async (req, res) => {
 });
 
 router.get('/download/:filename', protect, async (req, res) => {
-  const filePath = path.join(OUTPUT_DIR, req.params.filename);
-  if (!fs.existsSync(filePath)) return res.status(404).json({ error: 'File not found' });
-  res.download(filePath);
+  try {
+    const resolved = resolveOutputFile(req.params.filename);
+    if (!resolved) return res.status(404).json({ error: 'File not found' });
+
+    // The file must belong to a job owned by the requesting user. 404 rather
+    // than 403 so this cannot be used to probe which filenames exist.
+    const owned = await ownedOutputFiles(req.userId, [resolved.base]);
+    if (!owned.has(resolved.base)) return res.status(404).json({ error: 'File not found' });
+
+    if (!fs.existsSync(resolved.full)) return res.status(404).json({ error: 'File not found' });
+    res.download(resolved.full);
+  } catch (err) {
+    console.error('Download error:', err);
+    res.status(500).json({ error: 'Failed to download file' });
+  }
 });
 
 router.get('/jobs', protect, async (req, res) => {
@@ -470,19 +545,25 @@ router.post('/download-zip', protect, express.json(), async (req, res) => {
       return res.status(400).json({ error: 'No filenames provided' });
     }
 
+    // Sanitize every name and drop anything that escapes OUTPUT_DIR, then
+    // keep only the files that belong to this user's own jobs. Resolved
+    // before any bytes are written so a rejection can still be JSON.
+    const resolved = filenames.map(resolveOutputFile).filter(Boolean);
+    const owned = await ownedOutputFiles(req.userId, resolved.map((r) => r.base));
+    const allowed = resolved.filter((r) => owned.has(r.base) && fs.existsSync(r.full));
+
+    if (allowed.length === 0) {
+      return res.status(404).json({ error: 'No matching files found' });
+    }
+
     res.setHeader('Content-Type', 'application/zip');
     res.setHeader('Content-Disposition', 'attachment; filename=converted-files.zip');
 
     const archive = archiver('zip', { zlib: { level: 5 } });
     archive.pipe(res);
 
-    for (const filename of filenames) {
-      // Sanitize filename to prevent path traversal
-      const safe = path.basename(filename);
-      const filePath = path.join(OUTPUT_DIR, safe);
-      if (fs.existsSync(filePath)) {
-        archive.file(filePath, { name: safe });
-      }
+    for (const { base, full } of allowed) {
+      archive.file(full, { name: base });
     }
 
     await archive.finalize();

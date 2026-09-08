@@ -113,11 +113,26 @@ async function computeRequiredCredits({ toolSlug, file, text }) {
   return 1;
 }
 
-async function checkCreditsFor(userId, required) {
-  const user = await prisma.user.findUnique({ where: { id: userId } });
+// Charge `required` credits atomically. Returns null when the request may
+// proceed, or an error descriptor for the 429 response.
+//
+// The guard and the decrement are one conditional UPDATE, so parallel
+// requests cannot all pass a check before any of them writes, and the
+// balance can never go negative. `count === 0` means the guard failed.
+async function chargeCreditsFor(userId, required) {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { plan: true, credits: true },
+  });
   if (!user) return { code: 'unauthorized', message: 'User not found.' };
-  if (user.plan === 'business') return null;
-  if (user.credits < required) {
+  if (user.plan === 'business') return null; // unlimited — nothing to charge
+
+  const { count } = await prisma.user.updateMany({
+    where: { id: userId, credits: { gte: required } },
+    data: { credits: { decrement: required } },
+  });
+
+  if (count === 0) {
     return {
       code: 'no_credits',
       message: `This conversion needs ${required} credit${required === 1 ? '' : 's'} but you have ${user.credits}.`,
@@ -181,6 +196,7 @@ async function txtToDocx(txtPath) {
 // ── Single dispatch endpoint ─────────────────────────────────────────
 
 router.post('/', protect, upload.single('file'), async (req, res) => {
+  let charged = 0;
   try {
     if (!requireOpenAIKey(res)) return;
     const { toolSlug } = req.body;
@@ -195,8 +211,10 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
       text: req.body.text,
     });
 
-    const limitError = await checkCreditsFor(req.userId, required);
+    // Reserve the credits atomically before any work starts.
+    const limitError = await chargeCreditsFor(req.userId, required);
     if (limitError) return res.status(429).json({ ...limitError });
+    charged = required;
 
     const inputDescriptor =
       toolSlug === 'text-to-speech' && !req.file
@@ -207,9 +225,7 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
       data: { userId: req.userId, inputFile: inputDescriptor, status: 'pending' },
     });
 
-    // Deduct the right amount; track usage. Same fire-and-forget pattern
-    // as convert.js.
-    prisma.user.update({ where: { id: req.userId }, data: { credits: { decrement: required } } }).catch(() => {});
+    // Track usage. (Credits were already reserved above.)
     prisma.toolUsage.upsert({
       where: { toolSlug },
       create: { toolSlug, count: 1 },
@@ -233,9 +249,17 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
       prisma.job.update({ where: { id: job.id }, data: { status: 'failed' } }).catch(() => {});
     });
 
+    charged = 0; // handed off to the async job
     res.status(201).json({ jobId: job.id, status: 'pending', creditsCharged: required });
   } catch (err) {
     console.error('Smart route error:', err);
+    // Only covers failures before the job was dispatched — credits reserved
+    // for work that never started must not be kept.
+    if (charged > 0) {
+      prisma.user
+        .update({ where: { id: req.userId }, data: { credits: { increment: charged } } })
+        .catch(() => {});
+    }
     res.status(500).json({ error: 'Failed to start smart conversion' });
   }
 });

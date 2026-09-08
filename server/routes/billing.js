@@ -82,17 +82,35 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
   const stripe = getStripe();
   if (!stripe) return res.status(503).json({ error: 'Billing is not configured' });
 
+  // Signature verification is mandatory. Without the secret we cannot tell a
+  // real Stripe event from a forged POST, and this endpoint grants credits —
+  // so refuse outright rather than trusting unsigned input.
+  if (!process.env.STRIPE_WEBHOOK_SECRET) {
+    console.error('[billing] STRIPE_WEBHOOK_SECRET is not set — refusing to process webhook');
+    return res.status(500).json({ error: 'Webhook signature verification is not configured' });
+  }
+
   const sig = req.headers['stripe-signature'];
   let event;
 
   try {
-    if (process.env.STRIPE_WEBHOOK_SECRET) {
-      event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
-    } else {
-      event = JSON.parse(req.body.toString());
-    }
+    event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
   } catch (err) {
     return res.status(400).json({ error: 'Invalid signature' });
+  }
+
+  // Idempotency: Stripe retries on timeouts and non-2xx responses, so an
+  // event may arrive more than once. Every handled event is recorded in the
+  // same transaction as its side effect — see below.
+  try {
+    const seen = await prisma.stripeEvent.findUnique({ where: { id: event.id } });
+    if (seen) {
+      console.log(`[billing] Event ${event.id} already processed — skipping`);
+      return res.json({ received: true, duplicate: true });
+    }
+  } catch (err) {
+    console.error('[billing] Idempotency lookup failed:', err);
+    return res.status(500).json({ error: 'Could not verify event state' });
   }
 
   if (event.type === 'checkout.session.completed') {
@@ -104,10 +122,16 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
       const creditsToAdd = PRICE_TO_CREDITS[priceId] || 0;
       if (creditsToAdd > 0) {
         try {
-          const user = await prisma.user.update({
-            where: { id: userId },
-            data: { credits: { increment: creditsToAdd } },
-          });
+          // Recording the event and granting the credits in one transaction
+          // makes this exactly-once: a concurrent retry hits the primary-key
+          // conflict and the whole thing rolls back, granting nothing.
+          const [, user] = await prisma.$transaction([
+            prisma.stripeEvent.create({ data: { id: event.id, type: event.type } }),
+            prisma.user.update({
+              where: { id: userId },
+              data: { credits: { increment: creditsToAdd } },
+            }),
+          ]);
           console.log(`User ${userId} purchased ${creditsToAdd} credits`);
 
           const amountEuros = typeof session.amount_total === 'number'
@@ -119,7 +143,15 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
             amountEuros,
           });
         } catch (err) {
+          if (err.code === 'P2002') {
+            // A concurrent delivery of the same event already committed.
+            console.log(`[billing] Event ${event.id} processed concurrently — skipping`);
+            return res.json({ received: true, duplicate: true });
+          }
+          // Nothing was committed. Return non-2xx so Stripe retries, rather
+          // than reporting success on a purchase that granted no credits.
           console.error('Failed to add credits:', err);
+          return res.status(500).json({ error: 'Failed to apply purchase' });
         }
       }
     }
@@ -148,8 +180,13 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
           }).catch((err) => console.error('[billing] Cancel notification failed:', err.message));
         }
       }
+      await prisma.stripeEvent.create({ data: { id: event.id, type: event.type } });
     } catch (err) {
+      if (err.code === 'P2002') {
+        return res.json({ received: true, duplicate: true });
+      }
       console.error('Failed to handle subscription deletion:', err);
+      return res.status(500).json({ error: 'Failed to apply subscription change' });
     }
   }
 
