@@ -1,10 +1,21 @@
-// Regenerate client/public/sitemap.xml from the canonical tool list.
-// Run from repo root:  node scripts/gen-sitemap.js
+// Regenerate public/sitemap.xml from the canonical tool list.
+//
+// Runs automatically as the `prebuild` npm script, so every deploy ships a
+// sitemap matching the tools that are actually in the build. It can also be
+// run by hand from the client directory:  node scripts/gen-sitemap.js
+//
+// Lives here rather than in the repo-root scripts/ directory for two
+// reasons, both of which used to make an automated run fragile:
+//   * Vercel's Root Directory is client/ (vercel.json sits here), so files
+//     outside it are not guaranteed to be in the build context.
+//   * Both the input (src/toolsConfig.js) and the output (public/sitemap.xml)
+//     are inside client/ anyway, and toolsConfig is ESM — reaching it from a
+//     CommonJS script at the repo root relied on require(esm), which needs
+//     Node 22.12+. As an ES module here, that constraint disappears.
 
-const fs = require('fs');
-const path = require('path');
-
-const { TOOLS } = require('../client/src/toolsConfig.js');
+import fs from 'node:fs';
+import path from 'node:path';
+import { TOOLS } from '../src/toolsConfig.js';
 
 const SITE = 'https://www.convertanyformat.com';
 const today = new Date().toISOString().split('T')[0];
@@ -47,6 +58,6 @@ const xml = [
   '',
 ].join('\n');
 
-const outPath = path.join(__dirname, '..', 'client', 'public', 'sitemap.xml');
+const outPath = path.join(import.meta.dirname, '..', 'public', 'sitemap.xml');
 fs.writeFileSync(outPath, xml);
 console.log(`Wrote ${outPath}: ${allPages.length} URLs (${staticPages.length} static + ${toolPages.length} tool pages)`);
