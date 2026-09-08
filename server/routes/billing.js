@@ -101,6 +101,7 @@ function promotionUnusableReason(promotionCode, coupon) {
 
 // User-facing messages. Kept as named constants so the three failure modes
 // can never drift into sharing wording again.
+const MSG_INVALID_CODE = "This promo code doesn't exist or is no longer valid.";
 const MSG_ALREADY_USED = "You've already used this code — it's valid only on your first purchase.";
 const MSG_PROMO_ENDED = 'This promotion has ended and is no longer available.';
 const MSG_PROMO_MISCONFIGURED = 'This promotion is temporarily unavailable. Please try again later.';
@@ -221,7 +222,7 @@ router.post('/validate-promo', async (req, res) => {
 
     // Unknown code: reject clearly. Never fall through to full price.
     if (!PROMO_CODES.has(raw.toLowerCase())) {
-      return res.status(400).json({ error: 'Invalid or expired promo code', code: 'invalid_promo' });
+      return res.status(400).json({ error: MSG_INVALID_CODE, code: 'invalid_promo' });
     }
 
     const resolved = await resolvePromotionCode(stripe, raw);
@@ -344,7 +345,7 @@ router.post('/create-checkout', protect, async (req, res) => {
       const raw = promoCode.trim();
 
       if (!PROMO_CODES.has(raw.toLowerCase())) {
-        return res.status(400).json({ error: 'Invalid or expired promo code', code: 'invalid_promo' });
+        return res.status(400).json({ error: MSG_INVALID_CODE, code: 'invalid_promo' });
       }
 
       const resolved = await resolvePromotionCode(stripe, raw);
