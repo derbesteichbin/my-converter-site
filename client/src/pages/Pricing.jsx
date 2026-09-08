@@ -38,21 +38,25 @@ export default function Pricing() {
   // response: { code, packs: { pack1: { baseFormatted, finalFormatted } },
   // eligible, ineligibleReason, discount }.
   const [promo, setPromo] = useState(null);
-  const [promoNotice, setPromoNotice] = useState('');
+  // The REASON, never the resolved sentence. Storing translated text here is
+  // what made a visible message keep the language it first appeared in: state
+  // does not change when the language does, so the string never got looked up
+  // again. Holding the code and translating in render means a language switch
+  // re-renders the message in the new language with no user action.
+  const [promoNoticeCode, setPromoNoticeCode] = useState('');
   // Prices are only ever discounted when the server said so AND the server
   // did not tell us this account is ineligible.
   const promoActive = Boolean(promo && promo.eligible);
 
-  function clearPromo(message) {
+  function clearPromo(code) {
     setPromo(null);
-    setPromoNotice(message || '');
+    setPromoNoticeCode(code || '');
   }
 
-  // Every promo rejection the server can return, resolved to one localized
-  // string. All of them render in the .promo-notice pill under the input —
-  // none of them are toasts, so feedback never scrolls away or times out.
-  function promoMessageFor(data) {
-    switch (data?.code || data?.reasonCode) {
+  // Reason code -> localized text. Called during render, so it always uses
+  // the language that is current right now.
+  function promoMessage(code) {
+    switch (code) {
       case 'invalid_promo':
         return t('pricing.promoInvalid', {
           defaultValue: "This promo code doesn't exist or is no longer valid.",
@@ -65,17 +69,18 @@ export default function Pricing() {
         return t('pricing.promoAlreadyUsed', {
           defaultValue: "You've already used this code — it's valid only on your first purchase.",
         });
+      case 'promo_first_purchase_only':
+        return t('pricing.promoFirstPurchaseOnly', {
+          defaultValue: 'This code is valid for your first purchase only.',
+        });
       case 'promo_not_configured':
         return t('pricing.promoUnavailable', {
           defaultValue: 'This promotion is temporarily unavailable. Please try again later.',
         });
+      case 'connect_error':
+        return t('common.connectError');
       default:
-        return (
-          data?.error ||
-          t('pricing.promoInvalid', {
-            defaultValue: "This promo code doesn't exist or is no longer valid.",
-          })
-        );
+        return '';
     }
   }
 
@@ -83,13 +88,24 @@ export default function Pricing() {
   // pill. Anything else from checkout is a general failure and still toasts.
   const PROMO_ERROR_CODES = ['invalid_promo', 'promo_ended', 'promo_already_used', 'promo_not_configured'];
 
+  // Reduce a server response to one of the codes above. Every promo response
+  // carries `code` or `reasonCode`; anything unrecognised falls back to the
+  // neutral "try again later" rather than asserting the code is invalid,
+  // which would be a guess.
+  function promoCodeFor(data) {
+    const code = data?.code || data?.reasonCode;
+    return PROMO_ERROR_CODES.includes(code) || code === 'promo_first_purchase_only'
+      ? code
+      : 'promo_not_configured';
+  }
+
   async function handleApplyPromo(e) {
     e.preventDefault();
     const trimmed = promoInput.trim();
     if (!trimmed) return;
 
     setCheckingPromo(true);
-    setPromoNotice('');
+    setPromoNoticeCode('');
     try {
       const res = await api('/api/billing/validate-promo', {
         method: 'POST',
@@ -102,27 +118,20 @@ export default function Pricing() {
         // Wrong code (400), offer ended (400), misconfiguration (503) — each
         // keeps its own wording, and all three land in the pill under the
         // input. Prices stay at full price in every case.
-        clearPromo(promoMessageFor(data));
+        clearPromo(promoCodeFor(data));
         return;
       }
 
       setPromo(data);
       if (data.eligible) {
-        setPromoNotice('');
+        setPromoNoticeCode('');
       } else {
         // Valid code, but this account has already bought before. Show the
         // reason and leave full prices on screen.
-        setPromoNotice(
-          data.reasonCode
-            ? promoMessageFor(data)
-            : data.ineligibleReason ||
-                t('pricing.promoFirstPurchaseOnly', {
-                  defaultValue: 'This code is valid for your first purchase only.',
-                })
-        );
+        setPromoNoticeCode(data.reasonCode ? promoCodeFor(data) : 'promo_first_purchase_only');
       }
     } catch {
-      clearPromo(t('common.connectError'));
+      clearPromo('connect_error');
     } finally {
       setCheckingPromo(false);
     }
@@ -154,7 +163,7 @@ export default function Pricing() {
         // can never leave a discounted price on screen) and reports in the
         // same pill as every other promo message — not a toast.
         if (PROMO_ERROR_CODES.includes(data.code)) {
-          clearPromo(promoMessageFor(data));
+          clearPromo(promoCodeFor(data));
           return;
         }
         // Anything else is a general checkout failure, which still toasts.
@@ -249,9 +258,11 @@ export default function Pricing() {
               : t('pricing.promoApplied')}
           </p>
         )}
-        {promoNotice && (
+        {promoNoticeCode && (
           <p className="promo-notice" role="alert">
-            {promoNotice}
+            {/* Translated here, not when the message was raised, so switching
+                language re-renders it in the new one. */}
+            {promoMessage(promoNoticeCode)}
           </p>
         )}
       </div>
