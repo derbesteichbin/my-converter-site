@@ -23,12 +23,35 @@ async function sendCompletionEmail(userId, jobId, downloadUrl) {
   try {
     const user = await prisma.user.findUnique({ where: { id: userId } });
     if (!user) return;
-    const fullUrl = `${process.env.CLIENT_URL || 'http://localhost:5173'}${downloadUrl}`;
+
+    // The download API lives on the BACKEND. This used to build the link from
+    // CLIENT_URL, but client/vercel.json rewrites every path to the SPA, so
+    // /api/download/... on the frontend host returned index.html rather than
+    // the file — the emailed link was simply broken.
+    const apiBase = (process.env.SERVER_URL || '').replace(/\/$/, '');
+    const clientBase = (process.env.CLIENT_URL || 'http://localhost:5173').replace(/\/$/, '');
+    const fullUrl = apiBase ? `${apiBase}${downloadUrl}` : null;
+
+    if (!fullUrl) {
+      console.warn('[convert] SERVER_URL is not set — completion email will link to the dashboard only');
+    }
+
+    // GET /api/download/:filename is behind `protect` and an ownership check,
+    // so the direct link only works in a browser that already holds the
+    // session cookie for the API host. The dashboard link is the fallback for
+    // anyone opening the mail elsewhere: they sign in and download from there.
+    const html = [
+      '<p>Your file has been converted successfully.</p>',
+      fullUrl ? `<p><a href="${fullUrl}">Download your file</a></p>` : '',
+      `<p style="font-size:0.875rem;color:#666;">If the link asks you to sign in, open your <a href="${clientBase}/dashboard">dashboard</a> and download it from there.</p>`,
+      '<p>This link will expire in 24 hours.</p>',
+    ].join('');
+
     await resend.emails.send({
       from: 'ConvertAnyFormat <noreply@convertanyformat.com>',
       to: user.email,
       subject: 'Your file conversion is ready',
-      html: `<p>Your file has been converted successfully.</p><p><a href="${fullUrl}">Download your file</a></p><p>This link will expire in 24 hours.</p>`,
+      html,
     });
   } catch (err) {
     console.error('Email send error:', err.message);
@@ -117,8 +140,10 @@ async function chargeCredits(userId, amount = 1) {
     select: { plan: true, credits: true },
   });
   // A valid token for a deleted account used to throw here.
-  if (!user) return { code: 'unauthorized', message: 'User not found.' };
-  if (user.plan === 'business') return null; // unlimited — nothing to charge
+  if (!user) return { error: { code: 'unauthorized', message: 'User not found.' } };
+  // Unlimited — nothing is deducted, so `charged: 0` must be reported or the
+  // refund path would credit an account that never paid.
+  if (user.plan === 'business') return { charged: 0 };
 
   const { count } = await prisma.user.updateMany({
     where: { id: userId, credits: { gte: amount } },
@@ -127,13 +152,15 @@ async function chargeCredits(userId, amount = 1) {
 
   if (count === 0) {
     return {
-      code: 'no_credits',
-      message: 'You need credits to convert files. Buy a pack to continue.',
-      required: amount,
-      available: user.credits,
+      error: {
+        code: 'no_credits',
+        message: 'You need credits to convert files. Buy a pack to continue.',
+        required: amount,
+        available: user.credits,
+      },
     };
   }
-  return null;
+  return { charged: amount };
 }
 
 // Give back credits charged for work that never started. Same shape as the
@@ -210,7 +237,8 @@ async function downloadExportedFile(ccJob, outputFormat) {
 // ── Standard file conversion ─────────────────────────────────────────
 
 router.post('/', protect, preflightCredits, upload.single('file'), async (req, res) => {
-  let charged = false;
+  let charged = 0;
+  let chargedAmount = 0;
   // Every early return below discards the upload rather than leaving it for
   // the 24h sweep.
   const reject = (status, payload) => {
@@ -241,11 +269,14 @@ router.post('/', protect, preflightCredits, upload.single('file'), async (req, r
     // Reserve a conversion credit before any work starts. Atomically checks
     // and deducts in one statement, so parallel requests cannot share one
     // credit. Refunded below if the job fails (or never starts).
-    const limitError = await chargeCredits(req.userId, 1);
-    if (limitError) {
-      return reject(429, { error: limitError.message, code: limitError.code });
+    const charge = await chargeCredits(req.userId, 1);
+    if (charge.error) {
+      return reject(429, { error: charge.error.message, code: charge.error.code });
     }
-    charged = true;
+    // What was actually deducted — 0 on a business plan. This, not a hardcoded
+    // 1, is what any refund must give back.
+    chargedAmount = charge.charged;
+    charged = chargedAmount;
 
     const job = await prisma.job.create({
       data: { userId: req.userId, inputFile: req.file.filename, status: 'pending' },
@@ -274,28 +305,28 @@ router.post('/', protect, preflightCredits, upload.single('file'), async (req, r
     // is a straightforward format conversion.
     const toolDef = toolSlug ? VALID_TOOLS[toolSlug] : null;
     if (toolDef && toolDef.toolType === 'compress') {
-      optimizeFile(job.id, req.file, req.userId).catch((err) => {
+      optimizeFile(job.id, req.file, req.userId, chargedAmount).catch((err) => {
         console.error(`Compression failed for job ${job.id}:`, err);
       });
     } else {
-      convertFile(job.id, req.file, outputFormat, advancedOptions, notifyEmail ? req.userId : null, req.userId).catch((err) => {
+      convertFile(job.id, req.file, outputFormat, advancedOptions, notifyEmail ? req.userId : null, req.userId, chargedAmount).catch((err) => {
         console.error(`Conversion failed for job ${job.id}:`, err);
       });
     }
 
     // The worker owns the refund from here on (see convertFile/optimizeFile),
     // so the route-level fallback below must not fire as well.
-    charged = false;
+    charged = 0;
     res.status(201).json({ jobId: job.id, status: 'pending' });
   } catch (err) {
     console.error('Convert route error:', err);
-    if (charged) refundCredits(req.userId, 1);
+    if (charged > 0) refundCredits(req.userId, charged);
     discardUploads(req.file);
     res.status(500).json({ error: 'Failed to start conversion' });
   }
 });
 
-async function convertFile(jobId, file, outputFormat, advancedOptions = {}, notifyUserId = null, chargedUserId = null) {
+async function convertFile(jobId, file, outputFormat, advancedOptions = {}, notifyUserId = null, chargedUserId = null, chargedAmount = 0) {
   try {
     await prisma.job.update({ where: { id: jobId }, data: { status: 'processing' } });
 
@@ -334,10 +365,12 @@ async function convertFile(jobId, file, outputFormat, advancedOptions = {}, noti
     await prisma.job.update({ where: { id: jobId }, data: { status: 'failed' } });
     // Refund the credit reserved at request time: a failed conversion must
     // not be charged, so credits charged always equal successful conversions.
-    if (chargedUserId) {
+    // chargedAmount is 0 on a business plan, which is never debited and so
+    // must never be credited back.
+    if (chargedUserId && chargedAmount > 0) {
       prisma.user.update({
         where: { id: chargedUserId },
-        data: { credits: { increment: 1 } },
+        data: { credits: { increment: chargedAmount } },
       }).catch(() => {});
     }
   } finally {
@@ -351,7 +384,7 @@ async function convertFile(jobId, file, outputFormat, advancedOptions = {}, noti
 // ── Compression via CloudConvert optimize (image/jpeg/png/gif) ─────────
 // Keeps the input format and shrinks the file. The optimize task supports
 // png, jpg, gif (and pdf/svg); jpeg is normalised to jpg.
-async function optimizeFile(jobId, file, chargedUserId = null) {
+async function optimizeFile(jobId, file, chargedUserId = null, chargedAmount = 0) {
   try {
     await prisma.job.update({ where: { id: jobId }, data: { status: 'processing' } });
 
@@ -380,10 +413,12 @@ async function optimizeFile(jobId, file, chargedUserId = null) {
     console.error(`optimizeFile error for job ${jobId}:`, err);
     await prisma.job.update({ where: { id: jobId }, data: { status: 'failed' } });
     // Refund the reserved credit on failure (see convertFile).
-    if (chargedUserId) {
+    // chargedAmount is 0 on a business plan, which is never debited and so
+    // must never be credited back.
+    if (chargedUserId && chargedAmount > 0) {
       prisma.user.update({
         where: { id: chargedUserId },
-        data: { credits: { increment: 1 } },
+        data: { credits: { increment: chargedAmount } },
       }).catch(() => {});
     }
   } finally {
@@ -394,7 +429,8 @@ async function optimizeFile(jobId, file, chargedUserId = null) {
 // ── PDF tool conversion (merge, split, compress, rotate, protect, unlock) ──
 
 router.post('/pdf-tool', protect, preflightCredits, upload.array('files', 20), async (req, res) => {
-  let charged = false;
+  let charged = 0;
+  let chargedAmount = 0;
   const reject = (status, payload) => {
     discardUploads(req.files);
     return res.status(status).json(payload);
@@ -412,11 +448,14 @@ router.post('/pdf-tool', protect, preflightCredits, upload.array('files', 20), a
     }
 
     // Reserve a credit atomically before any work starts (see chargeCredits).
-    const limitError = await chargeCredits(req.userId, 1);
-    if (limitError) {
-      return reject(429, { error: limitError.message, code: limitError.code });
+    const charge = await chargeCredits(req.userId, 1);
+    if (charge.error) {
+      return reject(429, { error: charge.error.message, code: charge.error.code });
     }
-    charged = true;
+    // What was actually deducted — 0 on a business plan. This, not a hardcoded
+    // 1, is what any refund must give back.
+    chargedAmount = charge.charged;
+    charged = chargedAmount;
 
     const job = await prisma.job.create({
       data: { userId: req.userId, inputFile: uploadedFiles.map((f) => f.filename).join(','), status: 'pending' },
@@ -429,22 +468,22 @@ router.post('/pdf-tool', protect, preflightCredits, upload.array('files', 20), a
       update: { count: { increment: 1 } },
     }).catch(() => {});
 
-    convertPdfTool(job.id, uploadedFiles, toolDef.toolType, req.body, req.userId).catch((err) => {
+    convertPdfTool(job.id, uploadedFiles, toolDef.toolType, req.body, req.userId, chargedAmount).catch((err) => {
       console.error(`PDF tool failed for job ${job.id}:`, err);
     });
 
     // convertPdfTool owns the refund from here on.
-    charged = false;
+    charged = 0;
     res.status(201).json({ jobId: job.id, status: 'pending' });
   } catch (err) {
     console.error('PDF tool route error:', err);
-    if (charged) refundCredits(req.userId, 1);
+    if (charged > 0) refundCredits(req.userId, charged);
     discardUploads(req.files);
     res.status(500).json({ error: 'Failed to start PDF operation' });
   }
 });
 
-async function convertPdfTool(jobId, files, toolType, body, chargedUserId = null) {
+async function convertPdfTool(jobId, files, toolType, body, chargedUserId = null, chargedAmount = 0) {
   try {
     await prisma.job.update({ where: { id: jobId }, data: { status: 'processing' } });
 
@@ -520,10 +559,12 @@ async function convertPdfTool(jobId, files, toolType, body, chargedUserId = null
     console.error(`convertPdfTool error for job ${jobId}:`, err);
     await prisma.job.update({ where: { id: jobId }, data: { status: 'failed' } });
     // Refund the reserved credit on failure (see convertFile).
-    if (chargedUserId) {
+    // chargedAmount is 0 on a business plan, which is never debited and so
+    // must never be credited back.
+    if (chargedUserId && chargedAmount > 0) {
       prisma.user.update({
         where: { id: chargedUserId },
-        data: { credits: { increment: 1 } },
+        data: { credits: { increment: chargedAmount } },
       }).catch(() => {});
     }
   } finally {

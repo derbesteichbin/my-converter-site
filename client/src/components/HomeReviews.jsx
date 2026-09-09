@@ -222,15 +222,16 @@ export default function HomeReviews() {
         return;
       }
 
-      // Append the newly created review to the top of the list immediately,
-      // so it shows without a page reload, and bump the aggregate rating.
+      // Show the review immediately without a reload. One review per account,
+      // so a repeat submission edits the existing one — drop any copy already
+      // in the list before putting it back on top, or an edit would appear
+      // twice. Count and average come from the server response rather than
+      // being derived here: incrementing would be wrong for an edit, and was
+      // only ever an approximation for a new review.
       if (data && data.review) {
-        const prevTotal = dbTotal || 0;
-        const prevSum = (typeof dbAvg === 'number' ? dbAvg : 0) * prevTotal;
-        const nextTotal = prevTotal + 1;
-        setDbReviews((prev) => [data.review, ...prev]);
-        setDbTotal(nextTotal);
-        setDbAvg((prevSum + data.review.rating) / nextTotal);
+        setDbReviews((prev) => [data.review, ...prev.filter((r) => r.id !== data.review.id)]);
+        if (typeof data.total === 'number') setDbTotal(data.total);
+        if (typeof data.average === 'number') setDbAvg(data.average);
       }
 
       setThanks(true);

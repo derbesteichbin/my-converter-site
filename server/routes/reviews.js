@@ -57,22 +57,32 @@ router.post('/', protect, async (req, res) => {
     }
     const lang = typeof language === 'string' && language.length <= 8 ? language : null;
 
-    const created = await prisma.review.create({
-      data: {
-        userId: req.userId,
-        rating: r,
-        comment: trimmed || null,
-        language: lang,
-      },
-      include: { user: { select: { displayName: true, email: true } } },
+    // One review per account. A second submission edits the existing one
+    // instead of adding another, so a single user cannot flood the list or
+    // move the public average by submitting repeatedly.
+    const existing = await prisma.review.findFirst({
+      where: { userId: req.userId },
+      orderBy: { createdAt: 'asc' },
+      select: { id: true },
     });
 
-    notifyNewReview({
-      email: created.user?.email || 'unknown@user',
-      rating: r,
-      comment: trimmed || '',
-      createdAt: created.createdAt,
-    });
+    const data = { rating: r, comment: trimmed || null, language: lang };
+    const include = { user: { select: { displayName: true, email: true } } };
+
+    const created = existing
+      ? await prisma.review.update({ where: { id: existing.id }, data, include })
+      : await prisma.review.create({ data: { userId: req.userId, ...data }, include });
+
+    // Only a genuinely new review is worth an owner notification; an edit to
+    // an existing one is not.
+    if (!existing) {
+      notifyNewReview({
+        email: created.user?.email || 'unknown@user',
+        rating: r,
+        comment: trimmed || '',
+        createdAt: created.createdAt,
+      });
+    }
 
     // Return the created review in the same shape as GET /api/reviews items,
     // so the client can append it to the list immediately without a reload.
@@ -87,7 +97,21 @@ router.post('/', protect, async (req, res) => {
         (created.user?.email ? created.user.email.split('@')[0] : 'User'),
     };
 
-    res.status(201).json({ ok: true, review });
+    // Return the authoritative aggregate alongside the review. The client
+    // used to increment the count and re-derive the average itself, which is
+    // wrong for an edit — and was only ever an approximation for a new one.
+    const [total, agg] = await Promise.all([
+      prisma.review.count(),
+      prisma.review.aggregate({ _avg: { rating: true } }),
+    ]);
+
+    res.status(existing ? 200 : 201).json({
+      ok: true,
+      created: !existing,
+      review,
+      total,
+      average: agg._avg.rating || 0,
+    });
   } catch (err) {
     console.error('Create review error:', err);
     res.status(500).json({ error: 'Failed to submit review' });
