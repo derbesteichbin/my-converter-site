@@ -114,6 +114,9 @@ model Review {
   // @updatedAt column, whose value equals createdAt on insert and so cannot
   // reliably distinguish "never edited" from "edited immediately".
   editedAt  DateTime?
+  // How many times the author has changed it. The first submission is a
+  // create, not an edit, so this stays 0 until the first change.
+  editCount Int      @default(0)
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([createdAt])

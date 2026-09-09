@@ -118,12 +118,20 @@ export default function HomeReviews() {
   // not reviewed yet. Drives "Edit review" vs "Write a review" and pre-fills
   // the form. Only ever the caller's own row; the endpoint takes no id.
   const [myReview, setMyReview] = useState(null);
+  const [maxEdits, setMaxEdits] = useState(5);
   const [modalOpen, setModalOpen] = useState(false);
   const isEditing = Boolean(myReview);
+  // The server is the authority; this only mirrors it so the UI can block
+  // early instead of letting someone retype a review and then be refused.
+  const editsLeft = myReview ? myReview.editsLeft ?? maxEdits : maxEdits;
+  const editLimitReached = Boolean(myReview) && myReview.canEdit === false;
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
   const [submitting, setSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState('');
+  // Held as { code } wherever we recognise the reason, so the message is
+  // looked up during render and follows a language switch. Storing the
+  // resolved sentence would freeze it in the language it first appeared in.
+  const [submitError, setSubmitError] = useState(null);
   const [thanks, setThanks] = useState(false);
 
   // Load reviews + auth status
@@ -149,7 +157,11 @@ export default function HomeReviews() {
         if (!signedIn) return;
         api('/api/reviews/me')
           .then((r) => (r.ok ? r.json() : null))
-          .then((own) => !cancel && setMyReview(own?.review || null))
+          .then((own) => {
+            if (cancel || !own) return;
+            setMyReview(own.review || null);
+            if (typeof own.maxEdits === 'number') setMaxEdits(own.maxEdits);
+          })
           .catch(() => {});
       })
       .catch(() => !cancel && setLoggedIn(false));
@@ -202,6 +214,29 @@ export default function HomeReviews() {
     };
   }, [modalOpen]);
 
+  // Resolve a submit error during render, so switching language re-renders
+  // it in the new one. `text` is the fallback for a server message we have no
+  // code for; everything we recognise is translated here.
+  function submitErrorText(err) {
+    switch (err?.code) {
+      case 'pick_rating':
+        return t('home.reviewsPickRating');
+      case 'edit_limit_reached':
+        return t('home.reviewsEditLimitReached', {
+          count: maxEdits,
+          defaultValue: "You've reached the maximum number of edits for your review.",
+        });
+      case 'auth':
+        return t('home.reviewsAuthError', {
+          defaultValue: 'Your session has expired. Please sign in again to post your review.',
+        });
+      case 'generic':
+        return t('home.reviewsError');
+      default:
+        return err?.text || t('home.reviewsError');
+    }
+  }
+
   // Pre-filled with the user's current review when they have one, so editing
   // means changing what they wrote rather than retyping it. Empty otherwise.
   function openModal() {
@@ -214,11 +249,11 @@ export default function HomeReviews() {
 
   async function submitReview() {
     if (rating < 1 || rating > 5) {
-      setSubmitError(t('home.reviewsPickRating'));
+      setSubmitError({ code: 'pick_rating' });
       return;
     }
     setSubmitting(true);
-    setSubmitError('');
+    setSubmitError(null);
     try {
       const res = await api('/api/reviews', {
         method: 'POST',
@@ -234,13 +269,17 @@ export default function HomeReviews() {
       // reason a submission failed (e.g. not signed in, validation error).
       const data = await res.json().catch(() => null);
       if (!res.ok) {
-        const msg =
-          res.status === 401
-            ? t('home.reviewsAuthError', {
-                defaultValue: 'Your session has expired. Please sign in again to post your review.',
-              })
-            : (data && data.error) || t('home.reviewsError');
-        setSubmitError(msg);
+        if (data?.code === 'edit_limit_reached' || data?.reasonCode === 'edit_limit_reached') {
+          // The allowance was already spent — reflect that in the button too,
+          // not just this message, so the blocked state survives closing the
+          // modal.
+          setMyReview((prev) => (prev ? { ...prev, canEdit: false, editsLeft: 0 } : prev));
+          setSubmitError({ code: 'edit_limit_reached' });
+        } else if (res.status === 401) {
+          setSubmitError({ code: 'auth' });
+        } else {
+          setSubmitError(data?.error ? { text: data.error } : { code: 'generic' });
+        }
         return;
       }
 
@@ -263,14 +302,17 @@ export default function HomeReviews() {
           createdAt: data.review.createdAt,
           editedAt: data.review.editedAt || null,
           edited: Boolean(data.review.edited),
+          editsLeft: typeof data.editsLeft === 'number' ? data.editsLeft : undefined,
+          canEdit: typeof data.canEdit === 'boolean' ? data.canEdit : true,
         });
+        if (typeof data.maxEdits === 'number') setMaxEdits(data.maxEdits);
       }
 
       setThanks(true);
       setTimeout(() => setModalOpen(false), 1500);
     } catch {
       // Network / CORS / server-unreachable failures land here.
-      setSubmitError(t('home.reviewsError'));
+      setSubmitError({ code: 'generic' });
     } finally {
       setSubmitting(false);
     }
@@ -303,11 +345,20 @@ export default function HomeReviews() {
         )}
         <div className="reviews-summary-cta">
           {loggedIn ? (
-            <button className="btn-primary" type="button" onClick={openModal}>
-              {isEditing
-                ? t('home.reviewsEditCta', { defaultValue: 'Edit review' })
-                : t('home.reviewsWriteCta')}
-            </button>
+            editLimitReached ? (
+              <p className="review-edit-limit" role="status">
+                {t('home.reviewsEditLimitReached', {
+                  count: maxEdits,
+                  defaultValue: "You've reached the maximum number of edits for your review.",
+                })}
+              </p>
+            ) : (
+              <button className="btn-primary" type="button" onClick={openModal}>
+                {isEditing
+                  ? t('home.reviewsEditCta', { defaultValue: 'Edit review' })
+                  : t('home.reviewsWriteCta')}
+              </button>
+            )
           ) : (
             <Link className="btn-primary" to="/login">
               {t('home.reviewsSignInCta')}
@@ -332,9 +383,11 @@ export default function HomeReviews() {
                   <span className="review-mine-badge">
                     {t('home.reviewsYours', { defaultValue: 'Your review' })}
                   </span>
-                  <button type="button" className="review-edit-link" onClick={openModal}>
-                    {t('home.reviewsEditCta', { defaultValue: 'Edit review' })}
-                  </button>
+                  {!editLimitReached && (
+                    <button type="button" className="review-edit-link" onClick={openModal}>
+                      {t('home.reviewsEditCta', { defaultValue: 'Edit review' })}
+                    </button>
+                  )}
                 </div>
               )}
               <Stars value={r.rating} size={16} />
@@ -417,6 +470,16 @@ export default function HomeReviews() {
               {t('home.reviewsModalSubtitle', { brand: 'ConvertAnyFormat' })}
             </p>
 
+            {/* Only while editing, and only in the modal — the count is
+                relevant where the change is being made, not on every visit. */}
+            {isEditing && !thanks && (
+              <p className="rev-modal-edits-left">
+                {editsLeft === 1
+                  ? t('home.reviewsEditsLeftSingular', { count: 1, defaultValue: '1 edit left' })
+                  : t('home.reviewsEditsLeftPlural', { count: editsLeft, defaultValue: `${editsLeft} edits left` })}
+              </p>
+            )}
+
             {thanks ? (
               <p className="rev-modal-thanks">
                 {isEditing
@@ -444,7 +507,9 @@ export default function HomeReviews() {
                   {t('home.reviewsCharsLeft', { n: charsLeft })}
                 </div>
 
-                {submitError && <p className="rev-modal-error">{submitError}</p>}
+                {submitError && (
+                  <p className="rev-modal-error">{submitErrorText(submitError)}</p>
+                )}
 
                 <div className="rev-modal-actions">
                   <button

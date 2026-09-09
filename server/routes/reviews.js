@@ -5,6 +5,11 @@ const { notifyNewReview } = require('../lib/notifyOwner');
 
 const router = express.Router();
 
+// A review may be changed this many times after it is first posted. The
+// create itself is not an edit, so a user gets one review plus five
+// revisions. Enforced server-side; the UI only mirrors it.
+const MAX_REVIEW_EDITS = 5;
+
 // GET /api/reviews — public list with pagination and aggregate
 // Query: ?limit=6&offset=0
 router.get('/', async (req, res) => {
@@ -56,11 +61,20 @@ router.get('/me', protect, async (req, res) => {
     const own = await prisma.review.findFirst({
       where: { userId: req.userId },
       orderBy: { createdAt: 'asc' },
-      select: { id: true, rating: true, comment: true, createdAt: true, editedAt: true },
+      select: { id: true, rating: true, comment: true, createdAt: true, editedAt: true, editCount: true },
     });
     res.json({
+      maxEdits: MAX_REVIEW_EDITS,
       review: own
-        ? { ...own, comment: own.comment || '', edited: Boolean(own.editedAt) }
+        ? {
+            ...own,
+            comment: own.comment || '',
+            edited: Boolean(own.editedAt),
+            // So the UI can disable the edit affordance and say why, without
+            // the user discovering the limit only after retyping.
+            editsLeft: Math.max(0, MAX_REVIEW_EDITS - own.editCount),
+            canEdit: own.editCount < MAX_REVIEW_EDITS,
+          }
         : null,
     });
   } catch (err) {
@@ -89,21 +103,40 @@ router.post('/', protect, async (req, res) => {
     const existing = await prisma.review.findFirst({
       where: { userId: req.userId },
       orderBy: { createdAt: 'asc' },
-      select: { id: true },
+      select: { id: true, editCount: true },
     });
 
     const data = { rating: r, comment: trimmed || null, language: lang };
     const include = { user: { select: { displayName: true, email: true } } };
 
-    // editedAt stays null on first submission and is stamped on every later
-    // one, which is what drives the "(edited)" label in the UI.
-    const created = existing
-      ? await prisma.review.update({
-          where: { id: existing.id },
-          data: { ...data, editedAt: new Date() },
-          include,
-        })
-      : await prisma.review.create({ data: { userId: req.userId, ...data }, include });
+    let created;
+    if (existing) {
+      // Claim one edit atomically. The `editCount: { lt: MAX }` guard and the
+      // increment happen in a single statement, so two concurrent saves
+      // cannot both pass a read-then-write check and push the count past the
+      // limit. count === 0 means the allowance was already used up.
+      const { count } = await prisma.review.updateMany({
+        where: { id: existing.id, editCount: { lt: MAX_REVIEW_EDITS } },
+        data: { ...data, editedAt: new Date(), editCount: { increment: 1 } },
+      });
+
+      if (count === 0) {
+        return res.status(403).json({
+          error: `You have reached the maximum of ${MAX_REVIEW_EDITS} edits for your review.`,
+          code: 'edit_limit_reached',
+          reasonCode: 'edit_limit_reached',
+          maxEdits: MAX_REVIEW_EDITS,
+          editsLeft: 0,
+        });
+      }
+
+      // updateMany cannot `include`, so re-read for the response payload.
+      created = await prisma.review.findUnique({ where: { id: existing.id }, include });
+    } else {
+      // A first submission is a create, not an edit: editedAt stays null and
+      // editCount stays 0, so the full allowance is still available.
+      created = await prisma.review.create({ data: { userId: req.userId, ...data }, include });
+    }
 
     // Notify on both paths, worded so an edit cannot be mistaken for a new
     // review. The date reported is the one that actually just happened.
@@ -144,6 +177,9 @@ router.post('/', protect, async (req, res) => {
       review,
       total,
       average: agg._avg.rating || 0,
+      maxEdits: MAX_REVIEW_EDITS,
+      editsLeft: Math.max(0, MAX_REVIEW_EDITS - (created.editCount || 0)),
+      canEdit: (created.editCount || 0) < MAX_REVIEW_EDITS,
     });
   } catch (err) {
     console.error('Create review error:', err);
