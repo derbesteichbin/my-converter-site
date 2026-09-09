@@ -89,6 +89,7 @@ const en = {
     reviewsBasedOn: 'Based on {{count}} reviews',
     reviewsBasedOnOne: 'Based on 1 review',
     reviewsLoadMore: 'Load more',
+    reviewsEdited: "(edited)",
     reviewsWriteCta: 'Write a review',
     reviewsSignInCta: 'Sign in to leave a review',
     reviewsModalTitle: 'Share your experience',

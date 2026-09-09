@@ -118,21 +118,29 @@ async function notifyBusinessInquiry({ name, company, email, message }) {
   });
 }
 
-async function notifyNewReview({ email, rating, comment, createdAt }) {
+// One review per account, so a second submission edits the existing one.
+// `edited` switches the wording so an edit is never mistaken for a new
+// review; everything else — user, rating, text, date — is reported the same
+// way in both cases.
+async function notifyNewReview({ email, rating, comment, createdAt, edited = false }) {
   const stars = '★'.repeat(rating) + '☆'.repeat(Math.max(0, 5 - rating));
   const html = wrapper({
-    title: 'New review submitted',
-    intro: 'A user just left a review on ConvertAnyFormat.',
+    title: edited ? 'Review edited' : 'New review submitted',
+    intro: edited
+      ? 'A user just changed the review they had already left on ConvertAnyFormat.'
+      : 'A user just left a review on ConvertAnyFormat.',
     body: `${table([
       row('User', escapeHtml(email)),
-      row('Rating', `<span style="color:#f5b301;font-size:16px;letter-spacing:2px">${stars}</span> <span style="color:#6b7280">(${rating}/5)</span>`),
-      row('Date', escapeHtml(formatTimestamp(createdAt))),
-    ])}${comment ? `<p style="margin:18px 0 6px;color:#6b7280;font-size:13px;font-weight:600">Review</p>
+      row(edited ? 'New rating' : 'Rating', `<span style="color:#f5b301;font-size:16px;letter-spacing:2px">${stars}</span> <span style="color:#6b7280">(${rating}/5)</span>`),
+      row(edited ? 'Edited' : 'Date', escapeHtml(formatTimestamp(createdAt))),
+    ])}${comment ? `<p style="margin:18px 0 6px;color:#6b7280;font-size:13px;font-weight:600">${edited ? 'Updated review' : 'Review'}</p>
     <div style="background:#f9f6f1;border:1px solid #e7e5e0;border-radius:8px;padding:12px 14px;white-space:pre-wrap;font-size:14px;line-height:1.55;color:#111827">${escapeHtml(comment)}</div>` : '<p style="margin:14px 0 0;color:#9ca3af;font-size:13px;font-style:italic">No comment provided.</p>'}`,
     footer: 'Automated notification from ConvertAnyFormat.',
   });
   return send({
-    subject: `New ${rating}★ review from ${email}`,
+    subject: edited
+      ? `Review edited — now ${rating}★ from ${email}`
+      : `New ${rating}★ review from ${email}`,
     html,
   });
 }

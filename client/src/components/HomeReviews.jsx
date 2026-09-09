@@ -291,7 +291,22 @@ export default function HomeReviews() {
               {r.comment && <p className="review-comment">{r.comment}</p>}
               <footer className="review-meta">
                 <span className="review-author">{r.author}</span>
-                <span className="review-date">{formatDate(r.createdAt, i18n.language)}</span>
+                {/* Date and the edited marker share one flex child so the
+                    footer keeps its author-left / date-right layout. */}
+                <span className="review-date">
+                  {formatDate(r.createdAt, i18n.language)}
+                  {r.edited && (
+                    <>
+                      {' '}
+                      <span
+                        className="review-edited"
+                        title={r.editedAt ? formatDate(r.editedAt, i18n.language) : undefined}
+                      >
+                        {t('home.reviewsEdited', { defaultValue: '(edited)' })}
+                      </span>
+                    </>
+                  )}
+                </span>
               </footer>
             </article>
           ))}

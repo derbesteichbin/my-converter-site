@@ -110,6 +110,10 @@ model Review {
   comment   String?
   language  String?
   createdAt DateTime @default(now())
+  // Null until the author changes their review. Explicit rather than an
+  // @updatedAt column, whose value equals createdAt on insert and so cannot
+  // reliably distinguish "never edited" from "edited immediately".
+  editedAt  DateTime?
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([createdAt])

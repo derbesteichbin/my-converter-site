@@ -5313,3 +5313,15 @@ select:focus-visible {
     width: 100%;
   }
 }
+
+/* "(edited)" marker on a review that its author changed after posting.
+   Sits inside .review-date so the footer keeps its two-column layout.
+   Deliberately no opacity change: .review-meta is already --text-muted, and
+   fading it further would drop small text below the 4.5:1 contrast floor.
+   Italic and a slightly smaller size carry the subordination instead, and
+   both themes inherit the surrounding colour. */
+.review-edited {
+  font-style: italic;
+  font-size: 0.9em;
+  white-space: nowrap;
+}

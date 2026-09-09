@@ -29,6 +29,9 @@ router.get('/', async (req, res) => {
       comment: r.comment,
       language: r.language,
       createdAt: r.createdAt,
+      // Drives the subtle "(edited)" label; null for reviews never changed.
+      edited: Boolean(r.editedAt),
+      editedAt: r.editedAt,
       author: r.user?.displayName || (r.user?.email ? r.user.email.split('@')[0] : 'User'),
     }));
 
@@ -69,20 +72,25 @@ router.post('/', protect, async (req, res) => {
     const data = { rating: r, comment: trimmed || null, language: lang };
     const include = { user: { select: { displayName: true, email: true } } };
 
+    // editedAt stays null on first submission and is stamped on every later
+    // one, which is what drives the "(edited)" label in the UI.
     const created = existing
-      ? await prisma.review.update({ where: { id: existing.id }, data, include })
+      ? await prisma.review.update({
+          where: { id: existing.id },
+          data: { ...data, editedAt: new Date() },
+          include,
+        })
       : await prisma.review.create({ data: { userId: req.userId, ...data }, include });
 
-    // Only a genuinely new review is worth an owner notification; an edit to
-    // an existing one is not.
-    if (!existing) {
-      notifyNewReview({
-        email: created.user?.email || 'unknown@user',
-        rating: r,
-        comment: trimmed || '',
-        createdAt: created.createdAt,
-      });
-    }
+    // Notify on both paths, worded so an edit cannot be mistaken for a new
+    // review. The date reported is the one that actually just happened.
+    notifyNewReview({
+      email: created.user?.email || 'unknown@user',
+      rating: r,
+      comment: trimmed || '',
+      createdAt: created.editedAt || created.createdAt,
+      edited: Boolean(existing),
+    });
 
     // Return the created review in the same shape as GET /api/reviews items,
     // so the client can append it to the list immediately without a reload.
@@ -92,6 +100,8 @@ router.post('/', protect, async (req, res) => {
       comment: created.comment,
       language: created.language,
       createdAt: created.createdAt,
+      edited: Boolean(created.editedAt),
+      editedAt: created.editedAt,
       author:
         created.user?.displayName ||
         (created.user?.email ? created.user.email.split('@')[0] : 'User'),
