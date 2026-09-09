@@ -46,6 +46,29 @@ router.get('/', async (req, res) => {
   }
 });
 
+// GET /api/reviews/me — the caller's own review, or null.
+//
+// Exists so the edit form can be pre-filled. Scoped to req.userId, which
+// comes from the verified JWT, so it can only ever return the caller's own
+// row — there is no id or user parameter to point at anyone else.
+router.get('/me', protect, async (req, res) => {
+  try {
+    const own = await prisma.review.findFirst({
+      where: { userId: req.userId },
+      orderBy: { createdAt: 'asc' },
+      select: { id: true, rating: true, comment: true, createdAt: true, editedAt: true },
+    });
+    res.json({
+      review: own
+        ? { ...own, comment: own.comment || '', edited: Boolean(own.editedAt) }
+        : null,
+    });
+  } catch (err) {
+    console.error('Own review lookup error:', err);
+    res.status(500).json({ error: 'Failed to load your review' });
+  }
+});
+
 // POST /api/reviews — protected, create or update own review
 router.post('/', protect, async (req, res) => {
   try {

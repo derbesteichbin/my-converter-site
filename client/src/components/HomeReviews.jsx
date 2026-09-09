@@ -114,7 +114,12 @@ export default function HomeReviews() {
   const [dbTotal, setDbTotal] = useState(0);
   const [visible, setVisible] = useState(6);
   const [loggedIn, setLoggedIn] = useState(false);
+  // The caller's own review, from GET /api/reviews/me — null when they have
+  // not reviewed yet. Drives "Edit review" vs "Write a review" and pre-fills
+  // the form. Only ever the caller's own row; the endpoint takes no id.
+  const [myReview, setMyReview] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const isEditing = Boolean(myReview);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -135,7 +140,18 @@ export default function HomeReviews() {
       .catch(() => {});
     api('/api/auth/me')
       .then((r) => r.json())
-      .then((data) => !cancel && setLoggedIn(!!data?.user))
+      .then((data) => {
+        if (cancel) return;
+        const signedIn = !!data?.user;
+        setLoggedIn(signedIn);
+        // Only ask for an own review once we know there is a session; the
+        // endpoint 401s otherwise and there is nothing to pre-fill anyway.
+        if (!signedIn) return;
+        api('/api/reviews/me')
+          .then((r) => (r.ok ? r.json() : null))
+          .then((own) => !cancel && setMyReview(own?.review || null))
+          .catch(() => {});
+      })
       .catch(() => !cancel && setLoggedIn(false));
     return () => {
       cancel = true;
@@ -154,6 +170,10 @@ export default function HomeReviews() {
         rating: r.rating,
         comment: r.comment || '',
         createdAt: r.createdAt,
+        // Carried through, or the "(edited)" marker on the card would never
+        // render — this mapping is what the grid actually reads from.
+        edited: Boolean(r.edited),
+        editedAt: r.editedAt || null,
       })),
     [dbReviews]
   );
@@ -182,9 +202,11 @@ export default function HomeReviews() {
     };
   }, [modalOpen]);
 
+  // Pre-filled with the user's current review when they have one, so editing
+  // means changing what they wrote rather than retyping it. Empty otherwise.
   function openModal() {
-    setRating(0);
-    setComment('');
+    setRating(myReview?.rating || 0);
+    setComment(myReview?.comment || '');
     setSubmitError('');
     setThanks(false);
     setModalOpen(true);
@@ -232,6 +254,16 @@ export default function HomeReviews() {
         setDbReviews((prev) => [data.review, ...prev.filter((r) => r.id !== data.review.id)]);
         if (typeof data.total === 'number') setDbTotal(data.total);
         if (typeof data.average === 'number') setDbAvg(data.average);
+        // Remember it as the user's own, so the CTA stays on "Edit review"
+        // and the next open pre-fills what they just saved.
+        setMyReview({
+          id: data.review.id,
+          rating: data.review.rating,
+          comment: data.review.comment || '',
+          createdAt: data.review.createdAt,
+          editedAt: data.review.editedAt || null,
+          edited: Boolean(data.review.edited),
+        });
       }
 
       setThanks(true);
@@ -272,7 +304,9 @@ export default function HomeReviews() {
         <div className="reviews-summary-cta">
           {loggedIn ? (
             <button className="btn-primary" type="button" onClick={openModal}>
-              {t('home.reviewsWriteCta')}
+              {isEditing
+                ? t('home.reviewsEditCta', { defaultValue: 'Edit review' })
+                : t('home.reviewsWriteCta')}
             </button>
           ) : (
             <Link className="btn-primary" to="/login">
@@ -286,7 +320,23 @@ export default function HomeReviews() {
       {shown.length > 0 && (
         <div className="reviews-grid">
           {shown.map((r) => (
-            <article className="review-card" key={r.id}>
+            <article
+              className={`review-card${myReview && r.id === myReview.id ? ' review-card-mine' : ''}`}
+              key={r.id}
+            >
+              {/* The user's own review is marked and carries the edit entry
+                  point, so it is obvious they already have one and can change
+                  it without hunting for the button above. */}
+              {myReview && r.id === myReview.id && (
+                <div className="review-mine-row">
+                  <span className="review-mine-badge">
+                    {t('home.reviewsYours', { defaultValue: 'Your review' })}
+                  </span>
+                  <button type="button" className="review-edit-link" onClick={openModal}>
+                    {t('home.reviewsEditCta', { defaultValue: 'Edit review' })}
+                  </button>
+                </div>
+              )}
               <Stars value={r.rating} size={16} />
               {r.comment && <p className="review-comment">{r.comment}</p>}
               <footer className="review-meta">
@@ -358,13 +408,21 @@ export default function HomeReviews() {
           aria-modal="true"
         >
           <div className="rev-modal" onClick={(e) => e.stopPropagation()}>
-            <h3 className="rev-modal-title">{t('home.reviewsModalTitle')}</h3>
+            <h3 className="rev-modal-title">
+              {isEditing
+                ? t('home.reviewsEditModalTitle', { defaultValue: 'Edit your review' })
+                : t('home.reviewsModalTitle')}
+            </h3>
             <p className="rev-modal-subtitle">
               {t('home.reviewsModalSubtitle', { brand: 'ConvertAnyFormat' })}
             </p>
 
             {thanks ? (
-              <p className="rev-modal-thanks">{t('home.reviewsThanks')}</p>
+              <p className="rev-modal-thanks">
+                {isEditing
+                  ? t('home.reviewsEditThanks', { defaultValue: 'Your review has been updated.' })
+                  : t('home.reviewsThanks')}
+              </p>
             ) : (
               <>
                 <label className="rev-modal-label">{t('home.reviewsRatingLabel')}</label>
@@ -395,7 +453,11 @@ export default function HomeReviews() {
                     onClick={submitReview}
                     disabled={submitting || rating < 1}
                   >
-                    {submitting ? t('home.reviewsSubmitting') : t('home.reviewsSubmit')}
+                    {submitting
+                      ? t('home.reviewsSubmitting')
+                      : isEditing
+                      ? t('home.reviewsEditSubmit', { defaultValue: 'Save changes' })
+                      : t('home.reviewsSubmit')}
                   </button>
                   <button
                     className="rev-modal-cancel"
