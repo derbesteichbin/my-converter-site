@@ -397,13 +397,18 @@ export default function HomeReviews() {
                 {/* Date and the edited marker share one flex child so the
                     footer keeps its author-left / date-right layout. */}
                 <span className="review-date">
-                  {formatDate(r.createdAt, i18n.language)}
+                  {/* An edited review shows its latest edit date; the
+                      original posting date moves to the marker's tooltip. */}
+                  {formatDate(r.edited && r.editedAt ? r.editedAt : r.createdAt, i18n.language)}
                   {r.edited && (
                     <>
                       {' '}
                       <span
                         className="review-edited"
-                        title={r.editedAt ? formatDate(r.editedAt, i18n.language) : undefined}
+                        title={t('home.reviewsOriginallyPosted', {
+                          date: formatDate(r.createdAt, i18n.language),
+                          defaultValue: 'Originally posted {{date}}',
+                        })}
                       >
                         {t('home.reviewsEdited', { defaultValue: '(edited)' })}
                       </span>

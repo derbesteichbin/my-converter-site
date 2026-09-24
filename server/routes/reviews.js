@@ -17,16 +17,25 @@ router.get('/', async (req, res) => {
     const limit = Math.min(parseInt(req.query.limit, 10) || 6, 50);
     const offset = Math.max(parseInt(req.query.offset, 10) || 0, 0);
 
-    const [reviews, total, agg] = await Promise.all([
-      prisma.review.findMany({
-        orderBy: { createdAt: 'desc' },
-        skip: offset,
-        take: limit,
-        include: { user: { select: { displayName: true, email: true } } },
-      }),
+    // Newest activity first: a review sorts by the date it displays — its
+    // latest edit if it has one, otherwise when it was posted. Prisma cannot
+    // order by COALESCE, so page the ids in SQL and load the rows after. The
+    // id tie-breaker keeps pagination stable when two dates are equal.
+    const [page, total, agg] = await Promise.all([
+      prisma.$queryRaw`
+        SELECT "id" FROM "Review"
+        ORDER BY COALESCE("editedAt", "createdAt") DESC, "id" DESC
+        LIMIT ${limit} OFFSET ${offset}`,
       prisma.review.count(),
       prisma.review.aggregate({ _avg: { rating: true } }),
     ]);
+    const ids = page.map((row) => row.id);
+    const rows = await prisma.review.findMany({
+      where: { id: { in: ids } },
+      include: { user: { select: { displayName: true, email: true } } },
+    });
+    const byId = new Map(rows.map((r) => [r.id, r]));
+    const reviews = ids.map((id) => byId.get(id)).filter(Boolean);
 
     const items = reviews.map((r) => ({
       id: r.id,
