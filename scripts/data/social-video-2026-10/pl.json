@@ -1,0 +1,33 @@
+{
+  "replace": {
+    "toolDescriptions": {
+      "resize-for-social-media": "Zmień kadr zdjęć i filmów pod TikTok, Reels, Stories i Shorts, kwadratowe posty, pionowe posty w serwisie Instagram lub filmy w serwisie YouTube — przytnij, aby wypełnić kadr, albo dopasuj cały obraz na tle. Filmy do 3 minut są zapisywane jako MP4."
+    }
+  },
+  "tool": {
+    "socialOptVideo": {
+      "coverVideo": "Przytnij, aby wypełnić kadr (wyśrodkowany)",
+      "containVideo": "Dopasuj cały film (dodaje czarne pasy)"
+    },
+    "socialVideoNote": "Filmy są zapisywane jako MP4: przycinanie odbywa się od środka, a dopasowanie dodaje czarne pasy. Każdy film zużywa 2 kredyty, każde zdjęcie 1 kredyt.",
+    "videoCreditBadge": "Wideo · kredyty: {{count}}",
+    "socialVideoTooLong": "„{{name}}” trwa dłużej niż 3 minuty. Skróć film do 3 minut lub mniej — nie zużyto żadnych kredytów.",
+    "socialVideoTooLarge": "Filmy mogą mieć maksymalnie 500 MB. Użyj krótszego lub mniejszego pliku — nie zużyto żadnych kredytów.",
+    "socialVideoUnreadable": "Nie udało się odczytać długości tego filmu. Spróbuj ponownie wyeksportować go jako MP4 — nie zużyto żadnych kredytów.",
+    "socialResizeBadType": "Użyj obrazu JPG, PNG, WebP, AVIF, GIF lub TIFF albo filmu MP4, MOV, M4V, 3GP lub WebM.",
+    "socialImageTooLarge": "Obrazy mogą mieć maksymalnie 200 MB.",
+    "confirmSingleFileCredits": "Spowoduje to konwersję 1 pliku i użycie {{credits}} kredyty. Zostaje Ci {{remaining}} kredytów."
+  },
+  "pack": {
+    "replace": {
+      "t": {
+        "intro.lead.social-resize": "Zmiana rozmiaru do mediów społecznościowych kadruje zdjęcie lub film dokładnie do kształtu, jakiego oczekuje platforma: 9:16 dla TikTok, Reels, Stories i Shorts, 1:1 dla kwadratowych postów w feedzie, 4:5 dla pionowych postów w serwisie Instagram i 16:9 dla serwisu YouTube. Zdjęcia można przyciąć wokół ich najciekawszej części albo pokazać w całości na rozmytym lub jednolitym tle; filmy są przycinane od środka albo dopasowywane z czarnymi pasami i zapisywane jako MP4.",
+        "steps.social-resize.1": "Upuść zdjęcie lub film na obszar przesyłania u góry tej strony albo kliknij go, aby wybrać plik z urządzenia.",
+        "steps.social-resize.2": "Wybierz format platformy, a następnie zdecyduj, czy przyciąć obraz, aby wypełnić kadr, czy dopasować go w całości.",
+        "shapeFaq.social-resize.q2": "Czy mogę zmieniać rozmiar także filmów i ile to kosztuje?",
+        "shapeFaq.social-resize.a2": "Tak. Klipy MP4, MOV, M4V, 3GP i WebM o długości do 3 minut i rozmiarze do 500 MB są konwertowane do MP4 H.264 w rozdzielczości 1080 × 1920, 1080 × 1080, 1080 × 1350 lub 1920 × 1080 pikseli. Przycinanie jest wyśrodkowane na środku kadru, a dopasowanie dodaje czarne pasy. Film zużywa 2 kredyty zamiast 1, ponieważ przetwarzanie wideo wymaga znacznie więcej czasu obliczeniowego niż zdjęcie; jeśli konwersja się nie powiedzie, kredyty zostaną zwrócone.",
+        "steps.social-resize.3": "Kliknij Konwertuj i pobierz zdjęcie lub film w nowym kadrze. Odnośnik do pobrania działa przez 24 godziny."
+      }
+    }
+  }
+}

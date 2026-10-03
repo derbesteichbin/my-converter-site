@@ -1,0 +1,33 @@
+{
+  "replace": {
+    "toolDescriptions": {
+      "resize-for-social-media": "Upravte výřez fotek a videí pro TikTok, Reels, Stories, Shorts, čtvercové příspěvky, Instagram na výšku nebo YouTube — ořízněte je tak, aby vyplnily rámeček, nebo zobrazte celý obraz na pozadí. Videa do 3 minut se ukládají jako MP4."
+    }
+  },
+  "tool": {
+    "socialOptVideo": {
+      "coverVideo": "Oříznout a vyplnit rámeček (na střed)",
+      "containVideo": "Zobrazit celé video (přidá černé pruhy)"
+    },
+    "socialVideoNote": "Videa se ukládají jako MP4: ořez se zarovná na střed a při zobrazení celého videa se přidají černé pruhy. Každé video využije 2 kredity, každá fotka 1 kredit.",
+    "videoCreditBadge": "Video · {{count}} kredity",
+    "socialVideoTooLong": "„{{name}}“ je delší než 3 minuty. Zkraťte video prosím na 3 minuty nebo méně — žádné kredity nebyly využity.",
+    "socialVideoTooLarge": "Videa mohou mít nejvýše 500 MB. Použijte prosím kratší nebo menší soubor — žádné kredity nebyly využity.",
+    "socialVideoUnreadable": "Nepodařilo se nám zjistit délku tohoto videa. Zkuste ho znovu exportovat jako MP4 — žádné kredity nebyly využity.",
+    "socialResizeBadType": "Použijte obrázek JPG, PNG, WebP, AVIF, GIF nebo TIFF, nebo video MP4, MOV, M4V, 3GP či WebM.",
+    "socialImageTooLarge": "Obrázky mohou mít nejvýše 200 MB.",
+    "confirmSingleFileCredits": "Tímto se převede 1 soubor a využije {{credits}} kredity. Zbývá vám {{remaining}} kreditů."
+  },
+  "pack": {
+    "replace": {
+      "t": {
+        "intro.lead.social-resize": "Změna velikosti pro sociální sítě upraví fotku nebo video přesně na tvar, který platforma očekává: 9:16 pro TikTok, Reels, Stories a Shorts, 1:1 pro čtvercové příspěvky do feedu, 4:5 pro příspěvky na výšku na Instagram a 16:9 pro YouTube. Fotky lze oříznout kolem jejich nejzajímavější části, nebo zobrazit celé na rozmazaném či jednobarevném pozadí; videa se oříznou od středu, nebo se doplní černými pruhy, a uloží se jako MP4.",
+        "steps.social-resize.1": "Přetáhněte svou fotku nebo video do oblasti pro nahrávání v horní části této stránky, nebo na ni klikněte a vyberte soubor ze zařízení.",
+        "steps.social-resize.2": "Zvolte formát platformy a pak rozhodněte, zda obraz oříznout a vyplnit rámeček, nebo zobrazit celý obraz.",
+        "shapeFaq.social-resize.q2": "Mohu upravit i velikost videí a kolik to stojí?",
+        "shapeFaq.social-resize.a2": "Ano. Klipy MP4, MOV, M4V, 3GP a WebM o délce do 3 minut a velikosti do 500 MB se převedou na H.264 MP4 v rozlišení 1080 × 1920, 1080 × 1080, 1080 × 1350 nebo 1920 × 1080 pixelů. Ořez se vycentruje na střed záběru a při zobrazení celého videa se přidají černé pruhy. Video využije 2 kredity místo 1, protože zpracování videa zabere mnohem více výpočetního času než fotka; pokud se převod nezdaří, kredity se vrátí.",
+        "steps.social-resize.3": "Klikněte na Převést a stáhněte si upravenou fotku nebo video. Odkaz ke stažení zůstává aktivní 24 hodin."
+      }
+    }
+  }
+}

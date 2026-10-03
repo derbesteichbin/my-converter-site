@@ -1,0 +1,33 @@
+{
+  "replace": {
+    "toolDescriptions": {
+      "resize-for-social-media": "Kadreer foto's en video's opnieuw voor TikTok, Reels, Stories, Shorts, vierkante posts, staande Instagram-posts of YouTube — snijd bij tot het kader gevuld is, of toon het hele beeld op een achtergrond. Video's tot 3 minuten worden als MP4 opgeslagen."
+    }
+  },
+  "tool": {
+    "socialOptVideo": {
+      "coverVideo": "Bijsnijden tot het kader gevuld is (gecentreerd)",
+      "containVideo": "Hele video tonen (voegt zwarte balken toe)"
+    },
+    "socialVideoNote": "Video's worden als MP4 opgeslagen: bijsnijden gebeurt vanuit het midden en de hele video tonen voegt zwarte balken toe. Elke video kost 2 credits, elke foto 1 credit.",
+    "videoCreditBadge": "Video · {{count}} credits",
+    "socialVideoTooLong": "‘{{name}}’ is langer dan 3 minuten. Kort de video in tot 3 minuten of minder — er zijn geen credits gebruikt.",
+    "socialVideoTooLarge": "Video's mogen maximaal 500 MB groot zijn. Gebruik een korter of kleiner bestand — er zijn geen credits gebruikt.",
+    "socialVideoUnreadable": "We konden de lengte van deze video niet lezen. Probeer hem opnieuw als MP4 te exporteren — er zijn geen credits gebruikt.",
+    "socialResizeBadType": "Gebruik een JPG-, PNG-, WebP-, AVIF-, GIF- of TIFF-afbeelding, of een MP4-, MOV-, M4V-, 3GP- of WebM-video.",
+    "socialImageTooLarge": "Afbeeldingen mogen maximaal 200 MB groot zijn.",
+    "confirmSingleFileCredits": "Hiermee wordt 1 bestand geconverteerd en worden {{credits}} credits gebruikt. Je hebt nog {{remaining}} credits over."
+  },
+  "pack": {
+    "replace": {
+      "t": {
+        "intro.lead.social-resize": "Formaat aanpassen voor social media kadreert een foto of video opnieuw in de exacte vorm die een platform verwacht: 9:16 voor TikTok, Reels, Stories en Shorts, 1:1 voor vierkante feedposts, 4:5 voor staande Instagram-posts en 16:9 voor YouTube. Foto's kunnen rond hun interessantste deel worden bijgesneden of in hun geheel op een vervaagde of effen achtergrond worden getoond; video's worden vanuit het midden bijgesneden of met zwarte balken in hun geheel getoond en als MP4 opgeslagen.",
+        "steps.social-resize.1": "Sleep uw foto of video naar het uploadvak boven aan deze pagina, of klik erop om een bestand op uw apparaat te kiezen.",
+        "steps.social-resize.2": "Kies het platformformaat en bepaal of u wilt bijsnijden tot het kader gevuld is of het hele beeld wilt tonen.",
+        "shapeFaq.social-resize.q2": "Kan ik ook video's aanpassen, en wat kost dat?",
+        "shapeFaq.social-resize.a2": "Ja. MP4-, MOV-, M4V-, 3GP- en WebM-clips tot 3 minuten en 500 MB worden omgezet naar H.264-MP4 van 1080 × 1920, 1080 × 1080, 1080 × 1350 of 1920 × 1080 pixels. Bijsnijden gebeurt vanuit het midden van het beeld en de hele video tonen voegt zwarte balken toe. Een video kost 2 credits in plaats van 1, omdat het verwerken van video veel meer rekentijd vraagt dan een foto; mislukt de conversie, dan krijgt u de credits terug.",
+        "steps.social-resize.3": "Klik op Converteren en download de opnieuw gekadreerde foto of video. De downloadlink blijft 24 uur actief."
+      }
+    }
+  }
+}

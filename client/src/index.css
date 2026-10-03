@@ -1805,6 +1805,19 @@ h2 { font-size: 1.5rem; }
   color: var(--text-muted);
 }
 
+/* Resize for Social Media: what a video costs, shown per file */
+.multi-file-cost {
+  flex-shrink: 0;
+  padding: 0.125rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent);
+  background: rgba(124, 58, 237, 0.1);
+  border: 1px solid rgba(124, 58, 237, 0.25);
+  white-space: nowrap;
+}
+
 /* Profile Picture Maker: the square file and a round preview side by side,
    on a checkerboard so a transparent circle's corners are visible. */
 .avatar-preview {

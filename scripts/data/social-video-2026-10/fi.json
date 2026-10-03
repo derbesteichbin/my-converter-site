@@ -1,0 +1,33 @@
+{
+  "replace": {
+    "toolDescriptions": {
+      "resize-for-social-media": "Rajaa valokuvat ja videot uudelleen TikTok-, Reels-, Stories- ja Shorts-muotoon, neliöjulkaisuihin, pystysuuntaiseen Instagram-julkaisuun tai YouTube-muotoon — rajaa täyttämään kehys tai sovita koko kuva taustalle. Enintään 3 minuutin videot tallennetaan MP4-muodossa."
+    }
+  },
+  "tool": {
+    "socialOptVideo": {
+      "coverVideo": "Rajaa täyttämään kehys (keskitetty)",
+      "containVideo": "Sovita koko video (lisää mustat palkit)"
+    },
+    "socialVideoNote": "Videot tallennetaan MP4-muodossa: rajaus keskitetään, ja sovitus lisää mustat palkit. Jokainen video käyttää 2 krediittiä, jokainen valokuva 1 krediitin.",
+    "videoCreditBadge": "Video · {{count}} krediittiä",
+    "socialVideoTooLong": "”{{name}}” on yli 3 minuuttia pitkä. Lyhennä se enintään 3 minuutin mittaiseksi — krediittejä ei käytetty.",
+    "socialVideoTooLarge": "Videon enimmäiskoko on 500 MB. Käytä lyhyempää tai pienempää tiedostoa — krediittejä ei käytetty.",
+    "socialVideoUnreadable": "Emme pystyneet lukemaan tämän videon pituutta. Kokeile viedä se uudelleen MP4-muodossa — krediittejä ei käytetty.",
+    "socialResizeBadType": "Käytä JPG-, PNG-, WebP-, AVIF-, GIF- tai TIFF-kuvaa tai MP4-, MOV-, M4V-, 3GP- tai WebM-videota.",
+    "socialImageTooLarge": "Kuvan enimmäiskoko on 200 MB.",
+    "confirmSingleFileCredits": "Tämä muuntaa 1 tiedoston ja käyttää {{credits}} krediittiä. Sinulla on {{remaining}} krediittiä jäljellä."
+  },
+  "pack": {
+    "replace": {
+      "t": {
+        "intro.lead.social-resize": "Koon muutos sosiaaliseen mediaan rajaa kuvan tai videon juuri siihen muotoon, jota alusta odottaa: 9:16 TikTok-, Reels-, Stories- ja Shorts-julkaisuihin, 1:1 neliönmuotoisiin syötejulkaisuihin, 4:5 pystysuuntaisiin Instagram-julkaisuihin ja 16:9 YouTube-videoihin. Valokuvat voidaan rajata niiden kiinnostavimman kohdan ympäriltä tai näyttää kokonaan sumennetulla tai yksivärisellä taustalla; videot rajataan keskeltä tai sovitetaan mustien palkkien kanssa ja tallennetaan MP4-muodossa.",
+        "steps.social-resize.1": "Pudota valokuvasi tai videosi tämän sivun yläreunan latausalueelle tai napsauta sitä valitaksesi tiedoston laitteeltasi.",
+        "steps.social-resize.2": "Valitse alustan muoto ja päätä sitten, rajataanko kuva täyttämään kehys vai sovitetaanko koko kuva.",
+        "shapeFaq.social-resize.q2": "Voinko muuttaa myös videoiden kokoa, ja mitä se maksaa?",
+        "shapeFaq.social-resize.a2": "Kyllä. Enintään 3 minuutin ja 500 MB:n MP4-, MOV-, M4V-, 3GP- ja WebM-leikkeet muunnetaan H.264 MP4 -muotoon kokoon 1080 × 1920, 1080 × 1080, 1080 × 1350 tai 1920 × 1080 pikseliä. Rajaus keskitetään kuvan keskelle, ja sovitus lisää mustat palkit. Video käyttää 2 krediittiä 1 krediitin sijaan, koska videon käsittely vie paljon enemmän laskenta-aikaa kuin valokuvan; jos muunnos epäonnistuu, krediitit palautetaan.",
+        "steps.social-resize.3": "Napsauta Muunna ja lataa uudelleen rajattu kuva tai video. Latauslinkki on voimassa 24 tuntia."
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "replace": {
+    "toolDescriptions": {
+      "resize-for-social-media": "Reencuadra fotos y vídeos para TikTok, Reels, Stories, Shorts, publicaciones cuadradas, formato vertical de Instagram o YouTube: recórtalos para llenar el marco o encaja la imagen completa sobre un fondo. Los vídeos de hasta 3 minutos se guardan como MP4."
+    }
+  },
+  "tool": {
+    "socialOptVideo": {
+      "coverVideo": "Recortar para llenar el marco (centrado)",
+      "containVideo": "Encajar el vídeo completo (añade franjas negras)"
+    },
+    "socialVideoNote": "Los vídeos se guardan como MP4: el recorte se centra y el encaje añade franjas negras. Cada vídeo usa 2 créditos y cada foto, 1 crédito.",
+    "videoCreditBadge": "Vídeo · {{count}} créditos",
+    "socialVideoTooLong": "«{{name}}» dura más de 3 minutos. Acórtalo a 3 minutos o menos — no se ha usado ningún crédito.",
+    "socialVideoTooLarge": "Los vídeos pueden ocupar como máximo 500 MB. Usa un archivo más corto o más pequeño — no se ha usado ningún crédito.",
+    "socialVideoUnreadable": "No hemos podido leer la duración de este vídeo. Prueba a exportarlo de nuevo como MP4 — no se ha usado ningún crédito.",
+    "socialResizeBadType": "Usa una imagen JPG, PNG, WebP, AVIF, GIF o TIFF, o un vídeo MP4, MOV, M4V, 3GP o WebM.",
+    "socialImageTooLarge": "Las imágenes pueden ocupar como máximo 200 MB.",
+    "confirmSingleFileCredits": "Esto convertirá 1 archivo y usará {{credits}} créditos. Te quedan {{remaining}} créditos."
+  },
+  "pack": {
+    "replace": {
+      "t": {
+        "intro.lead.social-resize": "Redimensionar para redes sociales reencuadra una foto o un vídeo exactamente a la forma que espera cada plataforma: 9:16 para TikTok, Reels, Stories y Shorts, 1:1 para publicaciones cuadradas, 4:5 para publicaciones verticales de Instagram y 16:9 para YouTube. Las fotos pueden recortarse en torno a su parte más interesante o mostrarse completas sobre un fondo desenfocado o liso; los vídeos se recortan desde el centro o se encajan con franjas negras y se guardan como MP4.",
+        "steps.social-resize.1": "Arrastre su foto o vídeo a la zona de subida de la parte superior de esta página, o haga clic en ella para elegir un archivo de su dispositivo.",
+        "steps.social-resize.2": "Elija el formato de la plataforma y decida si recortar para llenar el marco o encajar la imagen completa.",
+        "shapeFaq.social-resize.q2": "¿También puedo redimensionar vídeos? ¿Cuánto cuesta?",
+        "shapeFaq.social-resize.a2": "Sí. Los clips MP4, MOV, M4V, 3GP y WebM de hasta 3 minutos y 500 MB se convierten a MP4 H.264 de 1080 × 1920, 1080 × 1080, 1080 × 1350 o 1920 × 1080 píxeles. El recorte se centra en el medio del encuadre y el encaje añade franjas negras. Un vídeo usa 2 créditos en lugar de 1, porque procesar vídeo requiere mucho más tiempo de cálculo que una foto; si la conversión falla, se le devuelven los créditos.",
+        "steps.social-resize.3": "Haga clic en Convertir y descargue la foto o el vídeo reencuadrado. El enlace de descarga sigue activo 24 horas."
+      }
+    }
+  }
+}

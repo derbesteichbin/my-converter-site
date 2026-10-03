@@ -1,0 +1,33 @@
+{
+  "replace": {
+    "toolDescriptions": {
+      "resize-for-social-media": "Fotoğrafları ve videoları TikTok, Reels, Stories, Shorts, kare gönderiler, dikey Instagram veya YouTube için yeniden çerçeveleyin — çerçeveyi dolduracak şekilde kırpın ya da resmin tamamını bir arka plana sığdırın. 3 dakikaya kadar olan videolar MP4 olarak kaydedilir."
+    }
+  },
+  "tool": {
+    "socialOptVideo": {
+      "coverVideo": "Çerçeveyi dolduracak şekilde kırp (ortalanmış)",
+      "containVideo": "Videonun tamamını sığdır (siyah şeritler ekler)"
+    },
+    "socialVideoNote": "Videolar MP4 olarak kaydedilir: kırpma ortalanır, sığdırma ise siyah şeritler ekler. Her video 2 kredi, her fotoğraf 1 kredi kullanır.",
+    "videoCreditBadge": "Video · {{count}} kredi",
+    "socialVideoTooLong": "\"{{name}}\" 3 dakikadan uzun. Lütfen videoyu 3 dakika veya daha kısa olacak şekilde kırpın — hiç kredi kullanılmadı.",
+    "socialVideoTooLarge": "Videolar en fazla 500 MB olabilir. Lütfen daha kısa veya daha küçük bir dosya kullanın — hiç kredi kullanılmadı.",
+    "socialVideoUnreadable": "Bu videonun süresini okuyamadık. Videoyu MP4 olarak yeniden dışa aktarmayı deneyin — hiç kredi kullanılmadı.",
+    "socialResizeBadType": "JPG, PNG, WebP, AVIF, GIF veya TIFF görsel ya da MP4, MOV, M4V, 3GP veya WebM video kullanın.",
+    "socialImageTooLarge": "Görseller en fazla 200 MB olabilir.",
+    "confirmSingleFileCredits": "Bu işlem 1 dosyayı dönüştürecek ve {{credits}} kredi kullanacak. {{remaining}} krediniz kaldı."
+  },
+  "pack": {
+    "replace": {
+      "t": {
+        "intro.lead.social-resize": "Sosyal medya için yeniden boyutlandırma aracı, bir fotoğrafı veya videoyu platformun beklediği biçime tam olarak yeniden çerçeveler: TikTok, Reels, Stories ve Shorts için 9:16, kare akış gönderileri için 1:1, dikey Instagram gönderileri için 4:5 ve YouTube için 16:9. Fotoğraflar en ilgi çekici kısımlarının çevresinde kırpılabilir ya da bulanık veya düz bir arka plan üzerinde tamamen gösterilebilir; videolar ise ortadan kırpılır ya da siyah şeritlerle sığdırılır ve MP4 olarak kaydedilir.",
+        "steps.social-resize.1": "Fotoğrafını veya videonu bu sayfanın üstündeki yükleme alanına bırak ya da aygıtından bir dosya seçmek için üzerine tıkla.",
+        "steps.social-resize.2": "Platform biçimini seç, ardından çerçeveyi dolduracak şekilde mi kırpacağına yoksa resmin tamamını mı sığdıracağına karar ver.",
+        "shapeFaq.social-resize.q2": "Videoları da yeniden boyutlandırabilir miyim, ücreti ne kadar?",
+        "shapeFaq.social-resize.a2": "Evet. 3 dakikaya ve 500 MB'a kadar olan MP4, MOV, M4V, 3GP ve WebM klipleri 1080 × 1920, 1080 × 1080, 1080 × 1350 veya 1920 × 1080 piksel boyutunda H.264 MP4'e dönüştürülür. Kırpma karenin ortasına göre yapılır, sığdırma ise siyah şeritler ekler. Video işlemek bir fotoğrafa göre çok daha fazla işlem süresi gerektirdiği için bir video 1 yerine 2 kredi kullanır; dönüştürme başarısız olursa krediler iade edilir.",
+        "steps.social-resize.3": "Dönüştür’e tıkla ve yeniden çerçevelenen fotoğrafı veya videoyu indir. İndirme bağlantısı 24 saat açık kalır."
+      }
+    }
+  }
+}

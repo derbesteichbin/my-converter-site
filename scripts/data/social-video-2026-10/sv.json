@@ -1,0 +1,33 @@
+{
+  "replace": {
+    "toolDescriptions": {
+      "resize-for-social-media": "Ändra bildutsnittet på foton och videor för TikTok, Reels, Stories, Shorts, kvadratiska inlägg, stående Instagram-inlägg eller YouTube — beskär för att fylla ramen, eller visa hela bilden på en bakgrund. Videor på upp till 3 minuter sparas som MP4."
+    }
+  },
+  "tool": {
+    "socialOptVideo": {
+      "coverVideo": "Beskär för att fylla ramen (centrerat)",
+      "containVideo": "Visa hela videon (lägger till svarta fält)"
+    },
+    "socialVideoNote": "Videor sparas som MP4: beskärningen centreras och om hela videon visas läggs svarta fält till. Varje video använder 2 krediter, varje foto 1 kredit.",
+    "videoCreditBadge": "Video · {{count}} krediter",
+    "socialVideoTooLong": "”{{name}}” är längre än 3 minuter. Korta ner videon till högst 3 minuter — inga krediter har använts.",
+    "socialVideoTooLarge": "Videor får vara högst 500 MB. Använd en kortare eller mindre fil — inga krediter har använts.",
+    "socialVideoUnreadable": "Vi kunde inte läsa längden på den här videon. Försök exportera den igen som MP4 — inga krediter har använts.",
+    "socialResizeBadType": "Använd en JPG-, PNG-, WebP-, AVIF-, GIF- eller TIFF-bild, eller en MP4-, MOV-, M4V-, 3GP- eller WebM-video.",
+    "socialImageTooLarge": "Bilder får vara högst 200 MB.",
+    "confirmSingleFileCredits": "Detta konverterar 1 fil och använder {{credits}} krediter. Du har {{remaining}} krediter kvar."
+  },
+  "pack": {
+    "replace": {
+      "t": {
+        "intro.lead.social-resize": "Ändra storlek för sociala medier ger ett foto eller en video exakt den form som en plattform förväntar sig: 9:16 för TikTok, Reels, Stories och Shorts, 1:1 för kvadratiska inlägg i flödet, 4:5 för stående inlägg på Instagram och 16:9 för YouTube. Foton kan beskäras runt sin mest intressanta del eller visas i sin helhet på en suddig eller enfärgad bakgrund; videor beskärs från mitten eller visas i sin helhet med svarta fält och sparas som MP4.",
+        "steps.social-resize.1": "Släpp ditt foto eller din video på uppladdningsytan högst upp på den här sidan, eller klicka på den för att välja en fil från din enhet.",
+        "steps.social-resize.2": "Välj plattformsformat och bestäm sedan om du vill beskära för att fylla ramen eller visa hela bilden.",
+        "shapeFaq.social-resize.q2": "Kan jag ändra storlek på videor också, och vad kostar det?",
+        "shapeFaq.social-resize.a2": "Ja. MP4-, MOV-, M4V-, 3GP- och WebM-klipp på upp till 3 minuter och 500 MB konverteras till H.264-MP4 i 1080 × 1920, 1080 × 1080, 1080 × 1350 eller 1920 × 1080 pixlar. Beskärningen centreras på mitten av bilden och om hela videon visas läggs svarta fält till. En video använder 2 krediter i stället för 1, eftersom videobearbetning tar mycket mer datortid än ett foto; om konverteringen misslyckas återbetalas krediterna.",
+        "steps.social-resize.3": "Klicka på Konvertera och ladda ner fotot eller videon med det nya utsnittet. Nedladdningslänken är aktiv i 24 timmar."
+      }
+    }
+  }
+}

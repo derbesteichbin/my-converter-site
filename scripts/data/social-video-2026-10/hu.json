@@ -1,0 +1,33 @@
+{
+  "replace": {
+    "toolDescriptions": {
+      "resize-for-social-media": "Keretezze újra fotóit és videóit TikTokhoz, Reelshez, Storieshoz, Shortshoz, négyzetes bejegyzésekhez, álló Instagram-formátumhoz vagy YouTube-hoz — vágja úgy, hogy kitöltse a keretet, vagy illessze a teljes képet egy háttérre. A legfeljebb 3 perces videókat MP4 formátumban mentjük."
+    }
+  },
+  "tool": {
+    "socialOptVideo": {
+      "coverVideo": "Vágás a keret kitöltéséhez (középre igazítva)",
+      "containVideo": "A teljes videó illesztése (fekete sávokat ad hozzá)"
+    },
+    "socialVideoNote": "A videókat MP4 formátumban mentjük: a vágás középre igazított, az illesztés pedig fekete sávokat ad hozzá. Minden videó 2 kreditet, minden fotó 1 kreditet használ fel.",
+    "videoCreditBadge": "Videó · {{count}} kredit",
+    "socialVideoTooLong": "„{{name}}” hosszabb 3 percnél. Vágd le legfeljebb 3 percesre — nem használtunk fel kreditet.",
+    "socialVideoTooLarge": "A videók legfeljebb 500 MB-osak lehetnek. Használj rövidebb vagy kisebb fájlt — nem használtunk fel kreditet.",
+    "socialVideoUnreadable": "Nem sikerült kiolvasni a videó hosszát. Próbáld meg újra exportálni MP4 formátumban — nem használtunk fel kreditet.",
+    "socialResizeBadType": "Használj JPG, PNG, WebP, AVIF, GIF vagy TIFF képet, illetve MP4, MOV, M4V, 3GP vagy WebM videót.",
+    "socialImageTooLarge": "A képek legfeljebb 200 MB-osak lehetnek.",
+    "confirmSingleFileCredits": "Ez 1 fájlt konvertál és {{credits}} kreditet használ fel. {{remaining}} kredited van hátra."
+  },
+  "pack": {
+    "replace": {
+      "t": {
+        "intro.lead.social-resize": "Az Átméretezés közösségi médiához pontosan arra a formára keretezi újra a fotót vagy videót, amelyet a platform elvár: 9:16 a TikTokhoz, a Reelshez, a Storieshoz és a Shortshoz, 1:1 a négyzetes hírfolyam-bejegyzésekhez, 4:5 az álló Instagram-bejegyzésekhez és 16:9 a YouTube-hoz. A fotók a legérdekesebb részük körül vághatók, vagy egészben jelenhetnek meg elmosott vagy egyszínű háttéren; a videókat középről vágjuk, vagy fekete sávokkal illesztjük, és MP4 formátumban mentjük.",
+        "steps.social-resize.1": "Húzd a fotódat vagy videódat az oldal tetején lévő feltöltési területre, vagy kattints rá, és válassz egy fájlt az eszközödről.",
+        "steps.social-resize.2": "Válaszd ki a platform formátumát, majd döntsd el, hogy a keret kitöltéséhez vágsz, vagy a teljes képet illeszted.",
+        "shapeFaq.social-resize.q2": "Videókat is átméretezhetek, és mennyibe kerül?",
+        "shapeFaq.social-resize.a2": "Igen. A legfeljebb 3 perces és 500 MB-os MP4, MOV, M4V, 3GP és WebM klipeket H.264 MP4 formátumba alakítjuk 1080 × 1920, 1080 × 1080, 1080 × 1350 vagy 1920 × 1080 pixeles méretben. A vágás a képkocka közepére igazodik, az illesztés pedig fekete sávokat ad hozzá. Egy videó 1 helyett 2 kreditet használ fel, mert a videó feldolgozása sokkal több számítási időt igényel, mint egy fotóé; ha az átalakítás sikertelen, a krediteket visszatérítjük.",
+        "steps.social-resize.3": "Kattints az Átalakítás gombra, és töltsd le az újrakeretezett fotót vagy videót. A letöltési hivatkozás 24 órán át él."
+      }
+    }
+  }
+}

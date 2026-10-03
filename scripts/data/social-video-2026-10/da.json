@@ -1,0 +1,33 @@
+{
+  "replace": {
+    "toolDescriptions": {
+      "resize-for-social-media": "Tilpas fotos og videoer til TikTok, Reels, Stories, Shorts, kvadratiske opslag, Instagram i portrætformat eller YouTube — beskær, så rammen udfyldes, eller vis hele billedet på en baggrund. Videoer på op til 3 minutter gemmes som MP4."
+    }
+  },
+  "tool": {
+    "socialOptVideo": {
+      "coverVideo": "Beskær, så rammen udfyldes (centreret)",
+      "containVideo": "Vis hele videoen (tilføjer sorte bjælker)"
+    },
+    "socialVideoNote": "Videoer gemmes som MP4: beskæringen centreres, og når hele videoen vises, tilføjes sorte bjælker. Hver video bruger 2 kreditter, hvert foto 1 kredit.",
+    "videoCreditBadge": "Video · {{count}} kreditter",
+    "socialVideoTooLong": "»{{name}}« er længere end 3 minutter. Klip den ned til 3 minutter eller mindre — der blev ikke brugt nogen kreditter.",
+    "socialVideoTooLarge": "Videoer må højst fylde 500 MB. Brug en kortere eller mindre fil — der blev ikke brugt nogen kreditter.",
+    "socialVideoUnreadable": "Vi kunne ikke aflæse længden på denne video. Prøv at eksportere den igen som MP4 — der blev ikke brugt nogen kreditter.",
+    "socialResizeBadType": "Brug et JPG-, PNG-, WebP-, AVIF-, GIF- eller TIFF-billede eller en MP4-, MOV-, M4V-, 3GP- eller WebM-video.",
+    "socialImageTooLarge": "Billeder må højst fylde 200 MB.",
+    "confirmSingleFileCredits": "Dette konverterer 1 fil og bruger {{credits}} kreditter. Du har {{remaining}} kreditter tilbage."
+  },
+  "pack": {
+    "replace": {
+      "t": {
+        "intro.lead.social-resize": "Tilpas størrelse til sociale medier giver et foto eller en video præcis den form, en platform forventer: 9:16 til TikTok, Reels, Stories og Shorts, 1:1 til kvadratiske feedopslag, 4:5 til Instagram-opslag i portrætformat og 16:9 til YouTube. Fotos kan beskæres omkring den mest interessante del eller vises i deres helhed på en sløret eller ensfarvet baggrund; videoer beskæres fra midten eller tilpasses med sorte bjælker og gemmes som MP4.",
+        "steps.social-resize.1": "Slip dit foto eller din video på uploadfeltet øverst på denne side, eller klik på det for at vælge en fil fra din enhed.",
+        "steps.social-resize.2": "Vælg platformformatet, og bestem derefter, om der skal beskæres, så rammen udfyldes, eller om hele billedet skal vises.",
+        "shapeFaq.social-resize.q2": "Kan jeg også tilpasse videoer, og hvad koster det?",
+        "shapeFaq.social-resize.a2": "Ja. MP4-, MOV-, M4V-, 3GP- og WebM-klip på op til 3 minutter og 500 MB konverteres til H.264 MP4 i 1080 × 1920, 1080 × 1080, 1080 × 1350 eller 1920 × 1080 pixels. Beskæringen centreres midt i billedet, og når hele videoen vises, tilføjes sorte bjælker. En video bruger 2 kreditter i stedet for 1, fordi videobehandling kræver langt mere computerkraft end et foto; hvis konverteringen mislykkes, får du kreditterne tilbage.",
+        "steps.social-resize.3": "Klik på Konverter, og hent fotoet eller videoen med det nye udsnit. Downloadlinket er aktivt i 24 timer."
+      }
+    }
+  }
+}

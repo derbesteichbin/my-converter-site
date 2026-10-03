@@ -5,6 +5,14 @@
 const SHARP_INPUTS = ['jpg', 'jpeg', 'png', 'webp', 'avif', 'gif', 'tiff', 'tif'];
 const SHARP_ACCEPT = SHARP_INPUTS.map((f) => '.' + f).join(',');
 
+// Resize for Social Media video limits. Mirrors server/routes/convert.js
+// (SOCIAL_VIDEO_*) and server/toolsConfig.js (SOCIAL_VIDEO_INPUTS); the
+// server enforces them, the page checks first so users are told up front.
+export const SOCIAL_VIDEO_INPUTS = ['mp4', 'mov', 'm4v', '3gp', 'webm'];
+export const SOCIAL_VIDEO_MAX_BYTES = 500 * 1024 * 1024;
+export const SOCIAL_VIDEO_MAX_SECONDS = 3 * 60;
+export const SOCIAL_VIDEO_CREDITS = 2;
+
 export const TOOLS = [
   // ── Document ──
   { slug: 'pdf-to-word',  label: 'PDF to Word',        category: 'Document', inputFormats: ['pdf'],         outputFormats: ['docx', 'doc'],       acceptMime: '.pdf' },
@@ -156,7 +164,9 @@ export const TOOLS = [
   { slug: 'pdf-to-images', label: 'PDF to Images', category: 'Social Media', inputFormats: ['pdf'], outputFormats: ['jpg', 'png'], acceptMime: '.pdf', toolType: 'pdf-images' },
   { slug: 'photo-collage', label: 'Photo Collage', category: 'Social Media', inputFormats: ['jpg', 'jpeg', 'png', 'webp', 'avif', 'gif', 'tiff', 'tif'], outputFormats: ['jpg', 'png'], acceptMime: '.jpg,.jpeg,.png,.webp,.avif,.gif,.tiff,.tif', toolType: 'collage', multipleFiles: true },
   // Single-image sharp tools; their choices live in SOCIAL_OPTIONS below.
-  { slug: 'resize-for-social-media',       label: 'Resize for Social Media',           category: 'Social Media', inputFormats: SHARP_INPUTS, outputFormats: ['jpg', 'png', 'webp'], acceptMime: SHARP_ACCEPT, toolType: 'social-resize' },
+  // Takes images (sharp, 1 credit) and videos (CloudConvert, 2 credits, always
+  // MP4 out); outputFormats lists the image choices only.
+  { slug: 'resize-for-social-media',       label: 'Resize for Social Media',           category: 'Social Media', inputFormats: [...SHARP_INPUTS, ...SOCIAL_VIDEO_INPUTS], outputFormats: ['jpg', 'png', 'webp'], acceptMime: [...SHARP_INPUTS, ...SOCIAL_VIDEO_INPUTS].map((f) => '.' + f).join(','), toolType: 'social-resize' },
   { slug: 'profile-picture-maker',         label: 'Profile Picture Maker',             category: 'Social Media', inputFormats: SHARP_INPUTS, outputFormats: ['png', 'jpg'],         acceptMime: SHARP_ACCEPT, toolType: 'profile-picture' },
   { slug: 'social-media-image-compressor', label: 'Image Compressor for Social Media', category: 'Social Media', inputFormats: SHARP_INPUTS, outputFormats: ['jpg'],                acceptMime: SHARP_ACCEPT, toolType: 'social-compress' },
 ];

@@ -1,0 +1,33 @@
+{
+  "replace": {
+    "toolDescriptions": {
+      "resize-for-social-media": "Reenquadre fotos e vídeos para TikTok, Reels, Stories, Shorts, publicações quadradas, Instagram vertical ou YouTube — recorte-os para preencher o quadro, ou mostre a imagem inteira sobre um fundo. Os vídeos até 3 minutos são guardados em MP4."
+    }
+  },
+  "tool": {
+    "socialOptVideo": {
+      "coverVideo": "Recortar para preencher o quadro (centrado)",
+      "containVideo": "Mostrar o vídeo inteiro (acrescenta barras pretas)"
+    },
+    "socialVideoNote": "Os vídeos são guardados em MP4: o recorte é centrado e mostrar o vídeo inteiro acrescenta barras pretas. Cada vídeo usa 2 créditos e cada foto 1 crédito.",
+    "videoCreditBadge": "Vídeo · {{count}} créditos",
+    "socialVideoTooLong": "«{{name}}» tem mais de 3 minutos. Corte-o para 3 minutos ou menos — não foram usados créditos.",
+    "socialVideoTooLarge": "Os vídeos podem ter no máximo 500 MB. Use um ficheiro mais curto ou mais pequeno — não foram usados créditos.",
+    "socialVideoUnreadable": "Não foi possível ler a duração deste vídeo. Tente exportá-lo novamente em MP4 — não foram usados créditos.",
+    "socialResizeBadType": "Use uma imagem JPG, PNG, WebP, AVIF, GIF ou TIFF, ou um vídeo MP4, MOV, M4V, 3GP ou WebM.",
+    "socialImageTooLarge": "As imagens podem ter no máximo 200 MB.",
+    "confirmSingleFileCredits": "Isto irá converter 1 ficheiro e usar {{credits}} créditos. Restam-lhe {{remaining}} créditos."
+  },
+  "pack": {
+    "replace": {
+      "t": {
+        "intro.lead.social-resize": "Redimensionar para redes sociais reenquadra uma foto ou um vídeo no formato exacto que cada plataforma espera: 9:16 para TikTok, Reels, Stories e Shorts, 1:1 para publicações quadradas no feed, 4:5 para publicações verticais no Instagram e 16:9 para o YouTube. As fotos podem ser recortadas em torno da sua parte mais interessante ou mostradas inteiras sobre um fundo desfocado ou liso; os vídeos são recortados a partir do centro ou mostrados inteiros com barras pretas e guardados em MP4.",
+        "steps.social-resize.1": "Largue a foto ou o vídeo na área de carregamento no topo desta página, ou clique nela para escolher um ficheiro no seu dispositivo.",
+        "steps.social-resize.2": "Escolha o formato da plataforma e decida se quer recortar para preencher o quadro ou mostrar a imagem inteira.",
+        "shapeFaq.social-resize.q2": "Também posso redimensionar vídeos, e quanto custa?",
+        "shapeFaq.social-resize.a2": "Sim. Os clipes MP4, MOV, M4V, 3GP e WebM com até 3 minutos e 500 MB são convertidos em MP4 H.264 com 1080 × 1920, 1080 × 1080, 1080 × 1350 ou 1920 × 1080 píxeis. O recorte fica centrado no meio do quadro e mostrar o vídeo inteiro acrescenta barras pretas. Um vídeo usa 2 créditos em vez de 1, porque processar vídeo exige muito mais tempo de computação do que uma foto; se a conversão falhar, os créditos são reembolsados.",
+        "steps.social-resize.3": "Clique em Converter e descarregue a foto ou o vídeo reenquadrado. A ligação de transferência mantém-se activa durante 24 horas."
+      }
+    }
+  }
+}

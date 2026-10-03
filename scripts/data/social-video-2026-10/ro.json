@@ -1,0 +1,33 @@
+{
+  "replace": {
+    "toolDescriptions": {
+      "resize-for-social-media": "Reîncadrează fotografii și videoclipuri pentru TikTok, Reels, Stories, Shorts, postări pătrate, format portret Instagram sau YouTube — decupează-le ca să umple cadrul sau încadrează imaginea întreagă pe un fundal. Videoclipurile de până la 3 minute sunt salvate ca MP4."
+    }
+  },
+  "tool": {
+    "socialOptVideo": {
+      "coverVideo": "Decupează ca să umple cadrul (centrat)",
+      "containVideo": "Încadrează tot videoclipul (adaugă benzi negre)"
+    },
+    "socialVideoNote": "Videoclipurile sunt salvate ca MP4: decuparea este centrată, iar încadrarea adaugă benzi negre. Fiecare videoclip folosește 2 credite, fiecare fotografie 1 credit.",
+    "videoCreditBadge": "Video · {{count}} credite",
+    "socialVideoTooLong": "„{{name}}” durează mai mult de 3 minute. Scurtează-l la cel mult 3 minute — nu s-au folosit credite.",
+    "socialVideoTooLarge": "Videoclipurile pot avea cel mult 500 MB. Folosește un fișier mai scurt sau mai mic — nu s-au folosit credite.",
+    "socialVideoUnreadable": "Nu am putut citi durata acestui videoclip. Încearcă să-l exporți din nou ca MP4 — nu s-au folosit credite.",
+    "socialResizeBadType": "Folosește o imagine JPG, PNG, WebP, AVIF, GIF sau TIFF ori un videoclip MP4, MOV, M4V, 3GP sau WebM.",
+    "socialImageTooLarge": "Imaginile pot avea cel mult 200 MB.",
+    "confirmSingleFileCredits": "Aceasta va converti 1 fișier și va folosi {{credits}} credite. Mai ai {{remaining}} credite."
+  },
+  "pack": {
+    "replace": {
+      "t": {
+        "intro.lead.social-resize": "Redimensionare pentru rețele sociale reîncadrează o fotografie sau un videoclip exact în forma pe care o așteaptă o platformă: 9:16 pentru TikTok, Reels, Stories și Shorts, 1:1 pentru postări pătrate în feed, 4:5 pentru postări Instagram în format portret și 16:9 pentru YouTube. Fotografiile pot fi decupate în jurul părții lor celei mai interesante sau arătate întregi pe un fundal estompat ori simplu; videoclipurile sunt decupate din centru sau încadrate cu benzi negre și salvate ca MP4.",
+        "steps.social-resize.1": "Trage fotografia sau videoclipul în zona de încărcare din partea de sus a acestei pagini sau dă clic pe ea ca să alegi un fișier de pe dispozitiv.",
+        "steps.social-resize.2": "Alege formatul platformei, apoi decide dacă decupezi ca să umple cadrul sau încadrezi toată imaginea.",
+        "shapeFaq.social-resize.q2": "Pot redimensiona și videoclipuri și cât costă?",
+        "shapeFaq.social-resize.a2": "Da. Clipurile MP4, MOV, M4V, 3GP și WebM de până la 3 minute și 500 MB sunt convertite în MP4 H.264 la 1080 × 1920, 1080 × 1080, 1080 × 1350 sau 1920 × 1080 de pixeli. Decuparea este centrată pe mijlocul cadrului, iar încadrarea adaugă benzi negre. Un videoclip folosește 2 credite în loc de 1, pentru că procesarea video necesită mult mai mult timp de calcul decât o fotografie; dacă conversia eșuează, creditele sunt rambursate.",
+        "steps.social-resize.3": "Dă clic pe Convertire și descarcă fotografia sau videoclipul reîncadrat. Linkul de descărcare rămâne activ 24 de ore."
+      }
+    }
+  }
+}

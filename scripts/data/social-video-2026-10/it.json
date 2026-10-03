@@ -1,0 +1,33 @@
+{
+  "replace": {
+    "toolDescriptions": {
+      "resize-for-social-media": "Reinquadra foto e video per TikTok, Reels, Stories, Shorts, post quadrati, formato verticale di Instagram o YouTube: ritagliali per riempire il riquadro, oppure adatta l'intera immagine su uno sfondo. I video fino a 3 minuti vengono salvati in MP4."
+    }
+  },
+  "tool": {
+    "socialOptVideo": {
+      "coverVideo": "Ritaglia per riempire il riquadro (centrato)",
+      "containVideo": "Adatta l'intero video (aggiunge bande nere)"
+    },
+    "socialVideoNote": "I video vengono salvati in MP4: il ritaglio è centrato e l'adattamento aggiunge bande nere. Ogni video usa 2 crediti, ogni foto 1 credito.",
+    "videoCreditBadge": "Video · {{count}} crediti",
+    "socialVideoTooLong": "«{{name}}» dura più di 3 minuti. Accorcialo a 3 minuti o meno — non è stato usato nessun credito.",
+    "socialVideoTooLarge": "I video possono pesare al massimo 500 MB. Usa un file più breve o più piccolo — non è stato usato nessun credito.",
+    "socialVideoUnreadable": "Non siamo riusciti a leggere la durata di questo video. Prova a esportarlo di nuovo in MP4 — non è stato usato nessun credito.",
+    "socialResizeBadType": "Usa un'immagine JPG, PNG, WebP, AVIF, GIF o TIFF, oppure un video MP4, MOV, M4V, 3GP o WebM.",
+    "socialImageTooLarge": "Le immagini possono pesare al massimo 200 MB.",
+    "confirmSingleFileCredits": "Questa operazione convertirà 1 file e userà {{credits}} crediti. Ti restano {{remaining}} crediti."
+  },
+  "pack": {
+    "replace": {
+      "t": {
+        "intro.lead.social-resize": "Ridimensiona per i social reinquadra una foto o un video esattamente nella forma che una piattaforma si aspetta: 9:16 per TikTok, Reels, Stories e Shorts, 1:1 per i post quadrati nel feed, 4:5 per i post verticali di Instagram e 16:9 per YouTube. Le foto possono essere ritagliate attorno alla loro parte più interessante oppure mostrate per intero su uno sfondo sfocato o in tinta unita; i video vengono ritagliati dal centro oppure adattati con bande nere e salvati in MP4.",
+        "steps.social-resize.1": "Trascinate la vostra foto o il vostro video sull’area di caricamento in cima a questa pagina, oppure fateci clic per scegliere un file dal dispositivo.",
+        "steps.social-resize.2": "Scegliete il formato della piattaforma, poi decidete se ritagliare per riempire il riquadro o adattare l’intera immagine.",
+        "shapeFaq.social-resize.q2": "Posso ridimensionare anche i video, e quanto costa?",
+        "shapeFaq.social-resize.a2": "Sì. I clip MP4, MOV, M4V, 3GP e WebM fino a 3 minuti e 500 MB vengono convertiti in MP4 H.264 a 1080 × 1920, 1080 × 1080, 1080 × 1350 o 1920 × 1080 pixel. Il ritaglio è centrato sul mezzo dell’inquadratura e l’adattamento aggiunge bande nere. Un video usa 2 crediti invece di 1, perché elaborare un video richiede molto più tempo di calcolo di una foto; se la conversione non riesce, i crediti vengono rimborsati.",
+        "steps.social-resize.3": "Fate clic su Converti e scaricate la foto o il video reinquadrati. Il link di download resta attivo per 24 ore."
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "replace": {
+    "toolDescriptions": {
+      "resize-for-social-media": "Reframe photos and videos for TikTok, Reels, Stories, Shorts, square posts, Instagram portrait or YouTube — crop to fill the frame, or fit the whole picture on a background. Videos up to 3 minutes are saved as MP4."
+    }
+  },
+  "tool": {
+    "socialOptVideo": {
+      "coverVideo": "Crop to fill the frame (centred)",
+      "containVideo": "Fit the whole video (adds black bars)"
+    },
+    "socialVideoNote": "Videos are saved as MP4: cropping is centred and fitting adds black bars. Each video uses 2 credits, each photo 1 credit.",
+    "videoCreditBadge": "Video · {{count}} credits",
+    "socialVideoTooLong": "\"{{name}}\" is longer than 3 minutes. Please trim it to 3 minutes or less — no credits were used.",
+    "socialVideoTooLarge": "Videos can be at most 500 MB. Please use a shorter or smaller file — no credits were used.",
+    "socialVideoUnreadable": "We couldn't read the length of this video. Try exporting it again as MP4 — no credits were used.",
+    "socialResizeBadType": "Use a JPG, PNG, WebP, AVIF, GIF or TIFF image, or an MP4, MOV, M4V, 3GP or WebM video.",
+    "socialImageTooLarge": "Images can be at most 200 MB.",
+    "confirmSingleFileCredits": "This will convert 1 file and use {{credits}} credits. You have {{remaining}} credits remaining."
+  },
+  "pack": {
+    "replace": {
+      "t": {
+        "intro.lead.social-resize": "Resize for Social Media reframes a photo or video to the exact shape a platform expects: 9:16 for TikTok, Reels, Stories and Shorts, 1:1 for square feed posts, 4:5 for Instagram portrait posts and 16:9 for YouTube. Photos can be cropped around their most interesting part or shown whole on a blurred or plain background; videos are cropped from the centre or fitted with black bars and saved as MP4.",
+        "steps.social-resize.1": "Drop your photo or video onto the upload area at the top of this page, or click it to choose a file from your device.",
+        "steps.social-resize.2": "Choose the platform format, then decide whether to crop to fill the frame or fit the whole picture.",
+        "shapeFaq.social-resize.q2": "Can I resize videos too, and what does it cost?",
+        "shapeFaq.social-resize.a2": "Yes. MP4, MOV, M4V, 3GP and WebM clips up to 3 minutes and 500 MB are converted to H.264 MP4 at 1080 × 1920, 1080 × 1080, 1080 × 1350 or 1920 × 1080 pixels. Cropping is centred on the middle of the frame and fitting adds black bars. A video uses 2 credits instead of 1, because processing video takes far more computing time than a photo; if the conversion fails, the credits are refunded.",
+        "steps.social-resize.3": "Click Convert and download the reframed photo or video. The download link stays live for 24 hours."
+      }
+    }
+  }
+}

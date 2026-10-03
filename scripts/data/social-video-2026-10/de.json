@@ -1,0 +1,33 @@
+{
+  "replace": {
+    "toolDescriptions": {
+      "resize-for-social-media": "Bringen Sie Fotos und Videos in Form für TikTok, Reels, Stories, Shorts, quadratische Beiträge, Instagram-Hochformat oder YouTube — zugeschnitten, sodass sie den Rahmen füllen, oder als ganzes Bild auf einem Hintergrund eingepasst. Videos bis zu 3 Minuten werden als MP4 gespeichert."
+    }
+  },
+  "tool": {
+    "socialOptVideo": {
+      "coverVideo": "Zuschneiden, um den Rahmen zu füllen (zentriert)",
+      "containVideo": "Ganzes Video einpassen (fügt schwarze Balken hinzu)"
+    },
+    "socialVideoNote": "Videos werden als MP4 gespeichert: Beim Zuschneiden wird zentriert, beim Einpassen kommen schwarze Balken hinzu. Jedes Video verbraucht 2 Credits, jedes Foto 1 Credit.",
+    "videoCreditBadge": "Video · {{count}} Credits",
+    "socialVideoTooLong": "„{{name}}“ ist länger als 3 Minuten. Bitte kürzen Sie es auf höchstens 3 Minuten — es wurden keine Credits verbraucht.",
+    "socialVideoTooLarge": "Videos dürfen höchstens 500 MB groß sein. Bitte verwenden Sie eine kürzere oder kleinere Datei — es wurden keine Credits verbraucht.",
+    "socialVideoUnreadable": "Wir konnten die Länge dieses Videos nicht auslesen. Exportieren Sie es erneut als MP4 — es wurden keine Credits verbraucht.",
+    "socialResizeBadType": "Verwenden Sie ein JPG-, PNG-, WebP-, AVIF-, GIF- oder TIFF-Bild oder ein MP4-, MOV-, M4V-, 3GP- oder WebM-Video.",
+    "socialImageTooLarge": "Bilder dürfen höchstens 200 MB groß sein.",
+    "confirmSingleFileCredits": "Dies konvertiert 1 Datei und verbraucht {{credits}} Credits. Sie haben {{remaining}} Credits übrig."
+  },
+  "pack": {
+    "replace": {
+      "t": {
+        "intro.lead.social-resize": "Für Social Media anpassen bringt ein Foto oder Video genau in das Format, das eine Plattform erwartet: 9:16 für TikTok, Reels, Stories und Shorts, 1:1 für quadratische Feed-Beiträge, 4:5 für Instagram-Beiträge im Hochformat und 16:9 für YouTube. Fotos können um ihren interessantesten Teil herum zugeschnitten oder ganz auf einem unscharfen oder einfarbigen Hintergrund gezeigt werden; Videos werden von der Mitte aus zugeschnitten oder mit schwarzen Balken eingepasst und als MP4 gespeichert.",
+        "steps.social-resize.1": "Ziehen Sie Ihr Foto oder Video auf den Uploadbereich oben auf dieser Seite oder klicken Sie darauf, um eine Datei auf Ihrem Gerät auszuwählen.",
+        "steps.social-resize.2": "Wählen Sie das Plattformformat und entscheiden Sie dann, ob zugeschnitten wird, um den Rahmen zu füllen, oder ob das ganze Bild eingepasst wird.",
+        "shapeFaq.social-resize.q2": "Kann ich auch Videos anpassen, und was kostet das?",
+        "shapeFaq.social-resize.a2": "Ja. MP4-, MOV-, M4V-, 3GP- und WebM-Clips bis zu 3 Minuten und 500 MB werden in H.264-MP4 mit 1080 × 1920, 1080 × 1080, 1080 × 1350 oder 1920 × 1080 Pixeln umgewandelt. Beim Zuschneiden wird auf die Bildmitte zentriert, beim Einpassen kommen schwarze Balken hinzu. Ein Video verbraucht 2 Credits statt 1, weil die Verarbeitung eines Videos weit mehr Rechenzeit erfordert als ein Foto; schlägt die Konvertierung fehl, werden die Credits erstattet.",
+        "steps.social-resize.3": "Klicken Sie auf Konvertieren und laden Sie das neu gerahmte Foto oder Video herunter. Der Download-Link bleibt 24 Stunden aktiv."
+      }
+    }
+  }
+}

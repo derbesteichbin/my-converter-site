@@ -4,7 +4,7 @@ import { useDropzone } from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
 import SEO from '../components/SEO';
 import { api, API_URL } from '../api';
-import { getToolBySlug, getToolLabel, getToolDescription, ADVANCED_SETTINGS, COLLAGE_LAYOUTS, COLLAGE_FITS, COLLAGE_MIN_PHOTOS, SOCIAL_OPTIONS, socialOptionDefaults } from '../toolsConfig';
+import { getToolBySlug, getToolLabel, getToolDescription, ADVANCED_SETTINGS, COLLAGE_LAYOUTS, COLLAGE_FITS, COLLAGE_MIN_PHOTOS, SOCIAL_OPTIONS, socialOptionDefaults, SOCIAL_VIDEO_INPUTS, SOCIAL_VIDEO_MAX_BYTES, SOCIAL_VIDEO_MAX_SECONDS, SOCIAL_VIDEO_CREDITS } from '../toolsConfig';
 import { useToast } from '../components/Toast';
 
 // The per-tool SEO content (intro, how-to, FAQ + FAQPage structured data)
@@ -113,6 +113,26 @@ function validateFileType(file, toolDef) {
   return `"${file.name}" is not a supported file type. Expected: ${toolDef.inputFormats.map((f) => '.' + f).join(', ')}`;
 }
 
+function isSocialVideo(file) {
+  return SOCIAL_VIDEO_INPUTS.includes((file.name.split('.').pop() || '').toLowerCase());
+}
+
+// Duration in seconds from the browser's own demuxer, or null when it cannot
+// tell (e.g. a container the browser does not play). The server re-checks
+// every upload, so null simply defers the decision to it.
+function readVideoDuration(file) {
+  return new Promise((resolve) => {
+    const url = URL.createObjectURL(file);
+    const el = document.createElement('video');
+    const done = (value) => { URL.revokeObjectURL(url); resolve(value); };
+    el.preload = 'metadata';
+    el.onloadedmetadata = () => done(Number.isFinite(el.duration) ? el.duration : null);
+    el.onerror = () => done(null);
+    setTimeout(() => done(null), 8000);
+    el.src = url;
+  });
+}
+
 const PDF_TOOL_TYPES = new Set(['pdf-merge', 'pdf-split', 'pdf-compress', 'pdf-rotate', 'pdf-protect', 'pdf-unlock']);
 const TTS_VOICES = ['alloy', 'echo', 'fable', 'onyx', 'nova', 'shimmer'];
 const TTS_SPEEDS = [0.75, 1.0, 1.25, 1.5];
@@ -153,6 +173,9 @@ export default function ToolPage() {
   const socialOptions = SOCIAL_OPTIONS[toolDef?.toolType] || null;
   const isSocialImage = !!socialOptions;
   const isProfilePicture = toolDef?.toolType === 'profile-picture';
+  // Resize for Social Media takes photos and videos; which options apply
+  // (and what each file costs) depends on what is in the batch.
+  const isSocialResize = toolDef?.toolType === 'social-resize';
   const extraFields = toolDef?.extraFields || [];
   // JPEG↔JPG copies the file unchanged, so resize/quality would be ignored.
   const advancedFields = toolDef?.toolType === 'rename' ? [] : ADVANCED_SETTINGS[toolDef?.category] || [];
@@ -238,7 +261,13 @@ export default function ToolPage() {
   // Credit cost = one credit per file for standard batch conversion. PDF
   // operations and Smart Functions run as a single job, so they cost 1.
   // A collage is likewise one job however many photos go into it.
-  const creditCost = isPdfTool || isSmartTool || isCollage ? 1 : files.length;
+  const creditCost = isPdfTool || isSmartTool || isCollage ? 1
+    // Resize for Social Media: a video costs more than a photo.
+    : isSocialResize ? files.reduce((sum, f) => sum + (isSocialVideo(f) ? SOCIAL_VIDEO_CREDITS : 1), 0)
+      : files.length;
+  const batchHasVideo = isSocialResize && files.some(isSocialVideo);
+  const batchHasImage = files.some((f) => !isSocialVideo(f));
+  const videoOnly = batchHasVideo && !batchHasImage;
 
   // Persistent note shown when a folder/multi-file selection had some files
   // skipped for not matching the tool's input format (the toast is transient).
@@ -443,6 +472,17 @@ export default function ToolPage() {
       toAdd = matched;
     }
 
+    // Resize for Social Media: refuse oversized videos right away — no
+    // point uploading 600 MB only for the server to turn it down.
+    if (toolDef?.toolType === 'social-resize') {
+      const tooBig = toAdd.filter((f) => isSocialVideo(f) && f.size > SOCIAL_VIDEO_MAX_BYTES);
+      if (tooBig.length) {
+        toast(t('tool.socialVideoTooLarge'), 'error');
+        toAdd = toAdd.filter((f) => !tooBig.includes(f));
+        if (!toAdd.length) return;
+      }
+    }
+
     setFiles((prev) => [...prev, ...toAdd]);
     setOverallStatus('idle');
     setBatchJobs([]);
@@ -479,6 +519,9 @@ export default function ToolPage() {
 
   function removeFile(index) {
     setFiles((prev) => prev.filter((_, i) => i !== index));
+    // A message about the removed file (e.g. a video over the length cap)
+    // no longer applies.
+    setError('');
   }
 
   // Drag reorder handlers
@@ -531,7 +574,7 @@ export default function ToolPage() {
           setBatchJobs((prev) => prev.map((j, i) => i === index ? { ...j, status: 'done', downloadUrl: job.downloadUrl, outputSize: job.outputSize, pages: job.files || null } : j));
           // Collage and single social images: show the result inline. The download route needs the
           // session cookie, so fetch it through api() rather than an <img src>.
-          if ((isCollage || (isSocialImage && files.length === 1)) && job.downloadUrl) {
+          if ((isCollage || (isSocialImage && files.length === 1 && !isSocialVideo(files[0]))) && job.downloadUrl) {
             api(job.downloadUrl)
               .then((r) => (r.ok ? r.blob() : null))
               .then((blob) => { if (blob) setResultPreview(URL.createObjectURL(blob)); })
@@ -658,7 +701,7 @@ export default function ToolPage() {
     return () => URL.revokeObjectURL(resultPreview);
   }, [resultPreview]);
 
-  function collageErrorText(code) {
+  function collageErrorText(code, fileName) {
     switch (code) {
       case 'collage_too_few':
         return t('tool.collageTooFew', { min: COLLAGE_MIN_PHOTOS });
@@ -670,9 +713,28 @@ export default function ToolPage() {
         return t('tool.socialBadType');
       case 'social_bad_option':
         return t('tool.socialBadOption');
+      case 'social_resize_bad_type':
+        return t('tool.socialResizeBadType');
+      case 'social_video_too_large':
+        return t('tool.socialVideoTooLarge');
+      case 'social_video_too_long':
+        return t('tool.socialVideoTooLong', { name: fileName || '' });
+      case 'social_video_unreadable':
+        return t('tool.socialVideoUnreadable');
+      case 'social_image_too_large':
+        return t('tool.socialImageTooLarge');
       default:
         return null;
     }
+  }
+
+  // First video in the batch that is longer than the cap, or null.
+  async function checkVideoLengths() {
+    for (const f of files.filter(isSocialVideo)) {
+      const seconds = await readVideoDuration(f);
+      if (seconds !== null && seconds > SOCIAL_VIDEO_MAX_SECONDS) return f;
+    }
+    return null;
   }
 
   function handleConvert() {
@@ -686,6 +748,20 @@ export default function ToolPage() {
     // Need one credit per file — if the folder/batch costs more credits than
     // the user has, send them to the pricing modal instead of the confirm.
     if ((authState.credits ?? 0) < creditCost) { setModal('no_credits'); return; }
+
+    // Resize for Social Media: check video length before asking to confirm,
+    // so a too-long clip is caught before it is uploaded or charged.
+    if (isSocialResize && batchHasVideo) {
+      checkVideoLengths().then((tooLong) => {
+        if (tooLong) {
+          setError(t('tool.socialVideoTooLong', { name: tooLong.name }));
+          return;
+        }
+        setError('');
+        setModal('confirm');
+      });
+      return;
+    }
 
     // Authed + enough credits — show confirm step
     setModal('confirm');
@@ -843,11 +919,15 @@ export default function ToolPage() {
         try {
           const formData = new FormData();
           formData.append('file', files[i]);
-          formData.append('outputFormat', outputFormat);
+          // Videos in Resize for Social Media are always MP4.
+          formData.append('outputFormat', isSocialResize && isSocialVideo(files[i]) ? 'mp4' : outputFormat);
           formData.append('toolSlug', toolName);
           buildExtraFormData(formData);
 
-          const res = await api('/api/convert', { method: 'POST', body: formData });
+          // Resize for Social Media has its own route: larger upload limit
+          // for video, and per-media pricing.
+          const endpoint = isSocialResize ? '/api/convert/social-resize' : '/api/convert';
+          const res = await api(endpoint, { method: 'POST', body: formData });
           if (!res.ok) {
             const data = await res.json().catch(() => ({}));
             if (res.status === 429 && data.code === 'no_credits') {
@@ -857,7 +937,7 @@ export default function ToolPage() {
               setModal('no_credits');
               return;
             }
-            throw new Error(collageErrorText(data.code) || data.error || 'Upload failed');
+            throw new Error(collageErrorText(data.code, files[i].name) || data.error || 'Upload failed');
           }
           const { jobId } = await res.json();
           setBatchJobs((prev) => prev.map((j, idx) => idx === i ? { ...j, status: 'processing', jobId } : j));
@@ -1112,6 +1192,9 @@ export default function ToolPage() {
               )}
               <span className="multi-file-name">{f.name}</span>
               <span className="multi-file-size">{formatSize(f.size)}</span>
+              {isSocialResize && isSocialVideo(f) && (
+                <span className="multi-file-cost">{t('tool.videoCreditBadge', { count: SOCIAL_VIDEO_CREDITS })}</span>
+              )}
               <button className="multi-file-remove" onClick={() => removeFile(i)} type="button">&times;</button>
             </div>
           ))}
@@ -1124,6 +1207,9 @@ export default function ToolPage() {
         <div className="tool-options">
           {socialOptions.map((opt) => {
             if (opt.showIf && Object.entries(opt.showIf).some(([k, v]) => socialValues[k] !== v)) return null;
+            // Video can only be fitted with black bars, so the background
+            // choice is offered only when there is a photo to apply it to.
+            if (opt.key === 'background' && videoOnly) return null;
             return (
               <div className="extra-field" key={opt.key}>
                 <label htmlFor={`social-${opt.key}`}>{t(`tool.socialOpt.${opt.key}.label`)}</label>
@@ -1134,12 +1220,17 @@ export default function ToolPage() {
                   disabled={busy}
                 >
                   {opt.values.map((v) => (
-                    <option key={v} value={v}>{t(`tool.socialOpt.${opt.key}.${v.replace(':', 'x')}`)}</option>
+                    <option key={v} value={v}>{videoOnly && opt.key === 'fit'
+                      ? t(`tool.socialOptVideo.${v}Video`)
+                      : t(`tool.socialOpt.${opt.key}.${v.replace(':', 'x')}`)}</option>
                   ))}
                 </select>
               </div>
             );
           })}
+          {batchHasVideo && (
+            <p className="tool-options-note">{t('tool.socialVideoNote')}</p>
+          )}
           {isProfilePicture && socialValues.shape === 'circle' && (
             <p className="tool-options-note">{t('tool.socialCircleNote')}</p>
           )}
@@ -1376,7 +1467,7 @@ export default function ToolPage() {
           </label>
 
           <div className="tool-controls">
-            {formats.length > 1 && !(isProfilePicture && socialValues.shape === 'circle') && (
+            {formats.length > 1 && !(isProfilePicture && socialValues.shape === 'circle') && !videoOnly && (
               <div className="format-select">
                 <label htmlFor="format">{t('tool.output')}</label>
                 <select id="format" value={outputFormat} onChange={(e) => setOutputFormat(e.target.value)} disabled={busy}>
@@ -1558,6 +1649,8 @@ export default function ToolPage() {
                 <p style={{ margin: '0 0 1.25rem', color: 'var(--text)' }}>
                   {isCollage
                     ? t('tool.confirmCollageBody', { count: files.length, remaining: authState.credits ?? 0 })
+                    : files.length === 1 && creditCost > 1
+                    ? t('tool.confirmSingleFileCredits', { credits: creditCost, remaining: authState.credits ?? 0 })
                     : creditCost === 1
                     ? t('tool.confirmBatchBodySingular', {
                         defaultValue: `This will convert 1 file and use 1 credit. You have ${authState.credits ?? 0} credits remaining.`,
@@ -1565,7 +1658,7 @@ export default function ToolPage() {
                       })
                     : t('tool.confirmBatchBodyPlural', {
                         defaultValue: `This will convert ${creditCost} files and use ${creditCost} credits. You have ${authState.credits ?? 0} credits remaining.`,
-                        files: creditCost,
+                        files: files.length,
                         credits: creditCost,
                         remaining: authState.credits ?? 0,
                       })}

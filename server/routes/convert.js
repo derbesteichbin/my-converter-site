@@ -6,11 +6,12 @@ const crypto = require('crypto');
 const CloudConvert = require('cloudconvert');
 const prisma = require('../lib/prisma');
 const { protect } = require('../middleware/auth');
-const { VALID_TOOLS, ALLOWED_ADVANCED_KEYS } = require('../toolsConfig');
+const { VALID_TOOLS, ALLOWED_ADVANCED_KEYS, SOCIAL_VIDEO_INPUTS } = require('../toolsConfig');
 const { Resend } = require('resend');
 const archiver = require('archiver');
 const { LAYOUTS, validateCollage, buildCollage } = require('../lib/collage');
-const { OPTIONS: SOCIAL_OPTIONS, parseOptions: parseSocialOptions, resolveFormat: resolveSocialFormat, runSocialImage } = require('../lib/socialImage');
+const { OPTIONS: SOCIAL_OPTIONS, parseOptions: parseSocialOptions, resolveFormat: resolveSocialFormat, runSocialImage, PRESET_SIZE } = require('../lib/socialImage');
+const { videoDuration } = require('../lib/videoDuration');
 
 const router = express.Router();
 
@@ -73,7 +74,15 @@ const storage = multer.diskStorage({
     cb(null, `${Date.now()}-${unique}${ext}`);
   },
 });
-const upload = multer({ storage, limits: { fileSize: 200 * 1024 * 1024 } }); // 200 MB
+const UPLOAD_MAX_BYTES = 200 * 1024 * 1024; // 200 MB
+const upload = multer({ storage, limits: { fileSize: UPLOAD_MAX_BYTES } });
+
+// Resize for Social Media accepts video, capped at 500 MB and 3 minutes;
+// only its route gets the larger upload limit. Images there keep 200 MB.
+const SOCIAL_VIDEO_MAX_BYTES = 500 * 1024 * 1024;
+const SOCIAL_VIDEO_MAX_SECONDS = 3 * 60;
+const SOCIAL_VIDEO_CREDITS = 2;
+const uploadSocialResize = multer({ storage, limits: { fileSize: SOCIAL_VIDEO_MAX_BYTES } });
 
 const cloudConvert = new CloudConvert(process.env.CLOUDCONVERT_API_KEY);
 // Presence only — never any part of the key itself.
@@ -343,6 +352,9 @@ router.post('/', protect, preflightCredits, upload.single('file'), async (req, r
       }
       // The sharp tools decode the file themselves, so check the type and
       // the options up front — a bad request must not cost a credit.
+      if (toolDef.toolType === 'social-resize') {
+        return reject(400, { error: 'Use POST /api/convert/social-resize for this tool' });
+      }
       if (SOCIAL_OPTIONS[toolDef.toolType]) {
         const ext = path.extname(req.file.originalname).replace('.', '').toLowerCase();
         if (!toolDef.inputFormats.includes(ext)) {
@@ -779,6 +791,111 @@ async function convertPdfTool(jobId, files, toolType, body, chargedUserId = null
     discardUploads(files);
   }
 }
+
+// ── Resize for Social Media (image or video) ─────────────────────────
+// One tool, two engines: images are reframed locally with sharp for 1
+// credit; videos go to CloudConvert's ffmpeg task for 2 credits, because
+// CloudConvert bills video by processing time. Every limit — type, size,
+// length, options — is checked before the credit is charged.
+
+function socialResizeUpload(req, res, next) {
+  uploadSocialResize.single('file')(req, res, (err) => {
+    if (!err) return next();
+    // multer removes the partial file itself before reporting the error.
+    if (err.code === 'LIMIT_FILE_SIZE') {
+      return res.status(413).json({ error: 'File is larger than 500 MB', code: 'social_video_too_large' });
+    }
+    return next(err);
+  });
+}
+
+router.post('/social-resize', protect, preflightCredits, socialResizeUpload, async (req, res) => {
+  let charged = 0;
+  const reject = (status, payload) => {
+    discardUploads(req.file);
+    return res.status(status).json(payload);
+  };
+  try {
+    if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+
+    const toolDef = VALID_TOOLS['resize-for-social-media'];
+    const ext = path.extname(req.file.originalname).replace('.', '').toLowerCase();
+    const isVideo = SOCIAL_VIDEO_INPUTS.includes(ext);
+    if (!toolDef.inputFormats.includes(ext)) {
+      return reject(400, { error: `"${req.file.originalname}" is not a supported image or video`, code: 'social_resize_bad_type' });
+    }
+
+    const parsed = parseSocialOptions('social-resize', req.body);
+    if (parsed.error) return reject(400, { error: 'Invalid options', code: parsed.error });
+    const options = parsed.options;
+    const { outputFormat } = req.body;
+
+    if (isVideo) {
+      if (outputFormat !== 'mp4') return reject(400, { error: 'Videos are always saved as MP4' });
+      const seconds = await videoDuration(path.join(UPLOAD_DIR, req.file.filename), ext);
+      if (seconds === null) {
+        return reject(400, { error: 'Could not read the video length', code: 'social_video_unreadable' });
+      }
+      if (seconds > SOCIAL_VIDEO_MAX_SECONDS) {
+        return reject(400, { error: 'Video is longer than 3 minutes', code: 'social_video_too_long', seconds: Math.round(seconds) });
+      }
+    } else {
+      if (!['jpg', 'png', 'webp'].includes(outputFormat)) {
+        return reject(400, { error: `Format .${outputFormat} is not supported for images` });
+      }
+      if (req.file.size > UPLOAD_MAX_BYTES) {
+        return reject(413, { error: 'Image is larger than 200 MB', code: 'social_image_too_large' });
+      }
+    }
+
+    const cost = isVideo ? SOCIAL_VIDEO_CREDITS : 1;
+    const charge = await chargeCredits(req.userId, cost);
+    if (charge.error) {
+      return reject(429, { error: charge.error.message, code: charge.error.code, required: cost });
+    }
+    charged = charge.charged;
+
+    const job = await prisma.job.create({
+      data: { userId: req.userId, inputFile: req.file.filename, status: 'pending' },
+    });
+    prisma.toolUsage.upsert({
+      where: { toolSlug: 'resize-for-social-media' },
+      create: { toolSlug: 'resize-for-social-media', count: 1 },
+      update: { count: { increment: 1 } },
+    }).catch(() => {});
+
+    const notifyUserId = req.body.notifyEmail === 'true' ? req.userId : null;
+    if (isVideo) {
+      // Same worker as every other CloudConvert conversion: it refunds on
+      // failure and deletes the upload when done. fit "crop" fills the frame
+      // from the centre; "pad" keeps the whole picture with black bars.
+      const [width, height] = PRESET_SIZE[options.preset];
+      const videoOptions = {
+        width,
+        height,
+        fit: options.fit === 'cover' ? 'crop' : 'pad',
+        video_codec: 'x264',
+        audio_codec: 'aac',
+      };
+      convertFile(job.id, req.file, 'mp4', videoOptions, notifyUserId, req.userId, charged).catch((err) => {
+        console.error(`Social video resize failed for job ${job.id}:`, err);
+      });
+    } else {
+      socialImageJob(job.id, req.file, 'social-resize', options, outputFormat, notifyUserId, req.userId, charged).catch((err) => {
+        console.error(`Social image resize failed for job ${job.id}:`, err);
+      });
+    }
+
+    // The worker owns the refund from here on.
+    charged = 0;
+    res.status(201).json({ jobId: job.id, status: 'pending', credits: cost });
+  } catch (err) {
+    console.error('Social resize route error:', err);
+    if (charged > 0) refundCredits(req.userId, charged);
+    discardUploads(req.file);
+    res.status(500).json({ error: 'Failed to start resize' });
+  }
+});
 
 // ── Photo Collage ────────────────────────────────────────────────────
 // Several photos in, one grid image out. Composed locally with sharp (see

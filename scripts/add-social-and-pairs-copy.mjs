@@ -180,13 +180,18 @@ function appendToPackSection(src, section, lines, label) {
 for (const lang of ALL) {
   const file = path.join(PACKS, `${lang}.js`);
   let src = fs.readFileSync(file, 'utf8');
-  const { formats = {}, reasons = {}, t = {} } = load(lang).pack || {};
+  const { formats = {}, reasons = {}, t = {}, replace = {} } = load(lang).pack || {};
   src = appendToPackSection(src, 'formats', Object.entries(formats).map(([k, v]) => [
     k,
     `    ${/^[a-z]\w*$/.test(k) ? k : lit(k)}: {\n      about: ${lit(v.about)},\n      note: ${lit(v.note)},\n    },`,
   ]), lang);
   src = appendToPackSection(src, 'reasons', Object.entries(reasons).map(([k, v]) => [k, `    ${lit(k)}: ${lit(v)},`]), lang);
   src = appendToPackSection(src, 't', Object.entries(t).map(([k, v]) => [k, `    ${lit(k)}: ${lit(v)},`]), lang);
+  // pack.replace: { reasons: {...}, t: {...} } updates entries an earlier
+  // batch added (all written double-quoted by this script).
+  for (const [section, entries] of Object.entries(replace)) {
+    src = replaceInSection(src, section, entries, lang);
+  }
   fs.writeFileSync(file, src);
 }
 

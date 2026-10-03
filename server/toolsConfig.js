@@ -3,6 +3,9 @@
 
 // Raster formats sharp can decode with its prebuilt binaries (no HEIC).
 const SHARP_INPUTS = ['jpg', 'jpeg', 'png', 'webp', 'avif', 'gif', 'tiff', 'tif'];
+// Video containers whose duration lib/videoDuration.js can read, so the
+// length cap can be enforced before charging.
+const SOCIAL_VIDEO_INPUTS = ['mp4', 'mov', 'm4v', '3gp', 'webm'];
 
 const VALID_TOOLS = {
   // Document
@@ -155,7 +158,9 @@ const VALID_TOOLS = {
   'photo-collage': { inputFormats: ['jpg', 'jpeg', 'png', 'webp', 'avif', 'gif', 'tiff', 'tif'], outputFormats: ['jpg', 'png'], toolType: 'collage' },
   // Single-image tools run locally with sharp (lib/socialImage.js); their
   // options (preset, fit, shape, …) are validated there.
-  'resize-for-social-media':       { inputFormats: SHARP_INPUTS, outputFormats: ['jpg', 'png', 'webp'], toolType: 'social-resize' },
+  // Images go to sharp (1 credit), videos to CloudConvert (2 credits, MP4
+  // out). Handled by its own route, POST /api/convert/social-resize.
+  'resize-for-social-media':       { inputFormats: [...SHARP_INPUTS, ...SOCIAL_VIDEO_INPUTS], outputFormats: ['jpg', 'png', 'webp', 'mp4'], toolType: 'social-resize' },
   'profile-picture-maker':         { inputFormats: SHARP_INPUTS, outputFormats: ['png', 'jpg'], toolType: 'profile-picture' },
   'social-media-image-compressor': { inputFormats: SHARP_INPUTS, outputFormats: ['jpg'], toolType: 'social-compress' },
 };
@@ -168,4 +173,4 @@ const ALLOWED_ADVANCED_KEYS = [
   'audio_bitrate', 'audio_frequency',
 ];
 
-module.exports = { VALID_TOOLS, ALLOWED_ADVANCED_KEYS };
+module.exports = { VALID_TOOLS, ALLOWED_ADVANCED_KEYS, SOCIAL_VIDEO_INPUTS };
