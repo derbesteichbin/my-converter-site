@@ -108,7 +108,59 @@ export const TOOLS = [
   { slug: 'gif-to-mp4',     label: 'GIF to MP4',     category: 'GIF', inputFormats: ['gif'],                                          outputFormats: ['mp4', 'webm'],  acceptMime: '.gif' },
   { slug: 'image-to-gif',   label: 'Image to GIF',   category: 'GIF', inputFormats: ['jpg', 'jpeg', 'png', 'webp', 'bmp'],            outputFormats: ['gif'],          acceptMime: '.jpg,.jpeg,.png,.webp,.bmp' },
   { slug: 'gif-compressor', label: 'GIF Compressor', category: 'GIF', inputFormats: ['gif'],                                          outputFormats: ['gif'],          acceptMime: '.gif', toolType: 'compress' },
+
+  // ── Added: everyday pairs ──
+  // JPEG and JPG are one format: toolType 'rename' copies the bytes losslessly.
+  { slug: 'jpeg-to-jpg',  label: 'JPEG to JPG',  category: 'Image', inputFormats: ['jpeg'],        outputFormats: ['jpg'],                acceptMime: '.jpeg', toolType: 'rename' },
+  { slug: 'jpg-to-jpeg',  label: 'JPG to JPEG',  category: 'Image', inputFormats: ['jpg'],         outputFormats: ['jpeg'],               acceptMime: '.jpg',  toolType: 'rename' },
+  { slug: 'jpg-to-webp',  label: 'JPG to WebP',  category: 'Image', inputFormats: ['jpg', 'jpeg'], outputFormats: ['webp', 'png'],        acceptMime: '.jpg,.jpeg' },
+  { slug: 'png-to-webp',  label: 'PNG to WebP',  category: 'Image', inputFormats: ['png'],         outputFormats: ['webp', 'jpg'],        acceptMime: '.png' },
+  { slug: 'avif-to-jpg',  label: 'AVIF to JPG',  category: 'Image', inputFormats: ['avif'],        outputFormats: ['jpg', 'png', 'webp'], acceptMime: '.avif' },
+  { slug: 'avif-to-png',  label: 'AVIF to PNG',  category: 'Image', inputFormats: ['avif'],        outputFormats: ['png', 'jpg', 'webp'], acceptMime: '.avif' },
+  { slug: 'bmp-to-jpg',   label: 'BMP to JPG',   category: 'Image', inputFormats: ['bmp'],         outputFormats: ['jpg', 'png', 'webp'], acceptMime: '.bmp' },
+  { slug: 'tiff-to-png',  label: 'TIFF to PNG',  category: 'Image', inputFormats: ['tiff', 'tif'], outputFormats: ['png', 'jpg', 'webp'], acceptMime: '.tiff,.tif' },
+  { slug: 'ico-to-png',   label: 'ICO to PNG',   category: 'Image', inputFormats: ['ico'],         outputFormats: ['png', 'jpg'],         acceptMime: '.ico' },
+  { slug: 'gif-to-jpg',   label: 'GIF to JPG',   category: 'Image', inputFormats: ['gif'],         outputFormats: ['jpg', 'png', 'webp'], acceptMime: '.gif' },
+  { slug: 'jpg-to-pdf',   label: 'JPG to PDF',   category: 'Image', inputFormats: ['jpg', 'jpeg'], outputFormats: ['pdf'],                acceptMime: '.jpg,.jpeg' },
+  { slug: 'png-to-pdf',   label: 'PNG to PDF',   category: 'Image', inputFormats: ['png'],         outputFormats: ['pdf'],                acceptMime: '.png' },
+
+  { slug: 'txt-to-pdf',      label: 'TXT to PDF',      category: 'Document', inputFormats: ['txt'],          outputFormats: ['pdf', 'docx'],         acceptMime: '.txt' },
+  { slug: 'markdown-to-pdf', label: 'Markdown to PDF', category: 'Document', inputFormats: ['md'],           outputFormats: ['pdf', 'html', 'docx'], acceptMime: '.md' },
+  { slug: 'csv-to-excel',    label: 'CSV to Excel',    category: 'Document', inputFormats: ['csv'],          outputFormats: ['xlsx', 'pdf'],         acceptMime: '.csv' },
+  { slug: 'excel-to-csv',    label: 'Excel to CSV',    category: 'Document', inputFormats: ['xlsx', 'xls'],  outputFormats: ['csv'],                 acceptMime: '.xlsx,.xls' },
+  { slug: 'word-to-txt',     label: 'Word to TXT',     category: 'Document', inputFormats: ['docx', 'doc'],  outputFormats: ['txt'],                 acceptMime: '.docx,.doc' },
+
+  { slug: 'mp4-to-webm',  label: 'MP4 to WebM',  category: 'Video', inputFormats: ['mp4'],          outputFormats: ['webm', 'mkv', 'mov'], acceptMime: '.mp4' },
+  { slug: 'mp4-to-mkv',   label: 'MP4 to MKV',   category: 'Video', inputFormats: ['mp4'],          outputFormats: ['mkv', 'webm', 'mov'], acceptMime: '.mp4' },
+  { slug: 'm4v-to-mp4',   label: 'M4V to MP4',   category: 'Video', inputFormats: ['m4v'],          outputFormats: ['mp4', 'mov'],         acceptMime: '.m4v' },
+  { slug: '3gp-to-mp4',   label: '3GP to MP4',   category: 'Video', inputFormats: ['3gp'],          outputFormats: ['mp4', 'avi'],         acceptMime: '.3gp' },
+  { slug: 'mpeg-to-mp4',  label: 'MPEG to MP4',  category: 'Video', inputFormats: ['mpeg', 'mpg'],  outputFormats: ['mp4', 'avi'],         acceptMime: '.mpeg,.mpg' },
+
+  { slug: 'm4a-to-wav',   label: 'M4A to WAV',   category: 'Audio', inputFormats: ['m4a'],          outputFormats: ['wav', 'flac', 'mp3'], acceptMime: '.m4a' },
+  { slug: 'flac-to-wav',  label: 'FLAC to WAV',  category: 'Audio', inputFormats: ['flac'],         outputFormats: ['wav', 'mp3'],         acceptMime: '.flac' },
+  { slug: 'wav-to-flac',  label: 'WAV to FLAC',  category: 'Audio', inputFormats: ['wav'],          outputFormats: ['flac', 'mp3'],        acceptMime: '.wav' },
+  { slug: 'aiff-to-mp3',  label: 'AIFF to MP3',  category: 'Audio', inputFormats: ['aiff', 'aif'],  outputFormats: ['mp3', 'wav', 'flac'], acceptMime: '.aiff,.aif' },
+  { slug: 'opus-to-mp3',  label: 'OPUS to MP3',  category: 'Audio', inputFormats: ['opus'],         outputFormats: ['mp3', 'wav', 'ogg'],  acceptMime: '.opus' },
+  { slug: 'mp3-to-m4a',   label: 'MP3 to M4A',   category: 'Audio', inputFormats: ['mp3'],          outputFormats: ['m4a', 'aac'],         acceptMime: '.mp3' },
+
+  { slug: 'zip-to-tar',   label: 'ZIP to TAR',   category: 'Archive', inputFormats: ['zip'], outputFormats: ['tar', '7z'],  acceptMime: '.zip' },
+  { slug: 'rar-to-7z',    label: 'RAR to 7Z',    category: 'Archive', inputFormats: ['rar'], outputFormats: ['7z', 'zip'],  acceptMime: '.rar' },
+
+  // ── Social Media ──
+  // pdf-to-images: one image per page, downloadable singly or as a ZIP.
+  // photo-collage: several photos in, one grid image out (server-side sharp).
+  { slug: 'pdf-to-images', label: 'PDF to Images', category: 'Social Media', inputFormats: ['pdf'], outputFormats: ['jpg', 'png'], acceptMime: '.pdf', toolType: 'pdf-images' },
+  { slug: 'photo-collage', label: 'Photo Collage', category: 'Social Media', inputFormats: ['jpg', 'jpeg', 'png', 'webp', 'avif', 'gif', 'tiff', 'tif'], outputFormats: ['jpg', 'png'], acceptMime: '.jpg,.jpeg,.png,.webp,.avif,.gif,.tiff,.tif', toolType: 'collage', multipleFiles: true },
 ];
+
+// Photo Collage options. Mirrors LAYOUTS/FITS in server/lib/collage.js.
+export const COLLAGE_LAYOUTS = [
+  { id: 'auto', max: 16 },
+  { id: '2x2', max: 4 },
+  { id: '3x3', max: 9 },
+];
+export const COLLAGE_FITS = ['cover', 'contain'];
+export const COLLAGE_MIN_PHOTOS = 2;
 
 // ── Advanced Settings (per category) ─────────────────────────────────
 export const ADVANCED_SETTINGS = {
@@ -148,8 +200,13 @@ const SMART_FUNCTION_I18N = {
   'auto-subtitle': 'autoSubtitle',
 };
 
+// Tools whose name is words rather than "FORMAT to FORMAT" get a translated
+// name under `toolNames.<slug>`. Format pairs stay as-is in every language.
+const TRANSLATED_NAMES = new Set(['pdf-to-images', 'photo-collage']);
+
 export function getToolLabel(tool, t) {
   if (!tool) return '';
+  if (TRANSLATED_NAMES.has(tool.slug) && t) return t(`toolNames.${tool.slug}`, { defaultValue: tool.label });
   const key = SMART_FUNCTION_I18N[tool.slug];
   if (key && t) return t(`smartFunctions.${key}.name`, { defaultValue: tool.label });
   return tool.label;
@@ -167,7 +224,7 @@ export function getToolDescription(tool, t) {
   return '';
 }
 
-export const CATEGORY_ORDER = ['Document', 'Image', 'Video', 'Audio', 'GIF', 'Archive', 'PDF Tools', 'Utilities', 'Smart Functions'];
+export const CATEGORY_ORDER = ['Document', 'Image', 'Video', 'Audio', 'GIF', 'Archive', 'PDF Tools', 'Social Media', 'Utilities', 'Smart Functions'];
 
 export function getCategories() {
   return CATEGORY_ORDER.filter((cat) => TOOLS.some((t) => t.category === cat));

@@ -1,0 +1,139 @@
+{
+  "categories": {
+    "Social Media": "Social Media"
+  },
+  "categoryDescriptions": {
+    "Social Media": "Verwandeln Sie PDFs in postbare Bilder und kombinieren Sie Fotos zu Collagen für Instagram und andere Plattformen."
+  },
+  "toolNames": {
+    "pdf-to-images": "PDF in Bilder",
+    "photo-collage": "Fotocollage"
+  },
+  "tool": {
+    "collageLayoutLabel": "Layout",
+    "collageLayout_auto": "Automatisch (bis zu {{max}} Fotos)",
+    "collageLayout_2by2": "2 × 2-Raster (bis zu {{max}} Fotos)",
+    "collageLayout_3by3": "3 × 3-Raster (bis zu {{max}} Fotos)",
+    "collageFitLabel": "Fotoanpassung",
+    "collageFit_cover": "Jedes Quadrat füllen (schneidet Ränder ab)",
+    "collageFit_contain": "Ganzes Foto zeigen (fügt weißen Rand hinzu)",
+    "collageCount": "{{count}} Fotos ausgewählt — dieses Layout fasst bis zu {{max}}.",
+    "collageTooFew": "Fügen Sie mindestens {{min}} Fotos hinzu, um eine Collage zu erstellen.",
+    "collageTooMany": "Dieses Layout fasst bis zu {{max}} Fotos. Entfernen Sie {{extra}} oder wählen Sie ein größeres Layout.",
+    "collageBadType": "Eine der Dateien ist kein unterstütztes Bild. Verwenden Sie JPG, PNG, WebP, AVIF, GIF oder TIFF.",
+    "collageReorderHint": "Ziehen Sie die Fotos, um ihre Reihenfolge in der Collage festzulegen",
+    "collageCreate": "Collage erstellen",
+    "collagePhotos": "{{count}} Fotos",
+    "collagePreviewAlt": "Vorschau Ihrer Collage",
+    "confirmCollageBody": "Dies kombiniert {{count}} Fotos zu einer Collage und verbraucht 1 Credit. Sie haben {{remaining}} Credits übrig.",
+    "pdfPagesTitle": "Einzelne Seiten ({{count}})",
+    "pdfPagesZip": "Alle herunterladen (ZIP)"
+  },
+  "toolDescriptions": {
+    "jpeg-to-jpg": "Ändern Sie eine .jpeg-Datei in .jpg, ohne ein einziges Pixel anzutasten. JPEG und JPG sind dasselbe Format, das Bild wird also unverändert mit der neuen Endung kopiert.",
+    "jpg-to-jpeg": "Ändern Sie eine .jpg-Datei ohne Qualitätsverlust in .jpeg. Das Bild wird Byte für Byte kopiert und erhält nur die Endung, die ein Formular oder Programm erwartet.",
+    "jpg-to-webp": "Konvertieren Sie JPG-Fotos in WebP für deutlich kleinere Dateien bei ähnlicher Qualität. Ideal für schnellere Websites und bessere Page-Speed-Werte.",
+    "png-to-webp": "Konvertieren Sie PNG-Grafiken in WebP, um die Dateigröße zu senken und die Transparenz zu behalten. Ideal für Logos, Screenshots und Webgrafiken.",
+    "avif-to-jpg": "Konvertieren Sie moderne AVIF-Bilder in JPG, damit sie sich in jeder Foto-App, jedem Office-Programm und jedem Upload-Formular öffnen lassen.",
+    "avif-to-png": "Konvertieren Sie AVIF-Bilder in PNG für verlustfreie Bearbeitung mit Transparenz in jedem Bildeditor.",
+    "bmp-to-jpg": "Verkleinern Sie sperrige BMP-Bitmaps zu kompakten JPG-Fotos, die sich leicht per E-Mail versenden, hochladen und teilen lassen.",
+    "tiff-to-png": "Konvertieren Sie große TIFF-Scans und Druckdateien in PNG — verlustfrei, scharf und in jedem Browser darstellbar.",
+    "ico-to-png": "Extrahieren Sie das Bild aus einem ICO-Favicon oder Windows-Symbol als PNG, das Sie bearbeiten oder wiederverwenden können.",
+    "gif-to-jpg": "Speichern Sie ein GIF als JPG-Standbild — praktisch für Vorschaubilder, Dokumente und Websites, die keine GIFs akzeptieren.",
+    "jpg-to-pdf": "Verwandeln Sie JPG-Fotos und Scans in ein PDF-Dokument — ideal für Belege, Ausweiskopien und unterschriebene Seiten, die als PDF eingereicht werden müssen.",
+    "png-to-pdf": "Konvertieren Sie PNG-Screenshots, Diagramme und Grafiken in ein PDF, das sich leicht versenden, drucken und archivieren lässt.",
+    "txt-to-pdf": "Konvertieren Sie reine Textdateien in PDF (oder Word) mit festem Layout, das auf jedem Gerät gleich aussieht und gleich gedruckt wird.",
+    "markdown-to-pdf": "Wandeln Sie Markdown-Dateien in ein sauber formatiertes PDF, eine HTML-Seite oder ein Word-Dokument um — mit Überschriften, Listen, Links und Code.",
+    "csv-to-excel": "Machen Sie aus CSV-Daten eine richtige Excel-Arbeitsmappe mit echten Spalten, bereit für Formeln, Filter und Diagramme.",
+    "excel-to-csv": "Exportieren Sie eine Excel-Tabelle als CSV für den Import in CRMs, Onlineshops, Newsletter-Tools und Datenbanken.",
+    "word-to-txt": "Extrahieren Sie den reinen Text aus Word-Dokumenten — ohne Formatierung, nur die Wörter, bereit zum Einfügen überall.",
+    "mp4-to-webm": "Konvertieren Sie MP4-Videos in WebM, das offene Webformat, das moderne Browser nativ abspielen.",
+    "mp4-to-mkv": "Konvertieren Sie MP4-Videos in MKV, den flexiblen Container, den Medienserver und Archive bevorzugen.",
+    "m4v-to-mp4": "Konvertieren Sie Apple-M4V-Videos in MP4, damit sie auf Android, unter Windows und in jedem Videoeditor laufen.",
+    "3gp-to-mp4": "Konvertieren Sie alte 3GP-Handyvideos in MP4, das auf jedem modernen Smartphone, Computer und jeder Social-Media-Plattform läuft.",
+    "mpeg-to-mp4": "Konvertieren Sie MPEG- und MPG-Videos in kompaktes, breit unterstütztes MP4.",
+    "m4a-to-wav": "Konvertieren Sie M4A-Audio wie iPhone-Sprachmemos in unkomprimiertes WAV für Bearbeitung und Produktion.",
+    "flac-to-wav": "Konvertieren Sie verlustfreies FLAC in WAV für Audioeditoren, das Brennen von CDs und Geräte ohne FLAC-Unterstützung — ohne Qualitätsverlust.",
+    "wav-to-flac": "Komprimieren Sie WAV-Aufnahmen zu FLAC und sparen Sie rund die Hälfte des Speicherplatzes, ohne ein einziges Sample zu verändern.",
+    "aiff-to-mp3": "Konvertieren Sie große AIFF-Audiodateien aus Mac-Apps in kleine, überall abspielbare MP3s.",
+    "opus-to-mp3": "Konvertieren Sie OPUS-Sprachnachrichten und Aufnahmen in MP3, das in jedem Player, Autoradio und Editor läuft.",
+    "mp3-to-m4a": "Konvertieren Sie MP3 in M4A für Apple Music, iTunes und iPhone-Klingeltöne.",
+    "zip-to-tar": "Konvertieren Sie ZIP-Archive in TAR für Linux-Server, Deployments und Entwicklerwerkzeuge.",
+    "rar-to-7z": "Konvertieren Sie RAR-Archive in das freie, offene 7Z-Format mit starker Kompression.",
+    "pdf-to-images": "Teilen Sie ein PDF in ein Bild pro Seite auf — JPG oder PNG — bereit zum Posten auf Instagram, LinkedIn und anderen sozialen Plattformen. Laden Sie die Seiten einzeln oder alle zusammen als ZIP herunter.",
+    "photo-collage": "Kombinieren Sie mehrere Fotos zu einem Bild in einem ordentlichen Raster, sodass alle auf einen Blick zu sehen sind. Wählen Sie Automatisch, 2×2 oder 3×3 und laden Sie ein einzelnes JPG oder PNG herunter."
+  },
+  "pack": {
+    "formats": {
+      "avif": {
+        "about": "AVIF ist ein modernes Bildformat auf Basis des AV1-Videocodecs; es erzeugt bei gleicher Qualität einige der kleinsten Dateien überhaupt und unterstützt Transparenz, doch ältere Software kann es oft nicht öffnen.",
+        "note": "AVIF liefert sehr kleine Dateien in guter Qualität für moderne Browser und Apps."
+      },
+      "md": {
+        "about": "Markdown ist reiner Text mit leichten Formatierungszeichen — # für Überschriften, * für Hervorhebungen, - für Listen —, der als Rohtext lesbar bleibt und sich in ein gestaltetes Dokument umwandeln lässt.",
+        "note": "Markdown hält Ihre Inhalte als einfachen Text, der sich leicht bearbeiten und in der Versionsverwaltung nachverfolgen lässt."
+      },
+      "aif": {
+        "about": "AIF ist die kurze Endung für AIFF, Apples unkomprimiertes Audioformat: Jedes Sample wird genau so gespeichert, wie es aufgenommen wurde — das ergibt Studioqualität und sehr große Dateien.",
+        "note": "AIF hält Audio unkomprimiert und bereit für die Bearbeitung auf dem Mac."
+      }
+    },
+    "reasons": {
+      "jpeg-to-jpg": "Der übliche Anlass ist ein Formular, ein Website-Baukasten oder ein älteres Programm, das auf der Endung .jpg besteht und genau dasselbe Bild als .jpeg ablehnt.",
+      "jpg-to-jpeg": "Manche Upload-Formulare, Fotolabore und ältere Systeme akzeptieren nur die Endung .jpeg und weisen eine .jpg zurück, obwohl der Inhalt identisch ist.",
+      "jpg-to-webp": "Meist geht es darum, eine Website zu beschleunigen: WebP-Fotos sind bei ähnlicher Bildqualität typischerweise ein Viertel bis ein Drittel kleiner als dasselbe JPG — das bedeutet schnellere Seiten und bessere Page-Speed-Werte.",
+      "png-to-webp": "Der typische Fall ist eine Website voller PNG-Screenshots, Logos und Grafiken, die langsam laden — WebP behält die Transparenz bei, verkleinert die Datei aber meist erheblich.",
+      "avif-to-jpg": "AVIF-Bilder von modernen Websites oder neueren Smartphones lassen sich in älteren Bildeditoren, Office-Programmen oder Upload-Formularen oft nicht öffnen, während JPG wirklich überall funktioniert.",
+      "avif-to-png": "Das brauchen Sie meist, wenn eine AVIF-Grafik in einem Programm bearbeitet, in Ebenen aufgebaut oder auf einen anderen Hintergrund gesetzt werden muss, das AVIF noch nicht lesen kann.",
+      "bmp-to-jpg": "BMP-Dateien aus alten Scannern, Windows Paint oder Industriesoftware sind riesig, weil sie unkomprimiert sind; als JPG werden sie klein genug zum Versenden oder Hochladen.",
+      "tiff-to-png": "Scans und druckfertige TIFFs sind für das Web zu schwer und zu schlecht unterstützt; PNG hält jedes Pixel scharf und öffnet sich in jedem Browser.",
+      "ico-to-png": "Der typische Grund ist, an die Grafik in einem Favicon oder Windows-Symbol zu kommen, um sie in einem Design, einem Dokument oder einer Präsentation wiederzuverwenden.",
+      "gif-to-jpg": "Meist brauchen Sie nur ein einzelnes Standbild aus einem GIF — für ein Vorschaubild, ein Dokument oder eine Website, die keine animierten Bilder annimmt.",
+      "jpg-to-pdf": "Die klassische Situation ist ein Antrag oder eine Schadensmeldung, die ein PDF verlangt, während Sie nur ein Handyfoto eines Belegs, eines Ausweises oder einer unterschriebenen Seite haben.",
+      "png-to-pdf": "Man nutzt es, um Screenshots, Diagramme oder gescannte Seiten als ordentliches Dokument einzureichen — viele Portale und E-Mail-Empfänger erwarten ein PDF, kein Bild.",
+      "txt-to-pdf": "Reiner Text sieht in jedem Editor anders aus; werden Notizen, Logs oder ein Entwurf zum PDF, sind Schrift und Layout fixiert, sodass alle dasselbe lesen und drucken.",
+      "markdown-to-pdf": "Autoren und Entwickler schreiben in Markdown, doch Kollegen und Kunden erwarten ein fertiges Dokument — eine README, einen Bericht oder Notizen, die sie ohne spezielle Werkzeuge öffnen können.",
+      "csv-to-excel": "CSV-Exporte von Banken, Shops und Datenbanken öffnen sich oft mit verrutschten Spalten, verlorenen führenden Nullen oder verdrehten Datumsangaben; eine Excel-Arbeitsmappe hält die Daten in echten Zellen, bereit für Summen und Diagramme.",
+      "excel-to-csv": "Die meisten Import-Tools — CRMs, Newsletter-Dienste, Onlineshops und Datenbanken — akzeptieren nur CSV, daher muss eine Tabelle vor dem Hochladen flach gemacht werden.",
+      "word-to-txt": "Meist sollen die Wörter dort wiederverwendet werden, wo Word-Dateien nicht verstanden werden: in einem Code-Editor, einem Website-CMS, einem Untertitel-Tool oder einem KI-Prompt.",
+      "mp4-to-webm": "Webentwickler konvertieren in WebM für offenes, lizenzfreies Video, das Browser nativ abspielen und das bei ähnlicher Qualität oft kleiner ist als das MP4.",
+      "mp4-to-mkv": "MKV ist der bevorzugte Container für Archive und Medienserver wie Plex oder Jellyfin, weil eine Datei mehrere Tonspuren, Untertitel und Kapitel enthalten kann.",
+      "m4v-to-mp4": "M4V-Dateien aus iTunes oder von Apple-Geräten lassen sich auf Android, unter Windows oder in Videoeditoren oft nicht öffnen, während MP4 überall läuft.",
+      "3gp-to-mp4": "Alte Handyvideos liegen oft als 3GP vor, das moderne Computer, Smartphones und soziale Plattformen häufig nicht abspielen oder hochladen können.",
+      "mpeg-to-mp4": "MPEG-Dateien aus DVD-Rips, alten Camcordern und TV-Aufnahmen sind groß und auf Smartphones schlecht unterstützt; MP4 verkleinert sie und läuft überall.",
+      "m4a-to-wav": "Audioeditoren, Sampler und manche Rundfunkwerkzeuge verlangen unkomprimiertes WAV, während iPhone-Sprachmemos und iTunes-Downloads als M4A ankommen.",
+      "flac-to-wav": "Audio-Workstations, CD-Brennprogramme und manche Hardware-Player verarbeiten WAV, aber kein FLAC — und da beide verlustfrei sind, geht unterwegs nichts verloren.",
+      "wav-to-flac": "Musiker und Archivare nutzen es, um große WAV-Aufnahmen etwa auf die Hälfte zu verkleinern, während jedes Sample bitgenau erhalten bleibt.",
+      "aiff-to-mp3": "AIFF-Aufnahmen aus Logic, GarageBand oder Mac-Sample-Bibliotheken sind groß; als MP3 werden sie klein genug zum Teilen, Streamen oder Abspielen auf jedem Gerät.",
+      "opus-to-mp3": "Sprachnachrichten aus WhatsApp und Telegram sowie viele Webaufnahmen werden als OPUS gespeichert, das Autoradios, ältere Player und Editoren oft nicht abspielen.",
+      "mp3-to-m4a": "Meist geht es um Apple-Geräte — M4A funktioniert gut in Apple Music und iTunes und ist der Ausgangspunkt für einen iPhone-Klingelton.",
+      "zip-to-tar": "Entwickler und Serveradministratoren brauchen TAR beim Deployment auf Linux-Systeme, beim Bauen von Container-Images oder für Werkzeuge, die einen Tarball statt eines ZIP erwarten.",
+      "rar-to-7z": "RAR-Archive werden als 7Z neu gepackt, um ein freies, offenes Format zu nutzen, das 7-Zip nativ erstellt und öffnet — oft mit noch besserer Kompression.",
+      "pdf-to-images": "Es ist für Social Media gemacht: Instagram-Karussells, LinkedIn-Beiträge und Storys brauchen Bilder, keine PDFs, also muss eine Präsentation, eine Speisekarte oder ein Flyer zu einem Bild pro Seite werden.",
+      "photo-collage": "Der übliche Grund ist, mehrere Fotos als eines zu teilen — ein Vorher-nachher, einen Urlaubsrückblick oder eine Produktreihe, die man auf einen Blick sehen soll, statt sich einzeln durchzuwischen."
+    },
+    "t": {
+      "shapeFaq.rename.q1": "Verschlechtert die Umwandlung von {{fn}} in {{tn}} die Qualität meines Fotos?",
+      "shapeFaq.rename.a1": "Nein. {{fn}} und {{tn}} sind zwei Schreibweisen der Endung für ein und dasselbe Bildformat, es wird also nichts dekodiert oder neu komprimiert. Ihre Datei wird Byte für Byte kopiert und erhält nur die neue Endung — das Ergebnis ist mit dem Original identisch, einschließlich der EXIF-Daten.",
+      "shapeFaq.rename.q2": "Wenn {{fn}} und {{tn}} dasselbe Format sind, warum überhaupt umwandeln?",
+      "shapeFaq.rename.a2": "Weil manche Software die Endung statt des Inhalts prüft. Upload-Formulare, ältere Programme und einige Fotodienste akzeptieren nur eine der beiden Schreibweisen und lehnen die andere ab, obwohl das Bild darin identisch ist. Eine geänderte Endung genügt, damit die Datei angenommen wird.",
+      "intro.lead.pdf-images": "PDF in Bilder verwandelt jede Seite eines PDFs in ein eigenes JPG- oder PNG-Bild, nummeriert in Seitenreihenfolge, sodass sich jede Seite einzeln posten, teilen oder bearbeiten lässt. Ein PDF hält seine Seiten in einer Datei mit festem Layout zusammen — genau deshalb lässt es sich dort nicht posten, wo nur Bilder erlaubt sind.",
+      "steps.pdf-images.1": "Ziehen Sie Ihr PDF auf den Uploadbereich oben auf dieser Seite oder klicken Sie darauf, um die Datei auf Ihrem Gerät auszuwählen.",
+      "steps.pdf-images.2": "Wählen Sie JPG für kleinere Dateien, die sich für Fotos und Social Media eignen, oder PNG für scharfen Text und Grafiken, und klicken Sie dann auf Konvertieren.",
+      "steps.pdf-images.3": "Laden Sie jede Seite einzeln herunter oder holen Sie sich alle Seiten auf einmal als ZIP. Die Links bleiben 24 Stunden aktiv, danach wird alles gelöscht.",
+      "shapeFaq.pdf-images.q1": "Wird jede Seite meines PDFs zu einem eigenen Bild?",
+      "shapeFaq.pdf-images.a1": "Ja. Jede Seite wird als eigenes Bild gerendert und der Reihe nach nummeriert — page-01, page-02 und so weiter —, ein zehnseitiges PDF ergibt also zehn Bilder. Sie können sie einzeln oder zusammen in einer ZIP-Datei herunterladen, und das ganze PDF kostet nur einen Credit, egal wie viele Seiten es hat.",
+      "shapeFaq.pdf-images.q2": "Eignen sich die Bilder für Instagram und andere soziale Medien?",
+      "shapeFaq.pdf-images.a2": "Ja. Die Seiten werden in hoher Auflösung gerendert und bleiben daher scharf, wenn Instagram, LinkedIn oder Facebook sie verkleinern. Hochformatige Seiten eignen sich gut als Instagram-Karussell; für die beste Passform gestalten Sie die Folien vor dem PDF-Export im Format 4:5 oder quadratisch und wählen JPG, damit die Uploads klein bleiben.",
+      "intro.lead.collage": "Fotocollage kombiniert mehrere Fotos zu einem Bild: Jedes Foto wird skaliert und mit gleichmäßigen Abständen in ein ordentliches Raster gesetzt, sodass alles auf einen Blick zu sehen ist, statt einzeln durchgeblättert zu werden. Wählen Sie ein automatisches Layout oder ein festes 2×2- oder 3×3-Raster und erhalten Sie ein einzelnes JPG oder PNG.",
+      "steps.collage.1": "Fügen Sie 2 bis 16 Fotos hinzu, indem Sie sie auf den Uploadbereich ziehen oder zum Auswählen klicken, und ziehen Sie sie dann in der Liste in die gewünschte Reihenfolge.",
+      "steps.collage.2": "Wählen Sie ein Layout — Automatisch, 2×2 oder 3×3 —, legen Sie fest, ob die Fotos ihre Quadrate füllen oder ganz gezeigt werden sollen, und wählen Sie JPG oder PNG.",
+      "steps.collage.3": "Klicken Sie auf Collage erstellen, prüfen Sie die Vorschau und laden Sie Ihr fertiges Bild herunter. Es bleibt 24 Stunden verfügbar.",
+      "shapeFaq.collage.q1": "Werden meine Fotos in der Collage beschnitten?",
+      "shapeFaq.collage.a1": "Das entscheiden Sie. Mit „Jedes Quadrat füllen“ wird jedes Foto quadratisch zugeschnitten, zentriert auf den interessantesten Teil des Bildes — das ergibt das ordentlichste Raster. Mit „Ganzes Foto zeigen“ wird nichts abgeschnitten: Das Foto wird passend verkleinert und der restliche Platz mit Weiß gefüllt.",
+      "shapeFaq.collage.q2": "Wie viele Fotos passen in eine Collage?",
+      "shapeFaq.collage.a2": "Mindestens 2 und bis zu 16 mit dem automatischen Layout, das für die Anzahl Ihrer Fotos das quadratischste Raster wählt. Das 2×2-Raster fasst bis zu 4 Fotos, das 3×3-Raster bis zu 9. Jede Collage kostet einen Credit, egal wie viele Fotos sie enthält.",
+      "intro.rename": "{{fn}} und {{tn}} sind dasselbe Bildformat unter zwei verschiedenen Dateiendungen, daher ändert diese Umwandlung nur den Namen: Das Bild wird Byte für Byte kopiert, ohne erneute Komprimierung und ohne Qualitätsverlust. {{reason}}"
+    }
+  }
+}

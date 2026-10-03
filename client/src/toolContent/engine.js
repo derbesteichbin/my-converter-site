@@ -143,6 +143,7 @@ function relationFaq(t, f, tv, fn, tn) {
 const ACTION_STEP_SHAPES = [
   'pdf-merge', 'pdf-split', 'pdf-compress', 'pdf-rotate', 'pdf-protect',
   'pdf-unlock', 'metadata', 'ocr', 'tts', 'stt', 'subtitle', 'soon',
+  'pdf-images', 'collage',
 ];
 
 function buildSteps(t, shape, tool, fn, tn, family, isSmart, inputs, categoryNoun) {
@@ -158,7 +159,8 @@ function buildSteps(t, shape, tool, fn, tn, family, isSmart, inputs, categoryNou
   const isHub = shape.indexOf('hub') === 0;
   const batch = isSmart ? 'single' : 'batch';
   const multiOut = (tool.outputFormats || []).length > 1;
-  const media = family === 'image' || family === 'video' || family === 'audio';
+  // A rename has no quality or size settings to mention.
+  const media = shape !== 'rename' && (family === 'image' || family === 'video' || family === 'audio');
   const variant = (multiOut ? 'dropdown' : 'direct') + (media ? 'Media' : '');
 
   if (isHub) {
@@ -179,6 +181,7 @@ function buildSteps(t, shape, tool, fn, tn, family, isSmart, inputs, categoryNou
 const LEAD_SHAPES = [
   'pdf-merge', 'pdf-split', 'pdf-compress', 'pdf-compress-ai', 'pdf-rotate',
   'pdf-protect', 'pdf-unlock', 'metadata', 'ocr', 'tts', 'stt', 'subtitle',
+  'pdf-images', 'collage',
 ];
 
 function buildIntro(t, shape, tool, f, tv, fn, tn, reason, inputs, outputs, categoryNoun) {
@@ -190,6 +193,9 @@ function buildIntro(t, shape, tool, f, tv, fn, tn, reason, inputs, outputs, cate
     return t('intro.compress', { fn, about: (f && f.aboutText) || '', reason, extra });
   }
   if (shape === 'soon') return t('intro.soon', { reason });
+  // Same format under another extension: the lossy/lossless prose of the
+  // ordinary intro would describe a re-encode that never happens.
+  if (shape === 'rename') return t('intro.rename', { fn, tn, about: (tv && tv.aboutText) || '', reason });
   if (LEAD_SHAPES.indexOf(shape) !== -1) {
     return t('intro.lead', { lead: t('intro.lead.' + shape, { fn, tn }), reason });
   }
@@ -206,9 +212,10 @@ const SHAPE_FAQ_SHAPES = [
   'pdf-merge', 'pdf-split', 'pdf-compress', 'pdf-compress-ai', 'pdf-rotate',
   'pdf-protect', 'pdf-unlock', 'metadata', 'ocr', 'tts', 'stt', 'subtitle',
   'soon', 'compress', 'hub', 'hub-extract', 'hub-gif',
+  'rename', 'pdf-images', 'collage',
 ];
 
-function shapeFaq(t, shape, fn, inputs, outputs) {
+function shapeFaq(t, shape, fn, tn, inputs, outputs) {
   if (SHAPE_FAQ_SHAPES.indexOf(shape) === -1) return null;
   if (shape === 'compress') {
     const alpha = fn === 'PNG' || fn === 'GIF' ? t('shapeFaq.compress.alpha', { fn }) : '';
@@ -220,7 +227,7 @@ function shapeFaq(t, shape, fn, inputs, outputs) {
       { q: t('shapeFaq.compress.q2', { fn }), a: t('shapeFaq.compress.a2', { fn }) },
     ];
   }
-  const v = { fn, inputs, outputs };
+  const v = { fn, tn, inputs, outputs };
   return [
     { q: t('shapeFaq.' + shape + '.q1', v), a: t('shapeFaq.' + shape + '.a1', v) },
     { q: t('shapeFaq.' + shape + '.q2', v), a: t('shapeFaq.' + shape + '.a2', v) },
@@ -251,9 +258,11 @@ export function buildToolContent(tool, pack, fallbackPack) {
   const tv = withProse(toKey);
 
   // Headings reuse the tool's own label when it reads "X to Y" so they match
-  // the page title.
+  // the page title. `displayLabel` is the translated name, for tools whose
+  // name is words rather than a format pair.
+  const label = tool.displayLabel || tool.label;
   const labelMatch = /^(.+?) to (.+)$/.exec(tool.label || '');
-  const isPair = shape === 'convert' && !!labelMatch;
+  const isPair = (shape === 'convert' || shape === 'rename') && !!labelMatch;
   const from = labelMatch ? labelMatch[1] : (f ? f.name : '');
   const to = labelMatch ? labelMatch[2] : (tv ? tv.name : '');
   const fn = f ? f.name : from;
@@ -283,8 +292,8 @@ export function buildToolContent(tool, pack, fallbackPack) {
 
   const faq = [
     {
-      q: isPair ? t('faq.cost.q.pair', { from, to }) : t('faq.cost.q.tool', { label: tool.label }),
-      a: t(costKey, { from, to, label: tool.label }),
+      q: isPair ? t('faq.cost.q.pair', { from, to }) : t('faq.cost.q.tool', { label }),
+      a: t(costKey, { from, to, label }),
     },
     qualityFaq(t, f, tv, fn, tn),
     relationFaq(t, f, tv, fn, tn) || {
@@ -296,7 +305,7 @@ export function buildToolContent(tool, pack, fallbackPack) {
       }),
     },
     {
-      q: isPair ? t('faq.time.q.pair', { from, to }) : t('faq.time.q.tool', { label: tool.label }),
+      q: isPair ? t('faq.time.q.pair', { from, to }) : t('faq.time.q.tool', { label }),
       a: t('faq.time.a', { speed: t('faq.time.speed.' + family), suffix: timeSuffix }),
     },
     {
@@ -305,7 +314,7 @@ export function buildToolContent(tool, pack, fallbackPack) {
     },
   ];
 
-  const overrides = shapeFaq(t, shape, fn, inputs, outputs);
+  const overrides = shapeFaq(t, shape, fn, tn, inputs, outputs);
   if (overrides) {
     if (overrides[0]) faq[1] = overrides[0];
     if (overrides[1]) faq[2] = overrides[1];
@@ -314,11 +323,11 @@ export function buildToolContent(tool, pack, fallbackPack) {
   // The two tools that never run a conversion need different cost and timing
   // answers from everything else.
   if (shape === 'metadata') {
-    faq[0] = { q: t('faq.cost.q.metadata', { label: tool.label }), a: t('faq.cost.a.metadata') };
+    faq[0] = { q: t('faq.cost.q.metadata', { label }), a: t('faq.cost.a.metadata') };
     faq[3] = { q: t('faq.time.q.metadata'), a: t('faq.time.a.metadata') };
   }
   if (shape === 'soon') {
-    faq[0] = { q: t('faq.cost.q.soon', { label: tool.label }), a: t('faq.cost.a.soon') };
+    faq[0] = { q: t('faq.cost.q.soon', { label }), a: t('faq.cost.a.soon') };
     faq[3] = { q: t('faq.time.q.soon'), a: t('faq.time.a.soon') };
   }
 
@@ -326,7 +335,7 @@ export function buildToolContent(tool, pack, fallbackPack) {
     pair: isPair,
     from,
     to,
-    label: tool.label,
+    label,
     intro,
     steps,
     faq: faq

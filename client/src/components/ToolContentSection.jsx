@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { buildToolContent, buildFaqJsonLd, loadPack, packLanguage } from '../toolContent';
+import { getToolLabel } from '../toolsConfig';
 
 // Per-tool SEO content rendered below the conversion area.
 //
@@ -22,7 +23,12 @@ export default function ToolContentSection({ tool }) {
     return () => { live = false; };
   }, [lang]);
 
-  const content = useMemo(() => (pack ? buildToolContent(tool, pack) : null), [tool, pack]);
+  // Named tools (Photo Collage, …) are translated; format pairs come back unchanged.
+  const displayLabel = getToolLabel(tool, t);
+  const content = useMemo(
+    () => (pack && tool ? buildToolContent({ ...tool, displayLabel }, pack) : null),
+    [tool, pack, displayLabel]
+  );
   const faqJsonLd = useMemo(() => buildFaqJsonLd(content), [content]);
 
   if (!content) return null;

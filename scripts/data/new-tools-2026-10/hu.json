@@ -1,0 +1,139 @@
+{
+  "categories": {
+    "Social Media": "Közösségi média"
+  },
+  "categoryDescriptions": {
+    "Social Media": "Alakítsa a PDF-eket posztolható képekké, és fűzze össze fotóit kollázzsá az Instagramhoz és más platformokhoz."
+  },
+  "toolNames": {
+    "pdf-to-images": "PDF-ből képek",
+    "photo-collage": "Fotókollázs"
+  },
+  "tool": {
+    "collageLayoutLabel": "Elrendezés",
+    "collageLayout_auto": "Automatikus (legfeljebb {{max}} fotó)",
+    "collageLayout_2by2": "2 × 2-es rács (legfeljebb {{max}} fotó)",
+    "collageLayout_3by3": "3 × 3-as rács (legfeljebb {{max}} fotó)",
+    "collageFitLabel": "Fotók illesztése",
+    "collageFit_cover": "Minden négyzet kitöltése (a széleket levágja)",
+    "collageFit_contain": "Teljes fotó megjelenítése (fehér helyet ad hozzá)",
+    "collageCount": "{{count}} fotó kiválasztva — ebbe az elrendezésbe legfeljebb {{max}} fér.",
+    "collageTooFew": "Adj hozzá legalább {{min}} fotót a kollázs elkészítéséhez.",
+    "collageTooMany": "Ebbe az elrendezésbe legfeljebb {{max}} fotó fér. Távolíts el {{extra}} fotót, vagy válassz nagyobb elrendezést.",
+    "collageBadType": "Az egyik fájl nem támogatott kép. Használj JPG, PNG, WebP, AVIF, GIF vagy TIFF formátumot.",
+    "collageReorderHint": "Húzd a fotókat, hogy beállítsd a sorrendjüket a kollázsban",
+    "collageCreate": "Kollázs készítése",
+    "collagePhotos": "{{count}} fotó",
+    "collagePreviewAlt": "A kollázsod előnézete",
+    "confirmCollageBody": "Ez {{count}} fotót fűz össze egyetlen kollázzsá, és 1 kreditet használ fel. {{remaining}} kredited van hátra.",
+    "pdfPagesTitle": "Különálló oldalak ({{count}})",
+    "pdfPagesZip": "Összes letöltése (ZIP)"
+  },
+  "toolDescriptions": {
+    "jpeg-to-jpg": "Módosítsa a .jpeg fájlt .jpg kiterjesztésűre anélkül, hogy egyetlen pixelhez is hozzányúlna. A JPEG és a JPG ugyanaz a formátum, így a kép változatlanul, csak új kiterjesztéssel másolódik.",
+    "jpg-to-jpeg": "Módosítsa a .jpg fájlt .jpeg kiterjesztésűre minőségromlás nélkül. A kép bájtról bájtra másolódik, és csak azt a kiterjesztést kapja meg, amelyet egy űrlap vagy program elvár.",
+    "jpg-to-webp": "Alakítsa át JPG fotóit WebP formátumba, hogy hasonló minőség mellett érezhetően kisebb fájlokat kapjon. Ideális gyorsabb weboldalakhoz és jobb oldalsebesség-pontszámokhoz.",
+    "png-to-webp": "Alakítsa át PNG grafikáit WebP formátumba, hogy csökkentse a fájlméretet, és megőrizze az átlátszóságot. Kiváló logókhoz, képernyőképekhez és webes grafikákhoz.",
+    "avif-to-jpg": "Alakítsa át a modern AVIF képeket JPG formátumba, hogy minden fotóalkalmazásban, irodai programban és feltöltési űrlapon megnyíljanak.",
+    "avif-to-png": "Alakítsa át az AVIF képeket PNG formátumba veszteségmentes, átlátszóságot megőrző szerkesztéshez bármely képszerkesztőben.",
+    "bmp-to-jpg": "Zsugorítsa a terjedelmes BMP bitképeket kompakt JPG fotókká, amelyeket könnyű e-mailben elküldeni, feltölteni és megosztani.",
+    "tiff-to-png": "Alakítsa át a nagy TIFF szkenneléseket és nyomdai fájlokat PNG formátumba — veszteségmentesen, élesen, bármely böngészőben megtekinthetően.",
+    "ico-to-png": "Nyerje ki a képet egy ICO faviconból vagy Windows-ikonból PNG-ként, amelyet szerkeszthet vagy újra felhasználhat.",
+    "gif-to-jpg": "Mentse a GIF-et JPG állóképként — hasznos bélyegképekhez, dokumentumokhoz és olyan oldalakhoz, amelyek nem fogadnak el GIF-et.",
+    "jpg-to-pdf": "Alakítsa JPG fotóit és szkenneléseit PDF dokumentummá — tökéletes nyugtákhoz, igazolványmásolatokhoz és aláírt oldalakhoz, amelyeket PDF-ként kell benyújtani.",
+    "png-to-pdf": "Alakítsa PNG képernyőképeit, diagramjait és grafikáit könnyen elküldhető, nyomtatható és archiválható PDF-fé.",
+    "txt-to-pdf": "Alakítsa az egyszerű szöveges fájlokat PDF-fé (vagy Word dokumentummá) rögzített elrendezéssel, amely minden eszközön ugyanúgy olvasható és nyomtatható.",
+    "markdown-to-pdf": "Alakítsa Markdown fájljait letisztult, formázott PDF-fé, HTML oldallá vagy Word dokumentummá — címsorokkal, listákkal, hivatkozásokkal és kóddal együtt.",
+    "csv-to-excel": "Alakítsa a CSV adatokat valódi oszlopokkal rendelkező Excel munkafüzetté, amely készen áll a képletekre, szűrőkre és diagramokra.",
+    "excel-to-csv": "Exportálja Excel táblázatát CSV formátumba CRM-rendszerekbe, webáruházakba, hírlevélküldő eszközökbe és adatbázisokba való importáláshoz.",
+    "word-to-txt": "Nyerje ki az egyszerű szöveget Word dokumentumokból — formázás nélkül, csak a szavakat, bárhová beilleszthetően.",
+    "mp4-to-webm": "Alakítsa át MP4 videóit WebM formátumba, a nyílt webes formátumba, amelyet a modern böngészők natívan lejátszanak.",
+    "mp4-to-mkv": "Alakítsa át MP4 videóit MKV formátumba, a médiaszerverek és archívumok által kedvelt rugalmas konténerbe.",
+    "m4v-to-mp4": "Alakítsa át az Apple M4V videókat MP4 formátumba, hogy lejátszhatók legyenek Androidon, Windowson és bármely videószerkesztőben.",
+    "3gp-to-mp4": "Alakítsa át a régi 3GP telefonos videókat MP4 formátumba, amely minden modern telefonon, számítógépen és közösségi platformon lejátszható.",
+    "mpeg-to-mp4": "Alakítsa át MPEG és MPG videóit kompakt, széles körben támogatott MP4 formátumba.",
+    "m4a-to-wav": "Alakítsa át az M4A hangfájlokat, például az iPhone hangjegyzeteit, tömörítetlen WAV formátumba szerkesztéshez és produkcióhoz.",
+    "flac-to-wav": "Alakítsa át a veszteségmentes FLAC fájlokat WAV formátumba hangszerkesztőkhöz, CD-íráshoz és FLAC-támogatás nélküli eszközökhöz — minőségvesztés nélkül.",
+    "wav-to-flac": "Tömörítse WAV felvételeit FLAC formátumba, és spóroljon meg nagyjából fele annyi helyet úgy, hogy minden minta érintetlen marad.",
+    "aiff-to-mp3": "Alakítsa át a Mac alkalmazásokból származó nagy AIFF hangfájlokat kis, mindenhol lejátszható MP3-akká.",
+    "opus-to-mp3": "Alakítsa át az OPUS hangüzeneteket és felvételeket MP3 formátumba, amely bármely lejátszón, autórádión vagy szerkesztőben szól.",
+    "mp3-to-m4a": "Alakítsa át az MP3-at M4A formátumba az Apple Music, az iTunes és iPhone-csengőhangok számára.",
+    "zip-to-tar": "Alakítsa át a ZIP archívumokat TAR formátumba Linux szerverekhez, telepítésekhez és fejlesztői eszközökhöz.",
+    "rar-to-7z": "Alakítsa át a RAR archívumokat az ingyenes, nyílt 7Z formátumba, erős tömörítéssel.",
+    "pdf-to-images": "Bontsa a PDF-et oldalanként egy-egy képre — JPG vagy PNG formátumban —, amelyek készen állnak az Instagramra, a LinkedInre és más közösségi platformokra. Töltse le az oldalakat egyenként, vagy mindet együtt egy ZIP-ben.",
+    "photo-collage": "Fűzzön össze több fotót egyetlen képpé, rendezett rácsba igazítva, hogy egyszerre látszódjon mind. Válassza az Automatikus, a 2×2-es vagy a 3×3-as elrendezést, és töltsön le egyetlen JPG vagy PNG fájlt."
+  },
+  "pack": {
+    "formats": {
+      "avif": {
+        "about": "Az AVIF az AV1 videókodeken alapuló modern képformátum; adott minőség mellett az egyik legkisebb fájlméretet adja, és támogatja az átlátszóságot, de a régebbi szoftverek gyakran nem tudják megnyitni.",
+        "note": "Az AVIF nagyon kis fájlokat ad jó minőségben a modern böngészők és alkalmazások számára."
+      },
+      "md": {
+        "about": "A Markdown egyszerű szöveg könnyű formázójelekkel — # a címsorokhoz, * a kiemeléshez, - a listákhoz —, amely nyers szövegként is olvasható marad, és formázott dokumentummá alakítható.",
+        "note": "A Markdown egyszerű szövegként tartja a tartalmadat, amelyet könnyű szerkeszteni és verziókezelőben követni."
+      },
+      "aif": {
+        "about": "Az AIF az AIFF rövid kiterjesztése, az Apple tömörítetlen hangformátumáé: minden minta pontosan úgy tárolódik, ahogy felvették, ami stúdióminőséget és nagyon nagy fájlokat eredményez.",
+        "note": "Az AIF tömörítetlenül és szerkesztésre készen tartja a hangot a Macen."
+      }
+    },
+    "reasons": {
+      "jpeg-to-jpg": "A szokásos kiváltó ok egy űrlap, egy weboldalépítő vagy egy régebbi program, amely ragaszkodik a .jpg kiterjesztéshez, és elutasítja ugyanazt a képet, ha .jpeg néven van mentve.",
+      "jpg-to-jpeg": "Egyes feltöltési űrlapok, fotólaborok és régebbi rendszerek csak a .jpeg kiterjesztést fogadják el, és visszautasítják a .jpg fájlt, pedig a tartalom azonos.",
+      "jpg-to-webp": "A legtöbben egy weboldal gyorsításához használják: a WebP fotók jellemzően negyedével-harmadával kisebbek ugyanannál a JPG-nél hasonló látható minőség mellett, ami gyorsabb oldalakat és jobb oldalsebesség-pontszámokat jelent.",
+      "png-to-webp": "A gyakori eset egy PNG képernyőképekkel, logókkal és grafikákkal teli weboldal, amely lassan töltődik be — a WebP megtartja az átlátszóságot, de általában jelentősen csökkenti a fájlméretet.",
+      "avif-to-jpg": "A modern weboldalakról vagy újabb telefonokról mentett AVIF képek régebbi fotószerkesztőkben, irodai programokban vagy feltöltési űrlapokon gyakran nem nyílnak meg, a JPG viszont tényleg mindenhol működik.",
+      "avif-to-png": "Általában akkor van rá szükség, ha egy AVIF grafikát szerkeszteni, rétegezni vagy más háttérre helyezni kell egy olyan programban, amely még nem olvassa az AVIF-et.",
+      "bmp-to-jpg": "A régi szkennerekből, a Windows Paintből vagy ipari szoftverekből származó BMP fájlok óriásiak, mert tömörítetlenek; JPG-vé alakítva elég kicsik lesznek ahhoz, hogy e-mailben elküldd vagy feltöltsd őket.",
+      "tiff-to-png": "A szkennelések és a nyomdakész TIFF fájlok túl nehezek és túl gyengén támogatottak a weben; a PNG minden pixelt élesen megőriz, és bármely böngészőben megnyílik.",
+      "ico-to-png": "A jellemző ok, hogy hozzáférj egy favicon vagy Windows-ikon grafikájához, és újra felhasználd egy designban, dokumentumban vagy prezentációban.",
+      "gif-to-jpg": "Általában csak egyetlen állókockára van szükséged egy GIF-ből — bélyegképhez, dokumentumhoz vagy egy olyan oldalhoz, amely nem fogad el animált képeket.",
+      "jpg-to-pdf": "A klasszikus helyzet egy kérelem vagy kárigény, amelyhez PDF kell, neked pedig csak egy telefonnal lefotózott nyugtád, személyi igazolványod vagy aláírt oldalad van.",
+      "png-to-pdf": "Arra használják, hogy képernyőképeket, diagramokat vagy szkennelt oldalakat rendes dokumentumként adjanak le — sok portál és e-mail-címzett PDF-et vár, nem képet.",
+      "txt-to-pdf": "Az egyszerű szöveg minden szerkesztőben másképp néz ki; ha a jegyzeteket, naplókat vagy egy piszkozatot PDF-fé alakítod, rögzíted a betűtípust és az elrendezést, így mindenki számára ugyanúgy olvasható és nyomtatható.",
+      "markdown-to-pdf": "Az írók és a fejlesztők Markdownban fogalmaznak, a kollégák és az ügyfelek viszont kész dokumentumot várnak — egy README-t, jelentést vagy jegyzetgyűjteményt, amelyet bármilyen eszköz nélkül megnyithatnak.",
+      "csv-to-excel": "A bankokból, webáruházakból és adatbázisokból exportált CSV fájlok gyakran szétcsúszott oszlopokkal, elveszett kezdő nullákkal vagy összekuszált dátumokkal nyílnak meg; az Excel munkafüzet rendes cellákban tartja az adatokat, összegzésre és diagramokra készen.",
+      "excel-to-csv": "A legtöbb importálóeszköz — CRM-rendszerek, hírlevélszolgáltatások, webáruházak és adatbázisok — csak CSV-t fogad el, ezért a táblázatot feltöltés előtt ki kell lapítani.",
+      "word-to-txt": "A szokásos ok, hogy a szöveget olyan helyen használd fel újra, amely nem érti a Word fájlokat: kódszerkesztőben, weboldal-CMS-ben, feliratkészítő eszközben vagy egy AI-promptban.",
+      "mp4-to-webm": "A webfejlesztők nyílt, jogdíjmentes videó miatt alakítanak WebM-be, amely natívan fut a böngészőkben, és hasonló minőség mellett gyakran kisebb, mint az MP4.",
+      "mp4-to-mkv": "Az MKV az archívumok és az olyan médiaszerverek kedvelt konténere, mint a Plex vagy a Jellyfin, mert egyetlen fájl több hangsávot, feliratot és fejezetet is tartalmazhat.",
+      "m4v-to-mp4": "Az iTunesból vagy Apple eszközökről származó M4V fájlok gyakran nem nyílnak meg Androidon, Windowson vagy videószerkesztőkben, az MP4 viszont mindenhol lejátszható.",
+      "3gp-to-mp4": "A régi telefonos videók gyakran 3GP formátumban vannak tárolva, amelyet a modern számítógépek, telefonok és közösségi platformok sokszor nem tudnak lejátszani vagy feltölteni.",
+      "mpeg-to-mp4": "A DVD-mentésekből, régi videokamerákból és tévéfelvételekből származó MPEG fájlok nagyok, és telefonokon gyengén támogatottak; az MP4 összezsugorítja őket, és mindenhol lejátszható.",
+      "m4a-to-wav": "A hangszerkesztők, samplerek és egyes műsorszórási eszközök tömörítetlen WAV-ot várnak, az iPhone hangjegyzetei és az iTunes-letöltések viszont M4A formátumban érkeznek.",
+      "flac-to-wav": "A hangszerkesztő munkaállomások, a CD-író szoftverek és egyes hardveres lejátszók kezelik a WAV-ot, a FLAC-ot viszont nem, és mivel mindkettő veszteségmentes, útközben semmi sem vész el.",
+      "wav-to-flac": "Zenészek és archiválók arra használják, hogy a nagy WAV felvételeket nagyjából a felére zsugorítsák, miközben minden minta bitre pontosan azonos marad.",
+      "aiff-to-mp3": "A Logicból, a GarageBandből vagy Macen használt mintakönyvtárakból származó AIFF felvételek nagyok; az MP3 elég kicsivé teszi őket ahhoz, hogy megoszd, streameld vagy bármilyen eszközön lejátszd.",
+      "opus-to-mp3": "A WhatsApp és a Telegram hangüzenetei és sok webes felvétel OPUS formátumban mentődik, amelyet az autórádiók, a régebbi lejátszók és a szerkesztők gyakran nem játszanak le.",
+      "mp3-to-m4a": "Általában Apple eszközökhöz kell — az M4A jól működik az Apple Musicban és az iTunesban, és ebből indul ki egy iPhone-csengőhang.",
+      "zip-to-tar": "A fejlesztőknek és szerveradminisztrátoroknak TAR kell, amikor Linux rendszerekre telepítenek, konténerképeket építenek, vagy olyan eszközöket használnak, amelyek ZIP helyett tarballt várnak.",
+      "rar-to-7z": "A RAR archívumokat azért csomagolják újra 7Z-be, hogy egy ingyenes, nyílt formátumot használjanak, amelyet a 7-Zip natívan létrehoz és megnyit, gyakran még jobb tömörítéssel.",
+      "pdf-to-images": "A közösségi médiához készült: az Instagram-körhintákhoz, a LinkedIn-posztokhoz és a storykhoz képek kellenek, nem PDF-ek, ezért egy diasorból, étlapból vagy szórólapból oldalanként egy kép kell, hogy legyen.",
+      "photo-collage": "A szokásos ok, hogy több fotót egyként oszthass meg — egy előtte-utána összevetést, egy nyaralás összefoglalóját vagy egy termékkínálatot, amelyet egy pillantással kell átlátni, nem egyenként végiglapozni."
+    },
+    "t": {
+      "shapeFaq.rename.q1": "Rontja a fotóm minőségét, ha {{fn}} formátumból {{tn}} formátumba alakítom?",
+      "shapeFaq.rename.a1": "Nem. A(z) {{fn}} és a(z) {{tn}} ugyanannak a képformátumnak a kiterjesztése, csak kétféle írásmóddal, így semmi sem kerül dekódolásra vagy újratömörítésre. A fájlod bájtról bájtra másolódik, és csak az új kiterjesztést kapja meg, vagyis az eredmény megegyezik az eredetivel, az EXIF adatokat is beleértve.",
+      "shapeFaq.rename.q2": "Ha a(z) {{fn}} és a(z) {{tn}} ugyanaz a formátum, miért kell egyáltalán átalakítani?",
+      "shapeFaq.rename.a2": "Mert egyes szoftverek a kiterjesztést ellenőrzik, nem a tartalmat. A feltöltési űrlapok, a régebbi programok és egyes fotószolgáltatások a két írásmód közül csak az egyiket fogadják el, a másikat elutasítják, pedig a kép ugyanaz. A kiterjesztés módosítása minden, ami ahhoz kell, hogy a fájlt elfogadják.",
+      "intro.lead.pdf-images": "A PDF-ből képek eszköz a PDF minden oldalát külön JPG vagy PNG képpé alakítja, oldalsorrendben számozva, így minden oldal külön posztolható, megosztható vagy szerkeszthető. A PDF az oldalait egyetlen, rögzített elrendezésű fájlba zárja, és éppen ezért nem posztolható olyan helyre, ahol csak képek engedélyezettek.",
+      "steps.pdf-images.1": "Húzd a PDF-et az oldal tetején lévő feltöltési területre, vagy kattints rá, és válaszd ki a fájlt az eszközödről.",
+      "steps.pdf-images.2": "Válaszd a JPG-t a fotókhoz és a közösségi médiához illő kisebb fájlokhoz, vagy a PNG-t az éles szöveghez és grafikához, majd kattints az Átalakítás gombra.",
+      "steps.pdf-images.3": "Töltsd le az oldalakat egyenként, vagy egyszerre mindet egy ZIP-ben. A hivatkozások 24 órán át élnek, utána minden törlődik.",
+      "shapeFaq.pdf-images.q1": "A PDF-em minden oldalából külön kép lesz?",
+      "shapeFaq.pdf-images.a1": "Igen. Minden oldal saját képként készül el, sorrendben számozva — page-01, page-02 és így tovább —, így egy tízoldalas PDF-ből tíz képet kapsz. Letöltheted őket egyenként vagy együtt, egyetlen ZIP fájlban, és az egész PDF egyetlen kreditbe kerül, akárhány oldala is van.",
+      "shapeFaq.pdf-images.q2": "Alkalmasak a képek az Instagramra és más közösségi médiára?",
+      "shapeFaq.pdf-images.a2": "Igen. Az oldalak nagy felbontásban készülnek, így élesek maradnak azután is, hogy az Instagram, a LinkedIn vagy a Facebook lekicsinyíti őket. Az álló oldalak jól működnek Instagram-körhintaként; a legjobb illeszkedésért a diákat 4:5-ös vagy négyzetes formátumban tervezd meg a PDF exportálása előtt, és válaszd a JPG-t, hogy a feltöltések kicsik maradjanak.",
+      "intro.lead.collage": "A Fotókollázs több fotót fűz össze egyetlen képpé: minden kép átméreteződik, és egyenletes térközökkel rendezett rácsba kerül, így minden egy pillantással látható, nem kell egyenként végiggörgetni. Válassz automatikus elrendezést vagy rögzített 2×2-es, illetve 3×3-as rácsot, és egyetlen JPG vagy PNG fájlt kapsz vissza.",
+      "steps.collage.1": "Adj hozzá 2–16 fotót úgy, hogy a feltöltési területre húzod őket, vagy kattintással kiválasztod, majd a listában húzással állítsd be a sorrendjüket.",
+      "steps.collage.2": "Válassz elrendezést — Automatikus, 2×2 vagy 3×3 —, döntsd el, hogy a fotók kitöltsék-e a négyzetüket, vagy egészben látszódjanak, és válaszd a JPG vagy a PNG formátumot.",
+      "steps.collage.3": "Kattints a Kollázs készítése gombra, nézd meg az előnézetet, és töltsd le az elkészült képet. 24 órán át elérhető marad.",
+      "shapeFaq.collage.q1": "Levágja a kollázs a fotóimat?",
+      "shapeFaq.collage.a1": "Ez rajtad múlik. A „Minden négyzet kitöltése” beállítással minden fotó négyzetesre vágódik, a kép legérdekesebb részére középre igazítva, ami a legrendezettebb rácsot adja. A „Teljes fotó megjelenítése” beállítással semmi sem vágódik le: a fotó addig kicsinyedik, amíg befér, a maradék helyet pedig fehér tölti ki.",
+      "shapeFaq.collage.q2": "Hány fotót tehetek egy kollázsba?",
+      "shapeFaq.collage.a2": "Az Automatikus elrendezéssel legalább 2-t és legfeljebb 16-ot; ez a hozzáadott fotók számához a leginkább négyzetes rácsot választja. A 2×2-es rácsba legfeljebb 4, a 3×3-asba legfeljebb 9 fotó fér. Minden kollázs egy kreditbe kerül, akárhány fotó van benne.",
+      "intro.rename": "A(z) {{fn}} és a(z) {{tn}} ugyanaz a képformátum két különböző fájlkiterjesztéssel, így ez az átalakítás csak a nevet módosítja: a kép bájtról bájtra másolódik, újratömörítés és minőségromlás nélkül. {{reason}}"
+    }
+  }
+}

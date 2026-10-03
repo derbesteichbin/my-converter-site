@@ -1,0 +1,139 @@
+{
+  "categories": {
+    "Social Media": "Sosyal medya"
+  },
+  "categoryDescriptions": {
+    "Social Media": "PDF'leri paylaşılabilir görsellere dönüştürün ve fotoğrafları Instagram ile diğer platformlar için kolajda birleştirin."
+  },
+  "toolNames": {
+    "pdf-to-images": "PDF'den görsellere",
+    "photo-collage": "Fotoğraf kolajı"
+  },
+  "tool": {
+    "collageLayoutLabel": "Düzen",
+    "collageLayout_auto": "Otomatik (en fazla {{max}} fotoğraf)",
+    "collageLayout_2by2": "2 × 2 ızgara (en fazla {{max}} fotoğraf)",
+    "collageLayout_3by3": "3 × 3 ızgara (en fazla {{max}} fotoğraf)",
+    "collageFitLabel": "Fotoğraf yerleşimi",
+    "collageFit_cover": "Her kareyi doldur (kenarları kırpar)",
+    "collageFit_contain": "Fotoğrafın tamamını göster (beyaz boşluk ekler)",
+    "collageCount": "{{count}} fotoğraf seçildi — bu düzen en fazla {{max}} fotoğraf alır.",
+    "collageTooFew": "Kolaj oluşturmak için en az {{min}} fotoğraf ekleyin.",
+    "collageTooMany": "Bu düzen en fazla {{max}} fotoğraf alır. {{extra}} fotoğrafı kaldırın veya daha büyük bir düzen seçin.",
+    "collageBadType": "Dosyalardan biri desteklenen bir görsel değil. JPG, PNG, WebP, AVIF, GIF veya TIFF kullanın.",
+    "collageReorderHint": "Kolajdaki sıralarını belirlemek için fotoğrafları sürükleyin",
+    "collageCreate": "Kolaj oluştur",
+    "collagePhotos": "{{count}} fotoğraf",
+    "collagePreviewAlt": "Kolajınızın önizlemesi",
+    "confirmCollageBody": "Bu işlem {{count}} fotoğrafı tek bir kolajda birleştirecek ve 1 kredi kullanacak. {{remaining}} krediniz kaldı.",
+    "pdfPagesTitle": "Tek tek sayfalar ({{count}})",
+    "pdfPagesZip": "Tümünü indir (ZIP)"
+  },
+  "toolDescriptions": {
+    "jpeg-to-jpg": "Bir .jpeg dosyasını tek bir piksele dokunmadan .jpg olarak değiştirin. JPEG ve JPG aynı biçimdir; görsel yeni uzantıyla, hiç değişmeden kopyalanır.",
+    "jpg-to-jpeg": "Bir .jpg dosyasını hiçbir kalite kaybı olmadan .jpeg olarak değiştirin. Resim bayt bayt kopyalanır ve yalnızca bir formun ya da programın beklediği uzantıyı alır.",
+    "jpg-to-webp": "JPG fotoğraflarınızı benzer kalitede, belirgin biçimde daha küçük dosyalar için WebP'ye dönüştürün. Daha hızlı web siteleri ve daha iyi sayfa hızı puanları için ideal.",
+    "png-to-webp": "PNG grafiklerinizi saydamlığı koruyarak dosya boyutunu küçültmek için WebP'ye dönüştürün. Logolar, ekran görüntüleri ve web grafikleri için harika.",
+    "avif-to-jpg": "Modern AVIF görsellerini JPG'ye dönüştürün; böylece her fotoğraf uygulamasında, ofis programında ve yükleme formunda açılırlar.",
+    "avif-to-png": "AVIF görsellerini, herhangi bir görsel düzenleyicide saydamlıkla kayıpsız düzenleme için PNG'ye dönüştürün.",
+    "bmp-to-jpg": "Hantal BMP bit eşlemlerini e-postayla göndermesi, yüklemesi ve paylaşması kolay, küçük JPG fotoğraflara dönüştürün.",
+    "tiff-to-png": "Büyük TIFF taramalarını ve baskı dosyalarını PNG'ye dönüştürün — kayıpsız, net ve her tarayıcıda görüntülenebilir.",
+    "ico-to-png": "Bir ICO favicon'undaki ya da Windows simgesindeki görseli, düzenleyebileceğiniz veya yeniden kullanabileceğiniz bir PNG olarak çıkarın.",
+    "gif-to-jpg": "Bir GIF'i JPG durağan görsel olarak kaydedin — küçük resimler, belgeler ve GIF kabul etmeyen siteler için kullanışlı.",
+    "jpg-to-pdf": "JPG fotoğraflarınızı ve taramalarınızı PDF belgesine dönüştürün — PDF olarak teslim edilmesi gereken fişler, kimlik kopyaları ve imzalı sayfalar için mükemmel.",
+    "png-to-pdf": "PNG ekran görüntülerini, diyagramları ve grafikleri göndermesi, yazdırması ve arşivlemesi kolay bir PDF'ye dönüştürün.",
+    "txt-to-pdf": "Düz metin dosyalarını her cihazda aynı okunan ve aynı yazdırılan sabit düzenli bir PDF'ye (veya Word belgesine) dönüştürün.",
+    "markdown-to-pdf": "Markdown dosyalarını temiz, biçimlendirilmiş bir PDF, HTML sayfası veya Word belgesine dönüştürün — başlıklar, listeler, bağlantılar ve kod dahil.",
+    "csv-to-excel": "CSV verilerini formüllere, filtrelere ve grafiklere hazır, gerçek sütunlara sahip düzgün bir Excel çalışma kitabına dönüştürün.",
+    "excel-to-csv": "Bir Excel tablosunu CRM'lere, online mağazalara, bülten araçlarına ve veritabanlarına aktarmak için CSV olarak dışa aktarın.",
+    "word-to-txt": "Word belgelerindeki düz metni çıkarın — biçimlendirme yok, yalnızca sözcükler; her yere yapıştırmaya hazır.",
+    "mp4-to-webm": "MP4 videoyu, modern tarayıcılarda doğrudan oynatılan açık web biçimi WebM'e dönüştürün.",
+    "mp4-to-mkv": "MP4 videoyu, medya sunucularının ve arşivlerin tercih ettiği esnek kapsayıcı MKV'ye dönüştürün.",
+    "m4v-to-mp4": "Apple M4V videolarını Android'de, Windows'ta ve her video düzenleyicide oynatılabilmeleri için MP4'e dönüştürün.",
+    "3gp-to-mp4": "Eski 3GP telefon videolarını her modern telefonda, bilgisayarda ve sosyal platformda oynatılan MP4'e dönüştürün.",
+    "mpeg-to-mp4": "MPEG ve MPG videolarını küçük boyutlu, geniş çapta desteklenen MP4'e dönüştürün.",
+    "m4a-to-wav": "iPhone sesli notları gibi M4A seslerini düzenleme ve prodüksiyon için sıkıştırılmamış WAV'a dönüştürün.",
+    "flac-to-wav": "Kayıpsız FLAC'ı ses düzenleyicileri, CD yazma ve FLAC desteği olmayan cihazlar için WAV'a dönüştürün — hiçbir kalite kaybı olmadan.",
+    "wav-to-flac": "WAV kayıtlarını FLAC'a sıkıştırın ve her örneği eksiksiz koruyarak yerden yaklaşık yarı yarıya tasarruf edin.",
+    "aiff-to-mp3": "Mac uygulamalarından gelen büyük AIFF ses dosyalarını her yerde çalınabilen küçük MP3'lere dönüştürün.",
+    "opus-to-mp3": "OPUS sesli mesajlarını ve kayıtlarını her oynatıcıda, araç ses sisteminde veya düzenleyicide çalan MP3'e dönüştürün.",
+    "mp3-to-m4a": "MP3'ü Apple Music, iTunes ve iPhone zil sesleri için M4A'ya dönüştürün.",
+    "zip-to-tar": "ZIP arşivlerini Linux sunucuları, dağıtımlar ve geliştirici araçları için TAR'a dönüştürün.",
+    "rar-to-7z": "RAR arşivlerini güçlü sıkıştırmaya sahip ücretsiz ve açık 7Z biçimine dönüştürün.",
+    "pdf-to-images": "Bir PDF'yi sayfa başına bir görsele — JPG veya PNG — bölün; Instagram, LinkedIn ve diğer sosyal platformlarda paylaşmaya hazır olsun. Sayfaları tek tek ya da hepsini birlikte ZIP olarak indirin.",
+    "photo-collage": "Birkaç fotoğrafı düzenli bir ızgarada tek bir görselde birleştirin; hepsi aynı anda görülebilsin. Otomatik, 2×2 veya 3×3 seçin ve tek bir JPG ya da PNG indirin."
+  },
+  "pack": {
+    "formats": {
+      "avif": {
+        "about": "AVIF, AV1 video kodeğine dayanan modern bir görsel biçimidir; belirli bir kalitede elde edilebilecek en küçük dosyalardan bazılarını üretir ve saydamlığı destekler, ancak eski yazılımlar onu çoğu zaman açamaz.",
+        "note": "AVIF sana modern tarayıcılar ve uygulamalar için iyi kalitede çok küçük dosyalar verir."
+      },
+      "md": {
+        "about": "Markdown, hafif biçimlendirme işaretleri taşıyan düz metindir — başlıklar için #, vurgu için *, listeler için - — ham metin olarak okunabilir kalır ve biçimlendirilmiş bir belgeye dönüştürülebilir.",
+        "note": "Markdown içeriğini, düzenlemesi ve sürüm denetiminde izlemesi kolay, yalın metin olarak tutar."
+      },
+      "aif": {
+        "about": "AIF, Apple’ın sıkıştırılmamış ses biçimi AIFF’in kısa uzantısıdır: her örnek tam kaydedildiği gibi saklanır, bu da stüdyo kalitesi ve çok büyük dosyalar demektir.",
+        "note": "AIF sesi sıkıştırılmamış ve bir Mac’te düzenlemeye hazır tutar."
+      }
+    },
+    "reasons": {
+      "jpeg-to-jpg": "Genellikle tetikleyici, .jpg uzantısında ısrar eden ve .jpeg olarak kaydedilmiş aynı resmi reddeden bir form, bir site oluşturucu ya da eski bir programdır.",
+      "jpg-to-jpeg": "Bazı yükleme formları, fotoğraf laboratuvarları ve eski sistemler kabul edilen tek uzantı olarak .jpeg’i listeler ve içerik aynı olsa da .jpg dosyasını reddeder.",
+      "jpg-to-webp": "Çoğu kişi bunu bir web sitesini hızlandırmak için ister: WebP fotoğraflar benzer görsel kalitede aynı JPG’den genellikle dörtte bir ile üçte bir oranında daha küçüktür; bu da daha hızlı sayfalar ve daha iyi sayfa hızı puanları demektir.",
+      "png-to-webp": "Yaygın durum, yavaş yüklenen PNG ekran görüntüleri, logolar ve grafiklerle dolu bir web sitesidir — WebP saydamlığı korur ama dosya boyutunu genellikle epey azaltır.",
+      "avif-to-jpg": "Modern sitelerden veya yeni telefonlardan kaydedilen AVIF görselleri eski fotoğraf düzenleyicilerinde, ofis yazılımlarında ya da yükleme formlarında çoğu zaman açılmaz; JPG ise kesinlikle her yerde çalışır.",
+      "avif-to-png": "Buna genellikle bir AVIF grafiğini henüz AVIF okuyamayan bir programda düzenlemen, katmanlara ayırman ya da başka bir arka plana yerleştirmen gerektiğinde ihtiyaç duyarsın.",
+      "bmp-to-jpg": "Eski tarayıcılardan, Windows Paint’ten ya da endüstriyel yazılımlardan gelen BMP dosyaları sıkıştırılmamış oldukları için devasadır; JPG’ye çevirmek onları e-postayla gönderecek ya da yükleyecek kadar küçültür.",
+      "tiff-to-png": "Taramalar ve baskıya hazır TIFF’ler web için fazla ağır ve fazla zayıf desteklenir; PNG her pikseli net tutar ve her tarayıcıda açılır.",
+      "ico-to-png": "Tipik neden, bir favicon’un ya da Windows simgesinin içindeki çizime ulaşıp onu bir tasarımda, belgede veya sunumda yeniden kullanmaktır.",
+      "gif-to-jpg": "Genellikle bir GIF’ten yalnızca tek bir durağan kareye ihtiyacın olur — bir küçük resim, bir belge ya da hareketli görselleri kabul etmeyen bir site için.",
+      "jpg-to-pdf": "Klasik durum, elinde yalnızca bir fişin, kimlik kartının ya da imzalı bir sayfanın telefonla çekilmiş fotoğrafı varken PDF isteyen bir başvuru ya da taleptir.",
+      "png-to-pdf": "Ekran görüntülerini, diyagramları veya taranmış sayfaları düzgün bir belge olarak teslim etmek için kullanılır — pek çok portal ve e-posta alıcısı görsel değil PDF bekler.",
+      "txt-to-pdf": "Düz metin her düzenleyicide farklı görünür; notları, günlükleri ya da bir taslağı PDF’ye çevirmek yazı tipini ve düzeni sabitler, böylece herkes için aynı okunur ve aynı yazdırılır.",
+      "markdown-to-pdf": "Yazarlar ve geliştiriciler taslaklarını Markdown’da yazar, ama iş arkadaşları ve müşteriler bitmiş bir belge bekler — hiçbir araç gerektirmeden açabilecekleri bir README, rapor ya da not derlemesi.",
+      "csv-to-excel": "Bankalardan, mağazalardan ve veritabanlarından alınan CSV dışa aktarımları çoğu zaman bozuk sütunlar, kaybolan baştaki sıfırlar ya da karışmış tarihlerle açılır; bir Excel çalışma kitabı verileri toplamlara ve grafiklere hazır, düzgün hücrelerde tutar.",
+      "excel-to-csv": "Çoğu içe aktarma aracı — CRM’ler, bülten hizmetleri, online mağazalar ve veritabanları — yalnızca CSV kabul eder; bu yüzden bir tablo, yüklenebilmesi için önce düzleştirilmelidir.",
+      "word-to-txt": "Olağan neden, metni Word dosyalarını anlamayan bir yerde yeniden kullanmaktır: bir kod düzenleyici, bir site CMS’i, bir altyazı aracı ya da bir yapay zekâ istemi.",
+      "mp4-to-webm": "Web geliştiricileri, tarayıcılarda doğrudan oynayan ve benzer kalitede çoğu zaman MP4’ten daha küçük olan açık, telifsiz video için WebM’e dönüştürür.",
+      "mp4-to-mkv": "MKV, arşivlerin ve Plex ya da Jellyfin gibi medya sunucularının tercih ettiği kapsayıcıdır; çünkü tek bir dosya birden çok ses parçası, altyazı ve bölüm barındırabilir.",
+      "m4v-to-mp4": "iTunes’tan ya da Apple cihazlarından gelen M4V dosyaları Android’de, Windows’ta veya video düzenleyicilerde çoğu zaman açılmaz; MP4 ise her yerde oynar.",
+      "3gp-to-mp4": "Eski telefon videoları çoğunlukla 3GP olarak saklanır; modern bilgisayarlar, telefonlar ve sosyal platformlar bu biçimi sık sık oynatamaz ya da yükleyemez.",
+      "mpeg-to-mp4": "DVD kopyalarından, eski kameralardan ve TV kayıtlarından gelen MPEG dosyaları büyüktür ve telefonlarda zayıf desteklenir; MP4 onları küçültür ve her yerde oynar.",
+      "m4a-to-wav": "Ses düzenleyicileri, sampler’lar ve bazı yayın araçları sıkıştırılmamış WAV ister; oysa iPhone sesli notları ve iTunes indirmeleri M4A olarak gelir.",
+      "flac-to-wav": "Ses iş istasyonları, CD yazma yazılımları ve bazı donanım oynatıcılar WAV’ı işler ama FLAC’ı işlemez; ikisi de kayıpsız olduğundan yolda hiçbir şey kaybolmaz.",
+      "wav-to-flac": "Müzisyenler ve arşivciler büyük WAV kayıtlarını her örneği bit bit aynı tutarak kabaca yarıya küçültmek için kullanır.",
+      "aiff-to-mp3": "Logic, GarageBand ya da Mac örnek kütüphanelerinden gelen AIFF kayıtları büyüktür; MP3 onları paylaşacak, yayınlayacak ya da her cihazda çalacak kadar küçültür.",
+      "opus-to-mp3": "WhatsApp ve Telegram sesli mesajları ile pek çok web kaydı OPUS olarak saklanır; araç ses sistemleri, eski oynatıcılar ve düzenleyiciler bunları çoğu zaman çalmaz.",
+      "mp3-to-m4a": "Genellikle Apple cihazları için istenir — M4A, Apple Music’te ve iTunes’ta sorunsuz çalışır ve bir iPhone zil sesinin başlangıç noktasıdır.",
+      "zip-to-tar": "Geliştiriciler ve sunucu yöneticileri Linux sistemlerine dağıtım yaparken, kapsayıcı imajları oluştururken ya da ZIP yerine tarball bekleyen araçları kullanırken TAR’a ihtiyaç duyar.",
+      "rar-to-7z": "RAR arşivleri, 7-Zip’in doğrudan oluşturup açtığı ücretsiz ve açık bir biçimi kullanmak için 7Z olarak yeniden paketlenir; sıkıştırma da çoğu zaman daha iyidir.",
+      "pdf-to-images": "Sosyal medya için yapılmıştır: Instagram kaydırmalı gönderileri, LinkedIn paylaşımları ve hikâyeler PDF değil görsel ister; bu yüzden bir sunum, menü ya da el ilanı sayfa başına bir görsele dönüşmelidir.",
+      "photo-collage": "Olağan neden birkaç fotoğrafı tek bir görsel olarak paylaşmaktır — tek tek kaydırılmak yerine bir bakışta görülmesi gereken bir önce-sonra karşılaştırması, bir tatil özeti ya da bir ürün yelpazesi."
+    },
+    "t": {
+      "shapeFaq.rename.q1": "{{fn}} dosyasını {{tn}} biçimine dönüştürmek fotoğrafımın kalitesini düşürür mü?",
+      "shapeFaq.rename.a1": "Hayır. {{fn}} ve {{tn}}, aynı görsel biçiminin uzantısının iki farklı yazılışıdır; bu yüzden hiçbir şey çözülmez ya da yeniden sıkıştırılmaz. Dosyan bayt bayt kopyalanır ve yalnızca yeni uzantıyı alır; yani sonuç, EXIF verileri dahil, özgün dosyayla birebir aynıdır.",
+      "shapeFaq.rename.q2": "{{fn}} ve {{tn}} aynı biçimse neden dönüştürmeliyim?",
+      "shapeFaq.rename.a2": "Çünkü bazı yazılımlar içeriğe değil uzantıya bakar. Yükleme formları, eski programlar ve bazı fotoğraf hizmetleri iki yazılıştan yalnızca birini kabul edip diğerini reddeder, oysa içerideki görsel aynıdır. Dosyanın kabul edilmesi için uzantıyı değiştirmek yeterlidir.",
+      "intro.lead.pdf-images": "PDF’den görsellere aracı, bir PDF’nin her sayfasını sayfa sırasına göre numaralanmış ayrı bir JPG veya PNG görsele dönüştürür; böylece her sayfa ayrı ayrı paylaşılabilir, gönderilebilir ya da düzenlenebilir. PDF sayfalarını sabit düzenli tek bir dosyada birbirine kilitler; işte bu yüzden yalnızca görsellere izin verilen yerlerde paylaşılamaz.",
+      "steps.pdf-images.1": "PDF’ini bu sayfanın üstündeki yükleme alanına bırak ya da aygıtından dosyayı seçmek için üzerine tıkla.",
+      "steps.pdf-images.2": "Fotoğraflara ve sosyal medyaya uygun daha küçük dosyalar için JPG’yi, keskin metin ve grafikler için PNG’yi seç, ardından Dönüştür’e tıkla.",
+      "steps.pdf-images.3": "Her sayfayı tek tek indir ya da tüm sayfaları bir kerede ZIP olarak al. Bağlantılar 24 saat açık kalır, ardından her şey silinir.",
+      "shapeFaq.pdf-images.q1": "PDF’imin her sayfası ayrı bir görsel olur mu?",
+      "shapeFaq.pdf-images.a1": "Evet. Her sayfa kendi görseli olarak işlenir ve sırayla numaralanır — page-01, page-02 ve böyle devam eder — yani on sayfalık bir PDF sana on görsel verir. Onları tek tek ya da tek bir ZIP dosyasında birlikte indirebilirsin; PDF’nin tamamı, kaç sayfa olursa olsun, yalnızca tek bir krediye mal olur.",
+      "shapeFaq.pdf-images.q2": "Görseller Instagram ve diğer sosyal medya için uygun mu?",
+      "shapeFaq.pdf-images.a2": "Evet. Sayfalar yüksek çözünürlükte işlenir, bu yüzden Instagram, LinkedIn ya da Facebook onları küçülttükten sonra da net kalır. Dikey sayfalar Instagram kaydırmalı gönderileri için iyi çalışır; en iyi uyum için slaytları PDF’yi dışa aktarmadan önce 4:5 ya da kare biçimde tasarla ve yüklemeler küçük kalsın diye JPG’yi seç.",
+      "intro.lead.collage": "Fotoğraf kolajı birkaç fotoğrafı tek bir görselde birleştirir: her resim yeniden boyutlandırılıp eşit aralıklarla düzenli bir ızgaraya yerleştirilir; böylece her şey tek tek kaydırılmak yerine bir bakışta görülür. Otomatik bir düzen ya da sabit 2×2 veya 3×3 ızgara seç ve tek bir JPG veya PNG al.",
+      "steps.collage.1": "Yükleme alanına bırakarak ya da tıklayıp seçerek 2 ile 16 arasında fotoğraf ekle, ardından sıralarını belirlemek için onları listede sürükle.",
+      "steps.collage.2": "Bir düzen seç — Otomatik, 2×2 ya da 3×3 —, fotoğrafların karelerini doldurmasını mı yoksa tamamen görünmesini mi istediğine karar ver ve JPG veya PNG’yi seç.",
+      "steps.collage.3": "Kolaj oluştur’a tıkla, önizlemeyi kontrol et ve tamamlanan görseli indir. Görsel 24 saat boyunca erişilebilir kalır.",
+      "shapeFaq.collage.q1": "Fotoğraflarım kolajda kırpılacak mı?",
+      "shapeFaq.collage.a1": "Bu sana kalmış. “Her kareyi doldur” seçeneğinde her fotoğraf, resmin en ilgi çekici kısmı ortalanarak kare biçiminde kırpılır ve en düzenli ızgara elde edilir. “Fotoğrafın tamamını göster” seçeneğinde hiçbir şey kesilmez: fotoğraf sığacak şekilde küçültülür ve kalan boşluk beyazla doldurulur.",
+      "shapeFaq.collage.q2": "Bir kolaja kaç fotoğraf koyabilirim?",
+      "shapeFaq.collage.a2": "Otomatik düzenle en az 2, en fazla 16 fotoğraf; bu düzen eklediğin fotoğraf sayısı için kareye en yakın ızgarayı seçer. 2×2 ızgara en fazla 4, 3×3 ızgara en fazla 9 fotoğraf alır. Her kolaj, içinde kaç fotoğraf olursa olsun, bir krediye mal olur.",
+      "intro.rename": "{{fn}} ve {{tn}}, iki farklı dosya uzantısı altındaki aynı görsel biçimidir; bu yüzden bu dönüştürme yalnızca adı değiştirir: resim bayt bayt kopyalanır, yeniden sıkıştırma ve kalite kaybı olmaz. {{reason}}"
+    }
+  }
+}

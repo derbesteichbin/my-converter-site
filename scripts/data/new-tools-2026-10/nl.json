@@ -1,0 +1,139 @@
+{
+  "categories": {
+    "Social Media": "Social media"
+  },
+  "categoryDescriptions": {
+    "Social Media": "Zet PDF's om in afbeeldingen die je kunt posten en combineer foto's tot collages voor Instagram en andere platforms."
+  },
+  "toolNames": {
+    "pdf-to-images": "PDF naar afbeeldingen",
+    "photo-collage": "Fotocollage"
+  },
+  "tool": {
+    "collageLayoutLabel": "Indeling",
+    "collageLayout_auto": "Automatisch (tot {{max}} foto's)",
+    "collageLayout_2by2": "Raster van 2 × 2 (tot {{max}} foto's)",
+    "collageLayout_3by3": "Raster van 3 × 3 (tot {{max}} foto's)",
+    "collageFitLabel": "Fotoweergave",
+    "collageFit_cover": "Elk vak vullen (snijdt randen af)",
+    "collageFit_contain": "Hele foto tonen (voegt witruimte toe)",
+    "collageCount": "{{count}} foto's geselecteerd — deze indeling biedt plaats aan maximaal {{max}}.",
+    "collageTooFew": "Voeg minstens {{min}} foto's toe om een collage te maken.",
+    "collageTooMany": "Deze indeling biedt plaats aan maximaal {{max}} foto's. Verwijder er {{extra}} of kies een grotere indeling.",
+    "collageBadType": "Een van de bestanden is geen ondersteunde afbeelding. Gebruik JPG, PNG, WebP, AVIF, GIF of TIFF.",
+    "collageReorderHint": "Sleep de foto's om hun volgorde in de collage te bepalen",
+    "collageCreate": "Collage maken",
+    "collagePhotos": "{{count}} foto's",
+    "collagePreviewAlt": "Voorbeeld van je collage",
+    "confirmCollageBody": "Hiermee worden {{count}} foto's gecombineerd tot één collage en wordt 1 credit gebruikt. Je hebt nog {{remaining}} credits over.",
+    "pdfPagesTitle": "Afzonderlijke pagina's ({{count}})",
+    "pdfPagesZip": "Alles downloaden (ZIP)"
+  },
+  "toolDescriptions": {
+    "jpeg-to-jpg": "Verander een .jpeg-bestand in .jpg zonder ook maar één pixel aan te raken. JPEG en JPG zijn hetzelfde formaat, dus de afbeelding wordt ongewijzigd gekopieerd met de nieuwe extensie.",
+    "jpg-to-jpeg": "Verander een .jpg-bestand in .jpeg zonder enig kwaliteitsverlies. De afbeelding wordt byte voor byte gekopieerd en krijgt alleen de extensie die een formulier of programma verwacht.",
+    "jpg-to-webp": "Converteer JPG-foto's naar WebP voor merkbaar kleinere bestanden bij vergelijkbare kwaliteit. Ideaal voor snellere websites en betere paginasnelheidsscores.",
+    "png-to-webp": "Converteer PNG-afbeeldingen naar WebP om de bestandsgrootte te verkleinen met behoud van transparantie. Ideaal voor logo's, schermafbeeldingen en webgraphics.",
+    "avif-to-jpg": "Converteer moderne AVIF-afbeeldingen naar JPG zodat ze openen in elke foto-app, elk kantoorprogramma en elk uploadformulier.",
+    "avif-to-png": "Converteer AVIF-afbeeldingen naar PNG voor verliesvrij bewerken met transparantie in elke beeldeditor.",
+    "bmp-to-jpg": "Verklein logge BMP-bitmaps tot compacte JPG-foto's die makkelijk te mailen, uploaden en delen zijn.",
+    "tiff-to-png": "Converteer grote TIFF-scans en drukbestanden naar PNG — verliesvrij, scherp en te bekijken in elke browser.",
+    "ico-to-png": "Haal de afbeelding uit een ICO-favicon of Windows-pictogram als PNG die je kunt bewerken of hergebruiken.",
+    "gif-to-jpg": "Sla een GIF op als stilstaande JPG-afbeelding — handig voor miniaturen, documenten en sites die geen GIF's accepteren.",
+    "jpg-to-pdf": "Zet JPG-foto's en scans om in een PDF-document — perfect voor bonnetjes, kopieën van identiteitsbewijzen en ondertekende pagina's die als PDF moeten worden ingediend.",
+    "png-to-pdf": "Converteer PNG-schermafbeeldingen, diagrammen en afbeeldingen naar een PDF die makkelijk te versturen, af te drukken en te archiveren is.",
+    "txt-to-pdf": "Converteer platte tekstbestanden naar PDF (of Word) met een vaste opmaak die op elk apparaat hetzelfde leest en afdrukt.",
+    "markdown-to-pdf": "Zet Markdown-bestanden om in een strak opgemaakte PDF, HTML-pagina of Word-document — inclusief koppen, lijsten, links en code.",
+    "csv-to-excel": "Zet CSV-gegevens om in een echte Excel-werkmap met echte kolommen, klaar voor formules, filters en grafieken.",
+    "excel-to-csv": "Exporteer een Excel-spreadsheet naar CSV om te importeren in CRM-systemen, webshops, nieuwsbrieftools en databases.",
+    "word-to-txt": "Haal de platte tekst uit Word-documenten — geen opmaak, alleen de woorden, klaar om overal te plakken.",
+    "mp4-to-webm": "Converteer MP4-video naar WebM, het open webformaat dat native afspeelt in moderne browsers.",
+    "mp4-to-mkv": "Converteer MP4-video naar MKV, de flexibele container waar mediaservers en archieven de voorkeur aan geven.",
+    "m4v-to-mp4": "Converteer Apple M4V-video's naar MP4 zodat ze afspelen op Android, Windows en in elke video-editor.",
+    "3gp-to-mp4": "Converteer oude 3GP-telefoonvideo's naar MP4 die afspeelt op elke moderne telefoon, computer en elk sociaal platform.",
+    "mpeg-to-mp4": "Converteer MPEG- en MPG-video's naar compacte, breed ondersteunde MP4.",
+    "m4a-to-wav": "Converteer M4A-audio, zoals iPhone-spraakmemo's, naar ongecomprimeerde WAV voor bewerking en productie.",
+    "flac-to-wav": "Converteer verliesvrije FLAC naar WAV voor audio-editors, het branden van cd's en apparaten zonder FLAC-ondersteuning — zonder kwaliteitsverlies.",
+    "wav-to-flac": "Comprimeer WAV-opnamen naar FLAC en bespaar ongeveer de helft van de ruimte, terwijl elke sample intact blijft.",
+    "aiff-to-mp3": "Converteer grote AIFF-audiobestanden uit Mac-apps naar kleine MP3's die overal afspelen.",
+    "opus-to-mp3": "Converteer OPUS-spraakberichten en -opnamen naar MP3 die afspeelt in elke speler, autoradio of editor.",
+    "mp3-to-m4a": "Converteer MP3 naar M4A voor Apple Music, iTunes en iPhone-ringtones.",
+    "zip-to-tar": "Converteer ZIP-archieven naar TAR voor Linux-servers, deployments en ontwikkelaarstools.",
+    "rar-to-7z": "Converteer RAR-archieven naar het vrije, open 7Z-formaat met sterke compressie.",
+    "pdf-to-images": "Splits een PDF in één afbeelding per pagina — JPG of PNG — klaar om te posten op Instagram, LinkedIn en andere sociale platforms. Download de pagina's een voor een of allemaal samen als ZIP.",
+    "photo-collage": "Combineer meerdere foto's tot één afbeelding in een net raster, zodat ze allemaal tegelijk te zien zijn. Kies Automatisch, 2×2 of 3×3 en download één JPG of PNG."
+  },
+  "pack": {
+    "formats": {
+      "avif": {
+        "about": "AVIF is een modern afbeeldingsformaat gebaseerd op de AV1-videocodec; het levert bij een gegeven kwaliteit enkele van de kleinste bestanden die er zijn en ondersteunt transparantie, maar oudere software kan het vaak niet openen.",
+        "note": "AVIF geeft u zeer kleine bestanden met goede kwaliteit voor moderne browsers en apps."
+      },
+      "md": {
+        "about": "Markdown is platte tekst met lichte opmaaktekens — # voor koppen, * voor nadruk, - voor lijsten — die als ruwe tekst leesbaar blijft en kan worden omgezet in een opgemaakt document.",
+        "note": "Markdown houdt uw inhoud als eenvoudige tekst die makkelijk te bewerken en bij te houden is in versiebeheer."
+      },
+      "aif": {
+        "about": "AIF is de korte extensie voor AIFF, het ongecomprimeerde audioformaat van Apple: elke sample wordt precies zo opgeslagen als hij is opgenomen, wat studiokwaliteit en zeer grote bestanden oplevert.",
+        "note": "AIF houdt audio ongecomprimeerd en klaar om te bewerken op een Mac."
+      }
+    },
+    "reasons": {
+      "jpeg-to-jpg": "De gebruikelijke aanleiding is een formulier, een websitebouwer of een ouder programma dat per se een .jpg-extensie wil en precies dezelfde afbeelding, opgeslagen als .jpeg, weigert.",
+      "jpg-to-jpeg": "Sommige uploadformulieren, fotolabs en oudere systemen noemen .jpeg als enige toegestane extensie en weigeren een .jpg, ook al is de inhoud identiek.",
+      "jpg-to-webp": "Meestal wil men hiermee een website versnellen: WebP-foto’s zijn doorgaans een kwart tot een derde kleiner dan dezelfde JPG bij vergelijkbare beeldkwaliteit, wat snellere pagina’s en betere paginasnelheidsscores betekent.",
+      "png-to-webp": "Het typische geval is een website vol PNG-schermafbeeldingen, logo’s en graphics die traag laden — WebP behoudt de transparantie, maar verkleint de bestandsgrootte meestal aanzienlijk.",
+      "avif-to-jpg": "AVIF-afbeeldingen van moderne websites of nieuwere telefoons openen vaak niet in oudere fotobewerkers, kantoorsoftware of uploadformulieren, terwijl JPG werkelijk overal werkt.",
+      "avif-to-png": "U hebt dit meestal nodig wanneer een AVIF-afbeelding bewerkt, in lagen opgebouwd of op een andere achtergrond geplaatst moet worden in een programma dat AVIF nog niet kan lezen.",
+      "bmp-to-jpg": "BMP-bestanden van oude scanners, Windows Paint of industriële software zijn enorm omdat ze ongecomprimeerd zijn; omgezet naar JPG worden ze klein genoeg om te mailen of te uploaden.",
+      "tiff-to-png": "Scans en drukklare TIFF’s zijn te zwaar en te slecht ondersteund voor het web; PNG houdt elke pixel scherp en opent in elke browser.",
+      "ico-to-png": "De typische reden is dat u bij de afbeelding in een favicon of Windows-pictogram wilt komen, om die te hergebruiken in een ontwerp, een document of een presentatie.",
+      "gif-to-jpg": "Meestal hebt u maar één stilstaand frame uit een GIF nodig — voor een miniatuur, een document of een site die geen geanimeerde afbeeldingen accepteert.",
+      "jpg-to-pdf": "De klassieke situatie is een aanvraag of declaratie waarvoor een PDF wordt gevraagd, terwijl u alleen een telefoonfoto hebt van een bonnetje, een identiteitskaart of een ondertekende pagina.",
+      "png-to-pdf": "Men gebruikt het om schermafbeeldingen, diagrammen of gescande pagina’s in te leveren als een echt document — veel portalen en e-mailontvangers verwachten een PDF, geen afbeelding.",
+      "txt-to-pdf": "Platte tekst ziet er in elke editor anders uit; door notities, logbestanden of een concept naar PDF om te zetten liggen lettertype en opmaak vast, zodat het voor iedereen hetzelfde leest en afdrukt.",
+      "markdown-to-pdf": "Schrijvers en ontwikkelaars schrijven in Markdown, maar collega’s en klanten verwachten een afgewerkt document — een README, rapport of notities die ze zonder speciale tools kunnen openen.",
+      "csv-to-excel": "CSV-exports van banken, webwinkels en databases openen vaak met verschoven kolommen, verdwenen voorloopnullen of verhaspelde datums; een Excel-werkmap houdt de gegevens in echte cellen, klaar voor sommen en grafieken.",
+      "excel-to-csv": "De meeste importtools — CRM-systemen, nieuwsbriefdiensten, webwinkels en databases — accepteren alleen CSV, dus een spreadsheet moet eerst worden afgevlakt voordat hij kan worden geüpload.",
+      "word-to-txt": "De gebruikelijke reden is de tekst hergebruiken op een plek die geen Word-bestanden begrijpt: een code-editor, het CMS van een website, een ondertitelingstool of een AI-prompt.",
+      "mp4-to-webm": "Webontwikkelaars converteren naar WebM voor open, royaltyvrije video die native in browsers afspeelt en vaak kleiner is dan de MP4 bij vergelijkbare kwaliteit.",
+      "mp4-to-mkv": "MKV is de favoriete container voor archieven en mediaservers zoals Plex of Jellyfin, omdat één bestand meerdere audiosporen, ondertitels en hoofdstukken kan bevatten.",
+      "m4v-to-mp4": "M4V-bestanden uit iTunes of van Apple-apparaten weigeren vaak te openen op Android, Windows of in video-editors, terwijl MP4 overal afspeelt.",
+      "3gp-to-mp4": "Oude telefoonvideo’s zijn vaak opgeslagen als 3GP, dat moderne computers, telefoons en sociale platforms vaak niet kunnen afspelen of uploaden.",
+      "mpeg-to-mp4": "MPEG-bestanden van dvd-rips, oude camcorders en tv-opnamen zijn groot en worden slecht ondersteund op telefoons; MP4 maakt ze kleiner en speelt overal af.",
+      "m4a-to-wav": "Audio-editors, samplers en sommige omroeptools willen ongecomprimeerde WAV, terwijl iPhone-spraakmemo’s en iTunes-downloads als M4A binnenkomen.",
+      "flac-to-wav": "Audiowerkstations, cd-brandsoftware en sommige hardwarespelers kunnen overweg met WAV maar niet met FLAC, en omdat beide verliesvrij zijn, gaat er onderweg niets verloren.",
+      "wav-to-flac": "Muzikanten en archivarissen gebruiken het om grote WAV-opnamen ruwweg te halveren, terwijl elke sample bit voor bit identiek blijft.",
+      "aiff-to-mp3": "AIFF-opnamen uit Logic, GarageBand of samplebibliotheken voor de Mac zijn groot; MP3 maakt ze klein genoeg om te delen, te streamen of op elk apparaat af te spelen.",
+      "opus-to-mp3": "Spraakberichten uit WhatsApp en Telegram en veel webopnamen worden opgeslagen als OPUS, dat autoradio’s, oudere spelers en editors vaak niet afspelen.",
+      "mp3-to-m4a": "Meestal is dit voor Apple-apparaten — M4A werkt goed in Apple Music en iTunes en is het startpunt voor een iPhone-ringtone.",
+      "zip-to-tar": "Ontwikkelaars en serverbeheerders hebben TAR nodig bij het uitrollen naar Linux-systemen, het bouwen van containerimages of het gebruik van tools die een tarball verwachten in plaats van een ZIP.",
+      "rar-to-7z": "RAR-archieven worden opnieuw ingepakt als 7Z om een vrij, open formaat te gebruiken dat 7-Zip native aanmaakt en opent, vaak met nog betere compressie.",
+      "pdf-to-images": "Het is gemaakt voor sociale media: Instagram-carrousels, LinkedIn-posts en stories hebben afbeeldingen nodig, geen PDF’s, dus een presentatie, menukaart of flyer moet één afbeelding per pagina worden.",
+      "photo-collage": "De gebruikelijke reden is meerdere foto’s als één te delen — een voor-en-na, een vakantieoverzicht of een productreeks die in één oogopslag te zien moet zijn in plaats van foto voor foto doorgeveegd."
+    },
+    "t": {
+      "shapeFaq.rename.q1": "Vermindert het converteren van {{fn}} naar {{tn}} de kwaliteit van mijn foto?",
+      "shapeFaq.rename.a1": "Nee. {{fn}} en {{tn}} zijn twee schrijfwijzen van de extensie voor één en hetzelfde afbeeldingsformaat, dus er wordt niets gedecodeerd of opnieuw gecomprimeerd. Uw bestand wordt byte voor byte gekopieerd en krijgt alleen de nieuwe extensie, waardoor het resultaat identiek is aan het origineel, inclusief de EXIF-gegevens.",
+      "shapeFaq.rename.q2": "Als {{fn}} en {{tn}} hetzelfde formaat zijn, waarom dan converteren?",
+      "shapeFaq.rename.a2": "Omdat sommige software naar de extensie kijkt in plaats van naar de inhoud. Uploadformulieren, oudere programma’s en sommige fotodiensten accepteren maar één van de twee schrijfwijzen en weigeren de andere, ook al is de afbeelding identiek. De extensie wijzigen is alles wat nodig is om het bestand geaccepteerd te krijgen.",
+      "intro.lead.pdf-images": "PDF naar afbeeldingen zet elke pagina van een PDF om in een eigen JPG- of PNG-afbeelding, genummerd in paginavolgorde, zodat elke pagina afzonderlijk kan worden gepost, gedeeld of bewerkt. Een PDF houdt zijn pagina’s samen in één bestand met een vaste opmaak, en precies daarom kan hij niet worden gepost waar alleen afbeeldingen zijn toegestaan.",
+      "steps.pdf-images.1": "Sleep uw PDF naar het uploadvak boven aan deze pagina, of klik erop om het bestand op uw apparaat te kiezen.",
+      "steps.pdf-images.2": "Kies JPG voor kleinere bestanden die geschikt zijn voor foto’s en sociale media, of PNG voor scherpe tekst en graphics, en klik dan op Converteren.",
+      "steps.pdf-images.3": "Download elke pagina afzonderlijk, of haal alle pagina’s in één keer op als ZIP. De links blijven 24 uur actief, daarna wordt alles verwijderd.",
+      "shapeFaq.pdf-images.q1": "Wordt elke pagina van mijn PDF een aparte afbeelding?",
+      "shapeFaq.pdf-images.a1": "Ja. Elke pagina wordt als eigen afbeelding gerenderd en op volgorde genummerd — page-01, page-02 enzovoort — dus een PDF van tien pagina’s levert tien afbeeldingen op. U kunt ze afzonderlijk downloaden of samen in één ZIP-bestand, en de hele PDF kost één credit, ongeacht het aantal pagina’s.",
+      "shapeFaq.pdf-images.q2": "Zijn de afbeeldingen geschikt voor Instagram en andere sociale media?",
+      "shapeFaq.pdf-images.a2": "Ja. Pagina’s worden in hoge resolutie gerenderd, zodat ze scherp blijven nadat Instagram, LinkedIn of Facebook ze verkleint. Staande pagina’s werken goed als Instagram-carrousel; voor de beste pasvorm ontwerpt u de dia’s in een 4:5- of vierkant formaat voordat u de PDF exporteert, en kiest u JPG om uploads klein te houden.",
+      "intro.lead.collage": "Fotocollage combineert meerdere foto’s tot één afbeelding: elke foto wordt geschaald en in een net raster met gelijke tussenruimte geplaatst, zodat alles in één oogopslag te zien is in plaats van foto voor foto. Kies een automatische indeling of een vast raster van 2×2 of 3×3 en ontvang één JPG of PNG.",
+      "steps.collage.1": "Voeg 2 tot 16 foto’s toe door ze naar het uploadvak te slepen of erop te klikken om ze te kiezen, en sleep ze daarna in de lijst om hun volgorde te bepalen.",
+      "steps.collage.2": "Kies een indeling — Automatisch, 2×2 of 3×3 —, bepaal of de foto’s hun vak moeten vullen of in hun geheel getoond worden, en selecteer JPG of PNG.",
+      "steps.collage.3": "Klik op Collage maken, bekijk het voorbeeld en download uw voltooide afbeelding. Die blijft 24 uur beschikbaar.",
+      "shapeFaq.collage.q1": "Worden mijn foto’s bijgesneden in de collage?",
+      "shapeFaq.collage.a1": "Dat bepaalt u zelf. Met “Elk vak vullen” wordt elke foto bijgesneden tot een vierkant, gecentreerd op het interessantste deel van het beeld, wat het netste raster geeft. Met “Hele foto tonen” wordt er niets afgesneden: de foto wordt verkleind tot hij past en de resterende ruimte wordt met wit opgevuld.",
+      "shapeFaq.collage.q2": "Hoeveel foto’s kan ik in één collage plaatsen?",
+      "shapeFaq.collage.a2": "Minstens 2 en maximaal 16 met de indeling Automatisch, die het meest vierkante raster kiest voor het aantal foto’s dat u toevoegt. Het 2×2-raster biedt plaats aan maximaal 4 foto’s en het 3×3-raster aan maximaal 9. Elke collage kost één credit, ongeacht het aantal foto’s.",
+      "intro.rename": "{{fn}} en {{tn}} zijn hetzelfde afbeeldingsformaat onder twee verschillende bestandsextensies, dus deze conversie verandert alleen de naam: de afbeelding wordt byte voor byte gekopieerd, zonder hercompressie en zonder kwaliteitsverlies. {{reason}}"
+    }
+  }
+}

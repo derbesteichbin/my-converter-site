@@ -1,0 +1,139 @@
+{
+  "categories": {
+    "Social Media": "Sosiale medier"
+  },
+  "categoryDescriptions": {
+    "Social Media": "Gjør PDF-er om til bilder du kan legge ut, og sett sammen bilder til kollasjer for Instagram og andre plattformer."
+  },
+  "toolNames": {
+    "pdf-to-images": "PDF til bilder",
+    "photo-collage": "Fotokollasj"
+  },
+  "tool": {
+    "collageLayoutLabel": "Oppsett",
+    "collageLayout_auto": "Automatisk (opptil {{max}} bilder)",
+    "collageLayout_2by2": "2 × 2-rutenett (opptil {{max}} bilder)",
+    "collageLayout_3by3": "3 × 3-rutenett (opptil {{max}} bilder)",
+    "collageFitLabel": "Bildetilpasning",
+    "collageFit_cover": "Fyll hver rute (beskjærer kantene)",
+    "collageFit_contain": "Vis hele bildet (legger til hvite felt)",
+    "collageCount": "{{count}} bilder valgt — dette oppsettet har plass til opptil {{max}}.",
+    "collageTooFew": "Legg til minst {{min}} bilder for å lage en kollasj.",
+    "collageTooMany": "Dette oppsettet har plass til opptil {{max}} bilder. Fjern {{extra}} eller velg et større oppsett.",
+    "collageBadType": "En av filene er ikke et støttet bilde. Bruk JPG, PNG, WebP, AVIF, GIF eller TIFF.",
+    "collageReorderHint": "Dra bildene for å bestemme rekkefølgen i kollasjen",
+    "collageCreate": "Lag kollasj",
+    "collagePhotos": "{{count}} bilder",
+    "collagePreviewAlt": "Forhåndsvisning av kollasjen din",
+    "confirmCollageBody": "Dette setter sammen {{count}} bilder til én kollasj og bruker 1 kreditt. Du har {{remaining}} kreditter igjen.",
+    "pdfPagesTitle": "Enkeltsider ({{count}})",
+    "pdfPagesZip": "Last ned alle (ZIP)"
+  },
+  "toolDescriptions": {
+    "jpeg-to-jpg": "Endre en .jpeg-fil til .jpg uten å røre en eneste piksel. JPEG og JPG er samme format, så bildet kopieres uendret med den nye filendelsen.",
+    "jpg-to-jpeg": "Endre en .jpg-fil til .jpeg helt uten kvalitetstap. Bildet kopieres byte for byte og får bare den filendelsen et skjema eller program forventer.",
+    "jpg-to-webp": "Konverter JPG-bilder til WebP for merkbart mindre filer med tilsvarende kvalitet. Ideelt for raskere nettsider og bedre resultater i hastighetstester.",
+    "png-to-webp": "Konverter PNG-grafikk til WebP for å redusere filstørrelsen og samtidig beholde gjennomsiktigheten. Perfekt for logoer, skjermbilder og nettgrafikk.",
+    "avif-to-jpg": "Konverter moderne AVIF-bilder til JPG, slik at de åpnes i alle bildeapper, kontorprogrammer og opplastingsskjemaer.",
+    "avif-to-png": "Konverter AVIF-bilder til PNG for tapsfri redigering med gjennomsiktighet i et hvilket som helst bilderedigeringsprogram.",
+    "bmp-to-jpg": "Krymp tunge BMP-bitmaps til kompakte JPG-bilder som er enkle å sende på e-post, laste opp og dele.",
+    "tiff-to-png": "Konverter store TIFF-skanninger og trykkfiler til PNG — tapsfritt, skarpt og mulig å vise i alle nettlesere.",
+    "ico-to-png": "Hent ut bildet fra et ICO-favikon eller et Windows-ikon som en PNG du kan redigere eller bruke på nytt.",
+    "gif-to-jpg": "Lagre en GIF som et stillbilde i JPG — praktisk for miniatyrbilder, dokumenter og nettsteder som ikke godtar GIF-er.",
+    "jpg-to-pdf": "Gjør JPG-bilder og skanninger om til et PDF-dokument — perfekt for kvitteringer, ID-kopier og signerte sider som må leveres som PDF.",
+    "png-to-pdf": "Konverter PNG-skjermbilder, diagrammer og grafikk til en PDF som er enkel å sende, skrive ut og arkivere.",
+    "txt-to-pdf": "Konverter rene tekstfiler til PDF (eller Word) med et fast oppsett som ser likt ut og skrives ut likt på alle enheter.",
+    "markdown-to-pdf": "Gjør Markdown-filer om til en ryddig, formatert PDF, HTML-side eller Word-fil — med overskrifter, lister, lenker og kode.",
+    "csv-to-excel": "Gjør CSV-data om til en ordentlig Excel-arbeidsbok med ekte kolonner, klar for formler, filtre og diagrammer.",
+    "excel-to-csv": "Eksporter et Excel-regneark til CSV for import i CRM-systemer, nettbutikker, nyhetsbrevverktøy og databaser.",
+    "word-to-txt": "Hent ut ren tekst fra Word-dokumenter — ingen formatering, bare ordene, klare til å limes inn hvor som helst.",
+    "mp4-to-webm": "Konverter MP4-video til WebM, det åpne nettformatet som spilles av direkte i moderne nettlesere.",
+    "mp4-to-mkv": "Konverter MP4-video til MKV, den fleksible containeren som medieservere og arkiver foretrekker.",
+    "m4v-to-mp4": "Konverter Apples M4V-videoer til MP4, slik at de kan spilles av på Android, Windows og i alle videoredigeringsprogrammer.",
+    "3gp-to-mp4": "Konverter gamle 3GP-mobilvideoer til MP4 som spilles av på alle moderne telefoner, datamaskiner og sosiale plattformer.",
+    "mpeg-to-mp4": "Konverter MPEG- og MPG-videoer til kompakt og bredt støttet MP4.",
+    "m4a-to-wav": "Konverter M4A-lyd, for eksempel talememoer fra iPhone, til ukomprimert WAV for redigering og produksjon.",
+    "flac-to-wav": "Konverter tapsfri FLAC til WAV for lydredigeringsprogrammer, CD-brenning og enheter uten FLAC-støtte — uten kvalitetstap.",
+    "wav-to-flac": "Komprimer WAV-opptak til FLAC og spar rundt halvparten av plassen, med hver eneste sample intakt.",
+    "aiff-to-mp3": "Konverter store AIFF-lydfiler fra Mac-apper til små MP3-filer som kan spilles av overalt.",
+    "opus-to-mp3": "Konverter OPUS-talemeldinger og opptak til MP3 som spilles av i alle spillere, bilstereoanlegg og redigeringsprogrammer.",
+    "mp3-to-m4a": "Konverter MP3 til M4A for Apple Music, iTunes og ringetoner på iPhone.",
+    "zip-to-tar": "Konverter ZIP-arkiver til TAR for Linux-servere, utrullinger og utviklerverktøy.",
+    "rar-to-7z": "Konverter RAR-arkiver til det gratis, åpne 7Z-formatet med kraftig komprimering.",
+    "pdf-to-images": "Del opp en PDF i ett bilde per side — JPG eller PNG — klare til å legges ut på Instagram, LinkedIn og andre sosiale plattformer. Last ned sidene én og én eller alle samlet som ZIP.",
+    "photo-collage": "Sett sammen flere bilder til ett bilde i et ryddig rutenett, slik at alle kan ses på én gang. Velg Automatisk, 2×2 eller 3×3 og last ned én JPG eller PNG."
+  },
+  "pack": {
+    "formats": {
+      "avif": {
+        "about": "AVIF er et moderne bildeformat basert på videokodeken AV1; det gir noen av de minste filene som finnes ved en gitt kvalitet og støtter gjennomsiktighet, men eldre programvare klarer ofte ikke å åpne det.",
+        "note": "AVIF gir deg svært små filer med god kvalitet for moderne nettlesere og apper."
+      },
+      "md": {
+        "about": "Markdown er ren tekst med enkle formateringstegn — # for overskrifter, * for utheving, - for lister — som er lett å lese som rå tekst og kan gjengis som et formatert dokument.",
+        "note": "Markdown holder innholdet ditt som enkel tekst som er lett å redigere og spore i versjonskontroll."
+      },
+      "aif": {
+        "about": "AIF er den korte filendelsen for AIFF, Apples ukomprimerte lydformat: hver sample lagres nøyaktig slik den ble tatt opp, noe som gir studiokvalitet og svært store filer.",
+        "note": "AIF holder lyden ukomprimert og klar for redigering på en Mac."
+      }
+    },
+    "reasons": {
+      "jpeg-to-jpg": "Den vanlige foranledningen er et skjema, en nettstedbygger eller et eldre program som krever filendelsen .jpg og avviser nøyaktig det samme bildet lagret som .jpeg.",
+      "jpg-to-jpeg": "Noen opplastingsskjemaer, fotolaboratorier og eldre systemer oppgir .jpeg som eneste godkjente filendelse og avviser en .jpg, selv om innholdet er identisk.",
+      "jpg-to-webp": "De fleste gjør dette for å få et nettsted til å laste raskere: WebP-bilder er typisk en fjerdedel til en tredjedel mindre enn samme JPG med tilsvarende visuell kvalitet, noe som gir raskere sider og bedre resultater i hastighetstester.",
+      "png-to-webp": "Det typiske tilfellet er et nettsted fullt av PNG-skjermbilder, logoer og grafikk som laster tregt — WebP beholder gjennomsiktigheten, men reduserer som regel filstørrelsen betraktelig.",
+      "avif-to-jpg": "AVIF-bilder lagret fra moderne nettsteder eller nyere telefoner lar seg ofte ikke åpne i eldre bilderedigeringsprogrammer, kontorprogramvare eller opplastingsskjemaer, mens JPG fungerer absolutt overalt.",
+      "avif-to-png": "Du trenger vanligvis dette når en AVIF-grafikk skal redigeres, legges i lag eller plasseres på en annen bakgrunn i et program som ennå ikke kan lese AVIF.",
+      "bmp-to-jpg": "BMP-filer fra gamle skannere, Windows Paint eller industriell programvare er enorme fordi de er ukomprimerte; gjør du dem om til JPG, blir de små nok til å sendes på e-post eller lastes opp.",
+      "tiff-to-png": "Skanninger og trykklare TIFF-er er for tunge og for dårlig støttet for nettet; PNG holder hver piksel skarp og åpnes i alle nettlesere.",
+      "ico-to-png": "Den typiske grunnen er å få tak i grafikken inne i et favikon eller Windows-ikon for å bruke den på nytt i et design, et dokument eller en presentasjon.",
+      "gif-to-jpg": "Som regel trenger du bare ett stillbilde fra en GIF — til et miniatyrbilde, et dokument eller et nettsted som ikke godtar animerte bilder.",
+      "jpg-to-pdf": "Den klassiske situasjonen er en søknad eller et krav som ber om en PDF, mens alt du har, er et mobilbilde av en kvittering, et ID-kort eller en signert side.",
+      "png-to-pdf": "Folk bruker det til å levere skjermbilder, diagrammer eller skannede sider som et ordentlig dokument — mange portaler og e-postmottakere forventer en PDF, ikke et bilde.",
+      "txt-to-pdf": "Ren tekst ser forskjellig ut i hvert redigeringsprogram; gjør du notater, logger eller et utkast om til PDF, låses skrift og oppsett, så teksten leses og skrives ut likt for alle.",
+      "markdown-to-pdf": "Skribenter og utviklere skriver utkast i Markdown, men kolleger og kunder forventer et ferdig dokument — en README, en rapport eller notater de kan åpne uten spesialverktøy.",
+      "csv-to-excel": "CSV-eksporter fra banker, nettbutikker og databaser åpnes ofte med ødelagte kolonner, tapte innledende nuller eller forvrengte datoer; en Excel-arbeidsbok holder dataene i ordentlige celler, klare for summer og diagrammer.",
+      "excel-to-csv": "De fleste importverktøy — CRM-systemer, nyhetsbrevtjenester, nettbutikker og databaser — godtar bare CSV, så et regneark må flates ut før det kan lastes opp.",
+      "word-to-txt": "Den vanlige grunnen er å bruke teksten et sted som ikke forstår Word-filer: en kodeeditor, et publiseringssystem for nettsteder, et undertekstverktøy eller en AI-prompt.",
+      "mp4-to-webm": "Nettutviklere konverterer til WebM for åpen, royaltyfri video som spilles av direkte i nettlesere og ofte er mindre enn MP4-filen med tilsvarende kvalitet.",
+      "mp4-to-mkv": "MKV er den foretrukne containeren for arkiver og medieservere som Plex eller Jellyfin, fordi én fil kan inneholde flere lydspor, undertekster og kapitler.",
+      "m4v-to-mp4": "M4V-filer fra iTunes eller Apple-enheter vil ofte ikke åpnes på Android, Windows eller i videoredigeringsprogrammer, mens MP4 spilles av overalt.",
+      "3gp-to-mp4": "Gamle mobilvideoer er ofte lagret som 3GP, som moderne datamaskiner, telefoner og sosiale plattformer ofte ikke kan spille av eller laste opp.",
+      "mpeg-to-mp4": "MPEG-filer fra DVD-rippinger, gamle videokameraer og TV-opptak er store og dårlig støttet på telefoner; MP4 gjør dem mindre og spilles av overalt.",
+      "m4a-to-wav": "Lydredigeringsprogrammer, samplere og enkelte kringkastingsverktøy vil ha ukomprimert WAV, mens talememoer fra iPhone og nedlastinger fra iTunes kommer som M4A.",
+      "flac-to-wav": "Lydarbeidsstasjoner, CD-brenneprogrammer og enkelte maskinvarespillere håndterer WAV, men ikke FLAC, og siden begge er tapsfrie, går ingenting tapt underveis.",
+      "wav-to-flac": "Musikere og arkivarer bruker det til å krympe store WAV-opptak med omtrent halvparten, mens hver sample forblir bit for bit identisk.",
+      "aiff-to-mp3": "AIFF-opptak fra Logic, GarageBand eller samplebiblioteker på Mac er store; MP3 gjør dem små nok til å deles, strømmes eller spilles av på alle enheter.",
+      "opus-to-mp3": "Talemeldinger fra WhatsApp og Telegram og mange nettopptak lagres som OPUS, som bilstereoanlegg, eldre spillere og redigeringsprogrammer ofte ikke spiller av.",
+      "mp3-to-m4a": "Folk vil som regel ha dette for Apple-enheter — M4A fungerer godt i Apple Music og iTunes og er utgangspunktet for en ringetone på iPhone.",
+      "zip-to-tar": "Utviklere og serveradministratorer trenger TAR når de ruller ut til Linux-systemer, bygger containerbilder eller bruker verktøy som forventer en tarball i stedet for en ZIP.",
+      "rar-to-7z": "Folk pakker RAR-arkiver om til 7Z for å bruke et gratis, åpent format som 7-Zip lager og åpner direkte, ofte med enda bedre komprimering.",
+      "pdf-to-images": "Det er laget for sosiale medier: Instagram-karuseller, LinkedIn-innlegg og stories krever bilder, ikke PDF-er, så en presentasjon, en meny eller en flyer må bli til ett bilde per side.",
+      "photo-collage": "Den vanlige grunnen er å dele flere bilder som ett — et før-og-etter, et feriesammendrag eller et produktutvalg som skal ses med ett blikk i stedet for å blas gjennom ett og ett."
+    },
+    "t": {
+      "shapeFaq.rename.q1": "Blir bildet mitt dårligere av å konvertere {{fn}} til {{tn}}?",
+      "shapeFaq.rename.a1": "Nei. {{fn}} og {{tn}} er to skrivemåter for filendelsen til ett og samme bildeformat, så ingenting dekodes eller komprimeres på nytt. Filen din kopieres byte for byte og får bare den nye filendelsen, slik at resultatet er identisk med originalen, inkludert EXIF-dataene.",
+      "shapeFaq.rename.q2": "Hvis {{fn}} og {{tn}} er samme format, hvorfor konvertere i det hele tatt?",
+      "shapeFaq.rename.a2": "Fordi noe programvare sjekker filendelsen i stedet for innholdet. Opplastingsskjemaer, eldre programmer og enkelte fototjenester godtar bare én av de to skrivemåtene og avviser den andre, selv om bildet inni er identisk. Alt som skal til for at filen blir godtatt, er å endre filendelsen.",
+      "intro.lead.pdf-images": "PDF til bilder gjør hver side i en PDF om til et eget JPG- eller PNG-bilde, nummerert i siderekkefølge, slik at hver side kan legges ut, deles eller redigeres for seg. En PDF holder sidene låst sammen i én fil med fast oppsett, og det er nettopp derfor den ikke kan legges ut der bare bilder er tillatt.",
+      "steps.pdf-images.1": "Slipp PDF-en din på opplastingsfeltet øverst på denne siden, eller klikk på det for å velge filen fra enheten din.",
+      "steps.pdf-images.2": "Velg JPG for mindre filer som passer til bilder og sosiale medier, eller PNG for skarp tekst og grafikk, og klikk deretter på Konverter.",
+      "steps.pdf-images.3": "Last ned hver side for seg, eller hent alle sidene samtidig som ZIP. Lenkene er aktive i 24 timer, deretter slettes alt.",
+      "shapeFaq.pdf-images.q1": "Blir hver side i PDF-en min et eget bilde?",
+      "shapeFaq.pdf-images.a1": "Ja. Hver side gjengis som et eget bilde og nummereres i rekkefølge — page-01, page-02 og så videre — så en PDF på ti sider gir deg ti bilder. Du kan laste dem ned enkeltvis eller samlet i én ZIP-fil, og hele PDF-en koster én kreditt uansett hvor mange sider den har.",
+      "shapeFaq.pdf-images.q2": "Passer bildene til Instagram og andre sosiale medier?",
+      "shapeFaq.pdf-images.a2": "Ja. Sidene gjengis i høy oppløsning, så de forblir skarpe etter at Instagram, LinkedIn eller Facebook har skalert dem ned. Stående sider fungerer godt som Instagram-karuseller; for best resultat bør du utforme lysbildene i 4:5 eller kvadratisk format før du eksporterer PDF-en, og velge JPG for å holde opplastingene små.",
+      "intro.lead.collage": "Fotokollasj setter sammen flere bilder til ett: hvert bilde skaleres og plasseres i et ryddig rutenett med jevn avstand, så alt kan ses med ett blikk i stedet for å blas gjennom ett og ett. Velg et automatisk oppsett eller et fast 2×2- eller 3×3-rutenett, og få tilbake én JPG eller PNG.",
+      "steps.collage.1": "Legg til mellom 2 og 16 bilder ved å slippe dem på opplastingsfeltet eller klikke for å velge dem, og dra dem deretter i listen for å bestemme rekkefølgen.",
+      "steps.collage.2": "Velg et oppsett — Automatisk, 2×2 eller 3×3 — bestem om bildene skal fylle rutene sine eller vises i sin helhet, og velg JPG eller PNG.",
+      "steps.collage.3": "Klikk på Lag kollasj, sjekk forhåndsvisningen og last ned det ferdige bildet. Det er tilgjengelig i 24 timer.",
+      "shapeFaq.collage.q1": "Blir bildene mine beskåret i kollasjen?",
+      "shapeFaq.collage.a1": "Det bestemmer du selv. Med «Fyll hver rute» beskjæres hvert bilde til et kvadrat, sentrert på den mest interessante delen av bildet, noe som gir det ryddigste rutenettet. Med «Vis hele bildet» kuttes ingenting bort: bildet krympes til det passer, og resten av plassen fylles med hvitt.",
+      "shapeFaq.collage.q2": "Hvor mange bilder kan jeg ha i én kollasj?",
+      "shapeFaq.collage.a2": "Minst 2 og opptil 16 med oppsettet Automatisk, som velger det mest kvadratiske rutenettet for antallet bilder du legger til. 2×2-rutenettet har plass til opptil 4 bilder og 3×3-rutenettet opptil 9. Hver kollasj koster én kreditt, uansett hvor mange bilder den inneholder.",
+      "intro.rename": "{{fn}} og {{tn}} er samme bildeformat med to ulike filendelser, så denne konverteringen endrer bare navnet: bildet kopieres byte for byte, uten ny komprimering og uten kvalitetstap. {{reason}}"
+    }
+  }
+}

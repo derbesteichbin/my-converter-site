@@ -104,6 +104,52 @@ const VALID_TOOLS = {
   'gif-to-mp4':     { inputFormats: ['gif'], outputFormats: ['mp4', 'webm'] },
   'image-to-gif':   { inputFormats: ['jpg', 'jpeg', 'png', 'webp', 'bmp'], outputFormats: ['gif'] },
   'gif-compressor': { inputFormats: ['gif'], outputFormats: ['gif'], toolType: 'compress' },
+
+  // Added: everyday pairs (image). JPEG and JPG are one format, so those two
+  // are a lossless rename on our side rather than a CloudConvert re-encode.
+  'jpeg-to-jpg':  { inputFormats: ['jpeg'], outputFormats: ['jpg'],  toolType: 'rename' },
+  'jpg-to-jpeg':  { inputFormats: ['jpg'],  outputFormats: ['jpeg'], toolType: 'rename' },
+  'jpg-to-webp':  { inputFormats: ['jpg', 'jpeg'], outputFormats: ['webp', 'png'] },
+  'png-to-webp':  { inputFormats: ['png'],  outputFormats: ['webp', 'jpg'] },
+  'avif-to-jpg':  { inputFormats: ['avif'], outputFormats: ['jpg', 'png', 'webp'] },
+  'avif-to-png':  { inputFormats: ['avif'], outputFormats: ['png', 'jpg', 'webp'] },
+  'bmp-to-jpg':   { inputFormats: ['bmp'],  outputFormats: ['jpg', 'png', 'webp'] },
+  'tiff-to-png':  { inputFormats: ['tiff', 'tif'], outputFormats: ['png', 'jpg', 'webp'] },
+  'ico-to-png':   { inputFormats: ['ico'],  outputFormats: ['png', 'jpg'] },
+  'gif-to-jpg':   { inputFormats: ['gif'],  outputFormats: ['jpg', 'png', 'webp'] },
+  'jpg-to-pdf':   { inputFormats: ['jpg', 'jpeg'], outputFormats: ['pdf'] },
+  'png-to-pdf':   { inputFormats: ['png'],  outputFormats: ['pdf'] },
+
+  // Added: everyday pairs (document)
+  'txt-to-pdf':      { inputFormats: ['txt'], outputFormats: ['pdf', 'docx'] },
+  'markdown-to-pdf': { inputFormats: ['md'], outputFormats: ['pdf', 'html', 'docx'] },
+  'csv-to-excel':    { inputFormats: ['csv'], outputFormats: ['xlsx', 'pdf'] },
+  'excel-to-csv':    { inputFormats: ['xlsx', 'xls'], outputFormats: ['csv'] },
+  'word-to-txt':     { inputFormats: ['docx', 'doc'], outputFormats: ['txt'] },
+
+  // Added: everyday pairs (video)
+  'mp4-to-webm':  { inputFormats: ['mp4'],  outputFormats: ['webm', 'mkv', 'mov'] },
+  'mp4-to-mkv':   { inputFormats: ['mp4'],  outputFormats: ['mkv', 'webm', 'mov'] },
+  'm4v-to-mp4':   { inputFormats: ['m4v'],  outputFormats: ['mp4', 'mov'] },
+  '3gp-to-mp4':   { inputFormats: ['3gp'],  outputFormats: ['mp4', 'avi'] },
+  'mpeg-to-mp4':  { inputFormats: ['mpeg', 'mpg'], outputFormats: ['mp4', 'avi'] },
+
+  // Added: everyday pairs (audio)
+  'm4a-to-wav':   { inputFormats: ['m4a'],  outputFormats: ['wav', 'flac', 'mp3'] },
+  'flac-to-wav':  { inputFormats: ['flac'], outputFormats: ['wav', 'mp3'] },
+  'wav-to-flac':  { inputFormats: ['wav'],  outputFormats: ['flac', 'mp3'] },
+  'aiff-to-mp3':  { inputFormats: ['aiff', 'aif'], outputFormats: ['mp3', 'wav', 'flac'] },
+  'opus-to-mp3':  { inputFormats: ['opus'], outputFormats: ['mp3', 'wav', 'ogg'] },
+  'mp3-to-m4a':   { inputFormats: ['mp3'],  outputFormats: ['m4a', 'aac'] },
+
+  // Added: everyday pairs (archive)
+  'zip-to-tar':   { inputFormats: ['zip'], outputFormats: ['tar', '7z'] },
+  'rar-to-7z':    { inputFormats: ['rar'], outputFormats: ['7z', 'zip'] },
+
+  // Social Media. pdf-to-images returns one image per page plus a ZIP;
+  // photo-collage is composed locally with sharp (no CloudConvert).
+  'pdf-to-images': { inputFormats: ['pdf'], outputFormats: ['jpg', 'png'], toolType: 'pdf-images' },
+  'photo-collage': { inputFormats: ['jpg', 'jpeg', 'png', 'webp', 'avif', 'gif', 'tiff', 'tif'], outputFormats: ['jpg', 'png'], toolType: 'collage' },
 };
 
 // Allowed advanced setting keys (whitelist for sanitizing request body)

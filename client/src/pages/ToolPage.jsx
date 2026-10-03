@@ -4,7 +4,7 @@ import { useDropzone } from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
 import SEO from '../components/SEO';
 import { api, API_URL } from '../api';
-import { getToolBySlug, getToolLabel, getToolDescription, ADVANCED_SETTINGS } from '../toolsConfig';
+import { getToolBySlug, getToolLabel, getToolDescription, ADVANCED_SETTINGS, COLLAGE_LAYOUTS, COLLAGE_FITS, COLLAGE_MIN_PHOTOS } from '../toolsConfig';
 import { useToast } from '../components/Toast';
 
 // The per-tool SEO content (intro, how-to, FAQ + FAQPage structured data)
@@ -144,8 +144,13 @@ export default function ToolPage() {
   const isSmartTool = toolDef?.toolType === 'smart';
   const isTts = toolName === 'text-to-speech';
   const isStt = toolName === 'speech-to-text';
+  // Photo Collage: many photos in, one image out, one credit. PDF to Images:
+  // one PDF in, one image per page out (plus a ZIP of them all).
+  const isCollage = toolDef?.toolType === 'collage';
+  const isPdfImages = toolDef?.toolType === 'pdf-images';
   const extraFields = toolDef?.extraFields || [];
-  const advancedFields = ADVANCED_SETTINGS[toolDef?.category] || [];
+  // JPEG↔JPG copies the file unchanged, so resize/quality would be ignored.
+  const advancedFields = toolDef?.toolType === 'rename' ? [] : ADVANCED_SETTINGS[toolDef?.category] || [];
   const toast = useToast();
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -227,7 +232,8 @@ export default function ToolPage() {
 
   // Credit cost = one credit per file for standard batch conversion. PDF
   // operations and Smart Functions run as a single job, so they cost 1.
-  const creditCost = isPdfTool || isSmartTool ? 1 : files.length;
+  // A collage is likewise one job however many photos go into it.
+  const creditCost = isPdfTool || isSmartTool || isCollage ? 1 : files.length;
 
   // Persistent note shown when a folder/multi-file selection had some files
   // skipped for not matching the tool's input format (the toast is transient).
@@ -236,6 +242,11 @@ export default function ToolPage() {
   const [pageRanges, setPageRanges] = useState('');
   const [rotation, setRotation] = useState('90');
   const [password, setPassword] = useState('');
+  const [collageLayout, setCollageLayout] = useState('auto');
+  const [collageFit, setCollageFit] = useState('cover');
+  // Object URL of the finished collage, fetched with credentials for the
+  // inline preview. Revoked when replaced or on reset.
+  const [collagePreview, setCollagePreview] = useState('');
 
   // Smart Functions: per-tool extras
   const [ttsText, setTtsText] = useState('');
@@ -360,6 +371,9 @@ export default function ToolPage() {
     setPageRanges('');
     setRotation('90');
     setPassword('');
+    setCollageLayout('auto');
+    setCollageFit('cover');
+    setCollagePreview('');
     setTtsText('');
     setTtsVoice('alloy');
     setTtsSpeed('1');
@@ -454,7 +468,7 @@ export default function ToolPage() {
 
   // Folder/multi-file upload only makes sense for standard batch conversion
   // tools — not PDF operations (single job) or Smart Functions.
-  const allowFolderUpload = !isPdfTool && !isSmartTool;
+  const allowFolderUpload = !isPdfTool && !isSmartTool && !isCollage;
 
   function removeFile(index) {
     setFiles((prev) => prev.filter((_, i) => i !== index));
@@ -504,7 +518,15 @@ export default function ToolPage() {
 
         if (job.status === 'done') {
           clearInterval(intervalId);
-          setBatchJobs((prev) => prev.map((j, i) => i === index ? { ...j, status: 'done', downloadUrl: job.downloadUrl, outputSize: job.outputSize } : j));
+          setBatchJobs((prev) => prev.map((j, i) => i === index ? { ...j, status: 'done', downloadUrl: job.downloadUrl, outputSize: job.outputSize, pages: job.files || null } : j));
+          // Photo Collage: show the result inline. The download route needs the
+          // session cookie, so fetch it through api() rather than an <img src>.
+          if (isCollage && job.downloadUrl) {
+            api(job.downloadUrl)
+              .then((r) => (r.ok ? r.blob() : null))
+              .then((blob) => { if (blob) setCollagePreview(URL.createObjectURL(blob)); })
+              .catch(() => {});
+          }
           // For Speech to Text, fetch the transcript so we can render it
           // inline below the download button.
           if (isStt && job.downloadUrl) {
@@ -614,10 +636,36 @@ export default function ToolPage() {
     return `${mm}:${ss}`;
   }
 
+  // Photo Collage limits, checked before submitting so the user is told what
+  // to change instead of spending a request on a 400. The server re-checks.
+  const collageMax = (COLLAGE_LAYOUTS.find((l) => l.id === collageLayout) || COLLAGE_LAYOUTS[0]).max;
+  const collageProblem = !isCollage || files.length === 0 ? null
+    : files.length < COLLAGE_MIN_PHOTOS ? 'few'
+      : files.length > collageMax ? 'many' : null;
+
+  useEffect(() => {
+    if (!collagePreview) return undefined;
+    return () => URL.revokeObjectURL(collagePreview);
+  }, [collagePreview]);
+
+  function collageErrorText(code) {
+    switch (code) {
+      case 'collage_too_few':
+        return t('tool.collageTooFew', { min: COLLAGE_MIN_PHOTOS });
+      case 'collage_too_many':
+        return t('tool.collageTooMany', { max: collageMax, extra: Math.max(0, files.length - collageMax) });
+      case 'collage_bad_type':
+        return t('tool.collageBadType');
+      default:
+        return null;
+    }
+  }
+
   function handleConvert() {
     // TTS allows submitting typed text without uploading a file. All other
     // tools require at least one file.
     if (files.length === 0 && !(isTts && ttsText.trim())) return;
+    if (collageProblem) return;
 
     if (authState.status === 'loading') return;
     if (authState.status === 'guest') { setModal('guest'); return; }
@@ -693,6 +741,42 @@ export default function ToolPage() {
             return;
           }
           throw new Error(data.error || 'Upload failed');
+        }
+        const { jobId } = await res.json();
+        setBatchJobs([{ ...job0, status: 'processing', jobId }]);
+        pollJob(0, jobId);
+      } catch (err) {
+        setBatchJobs([{ ...job0, status: 'failed', error: err.message }]);
+      }
+      return;
+    }
+
+    if (isCollage) {
+      const totalSize = files.reduce((s, f) => s + f.size, 0);
+      const job0 = { file: t('tool.collagePhotos', { count: files.length }), inputSize: totalSize, status: 'uploading', jobId: null, downloadUrl: null, outputSize: null, error: null };
+      setBatchJobs([job0]);
+      setCollagePreview('');
+
+      try {
+        const formData = new FormData();
+        formData.append('toolSlug', toolName);
+        formData.append('outputFormat', outputFormat);
+        formData.append('layout', collageLayout);
+        formData.append('fit', collageFit);
+        if (notifyEmail) formData.append('notifyEmail', 'true');
+        files.forEach((f) => formData.append('files', f));
+
+        const res = await api('/api/convert/collage', { method: 'POST', body: formData });
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          if (res.status === 429 && data.code === 'no_credits') {
+            setBatchJobs([]);
+            stopProgress();
+            setOverallStatus('idle');
+            setModal('no_credits');
+            return;
+          }
+          throw new Error(collageErrorText(data.code) || data.error || 'Upload failed');
         }
         const { jobId } = await res.json();
         setBatchJobs([{ ...job0, status: 'processing', jobId }]);
@@ -844,6 +928,7 @@ export default function ToolPage() {
     setOverallStatus('idle');
     setError('');
     setSkippedNote('');
+    setCollagePreview('');
   }
 
   const busy = overallStatus === 'converting';
@@ -930,7 +1015,7 @@ export default function ToolPage() {
       )}
 
       {/* Mobile camera capture */}
-      {toolDef?.category === 'Image' && (
+      {(toolDef?.category === 'Image' || isCollage) && (
         <label className="camera-btn" aria-label={t('tool.photo')}>
           <input
             type="file"
@@ -995,16 +1080,17 @@ export default function ToolPage() {
       {files.length > 1 && overallStatus === 'idle' && (
         <div className="multi-file-list">
           {isPdfMerge && <p className="reorder-hint">{t('tool.reorderHint')}</p>}
+          {isCollage && <p className="reorder-hint">{t('tool.collageReorderHint')}</p>}
           {files.map((f, i) => (
             <div
               className={`multi-file-item ${dragIndex === i ? 'multi-file-dragging' : ''}`}
               key={`${f.name}-${i}`}
-              draggable={isPdfMerge}
+              draggable={isPdfMerge || isCollage}
               onDragStart={() => handleDragStart(i)}
               onDragOver={(e) => handleDragOver(e, i)}
               onDragEnd={handleDragEnd}
             >
-              {isPdfMerge && <span className="drag-handle">&#8942;&#8942;</span>}
+              {(isPdfMerge || isCollage) && <span className="drag-handle">&#8942;&#8942;</span>}
               {isImageFile(f) ? (
                 <img className="multi-file-thumb" src={URL.createObjectURL(f)} alt="" />
               ) : (
@@ -1016,6 +1102,35 @@ export default function ToolPage() {
             </div>
           ))}
           <p className="batch-count">{t('tool.filesSelected', { count: files.length })}</p>
+        </div>
+      )}
+
+      {/* Photo Collage: grid layout and how each photo fills its square. */}
+      {isCollage && overallStatus === 'idle' && batchJobs.length === 0 && (
+        <div className="collage-options">
+          <div className="extra-field">
+            <label htmlFor="collage-layout">{t('tool.collageLayoutLabel')}</label>
+            <select id="collage-layout" value={collageLayout} onChange={(e) => setCollageLayout(e.target.value)} disabled={busy}>
+              {COLLAGE_LAYOUTS.map((l) => (
+                <option key={l.id} value={l.id}>{t('tool.collageLayout_' + l.id.replace('x', 'by'), { max: l.max })}</option>
+              ))}
+            </select>
+          </div>
+          <div className="extra-field">
+            <label htmlFor="collage-fit">{t('tool.collageFitLabel')}</label>
+            <select id="collage-fit" value={collageFit} onChange={(e) => setCollageFit(e.target.value)} disabled={busy}>
+              {COLLAGE_FITS.map((f) => (
+                <option key={f} value={f}>{t('tool.collageFit_' + f)}</option>
+              ))}
+            </select>
+          </div>
+          {hasFiles && (
+            <p className={`collage-count ${collageProblem ? 'collage-count-warn' : ''}`} role="status">
+              {collageProblem === 'few' && t('tool.collageTooFew', { min: COLLAGE_MIN_PHOTOS })}
+              {collageProblem === 'many' && t('tool.collageTooMany', { max: collageMax, extra: files.length - collageMax })}
+              {!collageProblem && t('tool.collageCount', { count: files.length, max: collageMax })}
+            </p>
+          )}
         </div>
       )}
 
@@ -1125,7 +1240,7 @@ export default function ToolPage() {
                         {' '}({t('tool.smaller', { pct: Math.round((1 - job.outputSize / job.inputSize) * 100) })})
                       </span>
                     )}
-                    <a href={`${API_URL}${job.downloadUrl}`} className="batch-download" download>{t('common.download')}</a>
+                    <a href={`${API_URL}${job.downloadUrl}`} className="batch-download" download>{isPdfImages ? t('tool.pdfPagesZip') : t('common.download')}</a>
                     <button className="btn-share" aria-label={t('tool.share')} onClick={async () => {
                       const url = `${window.location.origin}${API_URL}${job.downloadUrl}`;
                       const result = await shareOrCopy(url);
@@ -1141,6 +1256,29 @@ export default function ToolPage() {
               )}
             </div>
           ))}
+          {/* PDF to Images: the row above downloads the ZIP; each page is
+              also offered on its own for posting one at a time. */}
+          {isPdfImages && batchJobs.map((job, i) => job.status === 'done' && job.pages?.length > 0 && (
+            <div className="page-downloads" key={`pages-${i}`}>
+              <p className="page-downloads-title">
+                {t('tool.pdfPagesTitle', { count: job.pages.length })}
+                {batchJobs.length > 1 && <span className="page-downloads-source"> — {job.file}</span>}
+              </p>
+              <div className="page-downloads-grid">
+                {job.pages.map((p) => (
+                  <a key={p.downloadUrl} href={`${API_URL}${p.downloadUrl}`} className="page-download" download>
+                    <span className="page-download-name">{p.name}</span>
+                    {p.size ? <span className="page-download-size">{formatSize(p.size)}</span> : null}
+                  </a>
+                ))}
+              </div>
+            </div>
+          ))}
+          {isCollage && collagePreview && (
+            <figure className="collage-preview">
+              <img src={collagePreview} alt={t('tool.collagePreviewAlt')} />
+            </figure>
+          )}
           {overallStatus === 'done' && (
             <div className="batch-done-actions">
               {batchJobs.filter((j) => j.status === 'done').length > 1 && (
@@ -1221,9 +1359,9 @@ export default function ToolPage() {
               </span>
             )}
 
-            <button className="btn-primary convert-btn" disabled={!hasFiles || busy} onClick={handleConvert} aria-label={t('tool.convert')}>
+            <button className="btn-primary convert-btn" disabled={!hasFiles || busy || !!collageProblem} onClick={handleConvert} aria-label={t('tool.convert')}>
               {busy && <span className="spinner" />}
-              {busy ? t('tool.converting') : files.length > 1 ? `${t('tool.convert')} ${files.length}` : t('tool.convert')}
+              {busy ? t('tool.converting') : isCollage ? t('tool.collageCreate') : files.length > 1 ? `${t('tool.convert')} ${files.length}` : t('tool.convert')}
             </button>
           </div>
 
@@ -1368,7 +1506,9 @@ export default function ToolPage() {
               <>
                 <h2 style={{ margin: '0 0 0.5rem' }}>{t('tool.confirmModalTitle')}</h2>
                 <p style={{ margin: '0 0 1.25rem', color: 'var(--text)' }}>
-                  {creditCost === 1
+                  {isCollage
+                    ? t('tool.confirmCollageBody', { count: files.length, remaining: authState.credits ?? 0 })
+                    : creditCost === 1
                     ? t('tool.confirmBatchBodySingular', {
                         defaultValue: `This will convert 1 file and use 1 credit. You have ${authState.credits ?? 0} credits remaining.`,
                         remaining: authState.credits ?? 0,

@@ -15,6 +15,7 @@ const GRADIENTS_DARK = {
   GIF: 'linear-gradient(135deg, #065f46, #047857)',
   Archive: 'linear-gradient(135deg, #1f2937, #111827)',
   'PDF Tools': 'linear-gradient(135deg, #4a1d96, #5b21b6)',
+  'Social Media': 'linear-gradient(135deg, #881337, #9d174d)',
   Utilities: 'linear-gradient(135deg, #312e81, #4c1d95)',
   'Smart Functions': 'linear-gradient(135deg, #b45309, #c2410c)',
 };
@@ -27,6 +28,7 @@ const GRADIENTS_LIGHT = {
   GIF: 'linear-gradient(135deg, #d1fae5, #a7f3d0)',
   Archive: 'linear-gradient(135deg, #f3f4f6, #d1d5db)',
   'PDF Tools': 'linear-gradient(135deg, #ede9fe, #ddd6fe)',
+  'Social Media': 'linear-gradient(135deg, #ffe4e6, #fecdd3)',
   Utilities: 'linear-gradient(135deg, #e0e7ff, #c7d2fe)',
   'Smart Functions': 'linear-gradient(135deg, #fef9c3, #fde9b8)',
 };

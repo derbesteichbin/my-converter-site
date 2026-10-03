@@ -1,0 +1,139 @@
+{
+  "categories": {
+    "Social Media": "Rețele sociale"
+  },
+  "categoryDescriptions": {
+    "Social Media": "Transformă PDF-urile în imagini gata de postat și combină fotografii în colaje pentru Instagram și alte platforme."
+  },
+  "toolNames": {
+    "pdf-to-images": "PDF în imagini",
+    "photo-collage": "Colaj foto"
+  },
+  "tool": {
+    "collageLayoutLabel": "Aranjare",
+    "collageLayout_auto": "Automat (până la {{max}} fotografii)",
+    "collageLayout_2by2": "Grilă 2 × 2 (până la {{max}} fotografii)",
+    "collageLayout_3by3": "Grilă 3 × 3 (până la {{max}} fotografii)",
+    "collageFitLabel": "Încadrarea fotografiei",
+    "collageFit_cover": "Umple fiecare pătrat (decupează marginile)",
+    "collageFit_contain": "Arată fotografia întreagă (adaugă spațiu alb)",
+    "collageCount": "{{count}} fotografii selectate — această aranjare cuprinde până la {{max}}.",
+    "collageTooFew": "Adaugă cel puțin {{min}} fotografii pentru a crea un colaj.",
+    "collageTooMany": "Această aranjare cuprinde până la {{max}} fotografii. Elimină {{extra}} sau alege o aranjare mai mare.",
+    "collageBadType": "Unul dintre fișiere nu este o imagine acceptată. Folosește JPG, PNG, WebP, AVIF, GIF sau TIFF.",
+    "collageReorderHint": "Trage fotografiile pentru a stabili ordinea lor în colaj",
+    "collageCreate": "Creează colajul",
+    "collagePhotos": "{{count}} fotografii",
+    "collagePreviewAlt": "Previzualizarea colajului tău",
+    "confirmCollageBody": "Vei combina {{count}} fotografii într-un singur colaj și vei folosi 1 credit. Mai ai {{remaining}} credite.",
+    "pdfPagesTitle": "Pagini individuale ({{count}})",
+    "pdfPagesZip": "Descarcă tot (ZIP)"
+  },
+  "toolDescriptions": {
+    "jpeg-to-jpg": "Schimbă un fișier .jpeg în .jpg fără să atingi niciun pixel. JPEG și JPG sunt același format, așa că imaginea este copiată neschimbată, doar cu noua extensie.",
+    "jpg-to-jpeg": "Schimbă un fișier .jpg în .jpeg fără nicio pierdere de calitate. Imaginea este copiată byte cu byte și primește doar extensia cerută de un formular sau program.",
+    "jpg-to-webp": "Convertește fotografii JPG în WebP pentru fișiere vizibil mai mici la o calitate similară. Ideal pentru site-uri mai rapide și scoruri page-speed mai bune.",
+    "png-to-webp": "Convertește grafica PNG în WebP pentru a reduce dimensiunea fișierelor și a păstra transparența. Excelent pentru logouri, capturi de ecran și grafică web.",
+    "avif-to-jpg": "Convertește imaginile moderne AVIF în JPG ca să se deschidă în orice aplicație foto, program de birou și formular de încărcare.",
+    "avif-to-png": "Convertește imaginile AVIF în PNG pentru editare fără pierderi, cu transparență, în orice editor de imagini.",
+    "bmp-to-jpg": "Micșorează fișierele BMP voluminoase în fotografii JPG compacte, ușor de trimis pe e-mail, încărcat și distribuit.",
+    "tiff-to-png": "Convertește scanările și fișierele de tipar TIFF mari în PNG — fără pierderi, clare și vizibile în orice browser.",
+    "ico-to-png": "Extrage imaginea dintr-un favicon ICO sau dintr-o pictogramă Windows ca PNG pe care îl poți edita sau refolosi.",
+    "gif-to-jpg": "Salvează un GIF ca imagine statică JPG — util pentru miniaturi, documente și site-uri care nu acceptă GIF-uri.",
+    "jpg-to-pdf": "Transformă fotografiile și scanările JPG într-un document PDF — perfect pentru bonuri, copii după acte și pagini semnate care trebuie trimise ca PDF.",
+    "png-to-pdf": "Convertește capturile de ecran, diagramele și grafica PNG într-un PDF ușor de trimis, tipărit și arhivat.",
+    "txt-to-pdf": "Convertește fișierele text simplu în PDF (sau Word) cu o aranjare fixă, care se citește și se tipărește la fel pe orice dispozitiv.",
+    "markdown-to-pdf": "Transformă fișierele Markdown într-un PDF curat și formatat, o pagină HTML sau un document Word — cu titluri, liste, linkuri și cod.",
+    "csv-to-excel": "Transformă datele CSV într-un registru Excel adevărat, cu coloane reale, gata pentru formule, filtre și grafice.",
+    "excel-to-csv": "Exportă o foaie de calcul Excel în CSV pentru import în CRM-uri, magazine online, instrumente de newsletter și baze de date.",
+    "word-to-txt": "Extrage textul simplu din documentele Word — fără formatare, doar cuvintele, gata de lipit oriunde.",
+    "mp4-to-webm": "Convertește video MP4 în WebM, formatul web deschis redat nativ de browserele moderne.",
+    "mp4-to-mkv": "Convertește video MP4 în MKV, containerul flexibil preferat de serverele media și arhive.",
+    "m4v-to-mp4": "Convertește videoclipurile Apple M4V în MP4 ca să ruleze pe Android, Windows și în orice editor video.",
+    "3gp-to-mp4": "Convertește videoclipurile vechi de telefon 3GP în MP4, care rulează pe orice telefon, calculator și rețea socială modernă.",
+    "mpeg-to-mp4": "Convertește videoclipurile MPEG și MPG în MP4 compact, compatibil aproape peste tot.",
+    "m4a-to-wav": "Convertește audio M4A, cum ar fi notele vocale de pe iPhone, în WAV necomprimat pentru editare și producție.",
+    "flac-to-wav": "Convertește FLAC fără pierderi în WAV pentru editoare audio, inscripționare CD și dispozitive fără suport FLAC — fără nicio pierdere de calitate.",
+    "wav-to-flac": "Comprimă înregistrările WAV în FLAC și economisește aproximativ jumătate din spațiu, păstrând intact fiecare eșantion.",
+    "aiff-to-mp3": "Convertește fișierele audio AIFF mari din aplicațiile Mac în MP3-uri mici, redabile oriunde.",
+    "opus-to-mp3": "Convertește mesajele vocale și înregistrările OPUS în MP3, care rulează în orice player, sistem audio auto sau editor.",
+    "mp3-to-m4a": "Convertește MP3 în M4A pentru Apple Music, iTunes și tonuri de apel pe iPhone.",
+    "zip-to-tar": "Convertește arhivele ZIP în TAR pentru servere Linux, implementări și instrumente pentru dezvoltatori.",
+    "rar-to-7z": "Convertește arhivele RAR în formatul 7Z, liber și deschis, cu compresie puternică.",
+    "pdf-to-images": "Împarte un PDF într-o imagine pe pagină — JPG sau PNG — gata de postat pe Instagram, LinkedIn și alte rețele sociale. Descarcă paginile pe rând sau pe toate împreună ca ZIP.",
+    "photo-collage": "Combină mai multe fotografii într-o singură imagine, aranjate într-o grilă ordonată, ca să se vadă toate deodată. Alege Automat, 2×2 sau 3×3 și descarcă un singur JPG sau PNG."
+  },
+  "pack": {
+    "formats": {
+      "avif": {
+        "about": "AVIF este un format de imagine modern, bazat pe codecul video AV1; produce unele dintre cele mai mici fișiere posibile la o anumită calitate și acceptă transparența, dar software-ul mai vechi adesea nu îl poate deschide.",
+        "note": "AVIF îți oferă fișiere foarte mici la o calitate bună pentru browserele și aplicațiile moderne."
+      },
+      "md": {
+        "about": "Markdown este text simplu cu semne ușoare de formatare — # pentru titluri, * pentru accentuare, - pentru liste — care rămâne lizibil ca text brut și poate fi transformat într-un document stilizat.",
+        "note": "Markdown îți păstrează conținutul ca text simplu, ușor de editat și de urmărit în controlul versiunilor."
+      },
+      "aif": {
+        "about": "AIF este extensia scurtă pentru AIFF, formatul audio necomprimat al Apple: fiecare eșantion este stocat exact cum a fost înregistrat, ceea ce dă calitate de studio și fișiere foarte mari.",
+        "note": "AIF păstrează sunetul necomprimat și gata de editare pe un Mac."
+      }
+    },
+    "reasons": {
+      "jpeg-to-jpg": "De obicei, motivul este un formular, un constructor de site-uri sau un program mai vechi care insistă pe extensia .jpg și respinge exact aceeași imagine salvată ca .jpeg.",
+      "jpg-to-jpeg": "Unele formulare de încărcare, laboratoare foto și sisteme mai vechi acceptă doar extensia .jpeg și refuză un .jpg, deși conținutul este identic.",
+      "jpg-to-webp": "Cei mai mulți vor asta ca să accelereze un site: fotografiile WebP sunt de regulă cu un sfert până la o treime mai mici decât același JPG la o calitate vizuală similară, adică pagini mai rapide și scoruri page-speed mai bune.",
+      "png-to-webp": "Cazul obișnuit este un site plin de capturi de ecran, logouri și grafică PNG care se încarcă greu — WebP păstrează transparența, dar de obicei reduce considerabil dimensiunea fișierelor.",
+      "avif-to-jpg": "Imaginile AVIF salvate de pe site-uri moderne sau de pe telefoane mai noi adesea nu se deschid în editoare foto mai vechi, programe de birou sau formulare de încărcare, în timp ce JPG funcționează absolut peste tot.",
+      "avif-to-png": "De obicei ai nevoie de asta când o grafică AVIF trebuie editată, pusă pe straturi sau așezată pe alt fundal într-un program care încă nu citește AVIF.",
+      "bmp-to-jpg": "Fișierele BMP de la scanere vechi, din Windows Paint sau din software industrial sunt uriașe pentru că nu sunt comprimate; transformate în JPG devin destul de mici ca să le trimiți pe e-mail sau să le încarci.",
+      "tiff-to-png": "Scanările și fișierele TIFF pregătite pentru tipar sunt prea grele și prea slab acceptate pe web; PNG păstrează fiecare pixel clar și se deschide în orice browser.",
+      "ico-to-png": "Motivul tipic este să ajungi la grafica dintr-un favicon sau dintr-o pictogramă Windows, ca s-o refolosești într-un design, un document sau o prezentare.",
+      "gif-to-jpg": "De obicei ai nevoie doar de un singur cadru static dintr-un GIF — pentru o miniatură, un document sau un site care nu acceptă imagini animate.",
+      "jpg-to-pdf": "Situația clasică este o cerere sau o solicitare de despăgubire care cere un PDF, iar tu ai doar o fotografie făcută cu telefonul unui bon, unui act de identitate sau unei pagini semnate.",
+      "png-to-pdf": "Se folosește pentru a preda capturi de ecran, diagrame sau pagini scanate ca document propriu-zis — multe portaluri și destinatari de e-mail așteaptă un PDF, nu o imagine.",
+      "txt-to-pdf": "Textul simplu arată diferit în fiecare editor; transformând notițe, jurnale sau o ciornă în PDF fixezi fontul și aranjarea, ca să se citească și să se tipărească la fel pentru toată lumea.",
+      "markdown-to-pdf": "Scriitorii și dezvoltatorii scriu în Markdown, dar colegii și clienții așteaptă un document finit — un README, un raport sau un set de notițe pe care să-l deschidă fără niciun instrument special.",
+      "csv-to-excel": "Exporturile CSV de la bănci, magazine și baze de date se deschid adesea cu coloane stricate, zerouri de la început pierdute sau date calendaristice amestecate; un registru Excel ține datele în celule corecte, gata pentru sume și grafice.",
+      "excel-to-csv": "Cele mai multe instrumente de import — CRM-uri, servicii de newsletter, magazine online și baze de date — acceptă doar CSV, așa că o foaie de calcul trebuie aplatizată înainte de a putea fi încărcată.",
+      "word-to-txt": "Motivul obișnuit este refolosirea textului undeva unde fișierele Word nu sunt înțelese: un editor de cod, un CMS de site, un instrument pentru subtitrări sau un prompt pentru AI.",
+      "mp4-to-webm": "Dezvoltatorii web convertesc în WebM pentru video deschis, fără redevențe, care rulează nativ în browsere și adesea e mai mic decât MP4-ul la o calitate similară.",
+      "mp4-to-mkv": "MKV este containerul preferat pentru arhive și servere media precum Plex sau Jellyfin, pentru că un singur fișier poate conține mai multe piste audio, subtitrări și capitole.",
+      "m4v-to-mp4": "Fișierele M4V din iTunes sau de pe dispozitivele Apple adesea refuză să se deschidă pe Android, Windows sau în editoare video, în timp ce MP4 rulează peste tot.",
+      "3gp-to-mp4": "Videoclipurile vechi de pe telefoane sunt adesea salvate ca 3GP, pe care calculatoarele, telefoanele și rețelele sociale moderne de multe ori nu le pot reda sau încărca.",
+      "mpeg-to-mp4": "Fișierele MPEG din copii de pe DVD, camere video vechi și înregistrări TV sunt mari și slab acceptate pe telefoane; MP4 le micșorează și rulează peste tot.",
+      "m4a-to-wav": "Editoarele audio, samplerele și unele instrumente de difuzare vor WAV necomprimat, în timp ce notele vocale de pe iPhone și descărcările din iTunes vin ca M4A.",
+      "flac-to-wav": "Stațiile audio de lucru, programele de inscripționare CD și unele playere hardware lucrează cu WAV, dar nu cu FLAC, iar pentru că ambele sunt fără pierderi, nu se pierde nimic pe drum.",
+      "wav-to-flac": "Muzicienii și arhivarii îl folosesc pentru a micșora înregistrările WAV mari la aproximativ jumătate, păstrând fiecare eșantion identic bit cu bit.",
+      "aiff-to-mp3": "Înregistrările AIFF din Logic, GarageBand sau bibliotecile de sample-uri pentru Mac sunt mari; MP3 le face destul de mici ca să le distribui, să le transmiți în flux sau să le asculți pe orice dispozitiv.",
+      "opus-to-mp3": "Mesajele vocale din WhatsApp și Telegram și multe înregistrări web sunt salvate ca OPUS, pe care sistemele audio auto, playerele mai vechi și editoarele adesea nu le redau.",
+      "mp3-to-m4a": "De obicei se folosește pentru dispozitivele Apple — M4A merge bine în Apple Music și iTunes și este punctul de pornire pentru un ton de apel pe iPhone.",
+      "zip-to-tar": "Dezvoltatorii și administratorii de servere au nevoie de TAR la implementarea pe sisteme Linux, la construirea imaginilor de container sau când folosesc instrumente care așteaptă un tarball, nu un ZIP.",
+      "rar-to-7z": "Arhivele RAR sunt reîmpachetate ca 7Z pentru a folosi un format liber și deschis, pe care 7-Zip îl creează și îl deschide nativ, adesea cu o compresie și mai bună.",
+      "pdf-to-images": "Este gândit pentru rețelele sociale: caruselele Instagram, postările LinkedIn și story-urile au nevoie de imagini, nu de PDF-uri, așa că o prezentare, un meniu sau un flyer trebuie să devină câte o imagine pe pagină.",
+      "photo-collage": "Motivul obișnuit este să distribui mai multe fotografii ca una singură — un înainte-și-după, un rezumat de vacanță sau o gamă de produse care trebuie văzută dintr-o privire, nu derulată poză cu poză."
+    },
+    "t": {
+      "shapeFaq.rename.q1": "Va scădea calitatea fotografiei mele dacă o convertesc din {{fn}} în {{tn}}?",
+      "shapeFaq.rename.a1": "Nu. {{fn}} și {{tn}} sunt două scrieri ale extensiei pentru unul și același format de imagine, așa că nimic nu este decodat sau recomprimat. Fișierul tău este copiat byte cu byte și primește doar noua extensie, deci rezultatul este identic cu originalul, inclusiv datele EXIF.",
+      "shapeFaq.rename.q2": "Dacă {{fn}} și {{tn}} sunt același format, de ce să mai convertesc?",
+      "shapeFaq.rename.a2": "Pentru că unele programe verifică extensia, nu conținutul. Formularele de încărcare, programele mai vechi și unele servicii foto acceptă doar una dintre cele două scrieri și o resping pe cealaltă, deși imaginea din interior este identică. Schimbarea extensiei este tot ce trebuie ca fișierul să fie acceptat.",
+      "intro.lead.pdf-images": "PDF în imagini transformă fiecare pagină a unui PDF într-o imagine JPG sau PNG separată, numerotată în ordinea paginilor, ca fiecare pagină să poată fi postată, distribuită sau editată separat. Un PDF ține paginile legate între ele într-un singur fișier cu aranjare fixă, și tocmai de aceea nu poate fi postat acolo unde sunt permise doar imagini.",
+      "steps.pdf-images.1": "Trage PDF-ul în zona de încărcare din partea de sus a acestei pagini sau dă clic pe ea ca să alegi fișierul de pe dispozitiv.",
+      "steps.pdf-images.2": "Alege JPG pentru fișiere mai mici, potrivite pentru fotografii și rețele sociale, sau PNG pentru text și grafică clare, apoi dă clic pe Convertire.",
+      "steps.pdf-images.3": "Descarcă fiecare pagină separat sau ia toate paginile deodată ca ZIP. Linkurile rămân active 24 de ore, după care totul este șters.",
+      "shapeFaq.pdf-images.q1": "Va deveni fiecare pagină a PDF-ului meu o imagine separată?",
+      "shapeFaq.pdf-images.a1": "Da. Fiecare pagină este redată ca imagine proprie și numerotată în ordine — page-01, page-02 și așa mai departe —, deci un PDF de zece pagini îți dă zece imagini. Le poți descărca pe rând sau împreună, într-un singur fișier ZIP, iar întregul PDF costă un singur credit, oricâte pagini ar avea.",
+      "shapeFaq.pdf-images.q2": "Sunt imaginile potrivite pentru Instagram și alte rețele sociale?",
+      "shapeFaq.pdf-images.a2": "Da. Paginile sunt redate la rezoluție mare, așa că rămân clare după ce Instagram, LinkedIn sau Facebook le micșorează. Paginile în format portret merg bine ca carusele Instagram; pentru cea mai bună încadrare, creează diapozitivele în format 4:5 sau pătrat înainte de a exporta PDF-ul și alege JPG ca încărcările să rămână mici.",
+      "intro.lead.collage": "Colaj foto combină mai multe fotografii într-o singură imagine: fiecare poză este redimensionată și așezată într-o grilă ordonată, cu spații egale, ca totul să se vadă dintr-o privire, nu derulat poză cu poză. Alege o aranjare automată sau o grilă fixă de 2×2 sau 3×3 și primești înapoi un singur JPG sau PNG.",
+      "steps.collage.1": "Adaugă între 2 și 16 fotografii trăgându-le în zona de încărcare sau dând clic ca să le alegi, apoi trage-le în listă ca să le stabilești ordinea.",
+      "steps.collage.2": "Alege o aranjare — Automat, 2×2 sau 3×3 —, decide dacă fotografiile trebuie să-și umple pătratele sau să fie arătate întregi și selectează JPG sau PNG.",
+      "steps.collage.3": "Dă clic pe Creează colajul, verifică previzualizarea și descarcă imaginea finalizată. Rămâne disponibilă 24 de ore.",
+      "shapeFaq.collage.q1": "Vor fi decupate fotografiile mele în colaj?",
+      "shapeFaq.collage.a1": "Depinde de tine. Cu „Umple fiecare pătrat” fiecare fotografie este decupată la un pătrat, centrat pe partea cea mai interesantă a imaginii, ceea ce dă cea mai ordonată grilă. Cu „Arată fotografia întreagă” nu se taie nimic: fotografia este micșorată ca să încapă, iar spațiul rămas este umplut cu alb.",
+      "shapeFaq.collage.q2": "Câte fotografii pot pune într-un colaj?",
+      "shapeFaq.collage.a2": "Cel puțin 2 și până la 16 cu aranjarea Automat, care alege grila cea mai apropiată de pătrat pentru numărul de fotografii adăugate. Grila 2×2 cuprinde până la 4 fotografii, iar grila 3×3 până la 9. Fiecare colaj costă un credit, oricâte fotografii ar conține.",
+      "intro.rename": "{{fn}} și {{tn}} sunt același format de imagine sub două extensii de fișier diferite, așa că această conversie schimbă doar numele: imaginea este copiată byte cu byte, fără recomprimare și fără pierdere de calitate. {{reason}}"
+    }
+  }
+}

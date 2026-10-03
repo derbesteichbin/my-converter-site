@@ -9,6 +9,7 @@ const { protect } = require('../middleware/auth');
 const { VALID_TOOLS, ALLOWED_ADVANCED_KEYS } = require('../toolsConfig');
 const { Resend } = require('resend');
 const archiver = require('archiver');
+const { LAYOUTS, validateCollage, buildCollage } = require('../lib/collage');
 
 const router = express.Router();
 
@@ -101,12 +102,37 @@ function resolveOutputFile(filename) {
 // A user may only download output files produced by their own jobs. Mirrors
 // the ownership check on GET /jobs/:id. Returns the subset of `basenames`
 // that belong to this user.
+//
+// Multi-output jobs (PDF to Images) list their per-page files in
+// extraOutputs, so those are owned too.
 async function ownedOutputFiles(userId, basenames) {
   const jobs = await prisma.job.findMany({
-    where: { userId, outputFile: { in: basenames } },
-    select: { outputFile: true },
+    where: {
+      userId,
+      OR: [{ outputFile: { in: basenames } }, { extraOutputs: { hasSome: basenames } }],
+    },
+    select: { outputFile: true, extraOutputs: true },
   });
-  return new Set(jobs.map((j) => j.outputFile));
+  const wanted = new Set(basenames);
+  const owned = new Set();
+  for (const job of jobs) {
+    for (const name of [job.outputFile, ...(job.extraOutputs || [])]) {
+      if (name && wanted.has(name)) owned.add(name);
+    }
+  }
+  return owned;
+}
+
+function newOutputBase() {
+  return `${Date.now()}-${crypto.randomBytes(4).toString('hex')}`;
+}
+
+// Shared failure path for the background workers: mark the job failed and
+// give back what was charged. chargedAmount is 0 on a business plan, which is
+// never debited and so must never be credited back.
+async function failJob(jobId, chargedUserId, chargedAmount) {
+  await prisma.job.update({ where: { id: jobId }, data: { status: 'failed' } }).catch(() => {});
+  if (chargedUserId && chargedAmount > 0) refundCredits(chargedUserId, chargedAmount);
 }
 
 function extractAdvancedOptions(body) {
@@ -234,6 +260,56 @@ async function downloadExportedFile(ccJob, outputFormat) {
   return outputFilename;
 }
 
+// Like downloadExportedFile, but keeps every exported file — a PDF converted
+// to images comes back as one file per page. Returned in page order.
+async function downloadAllExportedFiles(ccJob, outputFormat) {
+  const finished = await cloudConvert.jobs.wait(ccJob.id);
+  const exportTask = finished.tasks.find(
+    (t) => t.name === 'export-file' && t.status === 'finished'
+  );
+  const files = exportTask?.result?.files || [];
+  if (files.length === 0) {
+    throw new Error('CloudConvert export task failed or returned no files');
+  }
+
+  // CloudConvert names pages "<name>-1.jpg", "<name>-2.jpg", … — a numeric
+  // compare keeps page 10 after page 9.
+  const ordered = [...files].sort((a, b) =>
+    String(a.filename).localeCompare(String(b.filename), undefined, { numeric: true })
+  );
+
+  const base = newOutputBase();
+  const saved = [];
+  for (let i = 0; i < ordered.length; i++) {
+    const outputFilename = `${base}-p${i + 1}.${outputFormat}`;
+    const response = await fetch(ordered[i].url);
+    if (!response.ok) throw new Error(`Failed to fetch exported page ${i + 1}`);
+    fs.writeFileSync(path.join(OUTPUT_DIR, outputFilename), Buffer.from(await response.arrayBuffer()));
+    saved.push(outputFilename);
+  }
+  return { base, files: saved };
+}
+
+// Zip already-written output files into OUTPUT_DIR/<zipName>.
+function zipOutputs(zipName, entries) {
+  return new Promise((resolve, reject) => {
+    const out = fs.createWriteStream(path.join(OUTPUT_DIR, zipName));
+    const archive = archiver('zip', { zlib: { level: 5 } });
+    out.on('close', resolve);
+    archive.on('error', reject);
+    archive.pipe(out);
+    for (const { file, name } of entries) archive.file(path.join(OUTPUT_DIR, file), { name });
+    archive.finalize();
+  });
+}
+
+// Display name for page N of a PDF-to-images job, zero-padded so the ZIP
+// lists pages in order in every file manager.
+function pageName(index, total, ext) {
+  const width = Math.max(2, String(total).length);
+  return `page-${String(index + 1).padStart(width, '0')}.${ext}`;
+}
+
 // ── Standard file conversion ─────────────────────────────────────────
 
 router.post('/', protect, preflightCredits, upload.single('file'), async (req, res) => {
@@ -307,6 +383,14 @@ router.post('/', protect, preflightCredits, upload.single('file'), async (req, r
     if (toolDef && toolDef.toolType === 'compress') {
       optimizeFile(job.id, req.file, req.userId, chargedAmount).catch((err) => {
         console.error(`Compression failed for job ${job.id}:`, err);
+      });
+    } else if (toolDef && toolDef.toolType === 'rename') {
+      renameJpeg(job.id, req.file, outputFormat, req.userId, chargedAmount).catch((err) => {
+        console.error(`Rename failed for job ${job.id}:`, err);
+      });
+    } else if (toolDef && toolDef.toolType === 'pdf-images') {
+      pdfToImages(job.id, req.file, outputFormat, notifyEmail ? req.userId : null, req.userId, chargedAmount).catch((err) => {
+        console.error(`PDF to images failed for job ${job.id}:`, err);
       });
     } else {
       convertFile(job.id, req.file, outputFormat, advancedOptions, notifyEmail ? req.userId : null, req.userId, chargedAmount).catch((err) => {
@@ -421,6 +505,88 @@ async function optimizeFile(jobId, file, chargedUserId = null, chargedAmount = 0
         data: { credits: { increment: chargedAmount } },
       }).catch(() => {});
     }
+  } finally {
+    discardUploads(file);
+  }
+}
+
+// ── JPEG ↔ JPG ───────────────────────────────────────────────────────
+// The two extensions name the same format, so re-encoding would only lose
+// quality. Copy the bytes unchanged under the new extension — after checking
+// they really are a JPEG, so the tool cannot be used to relabel other files.
+async function renameJpeg(jobId, file, outputFormat, chargedUserId = null, chargedAmount = 0) {
+  try {
+    await prisma.job.update({ where: { id: jobId }, data: { status: 'processing' } });
+
+    const filePath = path.join(UPLOAD_DIR, file.filename);
+    const fd = await fs.promises.open(filePath, 'r');
+    const magic = Buffer.alloc(3);
+    try { await fd.read(magic, 0, 3, 0); } finally { await fd.close(); }
+    if (magic[0] !== 0xff || magic[1] !== 0xd8 || magic[2] !== 0xff) {
+      throw new Error('Input is not a JPEG file');
+    }
+
+    const outputFilename = `${newOutputBase()}.${outputFormat}`;
+    await fs.promises.copyFile(filePath, path.join(OUTPUT_DIR, outputFilename));
+
+    await prisma.job.update({
+      where: { id: jobId },
+      data: { status: 'done', outputFile: outputFilename },
+    });
+  } catch (err) {
+    console.error(`renameJpeg error for job ${jobId}:`, err);
+    await failJob(jobId, chargedUserId, chargedAmount);
+  } finally {
+    discardUploads(file);
+  }
+}
+
+// ── PDF to Images ────────────────────────────────────────────────────
+// CloudConvert renders every page as its own image. Each page is kept as an
+// individual download (extraOutputs) and also zipped; the ZIP is the job's
+// primary outputFile so the dashboard and email link still have one file.
+async function pdfToImages(jobId, file, outputFormat, notifyUserId = null, chargedUserId = null, chargedAmount = 0) {
+  let pages = [];
+  try {
+    await prisma.job.update({ where: { id: jobId }, data: { status: 'processing' } });
+
+    const filePath = path.join(UPLOAD_DIR, file.filename);
+    const ccJob = await cloudConvert.jobs.create({
+      tasks: {
+        'upload-file': { operation: 'import/upload' },
+        'convert-file': {
+          operation: 'convert',
+          input: ['upload-file'],
+          input_format: 'pdf',
+          output_format: outputFormat,
+        },
+        'export-file': { operation: 'export/url', input: ['convert-file'] },
+      },
+    });
+
+    const uploadTask = ccJob.tasks.find((t) => t.name === 'upload-file');
+    await cloudConvert.tasks.upload(uploadTask, fs.createReadStream(filePath), file.originalname);
+
+    const { base, files } = await downloadAllExportedFiles(ccJob, outputFormat);
+    pages = files;
+
+    const zipName = `${base}.zip`;
+    await zipOutputs(zipName, files.map((f, i) => ({ file: f, name: pageName(i, files.length, outputFormat) })));
+
+    await prisma.job.update({
+      where: { id: jobId },
+      data: { status: 'done', outputFile: zipName, extraOutputs: files },
+    });
+
+    if (notifyUserId) {
+      sendCompletionEmail(notifyUserId, jobId, `/api/download/${zipName}`);
+    }
+  } catch (err) {
+    console.error(`pdfToImages error for job ${jobId}:`, err);
+    // Pages written before the failure are not attached to the job, so
+    // nobody could download them — remove them now rather than at the sweep.
+    for (const f of pages) fs.promises.unlink(path.join(OUTPUT_DIR, f)).catch(() => {});
+    await failJob(jobId, chargedUserId, chargedAmount);
   } finally {
     discardUploads(file);
   }
@@ -573,6 +739,96 @@ async function convertPdfTool(jobId, files, toolType, body, chargedUserId = null
   }
 }
 
+// ── Photo Collage ────────────────────────────────────────────────────
+// Several photos in, one grid image out. Composed locally with sharp (see
+// lib/collage.js), but charged, tracked and cleaned up exactly like the
+// CloudConvert tools: one credit per collage, refunded if it fails.
+
+router.post('/collage', protect, preflightCredits, upload.array('files', LAYOUTS.auto.max), async (req, res) => {
+  let charged = 0;
+  const reject = (status, payload) => {
+    discardUploads(req.files);
+    return res.status(status).json(payload);
+  };
+  try {
+    const uploadedFiles = req.files || [];
+    const toolDef = VALID_TOOLS['photo-collage'];
+    const { outputFormat } = req.body;
+    const layout = req.body.layout || 'auto';
+    const fit = req.body.fit || 'cover';
+
+    if (!toolDef.outputFormats.includes(outputFormat)) {
+      return reject(400, { error: `Format .${outputFormat} is not supported for this tool` });
+    }
+    const badType = uploadedFiles.find((f) => {
+      const ext = path.extname(f.originalname).replace('.', '').toLowerCase();
+      return !toolDef.inputFormats.includes(ext);
+    });
+    if (badType) {
+      return reject(400, { error: `"${badType.originalname}" is not a supported image type`, code: 'collage_bad_type' });
+    }
+    const invalid = validateCollage({ layout, fit, count: uploadedFiles.length });
+    if (invalid) {
+      return reject(400, { error: 'Invalid collage request', code: invalid });
+    }
+
+    const charge = await chargeCredits(req.userId, 1);
+    if (charge.error) {
+      return reject(429, { error: charge.error.message, code: charge.error.code });
+    }
+    charged = charge.charged;
+
+    const job = await prisma.job.create({
+      data: { userId: req.userId, inputFile: uploadedFiles.map((f) => f.filename).join(','), status: 'pending' },
+    });
+
+    prisma.toolUsage.upsert({
+      where: { toolSlug: 'photo-collage' },
+      create: { toolSlug: 'photo-collage', count: 1 },
+      update: { count: { increment: 1 } },
+    }).catch(() => {});
+
+    const notifyUserId = req.body.notifyEmail === 'true' ? req.userId : null;
+    makeCollage(job.id, uploadedFiles, { layout, fit, format: outputFormat }, notifyUserId, req.userId, charged).catch((err) => {
+      console.error(`Collage failed for job ${job.id}:`, err);
+    });
+
+    // makeCollage owns the refund from here on.
+    charged = 0;
+    res.status(201).json({ jobId: job.id, status: 'pending' });
+  } catch (err) {
+    console.error('Collage route error:', err);
+    if (charged > 0) refundCredits(req.userId, charged);
+    discardUploads(req.files);
+    res.status(500).json({ error: 'Failed to start collage' });
+  }
+});
+
+async function makeCollage(jobId, files, options, notifyUserId = null, chargedUserId = null, chargedAmount = 0) {
+  const outputFilename = `${newOutputBase()}.${options.format}`;
+  try {
+    await prisma.job.update({ where: { id: jobId }, data: { status: 'processing' } });
+    await buildCollage(
+      files.map((f) => path.join(UPLOAD_DIR, f.filename)),
+      options,
+      path.join(OUTPUT_DIR, outputFilename)
+    );
+    await prisma.job.update({
+      where: { id: jobId },
+      data: { status: 'done', outputFile: outputFilename },
+    });
+    if (notifyUserId) {
+      sendCompletionEmail(notifyUserId, jobId, `/api/download/${outputFilename}`);
+    }
+  } catch (err) {
+    console.error(`makeCollage error for job ${jobId}:`, err);
+    fs.promises.unlink(path.join(OUTPUT_DIR, outputFilename)).catch(() => {});
+    await failJob(jobId, chargedUserId, chargedAmount);
+  } finally {
+    discardUploads(files);
+  }
+}
+
 // ── Job status + download routes ─────────────────────────────────────
 
 router.get('/jobs/:id', protect, async (req, res) => {
@@ -590,6 +846,15 @@ router.get('/jobs/:id', protect, async (req, res) => {
         const stat = fs.statSync(outputPath);
         result.outputSize = stat.size;
       } catch { /* file may have been cleaned up */ }
+
+      // Multi-output jobs: list each file so the UI can offer them one by
+      // one. Names are display names; the URL carries the real file.
+      const ext = (job.extraOutputs[0] || '').split('.').pop();
+      result.files = job.extraOutputs.map((f, i) => {
+        const entry = { name: pageName(i, job.extraOutputs.length, ext), downloadUrl: `/api/download/${f}` };
+        try { entry.size = fs.statSync(path.join(OUTPUT_DIR, f)).size; } catch { /* swept */ }
+        return entry;
+      });
     }
     res.json(result);
   } catch (err) {

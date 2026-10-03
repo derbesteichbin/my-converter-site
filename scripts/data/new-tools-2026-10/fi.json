@@ -1,0 +1,139 @@
+{
+  "categories": {
+    "Social Media": "Sosiaalinen media"
+  },
+  "categoryDescriptions": {
+    "Social Media": "Muunna PDF-tiedostot julkaistaviksi kuviksi ja yhdistä valokuvat kollaaseiksi Instagramiin ja muille alustoille."
+  },
+  "toolNames": {
+    "pdf-to-images": "PDF kuviksi",
+    "photo-collage": "Kuvakollaasi"
+  },
+  "tool": {
+    "collageLayoutLabel": "Asettelu",
+    "collageLayout_auto": "Automaattinen (enintään {{max}} kuvaa)",
+    "collageLayout_2by2": "2 × 2 -ruudukko (enintään {{max}} kuvaa)",
+    "collageLayout_3by3": "3 × 3 -ruudukko (enintään {{max}} kuvaa)",
+    "collageFitLabel": "Kuvan sovitus",
+    "collageFit_cover": "Täytä jokainen ruutu (rajaa reunoja)",
+    "collageFit_contain": "Näytä koko kuva (lisää valkoista tilaa)",
+    "collageCount": "{{count}} kuvaa valittu — tähän asetteluun mahtuu enintään {{max}}.",
+    "collageTooFew": "Lisää vähintään {{min}} kuvaa tehdäksesi kollaasin.",
+    "collageTooMany": "Tähän asetteluun mahtuu enintään {{max}} kuvaa. Poista {{extra}} tai valitse suurempi asettelu.",
+    "collageBadType": "Yksi tiedostoista ei ole tuettu kuva. Käytä JPG-, PNG-, WebP-, AVIF-, GIF- tai TIFF-muotoa.",
+    "collageReorderHint": "Vedä kuvia määrittääksesi niiden järjestyksen kollaasissa",
+    "collageCreate": "Luo kollaasi",
+    "collagePhotos": "{{count}} kuvaa",
+    "collagePreviewAlt": "Kollaasisi esikatselu",
+    "confirmCollageBody": "Tämä yhdistää {{count}} kuvaa yhdeksi kollaasiksi ja käyttää 1 krediitin. Sinulla on {{remaining}} krediittiä jäljellä.",
+    "pdfPagesTitle": "Yksittäiset sivut ({{count}})",
+    "pdfPagesZip": "Lataa kaikki (ZIP)"
+  },
+  "toolDescriptions": {
+    "jpeg-to-jpg": "Vaihda .jpeg-tiedosto .jpg-tiedostoksi koskematta yhteenkään pikseliin. JPEG ja JPG ovat sama muoto, joten kuva kopioidaan muuttumattomana uudella tiedostopäätteellä.",
+    "jpg-to-jpeg": "Vaihda .jpg-tiedosto .jpeg-tiedostoksi ilman laadun heikkenemistä. Kuva kopioidaan tavu tavulta, ja se saa vain sen päätteen, jota lomake tai ohjelma odottaa.",
+    "jpg-to-webp": "Muunna JPG-kuvat WebP-muotoon ja saat selvästi pienempiä tiedostoja samankaltaisella laadulla. Ihanteellinen nopeampiin verkkosivuihin ja parempiin nopeustuloksiin.",
+    "png-to-webp": "Muunna PNG-grafiikka WebP-muotoon pienentääksesi tiedostokokoa läpinäkyvyyden säilyessä. Erinomainen logoille, kuvakaappauksille ja verkkografiikalle.",
+    "avif-to-jpg": "Muunna modernit AVIF-kuvat JPG-muotoon, jotta ne aukeavat kaikissa kuvasovelluksissa, toimisto-ohjelmissa ja latauslomakkeissa.",
+    "avif-to-png": "Muunna AVIF-kuvat PNG-muotoon häviöttömään muokkaukseen läpinäkyvyyden kanssa missä tahansa kuvankäsittelyohjelmassa.",
+    "bmp-to-jpg": "Kutista kookkaat BMP-bittikartat kompakteiksi JPG-kuviksi, joita on helppo lähettää sähköpostilla, ladata palveluun ja jakaa.",
+    "tiff-to-png": "Muunna suuret TIFF-skannaukset ja painotiedostot PNG-muotoon — häviöttömästi, terävästi ja katseltavaksi missä tahansa selaimessa.",
+    "ico-to-png": "Pura kuva ICO-faviconista tai Windows-kuvakkeesta PNG-tiedostoksi, jota voit muokata tai käyttää uudelleen.",
+    "gif-to-jpg": "Tallenna GIF JPG-pysäytyskuvaksi — kätevä pikkukuviin, asiakirjoihin ja sivustoille, jotka eivät hyväksy GIF-tiedostoja.",
+    "jpg-to-pdf": "Muunna JPG-valokuvat ja skannaukset PDF-asiakirjaksi — täydellinen kuiteille, henkilöpaperien kopioille ja allekirjoitetuille sivuille, jotka on toimitettava PDF-muodossa.",
+    "png-to-pdf": "Muunna PNG-kuvakaappaukset, kaaviot ja grafiikka PDF-tiedostoksi, jota on helppo lähettää, tulostaa ja arkistoida.",
+    "txt-to-pdf": "Muunna pelkät tekstitiedostot PDF- (tai Word-) muotoon kiinteällä asettelulla, joka näyttää ja tulostuu samanlaisena jokaisella laitteella.",
+    "markdown-to-pdf": "Muunna Markdown-tiedostot siistiksi, muotoilluksi PDF-tiedostoksi, HTML-sivuksi tai Word-asiakirjaksi — otsikot, luettelot, linkit ja koodi mukaan lukien.",
+    "csv-to-excel": "Muunna CSV-data kunnolliseksi Excel-työkirjaksi, jossa on oikeat sarakkeet valmiina kaavoille, suodattimille ja kaavioille.",
+    "excel-to-csv": "Vie Excel-laskentataulukko CSV-muotoon tuontia varten CRM-järjestelmiin, verkkokauppoihin, uutiskirjetyökaluihin ja tietokantoihin.",
+    "word-to-txt": "Pura pelkkä teksti Word-asiakirjoista — ei muotoiluja, vain sanat valmiina liitettäviksi minne tahansa.",
+    "mp4-to-webm": "Muunna MP4-video WebM-muotoon, avoimeen verkkomuotoon, joka toistuu suoraan moderneissa selaimissa.",
+    "mp4-to-mkv": "Muunna MP4-video MKV-muotoon, joustavaan säiliömuotoon, jota mediapalvelimet ja arkistot suosivat.",
+    "m4v-to-mp4": "Muunna Applen M4V-videot MP4-muotoon, jotta ne toistuvat Androidilla, Windowsissa ja missä tahansa videoeditorissa.",
+    "3gp-to-mp4": "Muunna vanhat 3GP-puhelinvideot MP4-muotoon, joka toistuu kaikissa nykyaikaisissa puhelimissa, tietokoneissa ja somepalveluissa.",
+    "mpeg-to-mp4": "Muunna MPEG- ja MPG-videot kompaktiin ja laajasti tuettuun MP4-muotoon.",
+    "m4a-to-wav": "Muunna M4A-ääni, kuten iPhonen äänimuistiot, pakkaamattomaksi WAV-tiedostoksi editointia ja tuotantoa varten.",
+    "flac-to-wav": "Muunna häviötön FLAC WAV-muotoon äänieditoreille, CD-levyjen polttamiseen ja laitteille, jotka eivät tue FLAC-muotoa — laatu ei heikkene.",
+    "wav-to-flac": "Pakkaa WAV-äänitteet FLAC-muotoon ja säästä noin puolet tilasta niin, että jokainen näyte säilyy ennallaan.",
+    "aiff-to-mp3": "Muunna Mac-sovellusten suuret AIFF-äänitiedostot pieniksi MP3-tiedostoiksi, jotka toistuvat kaikkialla.",
+    "opus-to-mp3": "Muunna OPUS-ääniviestit ja -tallenteet MP3-muotoon, joka toistuu missä tahansa soittimessa, autostereoissa tai editorissa.",
+    "mp3-to-m4a": "Muunna MP3 M4A-muotoon Apple Musicia, iTunesia ja iPhonen soittoääniä varten.",
+    "zip-to-tar": "Muunna ZIP-arkistot TAR-muotoon Linux-palvelimia, julkaisuja ja kehittäjätyökaluja varten.",
+    "rar-to-7z": "Muunna RAR-arkistot ilmaiseen ja avoimeen 7Z-muotoon tehokkaalla pakkauksella.",
+    "pdf-to-images": "Jaa PDF yhdeksi kuvaksi sivua kohden — JPG tai PNG — valmiina julkaistavaksi Instagramissa, LinkedInissä ja muilla sosiaalisen median alustoilla. Lataa sivut yksitellen tai kaikki kerralla ZIP-tiedostona.",
+    "photo-collage": "Yhdistä useita kuvia yhdeksi kuvaksi siistiin ruudukkoon, jotta ne kaikki näkyvät kerralla. Valitse Automaattinen, 2×2 tai 3×3 ja lataa yksi JPG- tai PNG-tiedosto."
+  },
+  "pack": {
+    "formats": {
+      "avif": {
+        "about": "AVIF on moderni kuvamuoto, joka perustuu AV1-videokoodekkiin; se tuottaa tietyllä laadulla joitakin pienimmistä saatavilla olevista tiedostoista ja tukee läpinäkyvyyttä, mutta vanhemmat ohjelmat eivät usein pysty avaamaan sitä.",
+        "note": "AVIF antaa hyvin pieniä tiedostoja hyvällä laadulla nykyaikaisiin selaimiin ja sovelluksiin."
+      },
+      "md": {
+        "about": "Markdown on pelkkää tekstiä kevyin muotoilumerkein — # otsikoille, * korostukselle, - luetteloille — joten se pysyy luettavana raakatekstinä ja voidaan hahmontaa muotoilluksi asiakirjaksi.",
+        "note": "Markdown pitää sisältösi yksinkertaisena tekstinä, jota on helppo muokata ja seurata versionhallinnassa."
+      },
+      "aif": {
+        "about": "AIF on AIFF:n lyhyt tiedostopääte, Applen pakkaamaton äänimuoto: jokainen näyte tallennetaan täsmälleen sellaisena kuin se äänitettiin, mikä antaa studiolaadun ja hyvin suuret tiedostot.",
+        "note": "AIF pitää äänen pakkaamattomana ja valmiina editointiin Macilla."
+      }
+    },
+    "reasons": {
+      "jpeg-to-jpg": "Tavallinen syy on lomake, kotisivukone tai vanhempi ohjelma, joka vaatii .jpg-päätteen ja hylkää täsmälleen saman kuvan, kun se on tallennettu .jpeg-muodossa.",
+      "jpg-to-jpeg": "Jotkin latauslomakkeet, kuvalaboratoriot ja vanhemmat järjestelmät hyväksyvät ainoana päätteenä .jpeg ja hylkäävät .jpg-tiedoston, vaikka sisältö on identtinen.",
+      "jpg-to-webp": "Useimmat haluavat tällä nopeuttaa verkkosivustoa: WebP-kuvat ovat tyypillisesti neljänneksen tai kolmanneksen pienempiä kuin sama JPG samankaltaisella visuaalisella laadulla, mikä tarkoittaa nopeampia sivuja ja parempia nopeustuloksia.",
+      "png-to-webp": "Tavallinen tapaus on sivusto täynnä hitaasti latautuvia PNG-kuvakaappauksia, logoja ja grafiikkaa — WebP säilyttää läpinäkyvyyden mutta pienentää yleensä tiedostokokoa huomattavasti.",
+      "avif-to-jpg": "Moderneilta sivustoilta tai uudemmista puhelimista tallennetut AVIF-kuvat eivät usein aukea vanhemmissa kuvankäsittelyohjelmissa, toimisto-ohjelmissa tai latauslomakkeissa, kun taas JPG toimii aivan kaikkialla.",
+      "avif-to-png": "Tarvitset tätä yleensä silloin, kun AVIF-grafiikkaa pitää muokata, kerrostaa tai sijoittaa toiselle taustalle ohjelmassa, joka ei vielä osaa lukea AVIF-muotoa.",
+      "bmp-to-jpg": "Vanhojen skannereiden, Windows Paintin tai teollisuusohjelmistojen BMP-tiedostot ovat valtavia, koska ne ovat pakkaamattomia; JPG-muotoon muunnettuina ne ovat tarpeeksi pieniä lähetettäviksi sähköpostilla tai ladattaviksi palveluun.",
+      "tiff-to-png": "Skannaukset ja painovalmiit TIFF-tiedostot ovat verkkoon liian raskaita ja huonosti tuettuja; PNG pitää jokaisen pikselin terävänä ja aukeaa missä tahansa selaimessa.",
+      "ico-to-png": "Tyypillinen syy on päästä käsiksi faviconin tai Windows-kuvakkeen sisältämään kuvaan, jotta sitä voi käyttää uudelleen suunnittelussa, asiakirjassa tai esityksessä.",
+      "gif-to-jpg": "Yleensä tarvitset GIF-animaatiosta vain yhden pysäytyskuvan — pikkukuvaksi, asiakirjaan tai sivustolle, joka ei hyväksy animoituja kuvia.",
+      "jpg-to-pdf": "Klassinen tilanne on hakemus tai korvausvaatimus, joka vaatii PDF-tiedoston, vaikka sinulla on vain puhelimella otettu kuva kuitista, henkilökortista tai allekirjoitetusta sivusta.",
+      "png-to-pdf": "Sitä käytetään kuvakaappausten, kaavioiden tai skannattujen sivujen toimittamiseen kunnollisena asiakirjana — monet portaalit ja sähköpostin vastaanottajat odottavat PDF-tiedostoa eivätkä kuvaa.",
+      "txt-to-pdf": "Pelkkä teksti näyttää erilaiselta jokaisessa editorissa; kun muunnat muistiinpanot, lokit tai luonnoksen PDF-muotoon, fontti ja asettelu lukittuvat, joten teksti näyttää ja tulostuu kaikille samanlaisena.",
+      "markdown-to-pdf": "Kirjoittajat ja kehittäjät luonnostelevat Markdown-muodossa, mutta kollegat ja asiakkaat odottavat valmista asiakirjaa — README-tiedostoa, raporttia tai muistiinpanoja, jotka aukeavat ilman erityistyökaluja.",
+      "csv-to-excel": "Pankkien, verkkokauppojen ja tietokantojen CSV-viennit aukeavat usein rikkinäisin sarakkein, kadonnein etunollin tai sekaisin päivämäärin; Excel-työkirja pitää tiedot kunnollisissa soluissa valmiina summille ja kaavioille.",
+      "excel-to-csv": "Useimmat tuontityökalut — CRM-järjestelmät, uutiskirjepalvelut, verkkokaupat ja tietokannat — hyväksyvät vain CSV-muodon, joten laskentataulukko on litistettävä ennen kuin sen voi ladata.",
+      "word-to-txt": "Tavallinen syy on käyttää tekstiä paikassa, joka ei ymmärrä Word-tiedostoja: koodieditorissa, sivuston julkaisujärjestelmässä, tekstitystyökalussa tai tekoälyn kehotteessa.",
+      "mp4-to-webm": "Verkkokehittäjät muuntavat WebM-muotoon saadakseen avointa, rojaltivapaata videota, joka toistuu suoraan selaimissa ja on usein samalla laadulla pienempi kuin MP4.",
+      "mp4-to-mkv": "MKV on suosituin säiliömuoto arkistoille ja mediapalvelimille, kuten Plexille tai Jellyfinille, koska yksi tiedosto voi sisältää useita ääniraitoja, tekstityksiä ja kappalejakoja.",
+      "m4v-to-mp4": "iTunesista tai Applen laitteista peräisin olevat M4V-tiedostot eivät usein aukea Androidilla, Windowsissa tai videoeditoreissa, kun taas MP4 toistuu kaikkialla.",
+      "3gp-to-mp4": "Vanhat puhelinvideot on usein tallennettu 3GP-muotoon, jota nykyaikaiset tietokoneet, puhelimet ja somepalvelut eivät usein pysty toistamaan tai vastaanottamaan.",
+      "mpeg-to-mp4": "DVD-kopioiden, vanhojen videokameroiden ja TV-tallenteiden MPEG-tiedostot ovat suuria ja puhelimissa huonosti tuettuja; MP4 pienentää ne ja toistuu kaikkialla.",
+      "m4a-to-wav": "Äänieditorit, samplerit ja jotkin lähetystyökalut vaativat pakkaamatonta WAV-ääntä, kun taas iPhonen äänimuistiot ja iTunes-lataukset tulevat M4A-muodossa.",
+      "flac-to-wav": "Äänityöasemat, CD-polttoohjelmat ja jotkin laitesoittimet käsittelevät WAV-muotoa mutta eivät FLAC-muotoa, ja koska molemmat ovat häviöttömiä, mitään ei menetetä matkalla.",
+      "wav-to-flac": "Muusikot ja arkistoijat käyttävät tätä pienentääkseen suuret WAV-äänitteet noin puoleen niin, että jokainen näyte säilyy bitilleen samana.",
+      "aiff-to-mp3": "Logicin, GarageBandin tai Macin näytekirjastojen AIFF-äänitteet ovat suuria; MP3 tekee niistä tarpeeksi pieniä jaettaviksi, suoratoistettaviksi tai toistettaviksi millä tahansa laitteella.",
+      "opus-to-mp3": "WhatsAppin ja Telegramin ääniviestit sekä monet verkkotallenteet tallennetaan OPUS-muotoon, jota autostereot, vanhemmat soittimet ja editorit eivät usein toista.",
+      "mp3-to-m4a": "Tätä halutaan yleensä Applen laitteille — M4A toimii hyvin Apple Musicissa ja iTunesissa ja on lähtökohta iPhonen soittoäänelle.",
+      "zip-to-tar": "Kehittäjät ja palvelinten ylläpitäjät tarvitsevat TAR-muotoa, kun he julkaisevat Linux-järjestelmiin, rakentavat konttikuvia tai käyttävät työkaluja, jotka odottavat ZIP-tiedoston sijaan tarballia.",
+      "rar-to-7z": "RAR-arkistoja pakataan uudelleen 7Z-muotoon, jotta voidaan käyttää ilmaista ja avointa muotoa, jonka 7-Zip luo ja avaa suoraan, usein vielä paremmalla pakkauksella.",
+      "pdf-to-images": "Se on tehty sosiaaliseen mediaan: Instagramin karusellit, LinkedIn-julkaisut ja tarinat vaativat kuvia eivätkä PDF-tiedostoja, joten esityksestä, ruokalistasta tai mainoslehtisestä on tehtävä yksi kuva sivua kohden.",
+      "photo-collage": "Tavallinen syy on jakaa useita kuvia yhtenä — ennen ja jälkeen -vertailu, lomakooste tai tuotevalikoima, joka halutaan nähdä yhdellä silmäyksellä sen sijaan, että kuvia selattaisiin yksi kerrallaan."
+    },
+    "t": {
+      "shapeFaq.rename.q1": "Heikentääkö {{fn}}-muodon muuntaminen {{tn}}-muotoon kuvani laatua?",
+      "shapeFaq.rename.a1": "Ei. {{fn}} ja {{tn}} ovat saman kuvamuodon tiedostopäätteen kaksi kirjoitusasua, joten mitään ei pureta eikä pakata uudelleen. Tiedostosi kopioidaan tavu tavulta ja saa vain uuden päätteen, joten tulos on identtinen alkuperäisen kanssa EXIF-tietoja myöten.",
+      "shapeFaq.rename.q2": "Jos {{fn}} ja {{tn}} ovat sama muoto, miksi muuntaa lainkaan?",
+      "shapeFaq.rename.a2": "Koska jotkin ohjelmat tarkistavat tiedostopäätteen eivätkä sisältöä. Latauslomakkeet, vanhemmat ohjelmat ja jotkin kuvapalvelut hyväksyvät vain toisen kirjoitusasun ja hylkäävät toisen, vaikka kuva on täsmälleen sama. Päätteen vaihtaminen riittää, jotta tiedosto hyväksytään.",
+      "intro.lead.pdf-images": "PDF kuviksi muuntaa PDF-tiedoston jokaisen sivun omaksi JPG- tai PNG-kuvakseen sivujärjestyksessä numeroituna, joten jokaisen sivun voi julkaista, jakaa tai muokata erikseen. PDF pitää sivut lukittuina yhteen kiinteän asettelun tiedostoon, ja juuri siksi sitä ei voi julkaista paikoissa, joihin saa ladata vain kuvia.",
+      "steps.pdf-images.1": "Pudota PDF-tiedostosi tämän sivun yläreunan latausalueelle tai napsauta sitä valitaksesi tiedoston laitteeltasi.",
+      "steps.pdf-images.2": "Valitse JPG pienempiä, valokuviin ja someen sopivia tiedostoja varten tai PNG terävää tekstiä ja grafiikkaa varten, ja napsauta sitten Muunna.",
+      "steps.pdf-images.3": "Lataa jokainen sivu erikseen tai kaikki sivut kerralla ZIP-tiedostona. Linkit ovat voimassa 24 tuntia, minkä jälkeen kaikki poistetaan.",
+      "shapeFaq.pdf-images.q1": "Tuleeko PDF-tiedostoni jokaisesta sivusta erillinen kuva?",
+      "shapeFaq.pdf-images.a1": "Kyllä. Jokainen sivu hahmonnetaan omaksi kuvakseen ja numeroidaan järjestyksessä — page-01, page-02 ja niin edelleen — joten kymmensivuisesta PDF-tiedostosta saat kymmenen kuvaa. Voit ladata ne yksitellen tai yhdessä ZIP-tiedostossa, ja koko PDF maksaa yhden krediitin sivumäärästä riippumatta.",
+      "shapeFaq.pdf-images.q2": "Sopivatko kuvat Instagramiin ja muuhun sosiaaliseen mediaan?",
+      "shapeFaq.pdf-images.a2": "Kyllä. Sivut hahmonnetaan suurella tarkkuudella, joten ne pysyvät terävinä, vaikka Instagram, LinkedIn tai Facebook pienentää niitä. Pystysivut toimivat hyvin Instagram-karuselleina; parhaan tuloksen saat, kun suunnittelet diat 4:5- tai neliömuotoon ennen PDF-tiedoston vientiä ja valitset JPG-muodon, jotta lataukset pysyvät pieninä.",
+      "intro.lead.collage": "Kuvakollaasi yhdistää useita kuvia yhdeksi: jokaisen kuvan kokoa muutetaan ja se sijoitetaan siistiin ruudukkoon tasaisin välein, joten kaiken näkee yhdellä silmäyksellä eikä kuvia tarvitse selata yksi kerrallaan. Valitse automaattinen asettelu tai kiinteä 2×2- tai 3×3-ruudukko, niin saat takaisin yhden JPG- tai PNG-tiedoston.",
+      "steps.collage.1": "Lisää 2–16 kuvaa pudottamalla ne latausalueelle tai napsauttamalla valitaksesi ne, ja vedä ne sitten luettelossa haluamaasi järjestykseen.",
+      "steps.collage.2": "Valitse asettelu — Automaattinen, 2×2 tai 3×3 — päätä, täyttävätkö kuvat ruutunsa vai näytetäänkö ne kokonaan, ja valitse JPG tai PNG.",
+      "steps.collage.3": "Napsauta Luo kollaasi, tarkista esikatselu ja lataa valmis kuva. Se on saatavilla 24 tuntia.",
+      "shapeFaq.collage.q1": "Rajataanko kuviani kollaasissa?",
+      "shapeFaq.collage.a1": "Se on sinun päätettävissäsi. Vaihtoehdolla ”Täytä jokainen ruutu” jokainen kuva rajataan neliöksi kuvan kiinnostavimman kohdan ympäriltä, mikä antaa siisteimmän ruudukon. Vaihtoehdolla ”Näytä koko kuva” mitään ei leikata pois: kuva pienennetään sopivaksi, ja jäljelle jäävä tila täytetään valkoisella.",
+      "shapeFaq.collage.q2": "Montako kuvaa yhteen kollaasiin mahtuu?",
+      "shapeFaq.collage.a2": "Vähintään 2 ja enintään 16 Automaattinen-asettelulla, joka valitsee lisäämillesi kuville mahdollisimman neliömäisen ruudukon. 2×2-ruudukkoon mahtuu enintään 4 kuvaa ja 3×3-ruudukkoon enintään 9. Jokainen kollaasi maksaa yhden krediitin kuvien määrästä riippumatta.",
+      "intro.rename": "{{fn}} ja {{tn}} ovat sama kuvamuoto kahdella eri tiedostopäätteellä, joten tämä muunnos vaihtaa vain nimen: kuva kopioidaan tavu tavulta ilman uudelleenpakkausta ja ilman laadun heikkenemistä. {{reason}}"
+    }
+  }
+}

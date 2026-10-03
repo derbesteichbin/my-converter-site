@@ -23,6 +23,7 @@ export const FORMATS = {
   htm:  { name: 'HTM',  family: 'document', codec: 'text' },
   rtf:  { name: 'RTF',  family: 'document', codec: null,   editable: true },
   odt:  { name: 'ODT',  family: 'document', codec: null,   editable: true },
+  md:   { name: 'Markdown', family: 'document', codec: 'text' },
 
   // ── Ebooks ──
   epub: { name: 'EPUB', family: 'ebook', codec: null, reflow: true },
@@ -45,6 +46,7 @@ export const FORMATS = {
   ico:  { name: 'ICO',  family: 'image', codec: 'lossless', alpha: true },
   heic: { name: 'HEIC', family: 'image', codec: 'lossy' },
   heif: { name: 'HEIF', family: 'image', codec: 'lossy' },
+  avif: { name: 'AVIF', family: 'image', codec: 'lossy',    alpha: true },
   svg:  { name: 'SVG',  family: 'image', codec: 'vector',   vector: true, alpha: true },
 
   // ── Video ──
@@ -69,6 +71,7 @@ export const FORMATS = {
   m4a:  { name: 'M4A',  family: 'audio', codec: 'lossy' },
   wma:  { name: 'WMA',  family: 'audio', codec: 'lossy' },
   aiff: { name: 'AIFF', family: 'audio', codec: 'lossless', uncompressed: true },
+  aif:  { name: 'AIF',  family: 'audio', codec: 'lossless', uncompressed: true },
   opus: { name: 'OPUS', family: 'audio', codec: 'lossy' },
 
   // ── Archives ──
@@ -111,4 +114,10 @@ export const SHAPES = {
   'video-to-mp3': 'hub-extract',
   'video-to-gif': 'hub-gif',
   'image-to-gif': 'hub-gif',
+  // Same format, different extension: a plain pair, but the fidelity FAQ must
+  // say nothing is re-encoded rather than discuss lossy recompression.
+  'jpeg-to-jpg': 'rename',
+  'jpg-to-jpeg': 'rename',
+  'pdf-to-images': 'pdf-images',
+  'photo-collage': 'collage',
 };

@@ -25,6 +25,7 @@
   --cat-gif: #047857;
   --cat-archive: #57534e;
   --cat-pdf: #be185d;
+  --cat-social: #e11d48;
   --cat-utility: #6d28d9;
   --cat-smart: #b45309;
 
@@ -55,6 +56,7 @@
   --cat-gif: #10b981;
   --cat-archive: #78716c;
   --cat-pdf: #ec4899;
+  --cat-social: #fb7185;
   --cat-utility: #a78bfa;
   --cat-smart: #f59e0b;
 
@@ -785,6 +787,7 @@ h2 { font-size: 1.5rem; }
 .tool-card[data-category="GIF"] { border-left-color: var(--cat-gif); }
 .tool-card[data-category="Archive"] { border-left-color: var(--cat-archive); }
 .tool-card[data-category="PDF Tools"] { border-left-color: var(--cat-pdf); }
+.tool-card[data-category="Social Media"] { border-left-color: var(--cat-social); }
 .tool-card[data-category="Utilities"] { border-left-color: var(--cat-utility); }
 .tool-card[data-category="Smart Functions"] { border-left-color: var(--cat-smart); }
 
@@ -795,6 +798,7 @@ h2 { font-size: 1.5rem; }
 [data-theme="dark"] .tool-card[data-category="GIF"],
 [data-theme="dark"] .tool-card[data-category="Archive"],
 [data-theme="dark"] .tool-card[data-category="PDF Tools"],
+[data-theme="dark"] .tool-card[data-category="Social Media"],
 [data-theme="dark"] .tool-card[data-category="Utilities"],
 [data-theme="dark"] .tool-card[data-category="Smart Functions"] {
   border-left-color: var(--border);
@@ -807,6 +811,7 @@ h2 { font-size: 1.5rem; }
 .tool-card[data-category="GIF"]::before { background: var(--cat-gif); }
 .tool-card[data-category="Archive"]::before { background: var(--cat-archive); }
 .tool-card[data-category="PDF Tools"]::before { background: var(--cat-pdf); }
+.tool-card[data-category="Social Media"]::before { background: var(--cat-social); }
 .tool-card[data-category="Utilities"]::before { background: var(--cat-utility); }
 .tool-card[data-category="Smart Functions"]::before { background: var(--cat-smart); }
 
@@ -817,6 +822,7 @@ h2 { font-size: 1.5rem; }
 [data-theme="dark"] .tool-card[data-category="GIF"]:hover { box-shadow: var(--card-glow) rgba(16,185,129,0.18); }
 [data-theme="dark"] .tool-card[data-category="Archive"]:hover { box-shadow: var(--card-glow) rgba(120,113,108,0.15); }
 [data-theme="dark"] .tool-card[data-category="PDF Tools"]:hover { box-shadow: var(--card-glow) rgba(236,72,153,0.2); }
+[data-theme="dark"] .tool-card[data-category="Social Media"]:hover { box-shadow: var(--card-glow) rgba(251,113,133,0.2); }
 [data-theme="dark"] .tool-card[data-category="Utilities"]:hover { box-shadow: var(--card-glow) rgba(167,139,250,0.2); }
 [data-theme="dark"] .tool-card[data-category="Smart Functions"]:hover { box-shadow: var(--card-glow) rgba(245,158,11,0.18); }
 
@@ -1745,6 +1751,117 @@ h2 { font-size: 1.5rem; }
   font-size: 0.8125rem;
   color: var(--text-muted);
   margin: 0 0 0.5rem;
+}
+
+/* ---- Photo Collage options + result ---- */
+.collage-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.collage-options .extra-field {
+  flex: 1 1 220px;
+}
+
+.collage-count {
+  flex-basis: 100%;
+  margin: 0 0 1rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.collage-count-warn {
+  color: #b45309;
+  font-weight: 500;
+}
+
+[data-theme="dark"] .collage-count-warn {
+  color: #f59e0b;
+}
+
+.collage-preview {
+  margin: 0.5rem 0 0;
+  padding: 0.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.collage-preview img {
+  display: block;
+  width: 100%;
+  max-width: 560px;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 4px;
+}
+
+/* ---- PDF to Images: per-page downloads ---- */
+.page-downloads {
+  padding: 0.75rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.page-downloads-title {
+  margin: 0 0 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.page-downloads-source {
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.page-downloads-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.5rem;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.page-download {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.625rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.8125rem;
+  min-height: 44px; /* comfortable tap target on phones */
+  box-sizing: border-box;
+}
+
+.page-download:hover,
+.page-download:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.page-download-name {
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.page-download-size {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+@media (max-width: 480px) {
+  .page-downloads-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 /* ---- Dark mode overrides ---- */

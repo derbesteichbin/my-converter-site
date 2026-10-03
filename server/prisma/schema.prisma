@@ -65,6 +65,10 @@ model Job {
   userId     String
   inputFile  String
   outputFile String?
+  // Further files a multi-output job produced (PDF to Images: one per page).
+  // outputFile is still the primary download; these are only checked so each
+  // file can be downloaded individually by its owner.
+  extraOutputs String[] @default([])
   status     String   @default("pending")
   createdAt  DateTime @default(now())
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
