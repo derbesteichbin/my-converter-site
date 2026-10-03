@@ -1754,14 +1754,14 @@ h2 { font-size: 1.5rem; }
 }
 
 /* ---- Photo Collage options + result ---- */
-.collage-options {
+.tool-options {
   display: flex;
   flex-wrap: wrap;
   gap: 0 1.5rem;
   margin-bottom: 0.5rem;
 }
 
-.collage-options .extra-field {
+.tool-options .extra-field {
   flex: 1 1 220px;
 }
 
@@ -1781,7 +1781,7 @@ h2 { font-size: 1.5rem; }
   color: #f59e0b;
 }
 
-.collage-preview {
+.result-preview {
   margin: 0.5rem 0 0;
   padding: 0.5rem;
   background: var(--bg-card);
@@ -1789,13 +1789,42 @@ h2 { font-size: 1.5rem; }
   border-radius: 8px;
 }
 
-.collage-preview img {
+.result-preview img {
   display: block;
   width: 100%;
   max-width: 560px;
   height: auto;
   margin: 0 auto;
   border-radius: 4px;
+}
+
+.tool-options-note {
+  flex-basis: 100%;
+  margin: -0.25rem 0 1rem;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+/* Profile Picture Maker: the square file and a round preview side by side,
+   on a checkerboard so a transparent circle's corners are visible. */
+.avatar-preview {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.result-preview img.avatar-preview-square,
+.result-preview img.avatar-preview-circle {
+  width: 200px;
+  max-width: 42vw;
+  height: auto;
+  margin: 0;
+  background: repeating-conic-gradient(var(--border) 0% 25%, transparent 0% 50%) 50% / 16px 16px;
+}
+
+.result-preview img.avatar-preview-circle {
+  border-radius: 50%;
 }
 
 /* ---- PDF to Images: per-page downloads ---- */

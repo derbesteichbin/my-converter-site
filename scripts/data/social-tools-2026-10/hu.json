@@ -1,0 +1,93 @@
+{
+  "replace": {
+    "categoryDescriptions": {
+      "Social Media": "Méretezze át fotóit bármely platformhoz, készítsen profilképeket, tömörítse a feltöltendő képeket, alakítsa a PDF-eket képekké, és fűzze össze fotóit kollázzsá."
+    }
+  },
+  "toolNames": {
+    "resize-for-social-media": "Átméretezés közösségi médiához",
+    "profile-picture-maker": "Profilkép-készítő",
+    "social-media-image-compressor": "Képtömörítő közösségi médiához"
+  },
+  "tool": {
+    "socialOpt": {
+      "preset": {
+        "label": "Platform / képarány",
+        "9x16": "9:16 — TikTok, Reels, Stories, Shorts",
+        "1x1": "1:1 — Négyzetes hírfolyam-bejegyzés",
+        "4x5": "4:5 — Álló Instagram-bejegyzés",
+        "16x9": "16:9 — YouTube és fekvő formátum"
+      },
+      "fit": {
+        "label": "Keretezés",
+        "cover": "Vágás a keret kitöltéséhez (a téma látható marad)",
+        "contain": "A teljes kép illesztése (hátteret ad hozzá)"
+      },
+      "background": {
+        "label": "Háttér",
+        "blur": "A kép elmosott másolata",
+        "white": "Fehér",
+        "black": "Fekete"
+      },
+      "shape": {
+        "label": "Forma",
+        "square": "Négyzet",
+        "circle": "Kör (átlátszó PNG)"
+      },
+      "size": {
+        "400": "400 × 400 px — kis fájl",
+        "800": "800 × 800 px — ajánlott",
+        "1080": "1080 × 1080 px — extra éles",
+        "label": "Méret"
+      },
+      "target": {
+        "label": "Platform",
+        "instagram": "Instagram — legfeljebb 1080 px",
+        "facebook": "Facebook — legfeljebb 2048 px",
+        "x": "X (Twitter) — legfeljebb 4096 px"
+      }
+    },
+    "socialCircleNote": "A kerek avatarok PNG formátumban mentődnek, így a sarkok átlátszók maradnak.",
+    "socialBadType": "Ez az eszköz JPG, PNG, WebP, AVIF, GIF és TIFF képeket fogad el. iPhone-os HEIC fotókhoz előbb használd a „HEIC to JPG” eszközt.",
+    "socialBadOption": "Az egyik kiválasztott beállítás nem érhető el. Töltsd újra az oldalt, és próbáld újra.",
+    "socialPreviewAlt": "Az eredmény előnézete"
+  },
+  "toolDescriptions": {
+    "resize-for-social-media": "Keretezze újra bármely fotóját TikTokhoz, Reelshez, Storieshoz, Shortshoz, négyzetes bejegyzésekhez, álló Instagram-formátumhoz vagy YouTube-hoz — vágja a képet a téma körül úgy, hogy kitöltse a keretet, vagy illessze a teljes képet elmosott vagy egyszínű háttérre.",
+    "profile-picture-maker": "Alakítson bármely fotót éles, négyzetes profilképpé, az arcra vagy a témára középre igazítva — vagy kerek avatarrá átlátszó háttérrel. Készen áll az Instagramhoz, a LinkedInhez, az X-hez, a Facebookhoz és máshoz is.",
+    "social-media-image-compressor": "Kicsinyítse fotóit arra a méretre, amelyben az Instagram, a Facebook vagy az X ténylegesen megjeleníti őket, és mentse kiváló minőségű JPG-ként, hogy a platform ne tömörítse újra őket, és ne mossa el a részleteket."
+  },
+  "pack": {
+    "reasons": {
+      "resize-for-social-media": "Minden platform a saját formájára vág: egy Storyként posztolt fekvő fotó fekete sávokat kap vagy elveszíti a széleit, egy magas telefonos fotót pedig megcsonkít a hírfolyam — ha magad keretezed újra, te döntöd el, mi marad a képen.",
+      "profile-picture-maker": "A profilképek apró méretben jelennek meg, és általában körré vágják őket, így egy hétköznapi pillanatkép gyakran félrecsúszott vagy levágott arccal végzi; egy rendesen keretezett négyzet ezt még feltöltés előtt megoldja.",
+      "social-media-image-compressor": "A telefonos fotók gyakran 4000 pixel szélesek és több megabájtosak; amikor a platform maga kicsinyíti le őket a megjelenítési méretre, erősen tömöríti is őket, innen ered az elmosódás és a kockás égbolt."
+    },
+    "t": {
+      "intro.lead.social-resize": "Az Átméretezés közösségi médiához pontosan arra a formára keretezi újra a fotót, amelyet a platform elvár: 9:16 a TikTokhoz, a Reelshez, a Storieshoz és a Shortshoz, 1:1 a négyzetes hírfolyam-bejegyzésekhez, 4:5 az álló Instagram-bejegyzésekhez és 16:9 a YouTube-hoz. Te döntöd el, hogy a kép a keret kitöltéséhez legyen vágva, a legérdekesebb részére középre igazítva, vagy egészben jelenjen meg elmosott vagy egyszínű háttéren.",
+      "steps.social-resize.1": "Húzd a fotódat az oldal tetején lévő feltöltési területre, vagy kattints rá, és válassz egyet az eszközödről, illetve készíts új képet.",
+      "steps.social-resize.2": "Válaszd ki a platform formátumát, majd döntsd el, hogy a képet a keret kitöltéséhez vágod, vagy a teljes képet illeszted egy háttérre.",
+      "steps.social-resize.3": "Kattints az Átalakítás gombra, és töltsd le az újrakeretezett képet. A letöltési hivatkozás 24 órán át él.",
+      "shapeFaq.social-resize.q1": "Vágjam a fotómat, vagy a teljes képet illesszem?",
+      "shapeFaq.social-resize.a1": "Vágj, ha a téma kényelmesen elfér az új formában: a kép kitölti az egész képernyőt, és természetesen illeszkedik a platformhoz, a vágás pedig a kép legérdekesebb részére igazodik. A teljes képet illeszd, ha semmi sem vágódhat le, például csoportképnél vagy olyan plakátnál, amelynek a széleihez közel szöveg van; ilyenkor az egész kép látható marad a saját elmosott másolatán, illetve fehér vagy fekete háttéren.",
+      "shapeFaq.social-resize.q2": "Melyik formátum milyen méretet ad?",
+      "shapeFaq.social-resize.a2": "A 9:16 1080 × 1920 pixelt ad, az 1:1 1080 × 1080-at, a 4:5 1080 × 1350-et, a 16:9 pedig 1920 × 1080-at — ezek azok a feltöltési méretek, amelyeket maguk a platformok ajánlanak. Pontosan ezeknél a méreteknél a platformnak nem kell újra vágnia vagy átméreteznie a képedet.",
+      "intro.lead.profile-picture": "A Profilkép-készítő az arcra vagy a fő témára középre igazított négyzetre vágja a fotót, és szabványos, 400, 800 vagy 1080 pixeles avatarméretre méretezi. Ha inkább a kerek változatot választod, a sarkok átlátszóvá válnak, így az avatar bármilyen háttéren jól mutat.",
+      "steps.profile-picture.1": "Húzz egy fotót magadról, a logódról vagy a márkádról a feltöltési területre, vagy kattints rá, és válassz egyet, illetve készíts egy képet.",
+      "steps.profile-picture.2": "Válassz négyzetet vagy kört és egy méretet — a 800 × 800 pixel minden nagy platformhoz megfelel.",
+      "steps.profile-picture.3": "Kattints az Átalakítás gombra, nézd meg a négyzetes és a kerek előnézetet, majd töltsd le az új profilképedet.",
+      "shapeFaq.profile-picture.q1": "Négyzetes vagy kerek profilképet töltsek fel?",
+      "shapeFaq.profile-picture.a1": "Általában a négyzeteset. Az Instagram, a Facebook, a LinkedIn, az X és a YouTube egyaránt négyzetes képet kér, és maga vágja körré; a kerek előnézet megmutatja, hogyan fog kinézni. Az átlátszó sarkú kerek PNG azokra a helyekre való, amelyek pontosan úgy jelenítik meg a fájlt, ahogy van, például weboldalakra, e-mail-aláírásokba, prezentációkba vagy csevegőalkalmazásokba.",
+      "shapeFaq.profile-picture.q2": "Melyik méretet válasszam?",
+      "shapeFaq.profile-picture.a2": "A 800 × 800 pixel a biztos választás: élesebb, mint ahogy bármely platform megjeleníti a profilképet, mégis kis fájl. A 400 × 400 elég a LinkedInhez, az X-hez és a Facebookhoz, az 1080 × 1080 pedig több részletet ad nagy felbontású kijelzőkhöz vagy nyomtatásban való újrafelhasználáshoz.",
+      "intro.lead.social-compress": "A Képtömörítő közösségi médiához arra a legnagyobb méretre kicsinyíti a fotót, amelyben a platform ténylegesen megjeleníti — 1080 pixelre az Instagramhoz, 2048-ra a Facebookhoz, 4096-ra az X-hez —, átalakítja a minden alkalmazás által elvárt sRGB színekre, és kiváló minőségű JPG-ként menti. A már eleve kisebb képeket sosem nagyítja fel.",
+      "steps.social-compress.1": "Húzd a fotódat az oldal tetején lévő feltöltési területre, vagy kattints rá, és válassz egyet. Egyszerre több fotót is hozzáadhatsz.",
+      "steps.social-compress.2": "Válaszd ki a platformot, ahová posztolsz, és kattints az Átalakítás gombra.",
+      "steps.social-compress.3": "Töltsd le az optimalizált JPG-t, és töltsd fel a platformra. A hivatkozás 24 órán át él.",
+      "shapeFaq.social-compress.q1": "Miért néz ki jobban feltöltés után egy kisebb fájl?",
+      "shapeFaq.social-compress.a1": "Mert a platformnak már nem kell feldolgoznia. Ha egy fotó nagyobb, mint amekkorában a platform megjeleníti, automatikusan lekicsinyíti és újratömöríti, gyakran gyenge minőségben, innen erednek az elkenődött részletek és a kockás égbolt. Az a fotó, amely már a megfelelő méretben és sRGB színekkel érkezik, szinte pontosan úgy tárolódik, ahogy elküldted.",
+      "shapeFaq.social-compress.q2": "Miben különbözik ez a hagyományos Képtömörítőtől?",
+      "shapeFaq.social-compress.a2": "A hagyományos Képtömörítő megtartja a fájl méreteit és formátumát, és csak az adatokat tömöríti. Ez az eszköz ezenfelül a platform megjelenítési méretére méretezi a fotót, és sRGB JPG-vé alakítja, és ez hozza meg a különbséget a közösségi médiában. A PNG átlátszó területei fehérek lesznek, mert a JPG nem támogatja az átlátszóságot."
+    }
+  }
+}

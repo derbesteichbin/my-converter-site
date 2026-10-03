@@ -1,0 +1,93 @@
+{
+  "replace": {
+    "categoryDescriptions": {
+      "Social Media": "Muuta kuvien kokoa jokaiselle alustalle, tee profiilikuvia, pakkaa ladattavia kuvia, muunna PDF-tiedostoja kuviksi ja yhdistä valokuvia kollaaseiksi."
+    }
+  },
+  "toolNames": {
+    "resize-for-social-media": "Koon muutos sosiaaliseen mediaan",
+    "profile-picture-maker": "Profiilikuvan tekijä",
+    "social-media-image-compressor": "Kuvapakkaus sosiaaliseen mediaan"
+  },
+  "tool": {
+    "socialOpt": {
+      "preset": {
+        "label": "Alusta / kuvasuhde",
+        "9x16": "9:16 — TikTok, Reels, Stories, Shorts",
+        "1x1": "1:1 — Neliönmuotoinen syötejulkaisu",
+        "4x5": "4:5 — Pystysuuntainen Instagram-julkaisu",
+        "16x9": "16:9 — YouTube ja vaakasuunta"
+      },
+      "fit": {
+        "label": "Rajaus",
+        "cover": "Rajaa täyttämään kehys (pitää kohteen näkyvissä)",
+        "contain": "Sovita koko kuva (lisää taustan)"
+      },
+      "background": {
+        "label": "Tausta",
+        "blur": "Sumennettu kopio kuvasta",
+        "white": "Valkoinen",
+        "black": "Musta"
+      },
+      "shape": {
+        "label": "Muoto",
+        "square": "Neliö",
+        "circle": "Ympyrä (läpinäkyvä PNG)"
+      },
+      "size": {
+        "400": "400 × 400 px — pieni tiedosto",
+        "800": "800 × 800 px — suositeltu",
+        "1080": "1080 × 1080 px — erittäin terävä",
+        "label": "Koko"
+      },
+      "target": {
+        "label": "Alusta",
+        "instagram": "Instagram — enintään 1080 px",
+        "facebook": "Facebook — enintään 2048 px",
+        "x": "X (Twitter) — enintään 4096 px"
+      }
+    },
+    "socialCircleNote": "Pyöreät profiilikuvat tallennetaan PNG-muodossa, jotta kulmat pysyvät läpinäkyvinä.",
+    "socialBadType": "Tämä työkalu hyväksyy JPG-, PNG-, WebP-, AVIF-, GIF- ja TIFF-kuvat. Käytä iPhonen HEIC-kuville ensin työkalua ”HEIC to JPG”.",
+    "socialBadOption": "Yksi valituista vaihtoehdoista ei ole käytettävissä. Lataa sivu uudelleen ja yritä uudestaan.",
+    "socialPreviewAlt": "Tuloksen esikatselu"
+  },
+  "toolDescriptions": {
+    "resize-for-social-media": "Rajaa mikä tahansa valokuva uudelleen TikTok-, Reels-, Stories- ja Shorts-muotoon, neliöjulkaisuihin, pystysuuntaiseen Instagram-julkaisuun tai YouTube-muotoon — rajaa täyttämään kehys kohteen ympäriltä tai sovita koko kuva sumennetulle tai yksiväriselle taustalle.",
+    "profile-picture-maker": "Muunna mikä tahansa valokuva teräväksi, neliönmuotoiseksi profiilikuvaksi, joka on keskitetty kasvoihin tai kohteeseen — tai pyöreäksi profiilikuvaksi läpinäkyvällä taustalla. Valmiina käyttöön esimerkiksi palveluissa Instagram, LinkedIn, X ja Facebook.",
+    "social-media-image-compressor": "Pienennä valokuvat siihen kokoon, jossa Instagram, Facebook tai X ne todella näyttää, ja tallenna ne laadukkaina JPG-kuvina, jotta alusta ei pakkaa niitä uudelleen ja sumenna yksityiskohtia."
+  },
+  "pack": {
+    "reasons": {
+      "resize-for-social-media": "Jokainen alusta rajaa kuvat omaan muotoonsa: Story-julkaisuna jaettu vaakakuva saa mustat palkit tai menettää reunansa, ja korkea puhelinkuva leikataan syötteessä lyhyemmäksi — kun rajaat kuvan itse, päätät, mitä kuvaan jää.",
+      "profile-picture-maker": "Profiilikuvat näytetään pieninä ja yleensä ympyräksi leikattuina, joten rennossa otoksessa kasvot päätyvät usein sivuun tai rajautuvat pois; oikein rajattu neliö korjaa tämän ennen latausta.",
+      "social-media-image-compressor": "Puhelimen kuvat ovat usein 4000 pikseliä leveitä ja useiden megatavujen kokoisia; kun alusta pienentää ne itse näyttökokoonsa, se myös pakkaa ne voimakkaasti, ja siitä syntyvät sumeus ja palikoituneet taivaat."
+    },
+    "t": {
+      "intro.lead.social-resize": "Koon muutos sosiaaliseen mediaan rajaa kuvan juuri siihen muotoon, jota alusta odottaa: 9:16 TikTok-, Reels-, Stories- ja Shorts-julkaisuihin, 1:1 neliönmuotoisiin syötejulkaisuihin, 4:5 pystysuuntaisiin Instagram-julkaisuihin ja 16:9 YouTube-videoihin. Sinä päätät, rajataanko kuva täyttämään kehys sen kiinnostavimpaan kohtaan keskitettynä vai näytetäänkö se kokonaan sumennetulla tai yksivärisellä taustalla.",
+      "steps.social-resize.1": "Pudota valokuvasi tämän sivun yläreunan latausalueelle tai napsauta sitä valitaksesi kuvan laitteeltasi tai ottaaksesi uuden kuvan.",
+      "steps.social-resize.2": "Valitse alustan muoto ja päätä sitten, rajataanko kuva täyttämään kehys vai sovitetaanko koko kuva taustalle.",
+      "steps.social-resize.3": "Napsauta Muunna ja lataa uudelleen rajattu kuva. Latauslinkki on voimassa 24 tuntia.",
+      "shapeFaq.social-resize.q1": "Pitäisikö kuva rajata vai sovittaa kokonaan?",
+      "shapeFaq.social-resize.a1": "Rajaa, kun kohde mahtuu hyvin uuteen muotoon: kuva täyttää koko näytön ja näyttää alustalle luontevalta, ja rajaus keskitetään kuvan kiinnostavimpaan kohtaan. Sovita koko kuva, kun mitään ei saa leikata pois, esimerkiksi ryhmäkuvassa tai julisteessa, jonka teksti on lähellä reunoja; koko kuva pysyy näkyvissä oman sumennetun kopionsa päällä tai valkoisella tai mustalla taustalla.",
+      "shapeFaq.social-resize.q2": "Minkä kokoisen kuvan kukin muoto tuottaa?",
+      "shapeFaq.social-resize.a2": "9:16 tuottaa 1080 × 1920 pikseliä, 1:1 tuottaa 1080 × 1080, 4:5 tuottaa 1080 × 1350 ja 16:9 tuottaa 1920 × 1080 — juuri ne latauskoot, joita alustat itse suosittelevat. Kun kuva on täsmälleen tämän kokoinen, alustan ei tarvitse rajata tai skaalata sitä uudelleen.",
+      "intro.lead.profile-picture": "Profiilikuvan tekijä rajaa kuvan kasvoihin tai pääkohteeseen keskitetyksi neliöksi ja skaalaa sen tavalliseen profiilikuvan kokoon: 400, 800 tai 1080 pikseliä. Jos valitset sen sijaan pyöreän version, kulmista tulee läpinäkyvät, joten profiilikuva näyttää hyvältä millä tahansa taustalla.",
+      "steps.profile-picture.1": "Pudota kuva itsestäsi, logostasi tai brändistäsi latausalueelle tai napsauta sitä valitaksesi kuvan tai ottaaksesi uuden.",
+      "steps.profile-picture.2": "Valitse neliö tai ympyrä ja koko — 800 × 800 pikseliä sopii kaikille suurille alustoille.",
+      "steps.profile-picture.3": "Napsauta Muunna, tarkista neliön ja ympyrän esikatselu ja lataa sitten uusi profiilikuvasi.",
+      "shapeFaq.profile-picture.q1": "Pitäisikö minun ladata neliön vai ympyrän muotoinen profiilikuva?",
+      "shapeFaq.profile-picture.a1": "Yleensä neliön muotoinen. Instagram, Facebook, LinkedIn, X ja YouTube pyytävät kaikki neliökuvaa ja leikkaavat sen itse ympyräksi; pyöreä esikatselu näyttää, miltä se tulee näyttämään. Pyöreä PNG läpinäkyvine kulmineen on tarkoitettu paikkoihin, jotka näyttävät tiedoston täsmälleen sellaisenaan, kuten verkkosivustoille, sähköpostin allekirjoituksiin, esityksiin tai chat-sovelluksiin.",
+      "shapeFaq.profile-picture.q2": "Minkä koon valitsisin?",
+      "shapeFaq.profile-picture.a2": "800 × 800 pikseliä on varma valinta: terävämpi kuin yksikään alusta näyttää profiilikuvaa, mutta silti pieni tiedosto. 400 × 400 riittää LinkedIn-, X- ja Facebook-profiileihin, ja 1080 × 1080 tuo lisää yksityiskohtia tarkkoja näyttöjä varten tai painotuotteisiin.",
+      "intro.lead.social-compress": "Kuvapakkaus sosiaaliseen mediaan pienentää kuvan suurimpaan kokoon, jonka alusta todella näyttää (Instagramissa 1080 pikseliä, Facebookissa 2048, X:ssä 4096), muuntaa sen sRGB-väreihin, joita jokainen sovellus odottaa, ja tallentaa sen laadukkaana JPG-kuvana. Valmiiksi pienempiä kuvia ei koskaan suurenneta.",
+      "steps.social-compress.1": "Pudota valokuvasi tämän sivun yläreunan latausalueelle tai napsauta sitä valitaksesi kuvan. Voit lisätä useita kuvia kerralla.",
+      "steps.social-compress.2": "Valitse alusta, jolle julkaiset, ja napsauta Muunna.",
+      "steps.social-compress.3": "Lataa optimoitu JPG-kuva ja lähetä se alustalle. Linkki on voimassa 24 tuntia.",
+      "shapeFaq.social-compress.q1": "Miksi pienempi tiedosto näyttäisi latauksen jälkeen paremmalta?",
+      "shapeFaq.social-compress.a1": "Koska alustan ei enää tarvitse käsitellä sitä. Kun kuva on suurempi kuin alusta näyttää, se pienennetään ja pakataan automaattisesti uudelleen, usein heikolla laadulla, ja siitä syntyvät suttuiset yksityiskohdat ja palikoituneet taivaat. Kuva, joka saapuu valmiiksi oikean kokoisena ja sRGB-väreissä, tallennetaan lähes täsmälleen sellaisena kuin lähetit sen.",
+      "shapeFaq.social-compress.q2": "Miten tämä eroaa tavallisesta kuvapakkauksesta?",
+      "shapeFaq.social-compress.a2": "Tavallinen kuvapakkaus säilyttää tiedostosi mitat ja muodon ja vain tiivistää datan. Tämä työkalu myös muuttaa kuvan koon alustan näyttökokoon ja muuntaa sen sRGB-JPG:ksi, ja juuri se ratkaisee lopputuloksen sosiaalisessa mediassa. PNG-kuvan läpinäkyvät alueet muuttuvat valkoisiksi, koska JPG ei tue läpinäkyvyyttä."
+    }
+  }
+}

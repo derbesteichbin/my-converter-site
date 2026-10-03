@@ -10,6 +10,7 @@ const { VALID_TOOLS, ALLOWED_ADVANCED_KEYS } = require('../toolsConfig');
 const { Resend } = require('resend');
 const archiver = require('archiver');
 const { LAYOUTS, validateCollage, buildCollage } = require('../lib/collage');
+const { OPTIONS: SOCIAL_OPTIONS, parseOptions: parseSocialOptions, resolveFormat: resolveSocialFormat, runSocialImage } = require('../lib/socialImage');
 
 const router = express.Router();
 
@@ -340,6 +341,17 @@ router.post('/', protect, preflightCredits, upload.single('file'), async (req, r
       if (!toolDef.outputFormats.includes(outputFormat)) {
         return reject(400, { error: `Format .${outputFormat} is not supported for this tool` });
       }
+      // The sharp tools decode the file themselves, so check the type and
+      // the options up front — a bad request must not cost a credit.
+      if (SOCIAL_OPTIONS[toolDef.toolType]) {
+        const ext = path.extname(req.file.originalname).replace('.', '').toLowerCase();
+        if (!toolDef.inputFormats.includes(ext)) {
+          return reject(400, { error: `"${req.file.originalname}" is not a supported image type`, code: 'social_bad_type' });
+        }
+        const parsed = parseSocialOptions(toolDef.toolType, req.body);
+        if (parsed.error) return reject(400, { error: 'Invalid options', code: parsed.error });
+        req.socialOptions = parsed.options;
+      }
     }
 
     // Reserve a conversion credit before any work starts. Atomically checks
@@ -387,6 +399,10 @@ router.post('/', protect, preflightCredits, upload.single('file'), async (req, r
     } else if (toolDef && toolDef.toolType === 'rename') {
       renameJpeg(job.id, req.file, outputFormat, req.userId, chargedAmount).catch((err) => {
         console.error(`Rename failed for job ${job.id}:`, err);
+      });
+    } else if (toolDef && SOCIAL_OPTIONS[toolDef.toolType]) {
+      socialImageJob(job.id, req.file, toolDef.toolType, req.socialOptions, outputFormat, notifyEmail ? req.userId : null, req.userId, chargedAmount).catch((err) => {
+        console.error(`Social image tool failed for job ${job.id}:`, err);
       });
     } else if (toolDef && toolDef.toolType === 'pdf-images') {
       pdfToImages(job.id, req.file, outputFormat, notifyEmail ? req.userId : null, req.userId, chargedAmount).catch((err) => {
@@ -535,6 +551,31 @@ async function renameJpeg(jobId, file, outputFormat, chargedUserId = null, charg
     });
   } catch (err) {
     console.error(`renameJpeg error for job ${jobId}:`, err);
+    await failJob(jobId, chargedUserId, chargedAmount);
+  } finally {
+    discardUploads(file);
+  }
+}
+
+// ── Social Media image tools (resize, profile picture, compress) ─────
+// Single image in, single image out, processed with sharp. Options were
+// validated in the route before the credit was charged.
+async function socialImageJob(jobId, file, toolType, options, requestedFormat, notifyUserId = null, chargedUserId = null, chargedAmount = 0) {
+  const format = resolveSocialFormat(toolType, options, requestedFormat);
+  const outputFilename = `${newOutputBase()}.${format}`;
+  try {
+    await prisma.job.update({ where: { id: jobId }, data: { status: 'processing' } });
+    await runSocialImage(toolType, path.join(UPLOAD_DIR, file.filename), path.join(OUTPUT_DIR, outputFilename), options, format);
+    await prisma.job.update({
+      where: { id: jobId },
+      data: { status: 'done', outputFile: outputFilename },
+    });
+    if (notifyUserId) {
+      sendCompletionEmail(notifyUserId, jobId, `/api/download/${outputFilename}`);
+    }
+  } catch (err) {
+    console.error(`socialImageJob error for job ${jobId}:`, err);
+    fs.promises.unlink(path.join(OUTPUT_DIR, outputFilename)).catch(() => {});
     await failJob(jobId, chargedUserId, chargedAmount);
   } finally {
     discardUploads(file);

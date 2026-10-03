@@ -4,7 +4,7 @@ import { useDropzone } from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
 import SEO from '../components/SEO';
 import { api, API_URL } from '../api';
-import { getToolBySlug, getToolLabel, getToolDescription, ADVANCED_SETTINGS, COLLAGE_LAYOUTS, COLLAGE_FITS, COLLAGE_MIN_PHOTOS } from '../toolsConfig';
+import { getToolBySlug, getToolLabel, getToolDescription, ADVANCED_SETTINGS, COLLAGE_LAYOUTS, COLLAGE_FITS, COLLAGE_MIN_PHOTOS, SOCIAL_OPTIONS, socialOptionDefaults } from '../toolsConfig';
 import { useToast } from '../components/Toast';
 
 // The per-tool SEO content (intro, how-to, FAQ + FAQPage structured data)
@@ -148,6 +148,11 @@ export default function ToolPage() {
   // one PDF in, one image per page out (plus a ZIP of them all).
   const isCollage = toolDef?.toolType === 'collage';
   const isPdfImages = toolDef?.toolType === 'pdf-images';
+  // Single-image Social Media tools (resize, profile picture, compressor):
+  // standard per-file flow plus a few dropdown choices.
+  const socialOptions = SOCIAL_OPTIONS[toolDef?.toolType] || null;
+  const isSocialImage = !!socialOptions;
+  const isProfilePicture = toolDef?.toolType === 'profile-picture';
   const extraFields = toolDef?.extraFields || [];
   // JPEG↔JPG copies the file unchanged, so resize/quality would be ignored.
   const advancedFields = toolDef?.toolType === 'rename' ? [] : ADVANCED_SETTINGS[toolDef?.category] || [];
@@ -244,9 +249,10 @@ export default function ToolPage() {
   const [password, setPassword] = useState('');
   const [collageLayout, setCollageLayout] = useState('auto');
   const [collageFit, setCollageFit] = useState('cover');
+  const [socialValues, setSocialValues] = useState(() => socialOptionDefaults(toolDef?.toolType));
   // Object URL of the finished collage, fetched with credentials for the
   // inline preview. Revoked when replaced or on reset.
-  const [collagePreview, setCollagePreview] = useState('');
+  const [resultPreview, setResultPreview] = useState('');
 
   // Smart Functions: per-tool extras
   const [ttsText, setTtsText] = useState('');
@@ -373,7 +379,8 @@ export default function ToolPage() {
     setPassword('');
     setCollageLayout('auto');
     setCollageFit('cover');
-    setCollagePreview('');
+    setSocialValues(socialOptionDefaults(toolDef?.toolType));
+    setResultPreview('');
     setTtsText('');
     setTtsVoice('alloy');
     setTtsSpeed('1');
@@ -504,6 +511,9 @@ export default function ToolPage() {
     if (extraFields.includes('rotation')) formData.append('rotation', rotation);
     if (extraFields.includes('password') && password) formData.append('password', password);
     if (notifyEmail) formData.append('notifyEmail', 'true');
+    if (isSocialImage) {
+      Object.entries(socialValues).forEach(([key, val]) => formData.append(key, val));
+    }
     Object.entries(advancedValues).forEach(([key, val]) => {
       if (val !== '' && val !== undefined && val !== false) formData.append(key, val);
     });
@@ -519,12 +529,12 @@ export default function ToolPage() {
         if (job.status === 'done') {
           clearInterval(intervalId);
           setBatchJobs((prev) => prev.map((j, i) => i === index ? { ...j, status: 'done', downloadUrl: job.downloadUrl, outputSize: job.outputSize, pages: job.files || null } : j));
-          // Photo Collage: show the result inline. The download route needs the
+          // Collage and single social images: show the result inline. The download route needs the
           // session cookie, so fetch it through api() rather than an <img src>.
-          if (isCollage && job.downloadUrl) {
+          if ((isCollage || (isSocialImage && files.length === 1)) && job.downloadUrl) {
             api(job.downloadUrl)
               .then((r) => (r.ok ? r.blob() : null))
-              .then((blob) => { if (blob) setCollagePreview(URL.createObjectURL(blob)); })
+              .then((blob) => { if (blob) setResultPreview(URL.createObjectURL(blob)); })
               .catch(() => {});
           }
           // For Speech to Text, fetch the transcript so we can render it
@@ -644,9 +654,9 @@ export default function ToolPage() {
       : files.length > collageMax ? 'many' : null;
 
   useEffect(() => {
-    if (!collagePreview) return undefined;
-    return () => URL.revokeObjectURL(collagePreview);
-  }, [collagePreview]);
+    if (!resultPreview) return undefined;
+    return () => URL.revokeObjectURL(resultPreview);
+  }, [resultPreview]);
 
   function collageErrorText(code) {
     switch (code) {
@@ -656,6 +666,10 @@ export default function ToolPage() {
         return t('tool.collageTooMany', { max: collageMax, extra: Math.max(0, files.length - collageMax) });
       case 'collage_bad_type':
         return t('tool.collageBadType');
+      case 'social_bad_type':
+        return t('tool.socialBadType');
+      case 'social_bad_option':
+        return t('tool.socialBadOption');
       default:
         return null;
     }
@@ -755,7 +769,7 @@ export default function ToolPage() {
       const totalSize = files.reduce((s, f) => s + f.size, 0);
       const job0 = { file: t('tool.collagePhotos', { count: files.length }), inputSize: totalSize, status: 'uploading', jobId: null, downloadUrl: null, outputSize: null, error: null };
       setBatchJobs([job0]);
-      setCollagePreview('');
+      setResultPreview('');
 
       try {
         const formData = new FormData();
@@ -843,7 +857,7 @@ export default function ToolPage() {
               setModal('no_credits');
               return;
             }
-            throw new Error(data.error || 'Upload failed');
+            throw new Error(collageErrorText(data.code) || data.error || 'Upload failed');
           }
           const { jobId } = await res.json();
           setBatchJobs((prev) => prev.map((j, idx) => idx === i ? { ...j, status: 'processing', jobId } : j));
@@ -928,7 +942,7 @@ export default function ToolPage() {
     setOverallStatus('idle');
     setError('');
     setSkippedNote('');
-    setCollagePreview('');
+    setResultPreview('');
   }
 
   const busy = overallStatus === 'converting';
@@ -1015,7 +1029,7 @@ export default function ToolPage() {
       )}
 
       {/* Mobile camera capture */}
-      {(toolDef?.category === 'Image' || isCollage) && (
+      {(toolDef?.category === 'Image' || isCollage || isSocialImage) && (
         <label className="camera-btn" aria-label={t('tool.photo')}>
           <input
             type="file"
@@ -1105,9 +1119,36 @@ export default function ToolPage() {
         </div>
       )}
 
+      {/* Social Media image tools: platform/shape/size choices. */}
+      {isSocialImage && overallStatus === 'idle' && batchJobs.length === 0 && (
+        <div className="tool-options">
+          {socialOptions.map((opt) => {
+            if (opt.showIf && Object.entries(opt.showIf).some(([k, v]) => socialValues[k] !== v)) return null;
+            return (
+              <div className="extra-field" key={opt.key}>
+                <label htmlFor={`social-${opt.key}`}>{t(`tool.socialOpt.${opt.key}.label`)}</label>
+                <select
+                  id={`social-${opt.key}`}
+                  value={socialValues[opt.key]}
+                  onChange={(e) => setSocialValues((prev) => ({ ...prev, [opt.key]: e.target.value }))}
+                  disabled={busy}
+                >
+                  {opt.values.map((v) => (
+                    <option key={v} value={v}>{t(`tool.socialOpt.${opt.key}.${v.replace(':', 'x')}`)}</option>
+                  ))}
+                </select>
+              </div>
+            );
+          })}
+          {isProfilePicture && socialValues.shape === 'circle' && (
+            <p className="tool-options-note">{t('tool.socialCircleNote')}</p>
+          )}
+        </div>
+      )}
+
       {/* Photo Collage: grid layout and how each photo fills its square. */}
       {isCollage && overallStatus === 'idle' && batchJobs.length === 0 && (
-        <div className="collage-options">
+        <div className="tool-options">
           <div className="extra-field">
             <label htmlFor="collage-layout">{t('tool.collageLayoutLabel')}</label>
             <select id="collage-layout" value={collageLayout} onChange={(e) => setCollageLayout(e.target.value)} disabled={busy}>
@@ -1274,10 +1315,19 @@ export default function ToolPage() {
               </div>
             </div>
           ))}
-          {isCollage && collagePreview && (
-            <figure className="collage-preview">
-              <img src={collagePreview} alt={t('tool.collagePreviewAlt')} />
-            </figure>
+          {resultPreview && (
+            isProfilePicture ? (
+              // Square file plus a round preview, since most platforms crop
+              // avatars to a circle on display.
+              <figure className="result-preview avatar-preview">
+                <img src={resultPreview} alt={t('tool.socialPreviewAlt')} className="avatar-preview-square" />
+                <img src={resultPreview} alt="" aria-hidden="true" className="avatar-preview-circle" />
+              </figure>
+            ) : (
+              <figure className="result-preview">
+                <img src={resultPreview} alt={isCollage ? t('tool.collagePreviewAlt') : t('tool.socialPreviewAlt')} />
+              </figure>
+            )
           )}
           {overallStatus === 'done' && (
             <div className="batch-done-actions">
@@ -1326,7 +1376,7 @@ export default function ToolPage() {
           </label>
 
           <div className="tool-controls">
-            {formats.length > 1 && (
+            {formats.length > 1 && !(isProfilePicture && socialValues.shape === 'circle') && (
               <div className="format-select">
                 <label htmlFor="format">{t('tool.output')}</label>
                 <select id="format" value={outputFormat} onChange={(e) => setOutputFormat(e.target.value)} disabled={busy}>

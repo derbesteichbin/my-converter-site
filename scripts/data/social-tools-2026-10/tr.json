@@ -1,0 +1,93 @@
+{
+  "replace": {
+    "categoryDescriptions": {
+      "Social Media": "Fotoğrafları her platform için yeniden boyutlandırın, profil fotoğrafları oluşturun, yüklemelerinizi sıkıştırın, PDF'leri görsellere dönüştürün ve fotoğrafları kolajda birleştirin."
+    }
+  },
+  "toolNames": {
+    "resize-for-social-media": "Sosyal medya için yeniden boyutlandırma",
+    "profile-picture-maker": "Profil fotoğrafı oluşturucu",
+    "social-media-image-compressor": "Sosyal medya için görsel sıkıştırıcı"
+  },
+  "tool": {
+    "socialOpt": {
+      "preset": {
+        "label": "Platform / en-boy oranı",
+        "9x16": "9:16 — TikTok, Reels, Stories, Shorts",
+        "1x1": "1:1 — Kare akış gönderisi",
+        "4x5": "4:5 — Dikey Instagram gönderisi",
+        "16x9": "16:9 — YouTube ve yatay format"
+      },
+      "fit": {
+        "label": "Çerçeveleme",
+        "cover": "Çerçeveyi dolduracak şekilde kırp (konuyu görünür tutar)",
+        "contain": "Görselin tamamını sığdır (arka plan ekler)"
+      },
+      "background": {
+        "label": "Arka plan",
+        "blur": "Görselin bulanık kopyası",
+        "white": "Beyaz",
+        "black": "Siyah"
+      },
+      "shape": {
+        "label": "Şekil",
+        "square": "Kare",
+        "circle": "Daire (şeffaf PNG)"
+      },
+      "size": {
+        "400": "400 × 400 px — küçük dosya",
+        "800": "800 × 800 px — önerilen",
+        "1080": "1080 × 1080 px — ekstra net",
+        "label": "Boyut"
+      },
+      "target": {
+        "label": "Platform",
+        "instagram": "Instagram — en fazla 1080 px",
+        "facebook": "Facebook — en fazla 2048 px",
+        "x": "X (Twitter) — en fazla 4096 px"
+      }
+    },
+    "socialCircleNote": "Yuvarlak avatarlar, köşeler şeffaf kalsın diye PNG olarak kaydedilir.",
+    "socialBadType": "Bu araç JPG, PNG, WebP, AVIF, GIF ve TIFF görselleri kabul eder. iPhone HEIC fotoğrafları için önce \"HEIC to JPG\" aracını kullanın.",
+    "socialBadOption": "Seçilen seçeneklerden biri kullanılamıyor. Lütfen sayfayı yeniden yükleyip tekrar deneyin.",
+    "socialPreviewAlt": "Sonucun önizlemesi"
+  },
+  "toolDescriptions": {
+    "resize-for-social-media": "Herhangi bir fotoğrafı TikTok, Reels, Stories, Shorts, kare gönderiler, dikey Instagram veya YouTube için yeniden çerçeveleyin — konunun çevresinde çerçeveyi dolduracak şekilde kırpın ya da resmin tamamını bulanık veya düz bir arka plana sığdırın.",
+    "profile-picture-maker": "Herhangi bir fotoğrafı yüze ya da konuya ortalanmış net, kare bir profil fotoğrafına veya şeffaf arka planlı yuvarlak bir avatara dönüştürün. Instagram, LinkedIn, X, Facebook ve daha fazlası için hazır.",
+    "social-media-image-compressor": "Fotoğrafları Instagram, Facebook veya X'in gerçekte gösterdiği boyuta küçültün ve yüksek kaliteli JPG olarak kaydedin; böylece platform onları yeniden sıkıştırıp ayrıntıları bulanıklaştırmaz."
+  },
+  "pack": {
+    "reasons": {
+      "resize-for-social-media": "Her platform kendi biçimine göre kırpar: Story olarak paylaşılan yatay bir fotoğraf siyah şeritler alır ya da kenarlarını kaybeder, uzun bir telefon çekimi ise akışta kesilir — fotoğrafı kendin yeniden çerçevelersen resimde neyin kalacağına sen karar verirsin.",
+      "profile-picture-maker": "Profil fotoğrafları çok küçük gösterilir ve genellikle daire biçiminde kesilir; bu yüzden gelişigüzel çekilmiş bir fotoğrafta yüz çoğu zaman ortalanmamış ya da kesilmiş olur. Doğru çerçevelenmiş kare bir görsel bunu yüklemeden önce düzeltir.",
+      "social-media-image-compressor": "Telefon fotoğrafları çoğu zaman 4000 piksel genişliğinde ve birkaç megabayt boyutundadır; bir platform onları gösterim boyutuna kendisi küçülttüğünde aynı zamanda sert biçimde sıkıştırır ve bulanıklık ile kare kare gökyüzü buradan gelir."
+    },
+    "t": {
+      "intro.lead.social-resize": "Sosyal medya için yeniden boyutlandırma aracı, bir fotoğrafı platformun beklediği biçime tam olarak yeniden çerçeveler: TikTok, Reels, Stories ve Shorts için 9:16, kare akış gönderileri için 1:1, dikey Instagram gönderileri için 4:5 ve YouTube için 16:9. Resmin en ilgi çekici kısmına ortalanarak çerçeveyi dolduracak şekilde kırpılmasına ya da bulanık veya düz bir arka plan üzerinde tamamen gösterilmesine sen karar verirsin.",
+      "steps.social-resize.1": "Fotoğrafını bu sayfanın üstündeki yükleme alanına bırak ya da aygıtından bir fotoğraf seçmek veya yeni bir fotoğraf çekmek için üzerine tıkla.",
+      "steps.social-resize.2": "Platform biçimini seç, ardından çerçeveyi dolduracak şekilde mi kırpacağına yoksa görselin tamamını bir arka plana mı sığdıracağına karar ver.",
+      "steps.social-resize.3": "Dönüştür’e tıkla ve yeniden çerçevelenen görseli indir. İndirme bağlantısı 24 saat açık kalır.",
+      "shapeFaq.social-resize.q1": "Fotoğrafımı kırpmalı mıyım, yoksa tamamını mı sığdırmalıyım?",
+      "shapeFaq.social-resize.a1": "Konu yeni biçimin içine rahatça sığıyorsa kırp: görsel tüm ekranı doldurur ve platforma özgü görünür; kırpma da resmin en ilgi çekici kısmına ortalanır. Hiçbir şeyin kesilmemesi gerektiğinde, örneğin bir grup fotoğrafında ya da kenarlarına yakın metin bulunan bir afişte, görselin tamamını sığdır; resmin tamamı kendi bulanık kopyası ya da beyaz veya siyah bir arka plan üzerinde görünür kalır.",
+      "shapeFaq.social-resize.q2": "Her biçim hangi boyutu üretir?",
+      "shapeFaq.social-resize.a2": "9:16 biçimi 1080 × 1920 piksel, 1:1 biçimi 1080 × 1080, 4:5 biçimi 1080 × 1350, 16:9 biçimi ise 1920 × 1080 verir — bunlar platformların kendilerinin önerdiği yükleme boyutlarıdır. Tam bu boyutlarda platformun resmini yeniden kırpması ya da ölçeklemesi gerekmez.",
+      "intro.lead.profile-picture": "Profil fotoğrafı oluşturucu, bir fotoğrafı yüze ya da ana konuya ortalanmış bir kareye kırpar ve 400, 800 veya 1080 piksellik standart bir avatar boyutuna ölçekler. Bunun yerine yuvarlak sürümü seçersen köşeler şeffaf olur, böylece avatar her arka planda doğru görünür.",
+      "steps.profile-picture.1": "Kendi fotoğrafını, logonu ya da markanı yükleme alanına bırak veya bir tane seçmek ya da fotoğraf çekmek için üzerine tıkla.",
+      "steps.profile-picture.2": "Kare ya da daire ile bir boyut seç — 800 × 800 piksel tüm büyük platformlara uyar.",
+      "steps.profile-picture.3": "Dönüştür’e tıkla, kare ve yuvarlak önizlemeyi kontrol et, ardından yeni profil fotoğrafını indir.",
+      "shapeFaq.profile-picture.q1": "Kare mi yoksa yuvarlak bir profil fotoğrafı mı yüklemeliyim?",
+      "shapeFaq.profile-picture.a1": "Genellikle kare olanı. Instagram, Facebook, LinkedIn, X ve YouTube’un hepsi kare bir görsel ister ve onu kendisi daire biçiminde keser; yuvarlak önizleme bunun nasıl görüneceğini sana gösterir. Şeffaf köşeli yuvarlak PNG ise dosyayı tam olduğu gibi gösteren yerler içindir: web siteleri, e-posta imzaları, sunumlar ya da sohbet uygulamaları gibi.",
+      "shapeFaq.profile-picture.q2": "Hangi boyutu seçmeliyim?",
+      "shapeFaq.profile-picture.a2": "800 × 800 piksel güvenli seçimdir: herhangi bir platformun profil fotoğrafını gösterdiğinden daha net, ama yine de küçük bir dosya. 400 × 400 LinkedIn, X ve Facebook için yeterlidir; 1080 × 1080 ise yüksek çözünürlüklü ekranlar ya da baskıda yeniden kullanım için ekstra ayrıntı sağlar.",
+      "intro.lead.social-compress": "Sosyal medya için görsel sıkıştırıcı, bir fotoğrafı platformun gerçekte gösterdiği en büyük boyuta küçültür — Instagram için 1080 piksel, Facebook için 2048, X için 4096 —, her uygulamanın beklediği sRGB renklere dönüştürür ve yüksek kaliteli bir JPG olarak kaydeder. Zaten daha küçük olan resimler asla büyütülmez.",
+      "steps.social-compress.1": "Fotoğrafını bu sayfanın üstündeki yükleme alanına bırak ya da bir tane seçmek için üzerine tıkla. Aynı anda birden fazla fotoğraf ekleyebilirsin.",
+      "steps.social-compress.2": "Paylaşım yapacağın platformu seç ve Dönüştür’e tıkla.",
+      "steps.social-compress.3": "Optimize edilmiş JPG’yi indir ve platforma yükle. Bağlantı 24 saat açık kalır.",
+      "shapeFaq.social-compress.q1": "Daha küçük bir dosya yüklendikten sonra neden daha iyi görünür?",
+      "shapeFaq.social-compress.a1": "Çünkü platformun onu artık işlemesi gerekmez. Bir fotoğraf platformun gösterdiğinden büyük olduğunda otomatik olarak küçültülür ve çoğu zaman düşük kalitede yeniden sıkıştırılır; silik ayrıntılar ve kare kare gökyüzü buradan gelir. Zaten doğru boyutta ve sRGB renklerle gelen bir fotoğraf ise neredeyse tam gönderdiğin gibi saklanır.",
+      "shapeFaq.social-compress.q2": "Bunun normal Görsel sıkıştırıcıdan farkı ne?",
+      "shapeFaq.social-compress.a2": "Normal Görsel sıkıştırıcı dosyanın boyutlarını ve biçimini korur, yalnızca verileri sıkıştırır. Bu araç ise fotoğrafı ayrıca platformun gösterim boyutuna yeniden boyutlandırır ve sRGB bir JPG’ye dönüştürür; sosyal medyada farkı yaratan da budur. PNG’nin şeffaf alanları beyaz olur, çünkü JPG’de şeffaflık yoktur."
+    }
+  }
+}

@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 // ── Copy for the October 2026 tool batch ─────────────────────────────
 //
-//   node scripts/add-social-and-pairs-copy.mjs
+//   node scripts/add-social-and-pairs-copy.mjs [data-folder]
+//
+// data-folder defaults to scripts/data/new-tools-2026-10 (the first batch);
+// later batches pass their own folder, e.g. scripts/data/social-tools-2026-10.
 //
 // Adds, in all 17 languages, everything the new tools need:
 //   * the "Social Media" category name and description
@@ -11,15 +14,17 @@
 //   * the SEO content pack entries: new format prose, one reason per tool,
 //     and the templates for the rename / pdf-images / collage shapes
 //
-// The copy itself lives in scripts/data/new-tools-2026-10/<lang>.json, one
-// file per language with identical keys. Keys that already exist are left
-// alone, so the script is safe to re-run.
+// The copy itself lives in scripts/data/<batch>/<lang>.json, one file per
+// language with identical keys. Keys that already exist are left
+// alone, so the script is safe to re-run — except keys listed under
+// "replace" in a data file, whose existing value is deliberately updated.
+// Every section is optional in a data file.
 
 import fs from 'node:fs';
 import path from 'node:path';
 
 const ROOT = path.join(import.meta.dirname, '..');
-const DATA = path.join(ROOT, 'scripts', 'data', 'new-tools-2026-10');
+const DATA = process.argv[2] ? path.resolve(process.argv[2]) : path.join(ROOT, 'scripts', 'data', 'new-tools-2026-10');
 const I18N = path.join(ROOT, 'client', 'src', 'i18n.js');
 const TRANS = path.join(ROOT, 'client', 'src', 'i18n-translations.js');
 const PACKS = path.join(ROOT, 'client', 'src', 'toolContent', 'packs');
@@ -62,6 +67,7 @@ function objectEnd(src, openIdx) {
 // `section` within `block`. Follows the section's layout: one key per line
 // in i18n.js, everything on one line in i18n-translations.js.
 function addToSection(block, section, entries, label) {
+  if (!entries || !Object.keys(entries).length) return block;
   const re = new RegExp(`\\n  ${section}: \\{`);
   const m = re.exec(block);
   if (!m) throw new Error(`${label}: section ${section} not found`);
@@ -79,8 +85,32 @@ function addToSection(block, section, entries, label) {
   return block.slice(0, open + 1) + insertion + block.slice(open + 1);
 }
 
+// Overwrite the value of keys that already exist in `section`. Only used for
+// keys this tooling wrote itself, which are always "double-quoted".
+function replaceInSection(block, section, entries, label) {
+  if (!entries) return block;
+  const marker = `\n  ${section}: {`;
+  const at = block.indexOf(marker);
+  if (at === -1) throw new Error(`${label}: section ${section} not found`);
+  const open = at + marker.length - 1;
+  const close = objectEnd(block, open);
+  let body = block.slice(open, close);
+  for (const [key, value] of Object.entries(entries)) {
+    const keyAt = body.indexOf(`${lit(key)}:`);
+    if (keyAt === -1) throw new Error(`${label}: ${section}.${key} not found to replace`);
+    // The value is the next "…" string literal; walk it to its closing quote.
+    const start = body.indexOf('"', keyAt + lit(key).length + 1);
+    let end = start + 1;
+    while (body[end] !== '"') end += body[end] === '\\' ? 2 : 1;
+    body = body.slice(0, start) + lit(value) + body.slice(end + 1);
+    added++;
+  }
+  return block.slice(0, open) + body + block.slice(close);
+}
+
 // Add a whole new top-level section right before `beforeSection`.
 function addSection(block, section, entries, beforeSection, multiline, label) {
+  if (!entries || !Object.keys(entries).length) return block;
   if (new RegExp(`\\n  ${section}: \\{`).test(block)) {
     return addToSection(block, section, entries, label);
   }
@@ -100,6 +130,9 @@ function applyI18n(block, copy, label, multiline) {
   block = addToSection(block, 'tool', copy.tool, label);
   block = addToSection(block, 'toolDescriptions', copy.toolDescriptions, label);
   block = addSection(block, 'toolNames', copy.toolNames, 'toolDescriptions', multiline, label);
+  for (const [section, entries] of Object.entries(copy.replace || {})) {
+    block = replaceInSection(block, section, entries, label);
+  }
   return block;
 }
 
@@ -129,6 +162,7 @@ function applyI18n(block, copy, label, multiline) {
 // Each pack has `formats`, `reasons` and `t` sections, one entry per line;
 // new entries go just before each section's closing brace.
 function appendToPackSection(src, section, lines, label) {
+  if (!lines.length) return src;
   const m = new RegExp(`\\n  ${section}: \\{`).exec(src);
   if (!m) throw new Error(`${label}: pack section ${section} not found`);
   const open = m.index + m[0].length - 1;
@@ -146,7 +180,7 @@ function appendToPackSection(src, section, lines, label) {
 for (const lang of ALL) {
   const file = path.join(PACKS, `${lang}.js`);
   let src = fs.readFileSync(file, 'utf8');
-  const { formats, reasons, t } = load(lang).pack;
+  const { formats = {}, reasons = {}, t = {} } = load(lang).pack || {};
   src = appendToPackSection(src, 'formats', Object.entries(formats).map(([k, v]) => [
     k,
     `    ${/^[a-z]\w*$/.test(k) ? k : lit(k)}: {\n      about: ${lit(v.about)},\n      note: ${lit(v.note)},\n    },`,

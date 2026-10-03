@@ -120,4 +120,7 @@ export const SHAPES = {
   'jpg-to-jpeg': 'rename',
   'pdf-to-images': 'pdf-images',
   'photo-collage': 'collage',
+  'resize-for-social-media': 'social-resize',
+  'profile-picture-maker': 'profile-picture',
+  'social-media-image-compressor': 'social-compress',
 };

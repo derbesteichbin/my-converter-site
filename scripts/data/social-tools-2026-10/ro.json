@@ -1,0 +1,93 @@
+{
+  "replace": {
+    "categoryDescriptions": {
+      "Social Media": "Redimensionează fotografii pentru orice platformă, creează poze de profil, comprimă imaginile pentru încărcare, transformă PDF-urile în imagini și combină fotografii în colaje."
+    }
+  },
+  "toolNames": {
+    "resize-for-social-media": "Redimensionare pentru rețele sociale",
+    "profile-picture-maker": "Creator de poze de profil",
+    "social-media-image-compressor": "Compresor de imagini pentru rețele sociale"
+  },
+  "tool": {
+    "socialOpt": {
+      "preset": {
+        "label": "Platformă / raport de aspect",
+        "9x16": "9:16 — TikTok, Reels, Stories, Shorts",
+        "1x1": "1:1 — Postare pătrată în feed",
+        "4x5": "4:5 — Postare Instagram în format portret",
+        "16x9": "16:9 — YouTube și format peisaj"
+      },
+      "fit": {
+        "label": "Încadrare",
+        "cover": "Decupează ca să umple cadrul (păstrează subiectul vizibil)",
+        "contain": "Încadrează toată imaginea (adaugă un fundal)"
+      },
+      "background": {
+        "label": "Fundal",
+        "blur": "Copie estompată a imaginii",
+        "white": "Alb",
+        "black": "Negru"
+      },
+      "shape": {
+        "label": "Formă",
+        "square": "Pătrat",
+        "circle": "Cerc (PNG transparent)"
+      },
+      "size": {
+        "400": "400 × 400 px — fișier mic",
+        "800": "800 × 800 px — recomandat",
+        "1080": "1080 × 1080 px — foarte clar",
+        "label": "Dimensiune"
+      },
+      "target": {
+        "label": "Platformă",
+        "instagram": "Instagram — până la 1080 px",
+        "facebook": "Facebook — până la 2048 px",
+        "x": "X (Twitter) — până la 4096 px"
+      }
+    },
+    "socialCircleNote": "Avatarurile rotunde sunt salvate ca PNG, ca colțurile să rămână transparente.",
+    "socialBadType": "Acest instrument acceptă imagini JPG, PNG, WebP, AVIF, GIF și TIFF. Pentru fotografiile HEIC de pe iPhone, folosește mai întâi „HEIC to JPG”.",
+    "socialBadOption": "Una dintre opțiunile selectate nu este disponibilă. Reîncarcă pagina și încearcă din nou.",
+    "socialPreviewAlt": "Previzualizarea rezultatului"
+  },
+  "toolDescriptions": {
+    "resize-for-social-media": "Reîncadrează orice fotografie pentru TikTok, Reels, Stories, Shorts, postări pătrate, format portret Instagram sau YouTube — decupeaz-o ca să umple cadrul în jurul subiectului sau încadrează imaginea întreagă pe un fundal estompat ori simplu.",
+    "profile-picture-maker": "Transformă orice fotografie într-o poză de profil pătrată și clară, centrată pe față sau pe subiect — ori într-un avatar rotund cu fundal transparent. Gata pentru Instagram, LinkedIn, X, Facebook și altele.",
+    "social-media-image-compressor": "Micșorează fotografiile la dimensiunea pe care Instagram, Facebook sau X o afișează de fapt și salvează-le ca JPG de calitate înaltă, ca platforma să nu le mai comprime o dată și să nu le estompeze detaliile."
+  },
+  "pack": {
+    "reasons": {
+      "resize-for-social-media": "Fiecare platformă decupează după propria formă: o fotografie peisaj postată ca Story primește benzi negre sau își pierde marginile, iar o poză înaltă făcută cu telefonul este tăiată în feed — dacă o reîncadrezi tu, tu decizi ce rămâne în imagine.",
+      "profile-picture-maker": "Pozele de profil sunt afișate foarte mici și de obicei tăiate în cerc, așa că o fotografie făcută în grabă ajunge des cu fața descentrată sau tăiată; un pătrat încadrat corect rezolvă asta înainte de încărcare.",
+      "social-media-image-compressor": "Fotografiile de pe telefon au adesea 4000 de pixeli lățime și câțiva megaocteți; când o platformă le micșorează singură la dimensiunea de afișare, le și comprimă puternic, iar de aici vin neclaritatea și cerul pătrățos."
+    },
+    "t": {
+      "intro.lead.social-resize": "Redimensionare pentru rețele sociale reîncadrează o fotografie exact în forma pe care o așteaptă o platformă: 9:16 pentru TikTok, Reels, Stories și Shorts, 1:1 pentru postări pătrate în feed, 4:5 pentru postări Instagram în format portret și 16:9 pentru YouTube. Tu decizi dacă imaginea este decupată ca să umple cadrul, centrată pe partea ei cea mai interesantă, sau arătată întreagă pe un fundal estompat ori simplu.",
+      "steps.social-resize.1": "Trage fotografia în zona de încărcare din partea de sus a acestei pagini sau dă clic pe ea ca să alegi una de pe dispozitiv ori să faci o poză nouă.",
+      "steps.social-resize.2": "Alege formatul platformei, apoi decide dacă decupezi imaginea ca să umple cadrul sau încadrezi toată imaginea pe un fundal.",
+      "steps.social-resize.3": "Dă clic pe Convertire și descarcă imaginea reîncadrată. Linkul de descărcare rămâne activ 24 de ore.",
+      "shapeFaq.social-resize.q1": "Să-mi decupez fotografia sau s-o încadrez întreagă?",
+      "shapeFaq.social-resize.a1": "Decupează când subiectul încape comod în noua formă: imaginea umple tot ecranul și arată ca făcută pentru platformă, iar decuparea este centrată pe partea cea mai interesantă a imaginii. Încadrează toată imaginea când nu trebuie tăiat nimic, de exemplu la o fotografie de grup sau la un afiș cu text aproape de margini; întreaga imagine rămâne vizibilă pe o copie estompată a ei sau pe un fundal alb ori negru.",
+      "shapeFaq.social-resize.q2": "Ce dimensiune produce fiecare format?",
+      "shapeFaq.social-resize.a2": "9:16 dă 1080 × 1920 de pixeli, 1:1 dă 1080 × 1080, 4:5 dă 1080 × 1350, iar 16:9 dă 1920 × 1080 — dimensiunile de încărcare recomandate chiar de platforme. La exact aceste dimensiuni, platforma nu mai trebuie să-ți decupeze sau să-ți redimensioneze din nou imaginea.",
+      "intro.lead.profile-picture": "Creator de poze de profil decupează o fotografie la un pătrat centrat pe față sau pe subiectul principal și o scalează la o dimensiune standard de avatar de 400, 800 sau 1080 de pixeli. Dacă alegi în schimb varianta rotundă, colțurile devin transparente, așa că avatarul arată bine pe orice fundal.",
+      "steps.profile-picture.1": "Trage o fotografie cu tine, logoul sau brandul tău în zona de încărcare sau dă clic pe ea ca să alegi una ori să faci o poză.",
+      "steps.profile-picture.2": "Alege pătrat sau cerc și o dimensiune — 800 × 800 de pixeli se potrivește pe toate platformele importante.",
+      "steps.profile-picture.3": "Dă clic pe Convertire, verifică previzualizarea pătrată și pe cea rotundă, apoi descarcă noua poză de profil.",
+      "shapeFaq.profile-picture.q1": "Ar trebui să încarc o poză de profil pătrată sau rotundă?",
+      "shapeFaq.profile-picture.a1": "De obicei pe cea pătrată. Instagram, Facebook, LinkedIn, X și YouTube cer toate o imagine pătrată și o taie singure în cerc; previzualizarea rotundă îți arată cum va arăta. PNG-ul rotund cu colțuri transparente este pentru locurile care afișează fișierul exact așa cum este, cum ar fi site-uri, semnături de e-mail, prezentări sau aplicații de chat.",
+      "shapeFaq.profile-picture.q2": "Ce dimensiune ar trebui să aleg?",
+      "shapeFaq.profile-picture.a2": "800 × 800 de pixeli este alegerea sigură: mai clară decât afișează orice platformă o poză de profil, dar tot un fișier mic. 400 × 400 este suficient pentru LinkedIn, X și Facebook, iar 1080 × 1080 oferă detalii în plus pentru ecrane de înaltă rezoluție sau pentru refolosire la tipar.",
+      "intro.lead.social-compress": "Compresor de imagini pentru rețele sociale micșorează o fotografie la cea mai mare dimensiune pe care platforma o afișează de fapt — 1080 de pixeli pentru Instagram, 2048 pentru Facebook, 4096 pentru X —, îi convertește culorile în spațiul sRGB așteptat de orice aplicație și o salvează ca JPG de calitate înaltă. Imaginile deja mai mici nu sunt mărite niciodată.",
+      "steps.social-compress.1": "Trage fotografia în zona de încărcare din partea de sus a acestei pagini sau dă clic pe ea ca să alegi una. Poți adăuga mai multe fotografii deodată.",
+      "steps.social-compress.2": "Alege platforma pe care postezi și dă clic pe Convertire.",
+      "steps.social-compress.3": "Descarcă JPG-ul optimizat și încarcă-l pe platformă. Linkul rămâne activ 24 de ore.",
+      "shapeFaq.social-compress.q1": "De ce ar arăta mai bine un fișier mai mic după încărcare?",
+      "shapeFaq.social-compress.a1": "Pentru că platforma nu mai trebuie să-l prelucreze. Când o fotografie este mai mare decât o afișează platforma, este micșorată și recomprimată automat, adesea la calitate scăzută, iar de aici vin detaliile mânjite și cerul pătrățos. O fotografie care ajunge deja la dimensiunea potrivită și cu culori sRGB este stocată aproape exact așa cum ai trimis-o.",
+      "shapeFaq.social-compress.q2": "Prin ce diferă de compresorul de imagini obișnuit?",
+      "shapeFaq.social-compress.a2": "Compresorul de imagini obișnuit păstrează dimensiunile și formatul fișierului și doar comprimă datele. Acest instrument redimensionează în plus fotografia la dimensiunea de afișare a platformei și o convertește într-un JPG sRGB, iar asta face diferența pe rețelele sociale. Zonele transparente ale unui PNG devin albe, pentru că JPG nu are transparență."
+    }
+  }
+}

@@ -1,6 +1,10 @@
 // ── Tool Definitions ─────────────────────────────────────────────────
 // Single source of truth for all conversion tools.
 
+// Raster formats the server's sharp build can read (no HEIC).
+const SHARP_INPUTS = ['jpg', 'jpeg', 'png', 'webp', 'avif', 'gif', 'tiff', 'tif'];
+const SHARP_ACCEPT = SHARP_INPUTS.map((f) => '.' + f).join(',');
+
 export const TOOLS = [
   // ── Document ──
   { slug: 'pdf-to-word',  label: 'PDF to Word',        category: 'Document', inputFormats: ['pdf'],         outputFormats: ['docx', 'doc'],       acceptMime: '.pdf' },
@@ -151,7 +155,35 @@ export const TOOLS = [
   // photo-collage: several photos in, one grid image out (server-side sharp).
   { slug: 'pdf-to-images', label: 'PDF to Images', category: 'Social Media', inputFormats: ['pdf'], outputFormats: ['jpg', 'png'], acceptMime: '.pdf', toolType: 'pdf-images' },
   { slug: 'photo-collage', label: 'Photo Collage', category: 'Social Media', inputFormats: ['jpg', 'jpeg', 'png', 'webp', 'avif', 'gif', 'tiff', 'tif'], outputFormats: ['jpg', 'png'], acceptMime: '.jpg,.jpeg,.png,.webp,.avif,.gif,.tiff,.tif', toolType: 'collage', multipleFiles: true },
+  // Single-image sharp tools; their choices live in SOCIAL_OPTIONS below.
+  { slug: 'resize-for-social-media',       label: 'Resize for Social Media',           category: 'Social Media', inputFormats: SHARP_INPUTS, outputFormats: ['jpg', 'png', 'webp'], acceptMime: SHARP_ACCEPT, toolType: 'social-resize' },
+  { slug: 'profile-picture-maker',         label: 'Profile Picture Maker',             category: 'Social Media', inputFormats: SHARP_INPUTS, outputFormats: ['png', 'jpg'],         acceptMime: SHARP_ACCEPT, toolType: 'profile-picture' },
+  { slug: 'social-media-image-compressor', label: 'Image Compressor for Social Media', category: 'Social Media', inputFormats: SHARP_INPUTS, outputFormats: ['jpg'],                acceptMime: SHARP_ACCEPT, toolType: 'social-compress' },
 ];
+
+// Choices for the single-image Social Media tools, rendered as dropdowns on
+// the tool page. Mirrors OPTIONS/DEFAULTS in server/lib/socialImage.js.
+// `showIf` hides an option unless another option has the given value.
+// Labels: tool.socialOpt.<key>.label and tool.socialOpt.<key>.<value> (":"
+// in a value becomes "x" in the key, since i18next reads ":" as a namespace).
+export const SOCIAL_OPTIONS = {
+  'social-resize': [
+    { key: 'preset', values: ['9:16', '1:1', '4:5', '16:9'], default: '9:16' },
+    { key: 'fit', values: ['cover', 'contain'], default: 'cover' },
+    { key: 'background', values: ['blur', 'white', 'black'], default: 'blur', showIf: { fit: 'contain' } },
+  ],
+  'profile-picture': [
+    { key: 'shape', values: ['square', 'circle'], default: 'square' },
+    { key: 'size', values: ['400', '800', '1080'], default: '800' },
+  ],
+  'social-compress': [
+    { key: 'target', values: ['instagram', 'facebook', 'x'], default: 'instagram' },
+  ],
+};
+
+export function socialOptionDefaults(toolType) {
+  return Object.fromEntries((SOCIAL_OPTIONS[toolType] || []).map((o) => [o.key, o.default]));
+}
 
 // Photo Collage options. Mirrors LAYOUTS/FITS in server/lib/collage.js.
 export const COLLAGE_LAYOUTS = [
@@ -202,7 +234,10 @@ const SMART_FUNCTION_I18N = {
 
 // Tools whose name is words rather than "FORMAT to FORMAT" get a translated
 // name under `toolNames.<slug>`. Format pairs stay as-is in every language.
-const TRANSLATED_NAMES = new Set(['pdf-to-images', 'photo-collage']);
+const TRANSLATED_NAMES = new Set([
+  'pdf-to-images', 'photo-collage',
+  'resize-for-social-media', 'profile-picture-maker', 'social-media-image-compressor',
+]);
 
 export function getToolLabel(tool, t) {
   if (!tool) return '';

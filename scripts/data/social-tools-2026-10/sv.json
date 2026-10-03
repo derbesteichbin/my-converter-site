@@ -1,0 +1,93 @@
+{
+  "replace": {
+    "categoryDescriptions": {
+      "Social Media": "Anpassa foton för alla plattformar, skapa profilbilder, komprimera uppladdningar, gör om PDF-filer till bilder och sätt ihop foton till collage."
+    }
+  },
+  "toolNames": {
+    "resize-for-social-media": "Ändra storlek för sociala medier",
+    "profile-picture-maker": "Profilbildsskapare",
+    "social-media-image-compressor": "Bildkomprimerare för sociala medier"
+  },
+  "tool": {
+    "socialOpt": {
+      "preset": {
+        "label": "Plattform / bildformat",
+        "9x16": "9:16 — TikTok, Reels, Stories, Shorts",
+        "1x1": "1:1 — Kvadratiskt inlägg i flödet",
+        "4x5": "4:5 — Stående inlägg på Instagram",
+        "16x9": "16:9 — YouTube och liggande format"
+      },
+      "fit": {
+        "label": "Bildutsnitt",
+        "cover": "Beskär för att fylla ramen (motivet hålls i bild)",
+        "contain": "Visa hela bilden (lägger till en bakgrund)"
+      },
+      "background": {
+        "label": "Bakgrund",
+        "blur": "Suddig kopia av bilden",
+        "white": "Vit",
+        "black": "Svart"
+      },
+      "shape": {
+        "label": "Form",
+        "square": "Kvadrat",
+        "circle": "Cirkel (transparent PNG)"
+      },
+      "size": {
+        "400": "400 × 400 px — liten fil",
+        "800": "800 × 800 px — rekommenderas",
+        "1080": "1080 × 1080 px — extra skarp",
+        "label": "Storlek"
+      },
+      "target": {
+        "label": "Plattform",
+        "instagram": "Instagram — upp till 1080 px",
+        "facebook": "Facebook — upp till 2048 px",
+        "x": "X (Twitter) — upp till 4096 px"
+      }
+    },
+    "socialCircleNote": "Runda avatarer sparas som PNG så att hörnen förblir transparenta.",
+    "socialBadType": "Det här verktyget tar emot JPG-, PNG-, WebP-, AVIF-, GIF- och TIFF-bilder. För HEIC-foton från iPhone använder du först ”HEIC to JPG”.",
+    "socialBadOption": "Ett av de valda alternativen är inte tillgängligt. Ladda om sidan och försök igen.",
+    "socialPreviewAlt": "Förhandsgranskning av resultatet"
+  },
+  "toolDescriptions": {
+    "resize-for-social-media": "Ändra bildutsnittet på valfritt foto för TikTok, Reels, Stories, Shorts, kvadratiska inlägg, stående Instagram-inlägg eller YouTube — beskär för att fylla ramen runt motivet, eller visa hela bilden på en suddig eller enfärgad bakgrund.",
+    "profile-picture-maker": "Gör om valfritt foto till en skarp, kvadratisk profilbild centrerad på ansiktet eller motivet — eller till en rund avatar med transparent bakgrund. Redo för Instagram, LinkedIn, X, Facebook med flera.",
+    "social-media-image-compressor": "Krymp foton till den storlek som Instagram, Facebook eller X faktiskt visar och spara dem som JPG i hög kvalitet, så att plattformen inte komprimerar dem igen och suddar ut detaljerna."
+  },
+  "pack": {
+    "reasons": {
+      "resize-for-social-media": "Varje plattform beskär till sin egen form: ett liggande foto som publiceras som Story får svarta fält eller förlorar sina kanter, och en hög mobilbild kortas av i flödet — gör du om utsnittet själv bestämmer du vad som blir kvar i bilden.",
+      "profile-picture-maker": "Profilbilder visas pyttesmå och beskärs oftast till en cirkel, så en snabb ögonblicksbild får ofta ansiktet ur centrum eller avskuret; en ordentligt komponerad kvadrat löser det innan du laddar upp.",
+      "social-media-image-compressor": "Mobilfoton är ofta 4000 pixlar breda och flera megabyte stora; när en plattform själv krymper dem till sin visningsstorlek komprimerar den dem också hårt, och det är därifrån suddigheten och de blockiga himlarna kommer."
+    },
+    "t": {
+      "intro.lead.social-resize": "Ändra storlek för sociala medier ger ett foto exakt den form som en plattform förväntar sig: 9:16 för TikTok, Reels, Stories och Shorts, 1:1 för kvadratiska inlägg i flödet, 4:5 för stående inlägg på Instagram och 16:9 för YouTube. Du bestämmer om bilden ska beskäras för att fylla ramen, centrerad på den mest intressanta delen, eller visas i sin helhet på en suddig eller enfärgad bakgrund.",
+      "steps.social-resize.1": "Släpp ditt foto på uppladdningsytan högst upp på den här sidan, eller klicka på den för att välja ett från din enhet eller ta en ny bild.",
+      "steps.social-resize.2": "Välj plattformsformat och bestäm sedan om du vill beskära för att fylla ramen eller visa hela bilden på en bakgrund.",
+      "steps.social-resize.3": "Klicka på Konvertera och ladda ner bilden med det nya utsnittet. Nedladdningslänken är aktiv i 24 timmar.",
+      "shapeFaq.social-resize.q1": "Ska jag beskära fotot eller visa hela bilden?",
+      "shapeFaq.social-resize.a1": "Beskär när motivet ryms bekvämt inom den nya formen: bilden fyller då hela skärmen och ser ut att höra hemma på plattformen, och beskärningen centreras på den mest intressanta delen av bilden. Visa hela bilden när ingenting får skäras bort, till exempel ett gruppfoto eller en affisch med text nära kanterna; hela bilden förblir då synlig på en suddig kopia av sig själv eller på en vit eller svart bakgrund.",
+      "shapeFaq.social-resize.q2": "Vilken storlek ger varje format?",
+      "shapeFaq.social-resize.a2": "9:16 ger 1080 × 1920 pixlar, 1:1 ger 1080 × 1080, 4:5 ger 1080 × 1350 och 16:9 ger 1920 × 1080 — de uppladdningsstorlekar som plattformarna själva rekommenderar. Med exakt de här storlekarna behöver plattformen inte beskära eller skala om din bild igen.",
+      "intro.lead.profile-picture": "Profilbildsskapare beskär ett foto till en kvadrat centrerad på ansiktet eller huvudmotivet och skalar det till en standardstorlek för avatarer på 400, 800 eller 1080 pixlar. Väljer du den runda versionen i stället blir hörnen transparenta, så att avataren ser bra ut mot alla bakgrunder.",
+      "steps.profile-picture.1": "Släpp ett foto på dig själv, din logotyp eller ditt varumärke på uppladdningsytan, eller klicka på den för att välja ett eller ta en bild.",
+      "steps.profile-picture.2": "Välj kvadrat eller cirkel och en storlek — 800 × 800 pixlar passar alla stora plattformar.",
+      "steps.profile-picture.3": "Klicka på Konvertera, kontrollera den kvadratiska och den runda förhandsgranskningen och ladda sedan ner din nya profilbild.",
+      "shapeFaq.profile-picture.q1": "Ska jag ladda upp en kvadratisk eller en rund profilbild?",
+      "shapeFaq.profile-picture.a1": "Oftast den kvadratiska. Instagram, Facebook, LinkedIn, X och YouTube vill alla ha en kvadratisk bild och beskär den själva till en cirkel; den runda förhandsgranskningen visar hur det kommer att se ut. Den runda PNG-filen med transparenta hörn är till för ställen som visar filen precis som den är, till exempel webbplatser, e-postsignaturer, presentationer eller chattappar.",
+      "shapeFaq.profile-picture.q2": "Vilken storlek ska jag välja?",
+      "shapeFaq.profile-picture.a2": "800 × 800 pixlar är det säkra valet: skarpare än någon plattform visar en profilbild, men ändå en liten fil. 400 × 400 räcker för LinkedIn, X och Facebook, och 1080 × 1080 ger extra detaljer för högupplösta skärmar eller för återanvändning i tryck.",
+      "intro.lead.social-compress": "Bildkomprimerare för sociala medier skalar ner ett foto till den största storlek som plattformen faktiskt visar — 1080 pixlar för Instagram, 2048 för Facebook, 4096 för X — konverterar det till de sRGB-färger som alla appar förväntar sig och sparar det som JPG i hög kvalitet. Bilder som redan är mindre förstoras aldrig.",
+      "steps.social-compress.1": "Släpp ditt foto på uppladdningsytan högst upp på den här sidan, eller klicka på den för att välja ett. Du kan lägga till flera foton på en gång.",
+      "steps.social-compress.2": "Välj plattformen du publicerar på och klicka på Konvertera.",
+      "steps.social-compress.3": "Ladda ner den optimerade JPG-filen och ladda upp den till plattformen. Länken är aktiv i 24 timmar.",
+      "shapeFaq.social-compress.q1": "Varför skulle en mindre fil se bättre ut efter uppladdningen?",
+      "shapeFaq.social-compress.a1": "För att plattformen inte längre behöver bearbeta den. När ett foto är större än vad plattformen visar skalas det ner och komprimeras om automatiskt, ofta med låg kvalitet, och det är därifrån utsmetade detaljer och blockiga himlar kommer. Ett foto som redan kommer i rätt storlek och med sRGB-färger lagras nästan exakt som du skickade det.",
+      "shapeFaq.social-compress.q2": "Hur skiljer sig detta från den vanliga Bildkomprimeraren?",
+      "shapeFaq.social-compress.a2": "Den vanliga Bildkomprimeraren behåller filens mått och format och pressar bara ihop data. Det här verktyget ändrar dessutom fotots storlek till plattformens visningsstorlek och konverterar det till en sRGB-JPG, och det är det som gör skillnaden på sociala medier. Transparenta delar av en PNG blir vita, eftersom JPG saknar stöd för transparens."
+    }
+  }
+}

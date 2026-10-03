@@ -143,7 +143,7 @@ function relationFaq(t, f, tv, fn, tn) {
 const ACTION_STEP_SHAPES = [
   'pdf-merge', 'pdf-split', 'pdf-compress', 'pdf-rotate', 'pdf-protect',
   'pdf-unlock', 'metadata', 'ocr', 'tts', 'stt', 'subtitle', 'soon',
-  'pdf-images', 'collage',
+  'pdf-images', 'collage', 'social-resize', 'profile-picture', 'social-compress',
 ];
 
 function buildSteps(t, shape, tool, fn, tn, family, isSmart, inputs, categoryNoun) {
@@ -181,7 +181,7 @@ function buildSteps(t, shape, tool, fn, tn, family, isSmart, inputs, categoryNou
 const LEAD_SHAPES = [
   'pdf-merge', 'pdf-split', 'pdf-compress', 'pdf-compress-ai', 'pdf-rotate',
   'pdf-protect', 'pdf-unlock', 'metadata', 'ocr', 'tts', 'stt', 'subtitle',
-  'pdf-images', 'collage',
+  'pdf-images', 'collage', 'social-resize', 'profile-picture', 'social-compress',
 ];
 
 function buildIntro(t, shape, tool, f, tv, fn, tn, reason, inputs, outputs, categoryNoun) {
@@ -212,7 +212,7 @@ const SHAPE_FAQ_SHAPES = [
   'pdf-merge', 'pdf-split', 'pdf-compress', 'pdf-compress-ai', 'pdf-rotate',
   'pdf-protect', 'pdf-unlock', 'metadata', 'ocr', 'tts', 'stt', 'subtitle',
   'soon', 'compress', 'hub', 'hub-extract', 'hub-gif',
-  'rename', 'pdf-images', 'collage',
+  'rename', 'pdf-images', 'collage', 'social-resize', 'profile-picture', 'social-compress',
 ];
 
 function shapeFaq(t, shape, fn, tn, inputs, outputs) {

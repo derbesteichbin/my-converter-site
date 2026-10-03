@@ -1,0 +1,93 @@
+{
+  "replace": {
+    "categoryDescriptions": {
+      "Social Media": "Tilpass bilder til alle plattformer, lag profilbilder, komprimer opplastinger, gjør PDF-er om til bilder og sett sammen bilder til kollasjer."
+    }
+  },
+  "toolNames": {
+    "resize-for-social-media": "Endre størrelse for sosiale medier",
+    "profile-picture-maker": "Profilbildemaker",
+    "social-media-image-compressor": "Bildekomprimering for sosiale medier"
+  },
+  "tool": {
+    "socialOpt": {
+      "preset": {
+        "label": "Plattform / sideforhold",
+        "9x16": "9:16 — TikTok, Reels, Stories, Shorts",
+        "1x1": "1:1 — Kvadratisk feedinnlegg",
+        "4x5": "4:5 — Stående Instagram-innlegg",
+        "16x9": "16:9 — YouTube og liggende format"
+      },
+      "fit": {
+        "label": "Utsnitt",
+        "cover": "Beskjær for å fylle rammen (holder motivet i bildet)",
+        "contain": "Vis hele bildet (legger til bakgrunn)"
+      },
+      "background": {
+        "label": "Bakgrunn",
+        "blur": "Uskarp kopi av bildet",
+        "white": "Hvit",
+        "black": "Svart"
+      },
+      "shape": {
+        "label": "Form",
+        "square": "Kvadrat",
+        "circle": "Sirkel (gjennomsiktig PNG)"
+      },
+      "size": {
+        "400": "400 × 400 px — liten fil",
+        "800": "800 × 800 px — anbefalt",
+        "1080": "1080 × 1080 px — ekstra skarpt",
+        "label": "Størrelse"
+      },
+      "target": {
+        "label": "Plattform",
+        "instagram": "Instagram — opptil 1080 px",
+        "facebook": "Facebook — opptil 2048 px",
+        "x": "X (Twitter) — opptil 4096 px"
+      }
+    },
+    "socialCircleNote": "Runde profilbilder lagres som PNG, slik at hjørnene forblir gjennomsiktige.",
+    "socialBadType": "Dette verktøyet godtar JPG-, PNG-, WebP-, AVIF-, GIF- og TIFF-bilder. For HEIC-bilder fra iPhone bruker du først «HEIC to JPG».",
+    "socialBadOption": "Et av de valgte alternativene er ikke tilgjengelig. Last inn siden på nytt og prøv igjen.",
+    "socialPreviewAlt": "Forhåndsvisning av resultatet"
+  },
+  "toolDescriptions": {
+    "resize-for-social-media": "Tilpass et hvilket som helst bilde til TikTok, Reels, Stories, Shorts, kvadratiske innlegg, stående Instagram-format eller YouTube — beskjær for å fylle rammen rundt motivet, eller vis hele bildet på en uskarp eller ensfarget bakgrunn.",
+    "profile-picture-maker": "Gjør et hvilket som helst bilde om til et skarpt, kvadratisk profilbilde sentrert på ansiktet eller motivet — eller et rundt profilbilde med gjennomsiktig bakgrunn. Klart for Instagram, LinkedIn, X, Facebook og mer.",
+    "social-media-image-compressor": "Krymp bilder til den størrelsen Instagram, Facebook eller X faktisk viser, og lagre dem som JPG i høy kvalitet, slik at plattformen ikke komprimerer dem på nytt og gjør detaljene uskarpe."
+  },
+  "pack": {
+    "reasons": {
+      "resize-for-social-media": "Hver plattform beskjærer til sin egen form: et liggende bilde lagt ut som Story får svarte felt eller mister kantene, og et høyt mobilbilde kuttes ned i feeden — når du tilpasser utsnittet selv, bestemmer du hva som blir med i bildet.",
+      "profile-picture-maker": "Profilbilder vises bitte små og blir som regel klippet til en sirkel, så et tilfeldig øyeblikksbilde ender ofte med ansiktet ute av sentrum eller beskåret; et riktig beskåret kvadrat løser det før du laster opp.",
+      "social-media-image-compressor": "Mobilbilder er ofte 4000 piksler brede og flere megabyte store; når en plattform selv skalerer dem ned til visningsstørrelsen, komprimerer den dem også kraftig, og det er derfra uskarphet og blokkete himmel kommer."
+    },
+    "t": {
+      "intro.lead.social-resize": "Endre størrelse for sosiale medier gir et bilde nøyaktig den formen en plattform forventer: 9:16 for TikTok, Reels, Stories og Shorts, 1:1 for kvadratiske feedinnlegg, 4:5 for stående Instagram-innlegg og 16:9 for YouTube. Du bestemmer om bildet skal beskjæres for å fylle rammen, sentrert på den mest interessante delen, eller vises i sin helhet på en uskarp eller ensfarget bakgrunn.",
+      "steps.social-resize.1": "Slipp bildet ditt på opplastingsfeltet øverst på denne siden, eller klikk på det for å velge et fra enheten din eller ta et nytt bilde.",
+      "steps.social-resize.2": "Velg plattformformatet, og bestem deretter om bildet skal beskjæres for å fylle rammen, eller om hele bildet skal vises på en bakgrunn.",
+      "steps.social-resize.3": "Klikk på Konverter og last ned bildet med det nye utsnittet. Nedlastingslenken er aktiv i 24 timer.",
+      "shapeFaq.social-resize.q1": "Bør jeg beskjære bildet eller vise hele bildet?",
+      "shapeFaq.social-resize.a1": "Beskjær når motivet får god plass innenfor den nye formen: bildet fyller hele skjermen og ser ut som det hører hjemme på plattformen, og utsnittet sentreres på den mest interessante delen av bildet. Vis hele bildet når ingenting må kuttes bort, for eksempel et gruppebilde eller en plakat med tekst nær kantene; hele bildet forblir synlig på en uskarp kopi av seg selv eller på hvit eller svart bakgrunn.",
+      "shapeFaq.social-resize.q2": "Hvilken størrelse gir hvert format?",
+      "shapeFaq.social-resize.a2": "9:16 gir 1080 × 1920 piksler, 1:1 gir 1080 × 1080, 4:5 gir 1080 × 1350 og 16:9 gir 1920 × 1080 — de opplastingsstørrelsene plattformene selv anbefaler. Med akkurat disse størrelsene trenger ikke plattformen å beskjære eller skalere bildet ditt på nytt.",
+      "intro.lead.profile-picture": "Profilbildemaker beskjærer et bilde til et kvadrat sentrert på ansiktet eller hovedmotivet og skalerer det til en standard profilbildestørrelse på 400, 800 eller 1080 piksler. Velger du den runde versjonen i stedet, blir hjørnene gjennomsiktige, slik at profilbildet ser riktig ut på enhver bakgrunn.",
+      "steps.profile-picture.1": "Slipp et bilde av deg selv, logoen din eller merkevaren din på opplastingsfeltet, eller klikk på det for å velge et bilde eller ta et nytt.",
+      "steps.profile-picture.2": "Velg kvadrat eller sirkel og en størrelse — 800 × 800 piksler passer til alle de store plattformene.",
+      "steps.profile-picture.3": "Klikk på Konverter, sjekk den kvadratiske og den runde forhåndsvisningen, og last deretter ned det nye profilbildet ditt.",
+      "shapeFaq.profile-picture.q1": "Bør jeg laste opp et kvadratisk eller et rundt profilbilde?",
+      "shapeFaq.profile-picture.a1": "Som regel det kvadratiske. Instagram, Facebook, LinkedIn, X og YouTube ber alle om et kvadratisk bilde og klipper det selv til en sirkel; den runde forhåndsvisningen viser deg hvordan det vil se ut. Den runde PNG-en med gjennomsiktige hjørner er for steder som viser filen nøyaktig som den er, for eksempel nettsteder, e-postsignaturer, presentasjoner eller chatteapper.",
+      "shapeFaq.profile-picture.q2": "Hvilken størrelse bør jeg velge?",
+      "shapeFaq.profile-picture.a2": "800 × 800 piksler er det trygge valget: skarpere enn noen plattform viser et profilbilde, men fortsatt en liten fil. 400 × 400 er nok for LinkedIn, X og Facebook, og 1080 × 1080 gir ekstra detaljer på høyoppløselige skjermer eller ved gjenbruk på trykk.",
+      "intro.lead.social-compress": "Bildekomprimering for sosiale medier skalerer et bilde ned til den største størrelsen plattformen faktisk viser (1080 piksler for Instagram, 2048 for Facebook, 4096 for X), konverterer det til sRGB-fargene alle apper forventer og lagrer det som JPG i høy kvalitet. Bilder som allerede er mindre, blir aldri forstørret.",
+      "steps.social-compress.1": "Slipp bildet ditt på opplastingsfeltet øverst på denne siden, eller klikk på det for å velge et. Du kan legge til flere bilder samtidig.",
+      "steps.social-compress.2": "Velg plattformen du skal publisere på, og klikk på Konverter.",
+      "steps.social-compress.3": "Last ned den optimaliserte JPG-en og last den opp på plattformen. Lenken er aktiv i 24 timer.",
+      "shapeFaq.social-compress.q1": "Hvorfor skulle en mindre fil se bedre ut etter opplasting?",
+      "shapeFaq.social-compress.a1": "Fordi plattformen ikke lenger trenger å behandle den. Når et bilde er større enn det plattformen viser, blir det automatisk skalert ned og komprimert på nytt, ofte med lav kvalitet, og det er derfra utflytende detaljer og blokkete himmel kommer. Et bilde som allerede kommer i riktig størrelse og med sRGB-farger, lagres nesten nøyaktig slik du sendte det.",
+      "shapeFaq.social-compress.q2": "Hvordan skiller dette seg fra den vanlige bildekomprimeringen?",
+      "shapeFaq.social-compress.a2": "Den vanlige bildekomprimeringen beholder dimensjonene og formatet på filen din og presser bare sammen dataene. Dette verktøyet endrer i tillegg bildets størrelse til plattformens visningsstørrelse og konverterer det til en sRGB-JPG, og det er det som utgjør forskjellen på sosiale medier. Gjennomsiktige områder i en PNG blir hvite, fordi JPG ikke støtter gjennomsiktighet."
+    }
+  }
+}

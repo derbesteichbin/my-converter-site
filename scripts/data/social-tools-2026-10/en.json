@@ -1,0 +1,93 @@
+{
+  "replace": {
+    "categoryDescriptions": {
+      "Social Media": "Resize photos for every platform, make profile pictures, compress uploads, turn PDFs into images and combine photos into collages."
+    }
+  },
+  "toolNames": {
+    "resize-for-social-media": "Resize for Social Media",
+    "profile-picture-maker": "Profile Picture Maker",
+    "social-media-image-compressor": "Image Compressor for Social Media"
+  },
+  "tool": {
+    "socialOpt": {
+      "preset": {
+        "label": "Platform / aspect ratio",
+        "9x16": "9:16 — TikTok, Reels, Stories, Shorts",
+        "1x1": "1:1 — Square feed post",
+        "4x5": "4:5 — Instagram portrait post",
+        "16x9": "16:9 — YouTube and landscape"
+      },
+      "fit": {
+        "label": "Framing",
+        "cover": "Crop to fill the frame (keeps the subject in view)",
+        "contain": "Fit the whole image (adds a background)"
+      },
+      "background": {
+        "label": "Background",
+        "blur": "Blurred copy of the image",
+        "white": "White",
+        "black": "Black"
+      },
+      "shape": {
+        "label": "Shape",
+        "square": "Square",
+        "circle": "Circle (transparent PNG)"
+      },
+      "size": {
+        "label": "Size",
+        "400": "400 × 400 px — small file",
+        "800": "800 × 800 px — recommended",
+        "1080": "1080 × 1080 px — extra sharp"
+      },
+      "target": {
+        "label": "Platform",
+        "instagram": "Instagram — up to 1080 px",
+        "facebook": "Facebook — up to 2048 px",
+        "x": "X (Twitter) — up to 4096 px"
+      }
+    },
+    "socialCircleNote": "Round avatars are saved as PNG so the corners stay transparent.",
+    "socialBadType": "This tool accepts JPG, PNG, WebP, AVIF, GIF and TIFF images. For iPhone HEIC photos, use HEIC to JPG first.",
+    "socialBadOption": "One of the selected options is not available. Please reload the page and try again.",
+    "socialPreviewAlt": "Preview of the result"
+  },
+  "toolDescriptions": {
+    "resize-for-social-media": "Reframe any photo for TikTok, Reels, Stories, Shorts, square posts, Instagram portrait or YouTube — crop to fill the frame around the subject, or fit the whole picture on a blurred or plain background.",
+    "profile-picture-maker": "Turn any photo into a sharp square profile picture centred on the face or subject — or a round avatar with a transparent background. Ready for Instagram, LinkedIn, X, Facebook and more.",
+    "social-media-image-compressor": "Shrink photos to the size Instagram, Facebook or X actually display and save them as high-quality JPG, so the platform does not compress them again and blur the details."
+  },
+  "pack": {
+    "reasons": {
+      "resize-for-social-media": "Every platform crops to its own shape: a landscape photo posted as a Story gets black bars or loses its edges, and a tall phone shot is cut down in the feed — reframing it yourself decides what stays in the picture.",
+      "profile-picture-maker": "Profile photos are shown tiny and usually cut into a circle, so a casual snapshot often ends up with the face off-centre or cropped; a properly framed square fixes that before you upload.",
+      "social-media-image-compressor": "Phone photos are often 4000 pixels wide and several megabytes; when a platform shrinks them to its display size itself, it also compresses them hard, which is where blur and blocky skies come from."
+    },
+    "t": {
+      "intro.lead.social-resize": "Resize for Social Media reframes a photo to the exact shape a platform expects: 9:16 for TikTok, Reels, Stories and Shorts, 1:1 for square feed posts, 4:5 for Instagram portrait posts and 16:9 for YouTube. You decide whether the picture is cropped to fill the frame, centred on its most interesting part, or shown whole on a blurred or plain background.",
+      "steps.social-resize.1": "Drop your photo onto the upload area at the top of this page, or click it to choose one from your device or take a new picture.",
+      "steps.social-resize.2": "Choose the platform format, then decide whether to crop to fill the frame or fit the whole image on a background.",
+      "steps.social-resize.3": "Click Convert and download the reframed image. The download link stays live for 24 hours.",
+      "shapeFaq.social-resize.q1": "Should I crop or fit my photo?",
+      "shapeFaq.social-resize.a1": "Crop when the subject sits comfortably inside the new shape: the image fills the whole screen and looks native to the platform, and the crop is centred on the most interesting part of the picture. Fit when nothing may be cut off, such as a group photo or a poster with text near the edges; the whole picture stays visible on a blurred copy of itself or on a white or black background.",
+      "shapeFaq.social-resize.q2": "Which size does each format produce?",
+      "shapeFaq.social-resize.a2": "9:16 gives 1080 × 1920 pixels, 1:1 gives 1080 × 1080, 4:5 gives 1080 × 1350 and 16:9 gives 1920 × 1080 — the upload sizes the platforms themselves recommend. At exactly these sizes the platform does not need to crop or rescale your picture again.",
+      "intro.lead.profile-picture": "Profile Picture Maker crops a photo to a square centred on the face or main subject and scales it to a standard avatar size of 400, 800 or 1080 pixels. Choose the round version instead and the corners become transparent, so the avatar looks right on any background.",
+      "steps.profile-picture.1": "Drop a photo of yourself, your logo or your brand onto the upload area, or click it to choose one or take a picture.",
+      "steps.profile-picture.2": "Choose square or circle and a size — 800 × 800 pixels suits every major platform.",
+      "steps.profile-picture.3": "Click Convert, check the square and round preview, then download your new profile picture.",
+      "shapeFaq.profile-picture.q1": "Should I upload a square or a round profile picture?",
+      "shapeFaq.profile-picture.a1": "Usually the square one. Instagram, Facebook, LinkedIn, X and YouTube all ask for a square image and cut it into a circle themselves; the round preview shows you how that will look. The round PNG with transparent corners is for places that show the file exactly as it is, such as websites, email signatures, presentations or chat apps.",
+      "shapeFaq.profile-picture.q2": "Which size should I choose?",
+      "shapeFaq.profile-picture.a2": "800 × 800 pixels is the safe choice: sharper than any platform displays a profile photo, yet still a small file. 400 × 400 is enough for LinkedIn, X and Facebook, and 1080 × 1080 gives extra detail for high-resolution screens or for reuse in print.",
+      "intro.lead.social-compress": "Image Compressor for Social Media scales a photo down to the largest size the platform actually displays — 1080 pixels for Instagram, 2048 for Facebook, 4096 for X — converts it to the sRGB colours every app expects and saves it as a high-quality JPG. Pictures that are already smaller are never enlarged.",
+      "steps.social-compress.1": "Drop your photo onto the upload area at the top of this page, or click it to choose one. You can add several photos at once.",
+      "steps.social-compress.2": "Choose the platform you are posting to and click Convert.",
+      "steps.social-compress.3": "Download the optimised JPG and upload it to the platform. The link stays live for 24 hours.",
+      "shapeFaq.social-compress.q1": "Why would a smaller file look better after uploading?",
+      "shapeFaq.social-compress.a1": "Because the platform no longer has to process it. When a photo is larger than the platform shows, it is downscaled and recompressed automatically, often at low quality, which is where smeared detail and blocky skies come from. A photo that already arrives at the right size and in sRGB colour is stored almost exactly as you sent it.",
+      "shapeFaq.social-compress.q2": "How is this different from the regular Image Compressor?",
+      "shapeFaq.social-compress.a2": "The regular Image Compressor keeps the dimensions and format of your file and only squeezes the data. This tool also resizes the photo to the platform's display size and converts it to an sRGB JPG, which is what makes the difference on social media. Transparent areas of a PNG become white, because JPG has no transparency."
+    }
+  }
+}

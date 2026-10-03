@@ -173,7 +173,7 @@ const en = {
     'Smart Functions': 'Smart Functions',
   },
   categoryDescriptions: {
-    "Social Media": "Turn PDFs into postable images and combine photos into collages for Instagram and other platforms.",
+    "Social Media": "Resize photos for every platform, make profile pictures, compress uploads, turn PDFs into images and combine photos into collages.",
     Document: 'Convert between PDF, Word, Excel, PowerPoint, and more with perfect formatting preserved.',
     Image: 'Transform images between JPG, PNG, WebP, HEIC, SVG, and other formats with quality control.',
     Video: 'Convert video files between MP4, AVI, MOV, MKV, WebM, and extract audio tracks.',
@@ -185,6 +185,11 @@ const en = {
     'Smart Functions': 'AI-powered tools — OCR, intelligent PDF compression, and more. New features arriving soon.',
   },
   tool: {
+    "socialOpt": {"preset":{"label":"Platform / aspect ratio","9x16":"9:16 — TikTok, Reels, Stories, Shorts","1x1":"1:1 — Square feed post","4x5":"4:5 — Instagram portrait post","16x9":"16:9 — YouTube and landscape"},"fit":{"label":"Framing","cover":"Crop to fill the frame (keeps the subject in view)","contain":"Fit the whole image (adds a background)"},"background":{"label":"Background","blur":"Blurred copy of the image","white":"White","black":"Black"},"shape":{"label":"Shape","square":"Square","circle":"Circle (transparent PNG)"},"size":{"400":"400 × 400 px — small file","800":"800 × 800 px — recommended","1080":"1080 × 1080 px — extra sharp","label":"Size"},"target":{"label":"Platform","instagram":"Instagram — up to 1080 px","facebook":"Facebook — up to 2048 px","x":"X (Twitter) — up to 4096 px"}},
+    "socialCircleNote": "Round avatars are saved as PNG so the corners stay transparent.",
+    "socialBadType": "This tool accepts JPG, PNG, WebP, AVIF, GIF and TIFF images. For iPhone HEIC photos, use HEIC to JPG first.",
+    "socialBadOption": "One of the selected options is not available. Please reload the page and try again.",
+    "socialPreviewAlt": "Preview of the result",
     "collageLayoutLabel": "Layout",
     "collageLayout_auto": "Auto (up to {{max}} photos)",
     "collageLayout_2by2": "2 × 2 grid (up to {{max}} photos)",
@@ -1021,11 +1026,17 @@ const en = {
   },
 
   toolNames: {
+    "resize-for-social-media": "Resize for Social Media",
+    "profile-picture-maker": "Profile Picture Maker",
+    "social-media-image-compressor": "Image Compressor for Social Media",
     "pdf-to-images": "PDF to Images",
     "photo-collage": "Photo Collage",
   },
 
   toolDescriptions: {
+    "resize-for-social-media": "Reframe any photo for TikTok, Reels, Stories, Shorts, square posts, Instagram portrait or YouTube — crop to fill the frame around the subject, or fit the whole picture on a blurred or plain background.",
+    "profile-picture-maker": "Turn any photo into a sharp square profile picture centred on the face or subject — or a round avatar with a transparent background. Ready for Instagram, LinkedIn, X, Facebook and more.",
+    "social-media-image-compressor": "Shrink photos to the size Instagram, Facebook or X actually display and save them as high-quality JPG, so the platform does not compress them again and blur the details.",
     "jpeg-to-jpg": "Change a .jpeg file to .jpg without touching a single pixel. JPEG and JPG are the same format, so the image is copied unchanged with the new extension.",
     "jpg-to-jpeg": "Change a .jpg file to .jpeg without any quality loss. The picture is copied byte for byte and only gets the extension a form or program expects.",
     "jpg-to-webp": "Convert JPG photos to WebP for noticeably smaller files at similar quality. Ideal for faster websites and better page-speed scores.",

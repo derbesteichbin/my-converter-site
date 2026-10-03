@@ -1,6 +1,9 @@
 // Server-side validation map for all supported tools.
 // Mirrors client/src/toolsConfig.js — keep in sync when adding tools.
 
+// Raster formats sharp can decode with its prebuilt binaries (no HEIC).
+const SHARP_INPUTS = ['jpg', 'jpeg', 'png', 'webp', 'avif', 'gif', 'tiff', 'tif'];
+
 const VALID_TOOLS = {
   // Document
   'pdf-to-word':  { inputFormats: ['pdf'],         outputFormats: ['docx', 'doc'] },
@@ -150,6 +153,11 @@ const VALID_TOOLS = {
   // photo-collage is composed locally with sharp (no CloudConvert).
   'pdf-to-images': { inputFormats: ['pdf'], outputFormats: ['jpg', 'png'], toolType: 'pdf-images' },
   'photo-collage': { inputFormats: ['jpg', 'jpeg', 'png', 'webp', 'avif', 'gif', 'tiff', 'tif'], outputFormats: ['jpg', 'png'], toolType: 'collage' },
+  // Single-image tools run locally with sharp (lib/socialImage.js); their
+  // options (preset, fit, shape, …) are validated there.
+  'resize-for-social-media':       { inputFormats: SHARP_INPUTS, outputFormats: ['jpg', 'png', 'webp'], toolType: 'social-resize' },
+  'profile-picture-maker':         { inputFormats: SHARP_INPUTS, outputFormats: ['png', 'jpg'], toolType: 'profile-picture' },
+  'social-media-image-compressor': { inputFormats: SHARP_INPUTS, outputFormats: ['jpg'], toolType: 'social-compress' },
 };
 
 // Allowed advanced setting keys (whitelist for sanitizing request body)

@@ -1,0 +1,93 @@
+{
+  "replace": {
+    "categoryDescriptions": {
+      "Social Media": "Redimensione fotos para todas as plataformas, crie fotos de perfil, comprima imagens antes de as publicar, transforme PDF em imagens e junte fotos em colagens."
+    }
+  },
+  "toolNames": {
+    "resize-for-social-media": "Redimensionar para redes sociais",
+    "profile-picture-maker": "Criador de fotos de perfil",
+    "social-media-image-compressor": "Compressor de imagens para redes sociais"
+  },
+  "tool": {
+    "socialOpt": {
+      "preset": {
+        "label": "Plataforma / proporção",
+        "9x16": "9:16 — TikTok, Reels, Stories, Shorts",
+        "1x1": "1:1 — Publicação quadrada no feed",
+        "4x5": "4:5 — Publicação vertical no Instagram",
+        "16x9": "16:9 — YouTube e formato horizontal"
+      },
+      "fit": {
+        "label": "Enquadramento",
+        "cover": "Recortar para preencher o quadro (mantém o motivo à vista)",
+        "contain": "Mostrar a imagem inteira (acrescenta um fundo)"
+      },
+      "background": {
+        "label": "Fundo",
+        "blur": "Cópia desfocada da imagem",
+        "white": "Branco",
+        "black": "Preto"
+      },
+      "shape": {
+        "label": "Forma",
+        "square": "Quadrado",
+        "circle": "Círculo (PNG transparente)"
+      },
+      "size": {
+        "400": "400 × 400 px — ficheiro pequeno",
+        "800": "800 × 800 px — recomendado",
+        "1080": "1080 × 1080 px — nitidez extra",
+        "label": "Tamanho"
+      },
+      "target": {
+        "label": "Plataforma",
+        "instagram": "Instagram — até 1080 px",
+        "facebook": "Facebook — até 2048 px",
+        "x": "X (Twitter) — até 4096 px"
+      }
+    },
+    "socialCircleNote": "Os avatares redondos são guardados em PNG para que os cantos fiquem transparentes.",
+    "socialBadType": "Esta ferramenta aceita imagens JPG, PNG, WebP, AVIF, GIF e TIFF. Para fotos HEIC do iPhone, use primeiro «HEIC to JPG».",
+    "socialBadOption": "Uma das opções seleccionadas não está disponível. Recarregue a página e tente novamente.",
+    "socialPreviewAlt": "Pré-visualização do resultado"
+  },
+  "toolDescriptions": {
+    "resize-for-social-media": "Reenquadre qualquer foto para TikTok, Reels, Stories, Shorts, publicações quadradas, Instagram vertical ou YouTube — recorte-a para preencher o quadro em torno do motivo, ou mostre a imagem inteira sobre um fundo desfocado ou liso.",
+    "profile-picture-maker": "Transforme qualquer foto numa foto de perfil quadrada e nítida, centrada no rosto ou no motivo — ou num avatar redondo com fundo transparente. Pronta para Instagram, LinkedIn, X, Facebook e muito mais.",
+    "social-media-image-compressor": "Reduza as fotos ao tamanho que o Instagram, o Facebook ou o X realmente mostram e guarde-as como JPG de alta qualidade, para que a plataforma não as volte a comprimir e esborrate os detalhes."
+  },
+  "pack": {
+    "reasons": {
+      "resize-for-social-media": "Cada plataforma recorta as imagens no seu próprio formato: uma foto horizontal publicada como Story fica com barras pretas ou perde as margens, e uma foto vertical do telemóvel é cortada no feed — reenquadrá-la por si permite decidir o que fica na imagem.",
+      "profile-picture-maker": "As fotos de perfil são mostradas em tamanho minúsculo e normalmente recortadas em círculo, por isso uma fotografia casual acaba muitas vezes com o rosto descentrado ou cortado; um quadrado bem enquadrado resolve isso antes de a carregar.",
+      "social-media-image-compressor": "As fotos de telemóvel têm muitas vezes 4000 píxeis de largura e vários megabytes; quando é a própria plataforma a reduzi-las ao tamanho de visualização, também as comprime fortemente, e é daí que vêm a falta de nitidez e os céus cheios de blocos."
+    },
+    "t": {
+      "intro.lead.social-resize": "Redimensionar para redes sociais reenquadra uma foto no formato exacto que cada plataforma espera: 9:16 para TikTok, Reels, Stories e Shorts, 1:1 para publicações quadradas no feed, 4:5 para publicações verticais no Instagram e 16:9 para o YouTube. Pode decidir se a imagem é recortada para preencher o quadro, centrada na sua parte mais interessante, ou mostrada inteira sobre um fundo desfocado ou liso.",
+      "steps.social-resize.1": "Largue a foto na área de carregamento no topo desta página, ou clique nela para escolher uma no seu dispositivo ou tirar uma nova fotografia.",
+      "steps.social-resize.2": "Escolha o formato da plataforma e decida se quer recortar a foto para preencher o quadro ou mostrar a imagem inteira sobre um fundo.",
+      "steps.social-resize.3": "Clique em Converter e descarregue a imagem reenquadrada. A ligação de transferência mantém-se activa durante 24 horas.",
+      "shapeFaq.social-resize.q1": "Devo recortar a foto ou mostrá-la inteira?",
+      "shapeFaq.social-resize.a1": "Recorte quando o motivo cabe confortavelmente no novo formato: a imagem preenche o ecrã inteiro e parece feita para a plataforma, e o recorte fica centrado na parte mais interessante da foto. Mostre a imagem inteira quando nada pode ser cortado, como numa foto de grupo ou num cartaz com texto junto às margens; a foto fica totalmente visível sobre uma cópia desfocada de si mesma ou sobre um fundo branco ou preto.",
+      "shapeFaq.social-resize.q2": "Que tamanho dá cada formato?",
+      "shapeFaq.social-resize.a2": "9:16 dá 1080 × 1920 píxeis, 1:1 dá 1080 × 1080, 4:5 dá 1080 × 1350 e 16:9 dá 1920 × 1080 — os tamanhos de carregamento que as próprias plataformas recomendam. Com exactamente estes tamanhos, a plataforma não precisa de voltar a recortar nem a redimensionar a sua imagem.",
+      "intro.lead.profile-picture": "O Criador de fotos de perfil recorta uma foto num quadrado centrado no rosto ou no motivo principal e redimensiona-a para um tamanho de avatar padrão de 400, 800 ou 1080 píxeis. Se escolher a versão redonda, os cantos ficam transparentes e o avatar fica bem sobre qualquer fundo.",
+      "steps.profile-picture.1": "Largue uma foto sua, do seu logótipo ou da sua marca na área de carregamento, ou clique nela para escolher uma ou tirar uma fotografia.",
+      "steps.profile-picture.2": "Escolha quadrado ou círculo e um tamanho — 800 × 800 píxeis serve para todas as grandes plataformas.",
+      "steps.profile-picture.3": "Clique em Converter, confira a pré-visualização quadrada e redonda e descarregue a sua nova foto de perfil.",
+      "shapeFaq.profile-picture.q1": "Devo carregar uma foto de perfil quadrada ou redonda?",
+      "shapeFaq.profile-picture.a1": "Normalmente a quadrada. O Instagram, o Facebook, o LinkedIn, o X e o YouTube pedem todos uma imagem quadrada e recortam-na eles próprios em círculo; a pré-visualização redonda mostra-lhe como vai ficar. O PNG redondo com cantos transparentes destina-se a sítios que mostram o ficheiro exactamente como é, como sites, assinaturas de email, apresentações ou aplicações de chat.",
+      "shapeFaq.profile-picture.q2": "Que tamanho devo escolher?",
+      "shapeFaq.profile-picture.a2": "800 × 800 píxeis é a escolha segura: mais nítido do que qualquer plataforma mostra uma foto de perfil e, ainda assim, um ficheiro pequeno. 400 × 400 chega para o LinkedIn, o X e o Facebook, e 1080 × 1080 dá detalhe extra para ecrãs de alta resolução ou para reutilizar em impressão.",
+      "intro.lead.social-compress": "O Compressor de imagens para redes sociais reduz uma foto ao maior tamanho que a plataforma realmente mostra — 1080 píxeis para o Instagram, 2048 para o Facebook, 4096 para o X —, converte-a para as cores sRGB que todas as aplicações esperam e guarda-a como JPG de alta qualidade. As imagens que já são mais pequenas nunca são ampliadas.",
+      "steps.social-compress.1": "Largue a foto na área de carregamento no topo desta página, ou clique nela para escolher uma. Pode adicionar várias fotos de uma vez.",
+      "steps.social-compress.2": "Escolha a plataforma onde vai publicar e clique em Converter.",
+      "steps.social-compress.3": "Descarregue o JPG optimizado e carregue-o na plataforma. A ligação mantém-se activa durante 24 horas.",
+      "shapeFaq.social-compress.q1": "Porque é que um ficheiro mais pequeno fica melhor depois de carregado?",
+      "shapeFaq.social-compress.a1": "Porque a plataforma já não tem de o processar. Quando uma foto é maior do que aquilo que a plataforma mostra, é reduzida e recomprimida automaticamente, muitas vezes com baixa qualidade, e é daí que vêm os detalhes borrados e os céus cheios de blocos. Uma foto que já chega no tamanho certo e com cores sRGB é guardada quase exactamente como a enviou.",
+      "shapeFaq.social-compress.q2": "Em que é que isto difere do Compressor de imagens normal?",
+      "shapeFaq.social-compress.a2": "O Compressor de imagens normal mantém as dimensões e o formato do ficheiro e apenas comprime os dados. Esta ferramenta também redimensiona a foto para o tamanho de visualização da plataforma e converte-a num JPG sRGB, e é isso que faz a diferença nas redes sociais. As áreas transparentes de um PNG ficam brancas, porque o JPG não suporta transparência."
+    }
+  }
+}

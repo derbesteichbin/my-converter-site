@@ -1,0 +1,93 @@
+{
+  "replace": {
+    "categoryDescriptions": {
+      "Social Media": "Upravujte velikost fotek pro každou platformu, vytvářejte profilové obrázky, komprimujte fotky k nahrání, převádějte PDF na obrázky a skládejte fotky do koláží."
+    }
+  },
+  "toolNames": {
+    "resize-for-social-media": "Změna velikosti pro sociální sítě",
+    "profile-picture-maker": "Tvůrce profilového obrázku",
+    "social-media-image-compressor": "Komprese obrázků pro sociální sítě"
+  },
+  "tool": {
+    "socialOpt": {
+      "preset": {
+        "label": "Platforma / poměr stran",
+        "9x16": "9:16 — TikTok, Reels, Stories, Shorts",
+        "1x1": "1:1 — Čtvercový příspěvek do feedu",
+        "4x5": "4:5 — Příspěvek na výšku pro Instagram",
+        "16x9": "16:9 — YouTube a formát na šířku"
+      },
+      "fit": {
+        "label": "Výřez",
+        "cover": "Oříznout a vyplnit rámeček (objekt zůstane v záběru)",
+        "contain": "Zobrazit celý obrázek (přidá pozadí)"
+      },
+      "background": {
+        "label": "Pozadí",
+        "blur": "Rozmazaná kopie obrázku",
+        "white": "Bílé",
+        "black": "Černé"
+      },
+      "shape": {
+        "label": "Tvar",
+        "square": "Čtverec",
+        "circle": "Kruh (průhledný PNG)"
+      },
+      "size": {
+        "400": "400 × 400 px — malý soubor",
+        "800": "800 × 800 px — doporučeno",
+        "1080": "1080 × 1080 px — extra ostré",
+        "label": "Velikost"
+      },
+      "target": {
+        "label": "Platforma",
+        "instagram": "Instagram — až 1080 px",
+        "facebook": "Facebook — až 2048 px",
+        "x": "X (Twitter) — až 4096 px"
+      }
+    },
+    "socialCircleNote": "Kulaté avatary se ukládají jako PNG, aby rohy zůstaly průhledné.",
+    "socialBadType": "Tento nástroj přijímá obrázky JPG, PNG, WebP, AVIF, GIF a TIFF. Fotky HEIC z telefonu iPhone nejprve převeďte nástrojem „HEIC to JPG“.",
+    "socialBadOption": "Jedna z vybraných možností není dostupná. Obnovte prosím stránku a zkuste to znovu.",
+    "socialPreviewAlt": "Náhled výsledku"
+  },
+  "toolDescriptions": {
+    "resize-for-social-media": "Upravte výřez libovolné fotky pro TikTok, Reels, Stories, Shorts, čtvercové příspěvky, Instagram na výšku nebo YouTube — ořízněte ji tak, aby vyplnila rámeček kolem hlavního objektu, nebo zobrazte celý obrázek na rozmazaném či jednobarevném pozadí.",
+    "profile-picture-maker": "Udělejte z libovolné fotky ostrý čtvercový profilový obrázek vycentrovaný na obličej nebo hlavní objekt — nebo kulatý avatar s průhledným pozadím. Připraveno pro Instagram, LinkedIn, X, Facebook a další.",
+    "social-media-image-compressor": "Zmenšete fotky na velikost, ve které je Instagram, Facebook nebo X skutečně zobrazují, a uložte je jako kvalitní JPG, aby je platforma znovu nekomprimovala a nerozmazala detaily."
+  },
+  "pack": {
+    "reasons": {
+      "resize-for-social-media": "Každá platforma ořezává na vlastní tvar: fotka na šířku zveřejněná jako Story dostane černé pruhy nebo přijde o okraje a vysoký snímek z telefonu se ve feedu zkrátí — když si výřez upravíte sami, rozhodujete o tom, co na obrázku zůstane.",
+      "profile-picture-maker": "Profilové fotky se zobrazují maličké a obvykle se ořezávají do kruhu, takže u běžné momentky často skončí obličej mimo střed nebo useknutý; správně oříznutý čtverec to vyřeší ještě před nahráním.",
+      "social-media-image-compressor": "Fotky z telefonu mívají šířku 4000 pixelů a několik megabajtů; když je platforma sama zmenší na svou zobrazovací velikost, zároveň je silně zkomprimuje, a odtud se berou rozmazané detaily a kostičkovaná obloha."
+    },
+    "t": {
+      "intro.lead.social-resize": "Změna velikosti pro sociální sítě upraví fotku přesně na tvar, který platforma očekává: 9:16 pro TikTok, Reels, Stories a Shorts, 1:1 pro čtvercové příspěvky do feedu, 4:5 pro příspěvky na výšku na Instagram a 16:9 pro YouTube. Sami rozhodnete, zda se obrázek ořízne tak, aby vyplnil rámeček, a vycentruje se na svou nejzajímavější část, nebo se zobrazí celý na rozmazaném či jednobarevném pozadí.",
+      "steps.social-resize.1": "Přetáhněte svou fotku do oblasti pro nahrávání v horní části této stránky, nebo na ni klikněte a vyberte fotku ze zařízení či pořiďte novou.",
+      "steps.social-resize.2": "Zvolte formát platformy a pak rozhodněte, zda obrázek oříznout a vyplnit rámeček, nebo zobrazit celý obrázek na pozadí.",
+      "steps.social-resize.3": "Klikněte na Převést a stáhněte si upravený obrázek. Odkaz ke stažení zůstává aktivní 24 hodin.",
+      "shapeFaq.social-resize.q1": "Mám fotku oříznout, nebo zobrazit celou?",
+      "shapeFaq.social-resize.a1": "Ořízněte ji, když se hlavní objekt do nového tvaru pohodlně vejde: obrázek vyplní celou obrazovku a na platformě působí přirozeně, a výřez se vycentruje na nejzajímavější část snímku. Celý obrázek zobrazte, když nesmí nic chybět, například u skupinové fotky nebo plakátu s textem blízko okrajů; celý snímek zůstane vidět na své rozmazané kopii nebo na bílém či černém pozadí.",
+      "shapeFaq.social-resize.q2": "Jakou velikost jednotlivé formáty vytvoří?",
+      "shapeFaq.social-resize.a2": "9:16 dává 1080 × 1920 pixelů, 1:1 dává 1080 × 1080, 4:5 dává 1080 × 1350 a 16:9 dává 1920 × 1080 — tedy velikosti, které pro nahrávání doporučují samy platformy. Při přesně těchto rozměrech už platforma nemusí váš obrázek znovu ořezávat ani přepočítávat.",
+      "intro.lead.profile-picture": "Tvůrce profilového obrázku ořízne fotku na čtverec vycentrovaný na obličej nebo hlavní objekt a upraví ji na standardní velikost avataru 400, 800 nebo 1080 pixelů. Pokud místo toho zvolíte kulatou verzi, rohy budou průhledné, takže avatar bude vypadat dobře na jakémkoli pozadí.",
+      "steps.profile-picture.1": "Přetáhněte do oblasti pro nahrávání svou fotku, logo nebo obrázek své značky, nebo na ni klikněte, vyberte soubor či pořiďte snímek.",
+      "steps.profile-picture.2": "Zvolte čtverec nebo kruh a velikost — 800 × 800 pixelů se hodí pro všechny hlavní platformy.",
+      "steps.profile-picture.3": "Klikněte na Převést, zkontrolujte čtvercový i kulatý náhled a pak si stáhněte nový profilový obrázek.",
+      "shapeFaq.profile-picture.q1": "Mám nahrát čtvercový, nebo kulatý profilový obrázek?",
+      "shapeFaq.profile-picture.a1": "Obvykle čtvercový. Instagram, Facebook, LinkedIn, X i YouTube chtějí čtvercový obrázek a do kruhu ho ořežou samy; kulatý náhled vám ukáže, jak to bude vypadat. Kulatý PNG s průhlednými rohy je určen pro místa, která soubor zobrazují přesně tak, jak je, například weby, e-mailové podpisy, prezentace nebo chatovací aplikace.",
+      "shapeFaq.profile-picture.q2": "Jakou velikost mám zvolit?",
+      "shapeFaq.profile-picture.a2": "800 × 800 pixelů je bezpečná volba: ostřejší, než v jaké velikosti kterákoli platforma profilovou fotku zobrazuje, a přesto malý soubor. 400 × 400 stačí pro LinkedIn, X a Facebook a 1080 × 1080 přidá detaily pro displeje s vysokým rozlišením nebo pro další použití v tisku.",
+      "intro.lead.social-compress": "Komprese obrázků pro sociální sítě zmenší fotku na největší velikost, kterou platforma skutečně zobrazuje (1080 pixelů pro Instagram, 2048 pro Facebook, 4096 pro X), převede ji do barev sRGB, které očekává každá aplikace, a uloží ji jako kvalitní JPG. Obrázky, které už jsou menší, se nikdy nezvětšují.",
+      "steps.social-compress.1": "Přetáhněte svou fotku do oblasti pro nahrávání v horní části této stránky, nebo na ni klikněte a vyberte ji. Můžete přidat i více fotek najednou.",
+      "steps.social-compress.2": "Zvolte platformu, na kterou budete fotku nahrávat, a klikněte na Převést.",
+      "steps.social-compress.3": "Stáhněte si optimalizovaný JPG a nahrajte ho na platformu. Odkaz zůstává aktivní 24 hodin.",
+      "shapeFaq.social-compress.q1": "Proč by menší soubor měl po nahrání vypadat lépe?",
+      "shapeFaq.social-compress.a1": "Protože ho platforma už nemusí zpracovávat. Když je fotka větší, než platforma zobrazuje, automaticky se zmenší a znovu zkomprimuje, často v nízké kvalitě, a odtud se berou rozmazané detaily a kostičkovaná obloha. Fotka, která už dorazí ve správné velikosti a v barvách sRGB, se uloží téměř přesně tak, jak jste ji poslali.",
+      "shapeFaq.social-compress.q2": "Čím se to liší od běžné komprese obrázků?",
+      "shapeFaq.social-compress.a2": "Běžná komprese obrázků zachová rozměry i formát vašeho souboru a pouze zhustí data. Tento nástroj navíc zmenší fotku na zobrazovací velikost platformy a převede ji na JPG v sRGB, a právě to na sociálních sítích dělá rozdíl. Průhledné oblasti PNG zbělají, protože JPG průhlednost nepodporuje."
+    }
+  }
+}

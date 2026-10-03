@@ -1,0 +1,93 @@
+{
+  "replace": {
+    "categoryDescriptions": {
+      "Social Media": "Dopasowuj zdjęcia do każdej platformy, twórz zdjęcia profilowe, kompresuj obrazy przed publikacją, zamieniaj PDF-y na obrazy i łącz zdjęcia w kolaże."
+    }
+  },
+  "toolNames": {
+    "resize-for-social-media": "Zmiana rozmiaru do mediów społecznościowych",
+    "profile-picture-maker": "Kreator zdjęć profilowych",
+    "social-media-image-compressor": "Kompresor obrazów do mediów społecznościowych"
+  },
+  "tool": {
+    "socialOpt": {
+      "preset": {
+        "label": "Platforma / proporcje obrazu",
+        "9x16": "9:16 — TikTok, Reels, Stories, Shorts",
+        "1x1": "1:1 — Kwadratowy post w feedzie",
+        "4x5": "4:5 — Pionowy post w serwisie Instagram",
+        "16x9": "16:9 — YouTube i format poziomy"
+      },
+      "fit": {
+        "label": "Kadrowanie",
+        "cover": "Przytnij, aby wypełnić kadr (obiekt pozostaje widoczny)",
+        "contain": "Dopasuj cały obraz (dodaje tło)"
+      },
+      "background": {
+        "label": "Tło",
+        "blur": "Rozmyta kopia obrazu",
+        "white": "Białe",
+        "black": "Czarne"
+      },
+      "shape": {
+        "label": "Kształt",
+        "square": "Kwadrat",
+        "circle": "Koło (przezroczysty PNG)"
+      },
+      "size": {
+        "400": "400 × 400 px — mały plik",
+        "800": "800 × 800 px — zalecany",
+        "1080": "1080 × 1080 px — wyjątkowo ostry",
+        "label": "Rozmiar"
+      },
+      "target": {
+        "label": "Platforma",
+        "instagram": "Instagram — do 1080 px",
+        "facebook": "Facebook — do 2048 px",
+        "x": "X (Twitter) — do 4096 px"
+      }
+    },
+    "socialCircleNote": "Okrągłe awatary są zapisywane jako PNG, aby rogi pozostały przezroczyste.",
+    "socialBadType": "To narzędzie przyjmuje obrazy JPG, PNG, WebP, AVIF, GIF i TIFF. Zdjęcia HEIC z iPhone'a najpierw przekonwertuj narzędziem „HEIC to JPG”.",
+    "socialBadOption": "Jedna z wybranych opcji jest niedostępna. Odśwież stronę i spróbuj ponownie.",
+    "socialPreviewAlt": "Podgląd wyniku"
+  },
+  "toolDescriptions": {
+    "resize-for-social-media": "Zmień kadr dowolnego zdjęcia pod TikTok, Reels, Stories i Shorts, kwadratowe posty, pionowe posty w serwisie Instagram lub filmy w serwisie YouTube — przytnij je, aby wypełnić kadr wokół obiektu, albo dopasuj całe zdjęcie na rozmytym lub jednolitym tle.",
+    "profile-picture-maker": "Zamień dowolne zdjęcie w ostre, kwadratowe zdjęcie profilowe wyśrodkowane na twarzy lub obiekcie — albo w okrągły awatar z przezroczystym tłem. Gotowe dla serwisów Instagram, LinkedIn, X, Facebook i innych.",
+    "social-media-image-compressor": "Zmniejsz zdjęcia do rozmiaru, w jakim faktycznie wyświetlają je Instagram, Facebook czy X, i zapisz je jako wysokiej jakości JPG, aby platforma nie kompresowała ich ponownie i nie rozmywała szczegółów."
+  },
+  "pack": {
+    "reasons": {
+      "resize-for-social-media": "Każda platforma przycina obraz do własnego kształtu: poziome zdjęcie opublikowane jako Story dostaje czarne pasy albo traci krawędzie, a wysokie zdjęcie z telefonu zostaje w feedzie obcięte — samodzielne kadrowanie pozwala zdecydować, co zostanie na zdjęciu.",
+      "profile-picture-maker": "Zdjęcia profilowe są wyświetlane w bardzo małym rozmiarze i zwykle przycinane do koła, więc przypadkowe ujęcie często kończy się twarzą przesuniętą względem środka albo uciętą; dobrze wykadrowany kwadrat rozwiązuje ten problem jeszcze przed przesłaniem.",
+      "social-media-image-compressor": "Zdjęcia z telefonu mają często 4000 pikseli szerokości i kilka megabajtów; gdy platforma sama zmniejsza je do rozmiaru wyświetlania, przy okazji mocno je kompresuje — i stąd biorą się rozmycia oraz niebo pocięte na kwadratowe bloki."
+    },
+    "t": {
+      "intro.lead.social-resize": "Zmiana rozmiaru do mediów społecznościowych kadruje zdjęcie dokładnie do kształtu, jakiego oczekuje platforma: 9:16 dla TikTok, Reels, Stories i Shorts, 1:1 dla kwadratowych postów w feedzie, 4:5 dla pionowych postów w serwisie Instagram i 16:9 dla serwisu YouTube. To ty decydujesz, czy obraz zostanie przycięty, aby wypełnić kadr, i wyśrodkowany na najciekawszej części, czy pokazany w całości na rozmytym lub jednolitym tle.",
+      "steps.social-resize.1": "Upuść zdjęcie na obszar przesyłania u góry tej strony albo kliknij go, aby wybrać zdjęcie z urządzenia lub zrobić nowe.",
+      "steps.social-resize.2": "Wybierz format platformy, a następnie zdecyduj, czy przyciąć zdjęcie, aby wypełnić kadr, czy dopasować cały obraz na tle.",
+      "steps.social-resize.3": "Kliknij Konwertuj i pobierz obraz w nowym kadrze. Odnośnik do pobrania działa przez 24 godziny.",
+      "shapeFaq.social-resize.q1": "Przyciąć zdjęcie czy dopasować cały obraz?",
+      "shapeFaq.social-resize.a1": "Przytnij, gdy obiekt swobodnie mieści się w nowym kształcie: obraz wypełnia wtedy cały ekran i wygląda naturalnie na platformie, a kadr jest wyśrodkowany na najciekawszej części zdjęcia. Dopasuj cały obraz, gdy nic nie może zostać ucięte, np. przy zdjęciu grupowym lub plakacie z tekstem przy krawędziach; całe zdjęcie pozostaje widoczne na swojej rozmytej kopii albo na białym lub czarnym tle.",
+      "shapeFaq.social-resize.q2": "Jaki rozmiar daje każdy format?",
+      "shapeFaq.social-resize.a2": "9:16 daje 1080 × 1920 pikseli, 1:1 daje 1080 × 1080, 4:5 daje 1080 × 1350, a 16:9 daje 1920 × 1080 — to rozmiary przesyłanych plików zalecane przez same platformy. Przy dokładnie tych rozmiarach platforma nie musi ponownie przycinać ani skalować twojego zdjęcia.",
+      "intro.lead.profile-picture": "Kreator zdjęć profilowych przycina zdjęcie do kwadratu wyśrodkowanego na twarzy lub głównym obiekcie i skaluje je do standardowego rozmiaru awatara: 400, 800 lub 1080 pikseli. Jeśli zamiast tego wybierzesz wersję okrągłą, rogi staną się przezroczyste, więc awatar będzie dobrze wyglądał na każdym tle.",
+      "steps.profile-picture.1": "Upuść swoje zdjęcie, logo lub grafikę marki na obszar przesyłania albo kliknij go, aby wybrać plik lub zrobić zdjęcie.",
+      "steps.profile-picture.2": "Wybierz kwadrat lub koło oraz rozmiar — 800 × 800 pikseli pasuje do każdej dużej platformy.",
+      "steps.profile-picture.3": "Kliknij Konwertuj, sprawdź kwadratowy i okrągły podgląd, a następnie pobierz nowe zdjęcie profilowe.",
+      "shapeFaq.profile-picture.q1": "Przesłać kwadratowe czy okrągłe zdjęcie profilowe?",
+      "shapeFaq.profile-picture.a1": "Zazwyczaj kwadratowe. Instagram, Facebook, LinkedIn, X i YouTube wymagają kwadratowego obrazu i same przycinają go do koła; okrągły podgląd pokazuje, jak to będzie wyglądać. Okrągły PNG z przezroczystymi rogami jest przeznaczony do miejsc, które wyświetlają plik dokładnie takim, jaki jest, np. stron internetowych, podpisów e-mail, prezentacji czy komunikatorów.",
+      "shapeFaq.profile-picture.q2": "Jaki rozmiar wybrać?",
+      "shapeFaq.profile-picture.a2": "800 × 800 pikseli to bezpieczny wybór: ostrzejszy, niż jakakolwiek platforma wyświetla zdjęcie profilowe, a przy tym wciąż mały plik. 400 × 400 wystarcza dla serwisów LinkedIn, X i Facebook, a 1080 × 1080 daje dodatkowe szczegóły na ekranach o wysokiej rozdzielczości lub do ponownego użycia w druku.",
+      "intro.lead.social-compress": "Kompresor obrazów do mediów społecznościowych zmniejsza zdjęcie do największego rozmiaru, jaki platforma faktycznie wyświetla — 1080 pikseli dla serwisu Instagram, 2048 dla serwisu Facebook, 4096 dla serwisu X — konwertuje je do kolorów sRGB, których oczekuje każda aplikacja, i zapisuje jako wysokiej jakości JPG. Obrazy, które już są mniejsze, nigdy nie są powiększane.",
+      "steps.social-compress.1": "Upuść zdjęcie na obszar przesyłania u góry tej strony albo kliknij go, aby wybrać plik. Możesz dodać kilka zdjęć naraz.",
+      "steps.social-compress.2": "Wybierz platformę, na której publikujesz, i kliknij Konwertuj.",
+      "steps.social-compress.3": "Pobierz zoptymalizowany JPG i prześlij go na platformę. Odnośnik działa przez 24 godziny.",
+      "shapeFaq.social-compress.q1": "Dlaczego mniejszy plik wygląda lepiej po przesłaniu?",
+      "shapeFaq.social-compress.a1": "Bo platforma nie musi go już przetwarzać. Gdy zdjęcie jest większe, niż platforma je wyświetla, zostaje automatycznie zmniejszone i ponownie skompresowane, często w niskiej jakości — i stąd biorą się rozmazane szczegóły oraz niebo pocięte na kwadratowe bloki. Zdjęcie, które od razu ma właściwy rozmiar i kolory sRGB, zostaje zapisane niemal dokładnie tak, jak je wysłano.",
+      "shapeFaq.social-compress.q2": "Czym to się różni od zwykłego Kompresora obrazów?",
+      "shapeFaq.social-compress.a2": "Zwykły Kompresor obrazów zachowuje wymiary i format pliku, a jedynie upycha dane. To narzędzie dodatkowo zmienia rozmiar zdjęcia na rozmiar wyświetlania platformy i konwertuje je do JPG w sRGB, i to właśnie robi różnicę w mediach społecznościowych. Przezroczyste obszary PNG stają się białe, ponieważ JPG nie obsługuje przezroczystości."
+    }
+  }
+}
