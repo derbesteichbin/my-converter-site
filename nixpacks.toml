@@ -1,5 +1,10 @@
 [phases.setup]
-nixPkgs = ['nodejs_23']
+# Node 24 (LTS). Must match server/.node-version and engines.node in
+# server/package.json. nodejs_24 is pinned to the Nixpkgs archive that
+# Nixpacks' own Node provider uses for 24, so the attribute exists at build
+# time regardless of the default archive.
+nixPkgs = ['nodejs_24']
+nixpkgsArchive = '23f9169c4ccce521379e602cc82ed873a1f1b52b'
 
 [phases.install]
 cmds = ['npm install']
