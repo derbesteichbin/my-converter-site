@@ -1,0 +1,7 @@
+{
+  "replace": {
+    "faq": {
+      "a9": "Standart dönüştürmeler ve OCR için dosya başına 200 MB. Smart Functions (Metinden konuşmaya, Konuşmadan metne), dosya başına 25 MB ile sınırlıdır (OpenAI API'sinin sıkı sınırı); Otomatik Altyazı Oluşturucu ise ses transkripsiyondan önce çıkarıldığı için 500 MB'a kadar videoları kabul eder. Daha büyük dosyalar için yerel olarak bölün (örn. ffmpeg ile) ve her parçayı dönüştürün. Kurumsal ihtiyaçlar için Support@convertanyformat.com adresine yazın."
+    }
+  }
+}

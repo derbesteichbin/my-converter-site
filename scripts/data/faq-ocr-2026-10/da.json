@@ -1,0 +1,7 @@
+{
+  "replace": {
+    "faq": {
+      "a9": "200 MB pr. fil til standardkonverteringer og OCR. Smart Functions (Tekst til tale, Tale til tekst) er begrænset til 25 MB pr. fil (hård grænse fra OpenAI API); Automatisk undertekstgenerator accepterer videoer op til 500 MB, fordi lyden udtrækkes før transskriptionen. For større filer, opdel dem lokalt (f.eks. med ffmpeg) og konverter hver del. For erhvervsbehov, skriv til Support@convertanyformat.com."
+    }
+  }
+}

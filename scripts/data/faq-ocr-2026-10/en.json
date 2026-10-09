@@ -1,0 +1,7 @@
+{
+  "replace": {
+    "faq": {
+      "a9": "Standard format conversions and OCR accept files up to 200 MB each. Smart Functions tools (Text-to-Speech, Speech-to-Text) are limited to 25 MB per file because that is the hard limit imposed by the OpenAI API; the Auto Subtitle Generator accepts videos up to 500 MB, because the audio is extracted before transcription. If your file exceeds these limits you have a few options: split it locally first (most video editors and the ffmpeg command-line tool can do this), convert each piece separately, then merge afterwards. For very large enterprise needs — recurring multi-gigabyte transcoding, batch processing, or higher rate limits — please contact us at Support@convertanyformat.com to discuss custom arrangements."
+    }
+  }
+}

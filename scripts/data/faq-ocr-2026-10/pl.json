@@ -1,0 +1,7 @@
+{
+  "replace": {
+    "faq": {
+      "a9": "200 MB na plik dla standardowych konwersji i OCR. Smart Functions (Tekst na mowę, Mowa na tekst) ograniczone do 25 MB na plik (twardy limit API OpenAI); Automatyczny generator napisów przyjmuje filmy do 500 MB, ponieważ dźwięk jest wyodrębniany przed transkrypcją. Dla większych plików, podziel je lokalnie (np. ffmpeg) i konwertuj każdą część. Dla potrzeb biznesowych pisz na Support@convertanyformat.com."
+    }
+  }
+}

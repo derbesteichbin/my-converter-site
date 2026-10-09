@@ -1,0 +1,7 @@
+{
+  "replace": {
+    "faq": {
+      "a9": "200 Mo par fichier pour les conversions standard et l'OCR. Les outils Smart Functions (Texte vers parole, Parole vers texte) sont limités à 25 Mo par fichier (limite stricte de l'API OpenAI) ; le Générateur de sous-titres automatique accepte des vidéos jusqu'à 500 Mo, car l'audio est extrait avant la transcription. Pour des fichiers plus volumineux, divisez-les localement (par exemple avec ffmpeg) puis convertissez chaque partie. Pour des besoins entreprises, contactez Support@convertanyformat.com."
+    }
+  }
+}

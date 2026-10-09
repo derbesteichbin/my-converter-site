@@ -1,0 +1,7 @@
+{
+  "replace": {
+    "faq": {
+      "a9": "A szabványos formátumátalakítások és az OCR 200 MB-ig fogadnak el fájlokat. A Smart Functions eszközök (Szöveg-beszéd, Beszéd-szöveg) fájlonként 25 MB-ra korlátozódnak, mert ez az OpenAI API által szabott kemény korlát; az automatikus feliratgenerátor akár 500 MB-os videókat is elfogad, mert a hangot az átírás előtt kivonjuk. Ha a fájlod meghaladja ezeket, először helyileg feloszthatod (a legtöbb videószerkesztő és az ffmpeg parancssoros eszköz képes erre), átalakíthatod minden részt külön-külön, majd egyesítheted utána. Nagyon nagy vállalati igényekre — ismétlődő több gigabájtos átkódolásra, kötegelt feldolgozásra vagy magasabb rate-korlátokra — vegye fel a kapcsolatot a Support@convertanyformat.com címen."
+    }
+  }
+}

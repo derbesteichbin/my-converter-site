@@ -1,0 +1,7 @@
+{
+  "replace": {
+    "faq": {
+      "a9": "Standardkonvertierungen und OCR akzeptieren Dateien bis 200 MB. Smart-Functions-Werkzeuge (Text-zu-Sprache, Sprache-zu-Text) sind auf 25 MB pro Datei begrenzt — das ist die harte Grenze der OpenAI-API; der Untertitelgenerator akzeptiert Videos bis 500 MB, da die Audiospur vor der Transkription extrahiert wird. Bei größeren Dateien können Sie sie lokal aufteilen (z. B. mit ffmpeg), jeden Teil separat konvertieren und anschließend wieder zusammenfügen. Für sehr große Geschäftsanforderungen schreiben Sie bitte an Support@convertanyformat.com — wir besprechen gerne individuelle Lösungen."
+    }
+  }
+}

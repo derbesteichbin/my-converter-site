@@ -1,0 +1,7 @@
+{
+  "replace": {
+    "faq": {
+      "a9": "200 MB por ficheiro para conversões padrão e OCR. Smart Functions (Texto para fala, Fala para texto) limitadas a 25 MB por ficheiro (limite rígido da API OpenAI); o Gerador automático de legendas aceita vídeos até 500 MB, porque o áudio é extraído antes da transcrição. Para ficheiros maiores, divida-os localmente (por exemplo com ffmpeg) e converta cada parte. Para necessidades empresariais, escreva para Support@convertanyformat.com."
+    }
+  }
+}

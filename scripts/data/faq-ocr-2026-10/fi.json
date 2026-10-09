@@ -1,0 +1,7 @@
+{
+  "replace": {
+    "faq": {
+      "a9": "Vakiomuunnokset ja OCR hyväksyvät jopa 200 Mt tiedostoja. Smart Functions -työkalut (Tekstistä puheeksi, Puheesta tekstiksi) on rajoitettu 25 Mt:iin tiedostoa kohti, koska se on OpenAI API:n asettama kova raja; automaattinen tekstitysgeneraattori hyväksyy jopa 500 Mt:n videot, koska ääni erotetaan ennen transkriptiota. Jos tiedostosi ylittää nämä rajat, voit jakaa sen paikallisesti (useimmat videoeditorit ja ffmpeg-komentorivityökalu osaavat tehdä tämän), muuntaa kunkin osan erikseen ja yhdistää jälkeenpäin. Erittäin suurille yritystarpeille — toistuvalle monen gigatavun transkoodaukselle, eräajolle tai suuremmille rate-rajoille — ota yhteyttä Support@convertanyformat.com."
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "replace": {
+    "faq": {
+      "a9": "200 MB pe fișier pentru conversii standard și OCR. Smart Functions (Text în vorbire, Vorbire în text) sunt limitate la 25 MB pe fișier (limită strictă a API-ului OpenAI); Generatorul automat de subtitrări acceptă videoclipuri de până la 500 MB, deoarece sunetul este extras înainte de transcriere. Pentru fișiere mai mari, împărțiți-le local (de ex. cu ffmpeg) și convertiți fiecare parte. Pentru nevoi de afaceri, scrieți la Support@convertanyformat.com."
+    }
+  }
+}

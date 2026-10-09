@@ -1,0 +1,7 @@
+{
+  "replace": {
+    "faq": {
+      "a9": "200 MB na soubor pro standardní konverze a OCR. Smart Functions (Text na řeč, Řeč na text) jsou omezeny na 25 MB na soubor (tvrdý limit OpenAI API); Automatický generátor titulků přijímá videa až do 500 MB, protože se před přepisem nejprve extrahuje zvuk. U větších souborů je rozdělte lokálně (např. pomocí ffmpeg) a převeďte každou část. Pro firemní potřeby pište na Support@convertanyformat.com."
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "replace": {
+    "faq": {
+      "a9": "200 MB per file per le conversioni standard e l'OCR. Smart Functions (Da testo a voce, Da voce a testo) limitate a 25 MB per file (limite rigido dell'API OpenAI); il Generatore automatico di sottotitoli accetta video fino a 500 MB, perché l'audio viene estratto prima della trascrizione. Per file più grandi, dividili localmente (ad esempio con ffmpeg) e converti ogni parte. Per esigenze aziendali, scrivi a Support@convertanyformat.com."
+    }
+  }
+}

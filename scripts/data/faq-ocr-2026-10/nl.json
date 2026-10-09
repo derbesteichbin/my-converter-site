@@ -1,0 +1,7 @@
+{
+  "replace": {
+    "faq": {
+      "a9": "200 MB per bestand voor standaardconversies en OCR. Smart Functions (Tekst naar spraak, Spraak naar tekst) beperkt tot 25 MB per bestand (harde limiet van de OpenAI API); de Automatische ondertitelgenerator accepteert video's tot 500 MB, omdat de audio vóór de transcriptie wordt geëxtraheerd. Voor grotere bestanden, splits ze lokaal (bijv. met ffmpeg) en converteer elk deel. Voor bedrijfsbehoeften, schrijf naar Support@convertanyformat.com."
+    }
+  }
+}
