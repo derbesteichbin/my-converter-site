@@ -6,6 +6,7 @@ import SEO from '../components/SEO';
 import { api, API_URL } from '../api';
 import { getToolBySlug, getToolLabel, getToolDescription, ADVANCED_SETTINGS, COLLAGE_LAYOUTS, COLLAGE_FITS, COLLAGE_MIN_PHOTOS, SOCIAL_OPTIONS, socialOptionDefaults, SOCIAL_VIDEO_INPUTS, SOCIAL_VIDEO_MAX_BYTES, SOCIAL_VIDEO_MAX_SECONDS, SOCIAL_VIDEO_CREDITS } from '../toolsConfig';
 import { useToast } from '../components/Toast';
+import CropPicker from '../components/CropPicker';
 
 // The per-tool SEO content (intro, how-to, FAQ + FAQPage structured data)
 // carries a sizeable format knowledge base, so it is code-split into its own
@@ -279,6 +280,9 @@ export default function ToolPage() {
   const [collageLayout, setCollageLayout] = useState('auto');
   const [collageFit, setCollageFit] = useState('cover');
   const [socialValues, setSocialValues] = useState(() => socialOptionDefaults(toolDef?.toolType));
+  // Resize for Social Media: the crop centre the user chose for each image
+  // (File -> { x, y }). Images without an entry use the automatic crop.
+  const [cropFocus, setCropFocus] = useState(() => new Map());
   // Object URL of the finished collage, fetched with credentials for the
   // inline preview. Revoked when replaced or on reset.
   const [resultPreview, setResultPreview] = useState('');
@@ -409,6 +413,7 @@ export default function ToolPage() {
     setCollageLayout('auto');
     setCollageFit('cover');
     setSocialValues(socialOptionDefaults(toolDef?.toolType));
+    setCropFocus(new Map());
     setResultPreview('');
     setTtsText('');
     setTtsVoice('alloy');
@@ -923,6 +928,11 @@ export default function ToolPage() {
           formData.append('outputFormat', isSocialResize && isSocialVideo(files[i]) ? 'mp4' : outputFormat);
           formData.append('toolSlug', toolName);
           buildExtraFormData(formData);
+          const focus = isSocialResize && !isSocialVideo(files[i]) && socialValues.fit === 'cover' ? cropFocus.get(files[i]) : null;
+          if (focus) {
+            formData.append('cropX', String(focus.x));
+            formData.append('cropY', String(focus.y));
+          }
 
           // Resize for Social Media has its own route: larger upload limit
           // for video, and per-media pricing.
@@ -1235,6 +1245,21 @@ export default function ToolPage() {
             <p className="tool-options-note">{t('tool.socialCircleNote')}</p>
           )}
         </div>
+      )}
+
+      {/* Resize for Social Media: choose which part of each image is kept
+          when cropping to fill. Images only — video crops are centred. */}
+      {isSocialResize && socialValues.fit === 'cover' && batchHasImage && overallStatus === 'idle' && batchJobs.length === 0 && (
+        <CropPicker
+          files={files.filter((f) => !isSocialVideo(f))}
+          ratio={socialValues.preset}
+          focusFor={(f) => cropFocus.get(f) || null}
+          onChange={(f, focus) => setCropFocus((prev) => {
+            const next = new Map(prev);
+            if (focus) next.set(f, focus); else next.delete(f);
+            return next;
+          })}
+        />
       )}
 
       {/* Photo Collage: grid layout and how each photo fills its square. */}

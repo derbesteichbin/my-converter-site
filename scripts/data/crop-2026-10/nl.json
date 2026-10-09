@@ -1,0 +1,22 @@
+{
+  "tool": {
+    "cropTitle": "Kies het deel dat u wilt houden",
+    "cropHint": "Sleep het kader (of gebruik de pijltjestoetsen) over het deel van de afbeelding dat je wilt houden.",
+    "cropAuto": "Automatisch — volgt het hoofdonderwerp",
+    "cropManual": "Uw selectie",
+    "cropReset": "Terug naar automatisch",
+    "cropPrev": "Vorige afbeelding",
+    "cropNext": "Volgende afbeelding",
+    "cropCounter": "Afbeelding {{current}} van {{total}}",
+    "cropFrameLabel": "Uitsnedekader. Sleep het of gebruik de pijltjestoetsen om het te verplaatsen.",
+    "cropNothingToCrop": "Deze afbeelding heeft al deze vorm — er wordt niets afgesneden.",
+    "cropNoPreview": "Voor dit bestandstype is geen voorbeeld beschikbaar, dus wordt de automatische uitsnede gebruikt."
+  },
+  "pack": {
+    "replace": {
+      "t": {
+        "shapeFaq.social-resize.a1": "Snijd bij als het onderwerp ruim binnen de nieuwe vorm past: de afbeelding vult dan het hele scherm en oogt alsof ze voor het platform is gemaakt. Standaard volgt de uitsnede het interessantste deel van het beeld, en bij foto’s kunt u het kader verslepen om precies te kiezen welk deel behouden blijft. Toon de hele afbeelding als er niets mag wegvallen, zoals bij een groepsfoto of een poster met tekst vlak bij de randen; de volledige foto blijft dan zichtbaar op een vervaagde kopie van zichzelf of op een witte of zwarte achtergrond."
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "tool": {
+    "cropTitle": "Saklanacak kısmı seçin",
+    "cropHint": "Çerçeveyi görselin saklamak istediğiniz kısmının üzerine sürükleyin (veya ok tuşlarını kullanın).",
+    "cropAuto": "Otomatik — ana konuyu takip eder",
+    "cropManual": "Sizin seçiminiz",
+    "cropReset": "Otomatiğe sıfırla",
+    "cropPrev": "Önceki görsel",
+    "cropNext": "Sonraki görsel",
+    "cropCounter": "Görsel {{current}} / {{total}}",
+    "cropFrameLabel": "Kırpma alanı. Taşımak için sürükleyin veya ok tuşlarını kullanın.",
+    "cropNothingToCrop": "Bu görsel zaten bu şekilde — hiçbir şey kesilmeyecek.",
+    "cropNoPreview": "Bu dosya türü için önizleme yok, bu nedenle otomatik kırpma kullanılacak."
+  },
+  "pack": {
+    "replace": {
+      "t": {
+        "shapeFaq.social-resize.a1": "Konu yeni biçimin içine rahatça sığıyorsa kırp: görsel tüm ekranı doldurur ve platforma özgü görünür. Varsayılan olarak kırpma resmin en ilgi çekici kısmını takip eder; fotoğraflarda ise çerçeveyi sürükleyerek tam olarak hangi kısmın kalacağını seçebilirsin. Hiçbir şeyin kesilmemesi gerektiğinde, örneğin bir grup fotoğrafında ya da kenarlarına yakın metin bulunan bir afişte, görselin tamamını sığdır; resmin tamamı kendi bulanık kopyası ya da beyaz veya siyah bir arka plan üzerinde görünür kalır."
+      }
+    }
+  }
+}

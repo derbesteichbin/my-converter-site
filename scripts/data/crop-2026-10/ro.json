@@ -1,0 +1,22 @@
+{
+  "tool": {
+    "cropTitle": "Alege partea de păstrat",
+    "cropHint": "Trage cadrul (sau folosește tastele săgeți) peste partea imaginii pe care vrei să o păstrezi.",
+    "cropAuto": "Automat — urmărește subiectul principal",
+    "cropManual": "Selecția ta",
+    "cropReset": "Revino la automat",
+    "cropPrev": "Imaginea anterioară",
+    "cropNext": "Imaginea următoare",
+    "cropCounter": "Imaginea {{current}} din {{total}}",
+    "cropFrameLabel": "Zona de decupare. Trage-o sau folosește tastele săgeți ca s-o muți.",
+    "cropNothingToCrop": "Imaginea are deja această formă — nu se va tăia nimic.",
+    "cropNoPreview": "Pentru acest tip de fișier nu există previzualizare, așa că se va folosi decuparea automată."
+  },
+  "pack": {
+    "replace": {
+      "t": {
+        "shapeFaq.social-resize.a1": "Decupează când subiectul încape comod în noua formă: imaginea umple tot ecranul și arată ca făcută pentru platformă. Implicit, decuparea urmărește partea cea mai interesantă a imaginii, iar la fotografii poți trage cadrul ca să alegi exact ce parte se păstrează. Încadrează toată imaginea când nu trebuie tăiat nimic, de exemplu la o fotografie de grup sau la un afiș cu text aproape de margini; întreaga imagine rămâne vizibilă pe o copie estompată a ei sau pe un fundal alb ori negru."
+      }
+    }
+  }
+}

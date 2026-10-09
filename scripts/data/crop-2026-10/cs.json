@@ -1,0 +1,22 @@
+{
+  "tool": {
+    "cropTitle": "Vyberte část, kterou chcete zachovat",
+    "cropHint": "Přetáhněte rámeček (nebo použijte šipky) na tu část obrázku, kterou chcete zachovat.",
+    "cropAuto": "Automaticky — sleduje hlavní objekt",
+    "cropManual": "Váš výběr",
+    "cropReset": "Obnovit automatický výřez",
+    "cropPrev": "Předchozí obrázek",
+    "cropNext": "Další obrázek",
+    "cropCounter": "Obrázek {{current}} z {{total}}",
+    "cropFrameLabel": "Oblast ořezu. Přesuňte ji přetažením nebo šipkami.",
+    "cropNothingToCrop": "Tento obrázek už tento tvar má — nic se neořízne.",
+    "cropNoPreview": "Pro tento typ souboru není k dispozici náhled, proto se použije automatický ořez."
+  },
+  "pack": {
+    "replace": {
+      "t": {
+        "shapeFaq.social-resize.a1": "Ořízněte ji, když se hlavní objekt do nového tvaru pohodlně vejde: obrázek vyplní celou obrazovku a na platformě působí přirozeně. Ve výchozím nastavení se výřez řídí nejzajímavější částí snímku a u fotek můžete přetažením rámečku přesně zvolit, která část zůstane. Celý obrázek zobrazte, když nesmí nic chybět, například u skupinové fotky nebo plakátu s textem blízko okrajů; celý snímek zůstane vidět na své rozmazané kopii nebo na bílém či černém pozadí."
+      }
+    }
+  }
+}

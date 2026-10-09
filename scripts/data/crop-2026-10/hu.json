@@ -1,0 +1,22 @@
+{
+  "tool": {
+    "cropTitle": "Válaszd ki a megtartandó részt",
+    "cropHint": "Húzd a keretet (vagy használd a nyílbillentyűket) a kép azon része fölé, amelyet meg szeretnél tartani.",
+    "cropAuto": "Automatikus — követi a fő témát",
+    "cropManual": "Saját kijelölés",
+    "cropReset": "Vissza az automatikusra",
+    "cropPrev": "Előző kép",
+    "cropNext": "Következő kép",
+    "cropCounter": "Kép: {{current}} / {{total}}",
+    "cropFrameLabel": "Vágási terület. Húzd el, vagy mozgasd a nyílbillentyűkkel.",
+    "cropNothingToCrop": "Ez a kép már ilyen formájú — semmi sem vágódik le.",
+    "cropNoPreview": "Ehhez a fájltípushoz nem érhető el előnézet, ezért az automatikus vágást használjuk."
+  },
+  "pack": {
+    "replace": {
+      "t": {
+        "shapeFaq.social-resize.a1": "Vágj, ha a téma kényelmesen elfér az új formában: a kép kitölti az egész képernyőt, és természetesen illeszkedik a platformhoz. Alapértelmezés szerint a vágás a kép legérdekesebb részét követi, fotóknál pedig a keret húzásával pontosan kiválaszthatod, melyik rész maradjon meg. A teljes képet illeszd, ha semmi sem vágódhat le, például csoportképnél vagy olyan plakátnál, amelynek a széleihez közel szöveg van; ilyenkor az egész kép látható marad a saját elmosott másolatán, illetve fehér vagy fekete háttéren."
+      }
+    }
+  }
+}

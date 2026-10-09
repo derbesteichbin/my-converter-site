@@ -1,0 +1,22 @@
+{
+  "tool": {
+    "cropTitle": "Elige la parte que quieres conservar",
+    "cropHint": "Arrastra el marco (o usa las teclas de flecha) sobre la parte de la imagen que quieres conservar.",
+    "cropAuto": "Automático — sigue al motivo principal",
+    "cropManual": "Tu selección",
+    "cropReset": "Volver a automático",
+    "cropPrev": "Imagen anterior",
+    "cropNext": "Imagen siguiente",
+    "cropCounter": "Imagen {{current}} de {{total}}",
+    "cropFrameLabel": "Área de recorte. Arrástrala o muévela con las teclas de flecha.",
+    "cropNothingToCrop": "Esta imagen ya tiene esta forma — no se cortará nada.",
+    "cropNoPreview": "No hay vista previa disponible para este tipo de archivo, así que se usará el recorte automático."
+  },
+  "pack": {
+    "replace": {
+      "t": {
+        "shapeFaq.social-resize.a1": "Recorte cuando el motivo quepa con holgura en la nueva forma: la imagen llena toda la pantalla y parece nativa de la plataforma. De forma predeterminada, el recorte sigue la parte más interesante de la foto y, en las fotos, puede arrastrar el marco para elegir exactamente qué parte se conserva. Encaje cuando no se pueda cortar nada, como en una foto de grupo o un cartel con texto cerca de los bordes; la imagen completa sigue visible sobre una copia desenfocada de sí misma o sobre un fondo blanco o negro."
+      }
+    }
+  }
+}

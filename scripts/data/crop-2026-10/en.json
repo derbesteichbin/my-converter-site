@@ -1,0 +1,22 @@
+{
+  "tool": {
+    "cropTitle": "Choose the part to keep",
+    "cropHint": "Drag the frame (or use the arrow keys) over the part of the image you want to keep.",
+    "cropAuto": "Automatic — follows the main subject",
+    "cropManual": "Your selection",
+    "cropReset": "Reset to automatic",
+    "cropPrev": "Previous image",
+    "cropNext": "Next image",
+    "cropCounter": "Image {{current}} of {{total}}",
+    "cropFrameLabel": "Crop area. Drag it or use the arrow keys to move it.",
+    "cropNothingToCrop": "This image already has this shape — nothing will be cut off.",
+    "cropNoPreview": "No preview is available for this file type, so the automatic crop will be used."
+  },
+  "pack": {
+    "replace": {
+      "t": {
+        "shapeFaq.social-resize.a1": "Crop when the subject sits comfortably inside the new shape: the image fills the whole screen and looks native to the platform. By default the crop follows the most interesting part of the picture, and for photos you can drag the frame to choose exactly which part is kept. Fit when nothing may be cut off, such as a group photo or a poster with text near the edges; the whole picture stays visible on a blurred copy of itself or on a white or black background."
+      }
+    }
+  }
+}

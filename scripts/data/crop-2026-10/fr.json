@@ -1,0 +1,22 @@
+{
+  "tool": {
+    "cropTitle": "Choisissez la partie à garder",
+    "cropHint": "Faites glisser le cadre (ou utilisez les flèches du clavier) sur la partie de l'image que vous voulez garder.",
+    "cropAuto": "Automatique — suit le sujet principal",
+    "cropManual": "Votre sélection",
+    "cropReset": "Revenir en automatique",
+    "cropPrev": "Image précédente",
+    "cropNext": "Image suivante",
+    "cropCounter": "Image {{current}} sur {{total}}",
+    "cropFrameLabel": "Zone de recadrage. Faites-la glisser ou déplacez-la avec les flèches du clavier.",
+    "cropNothingToCrop": "Cette image a déjà ce format — rien ne sera coupé.",
+    "cropNoPreview": "Aucun aperçu n'est disponible pour ce type de fichier, le recadrage automatique sera donc utilisé."
+  },
+  "pack": {
+    "replace": {
+      "t": {
+        "shapeFaq.social-resize.a1": "Recadrez quand le sujet tient sans peine dans la nouvelle forme : l’image remplit tout l’écran et paraît native sur la plateforme. Par défaut, le recadrage suit la partie la plus intéressante de la photo, et pour les photos vous pouvez faire glisser le cadre pour choisir précisément la partie conservée. Ajustez quand rien ne doit être coupé, comme une photo de groupe ou une affiche avec du texte près des bords ; l’image reste entièrement visible sur une copie floutée d’elle-même ou sur un fond blanc ou noir."
+      }
+    }
+  }
+}

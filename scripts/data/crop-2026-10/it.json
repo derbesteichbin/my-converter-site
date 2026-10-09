@@ -1,0 +1,22 @@
+{
+  "tool": {
+    "cropTitle": "Scegli la parte da tenere",
+    "cropHint": "Trascina il riquadro (o usa i tasti freccia) sulla parte dell'immagine che vuoi tenere.",
+    "cropAuto": "Automatico — segue il soggetto principale",
+    "cropManual": "La tua selezione",
+    "cropReset": "Torna ad automatico",
+    "cropPrev": "Immagine precedente",
+    "cropNext": "Immagine successiva",
+    "cropCounter": "Immagine {{current}} di {{total}}",
+    "cropFrameLabel": "Area di ritaglio. Trascinala o spostala con i tasti freccia.",
+    "cropNothingToCrop": "Questa immagine ha già questa forma — non verrà tagliato nulla.",
+    "cropNoPreview": "Per questo tipo di file non è disponibile un'anteprima, quindi verrà usato il ritaglio automatico."
+  },
+  "pack": {
+    "replace": {
+      "t": {
+        "shapeFaq.social-resize.a1": "Ritagliate quando il soggetto sta comodamente nella nuova forma: l’immagine riempie tutto lo schermo e sembra nativa della piattaforma. Per impostazione predefinita il ritaglio segue la parte più interessante della foto e, per le foto, potete trascinare il riquadro per scegliere esattamente quale parte tenere. Adattate quando non si può tagliare nulla, come in una foto di gruppo o in un poster con testo vicino ai bordi; l’intera immagine resta visibile su una copia sfocata di sé stessa o su uno sfondo bianco o nero."
+      }
+    }
+  }
+}

@@ -10,7 +10,7 @@ const { VALID_TOOLS, ALLOWED_ADVANCED_KEYS, SOCIAL_VIDEO_INPUTS } = require('../
 const { Resend } = require('resend');
 const archiver = require('archiver');
 const { LAYOUTS, validateCollage, buildCollage } = require('../lib/collage');
-const { OPTIONS: SOCIAL_OPTIONS, parseOptions: parseSocialOptions, resolveFormat: resolveSocialFormat, runSocialImage, PRESET_SIZE } = require('../lib/socialImage');
+const { OPTIONS: SOCIAL_OPTIONS, parseOptions: parseSocialOptions, resolveFormat: resolveSocialFormat, runSocialImage, PRESET_SIZE, parseFocus } = require('../lib/socialImage');
 const { videoDuration } = require('../lib/videoDuration');
 
 const router = express.Router();
@@ -595,12 +595,12 @@ async function renameJpeg(jobId, file, outputFormat, chargedUserId = null, charg
 // ── Social Media image tools (resize, profile picture, compress) ─────
 // Single image in, single image out, processed with sharp. Options were
 // validated in the route before the credit was charged.
-async function socialImageJob(jobId, file, toolType, options, requestedFormat, notifyUserId = null, chargedUserId = null, chargedAmount = 0) {
+async function socialImageJob(jobId, file, toolType, options, requestedFormat, notifyUserId = null, chargedUserId = null, chargedAmount = 0, focus = null) {
   const format = resolveSocialFormat(toolType, options, requestedFormat);
   const outputFilename = `${newOutputBase()}.${format}`;
   try {
     await prisma.job.update({ where: { id: jobId }, data: { status: 'processing' } });
-    await runSocialImage(toolType, path.join(UPLOAD_DIR, file.filename), path.join(OUTPUT_DIR, outputFilename), options, format);
+    await runSocialImage(toolType, path.join(UPLOAD_DIR, file.filename), path.join(OUTPUT_DIR, outputFilename), options, format, focus);
     await prisma.job.update({
       where: { id: jobId },
       data: { status: 'done', outputFile: outputFilename },
@@ -877,6 +877,11 @@ router.post('/social-resize', protect, preflightCredits, socialResizeUpload, asy
         return reject(413, { error: 'Image is larger than 200 MB', code: 'social_image_too_large' });
       }
     }
+    // Manual crop position (images, "crop to fill" only), checked before
+    // charging like every other option.
+    const focusParsed = parseFocus(req.body);
+    if (focusParsed.error) return reject(400, { error: 'Invalid crop position', code: focusParsed.error });
+    const focus = !isVideo && options.fit === 'cover' ? focusParsed.focus : null;
 
     const cost = isVideo ? SOCIAL_VIDEO_CREDITS : 1;
     const charge = await chargeCredits(req.userId, cost);
@@ -911,7 +916,7 @@ router.post('/social-resize', protect, preflightCredits, socialResizeUpload, asy
         console.error(`Social video resize failed for job ${job.id}:`, err);
       });
     } else {
-      socialImageJob(job.id, req.file, 'social-resize', options, outputFormat, notifyUserId, req.userId, charged).catch((err) => {
+      socialImageJob(job.id, req.file, 'social-resize', options, outputFormat, notifyUserId, req.userId, charged, focus).catch((err) => {
         console.error(`Social image resize failed for job ${job.id}:`, err);
       });
     }

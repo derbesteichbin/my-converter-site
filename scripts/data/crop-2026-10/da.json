@@ -1,0 +1,22 @@
+{
+  "tool": {
+    "cropTitle": "Vælg den del, du vil beholde",
+    "cropHint": "Træk rammen (eller brug piletasterne) hen over den del af billedet, du vil beholde.",
+    "cropAuto": "Automatisk — følger hovedmotivet",
+    "cropManual": "Dit udsnit",
+    "cropReset": "Nulstil til automatisk",
+    "cropPrev": "Forrige billede",
+    "cropNext": "Næste billede",
+    "cropCounter": "Billede {{current}} af {{total}}",
+    "cropFrameLabel": "Beskæringsområde. Træk i det, eller brug piletasterne for at flytte det.",
+    "cropNothingToCrop": "Dette billede har allerede denne form — intet bliver skåret væk.",
+    "cropNoPreview": "Der er ingen forhåndsvisning for denne filtype, så den automatiske beskæring bruges."
+  },
+  "pack": {
+    "replace": {
+      "t": {
+        "shapeFaq.social-resize.a1": "Beskær, når motivet har god plads inden for den nye form: billedet udfylder hele skærmen og ser ud, som om det hører hjemme på platformen. Som standard følger udsnittet den mest interessante del af billedet, og for fotos kan du trække i rammen for at vælge præcis, hvilken del der bevares. Vis hele billedet, når intet må skæres væk, for eksempel et gruppefoto eller en plakat med tekst tæt på kanterne; hele billedet forbliver synligt på en sløret kopi af sig selv eller på en hvid eller sort baggrund."
+      }
+    }
+  }
+}

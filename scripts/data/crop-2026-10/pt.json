@@ -1,0 +1,22 @@
+{
+  "tool": {
+    "cropTitle": "Escolha a parte a manter",
+    "cropHint": "Arraste o quadro (ou use as teclas de seta) sobre a parte da imagem que quer manter.",
+    "cropAuto": "Automático — segue o motivo principal",
+    "cropManual": "A sua selecção",
+    "cropReset": "Voltar ao automático",
+    "cropPrev": "Imagem anterior",
+    "cropNext": "Imagem seguinte",
+    "cropCounter": "Imagem {{current}} de {{total}}",
+    "cropFrameLabel": "Área de recorte. Arraste-a ou use as teclas de seta para a mover.",
+    "cropNothingToCrop": "Esta imagem já tem este formato — nada será cortado.",
+    "cropNoPreview": "Não há pré-visualização disponível para este tipo de ficheiro, por isso será usado o recorte automático."
+  },
+  "pack": {
+    "replace": {
+      "t": {
+        "shapeFaq.social-resize.a1": "Recorte quando o motivo cabe confortavelmente no novo formato: a imagem preenche o ecrã inteiro e parece feita para a plataforma. Por predefinição, o recorte segue a parte mais interessante da imagem e, no caso das fotos, pode arrastar o quadro para escolher exactamente a parte que fica. Mostre a imagem inteira quando nada pode ser cortado, como numa foto de grupo ou num cartaz com texto junto às margens; a foto fica totalmente visível sobre uma cópia desfocada de si mesma ou sobre um fundo branco ou preto."
+      }
+    }
+  }
+}

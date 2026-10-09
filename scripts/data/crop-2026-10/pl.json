@@ -1,0 +1,22 @@
+{
+  "tool": {
+    "cropTitle": "Wybierz fragment do zachowania",
+    "cropHint": "Przeciągnij ramkę (lub użyj klawiszy strzałek) na fragment obrazu, który chcesz zachować.",
+    "cropAuto": "Automatycznie — podąża za głównym obiektem",
+    "cropManual": "Twój wybór",
+    "cropReset": "Przywróć tryb automatyczny",
+    "cropPrev": "Poprzedni obraz",
+    "cropNext": "Następny obraz",
+    "cropCounter": "Obraz {{current}} z {{total}}",
+    "cropFrameLabel": "Obszar kadrowania. Przeciągnij go lub użyj klawiszy strzałek, aby go przesunąć.",
+    "cropNothingToCrop": "Ten obraz ma już ten kształt — nic nie zostanie ucięte.",
+    "cropNoPreview": "Podgląd tego typu pliku jest niedostępny, dlatego zostanie użyte automatyczne kadrowanie."
+  },
+  "pack": {
+    "replace": {
+      "t": {
+        "shapeFaq.social-resize.a1": "Przytnij, gdy obiekt swobodnie mieści się w nowym kształcie: obraz wypełnia wtedy cały ekran i wygląda naturalnie na platformie. Domyślnie kadr podąża za najciekawszą częścią obrazu, a w przypadku zdjęć możesz przeciągnąć ramkę, aby dokładnie wybrać, który fragment zostanie zachowany. Dopasuj cały obraz, gdy nic nie może zostać ucięte, np. przy zdjęciu grupowym lub plakacie z tekstem przy krawędziach; całe zdjęcie pozostaje widoczne na swojej rozmytej kopii albo na białym lub czarnym tle."
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "tool": {
+    "cropTitle": "Valitse säilytettävä osa",
+    "cropHint": "Vedä kehys (tai käytä nuolinäppäimiä) sen kuvan osan päälle, jonka haluat säilyttää.",
+    "cropAuto": "Automaattinen — seuraa pääkohdetta",
+    "cropManual": "Oma valintasi",
+    "cropReset": "Palauta automaattinen",
+    "cropPrev": "Edellinen kuva",
+    "cropNext": "Seuraava kuva",
+    "cropCounter": "Kuva {{current}}/{{total}}",
+    "cropFrameLabel": "Rajausalue. Siirrä sitä vetämällä tai nuolinäppäimillä.",
+    "cropNothingToCrop": "Kuva on jo tämän muotoinen — mitään ei leikata pois.",
+    "cropNoPreview": "Tälle tiedostotyypille ei ole esikatselua, joten käytetään automaattista rajausta."
+  },
+  "pack": {
+    "replace": {
+      "t": {
+        "shapeFaq.social-resize.a1": "Rajaa, kun kohde mahtuu hyvin uuteen muotoon: kuva täyttää koko näytön ja näyttää alustalle luontevalta. Oletuksena rajaus seuraa kuvan kiinnostavinta kohtaa, ja valokuvissa voit vetää kehystä ja valita tarkalleen, mikä osa säilyy. Sovita koko kuva, kun mitään ei saa leikata pois, esimerkiksi ryhmäkuvassa tai julisteessa, jonka teksti on lähellä reunoja; koko kuva pysyy näkyvissä oman sumennetun kopionsa päällä tai valkoisella tai mustalla taustalla."
+      }
+    }
+  }
+}
