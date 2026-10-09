@@ -12,10 +12,10 @@
     "socialVideoNote": "Les vidéos sont enregistrées en MP4 : le recadrage est centré et l'ajustement ajoute des bandes noires. Chaque vidéo utilise 2 crédits, chaque photo 1 crédit.",
     "videoCreditBadge": "Vidéo · {{count}} crédits",
     "socialVideoTooLong": "« {{name}} » dure plus de 3 minutes. Veuillez la raccourcir à 3 minutes maximum — aucun crédit n'a été utilisé.",
-    "socialVideoTooLarge": "Les vidéos ne peuvent pas dépasser 500 MB. Veuillez utiliser un fichier plus court ou plus léger — aucun crédit n'a été utilisé.",
+    "socialVideoTooLarge": "Les vidéos ne peuvent pas dépasser 500 Mo. Veuillez utiliser un fichier plus court ou plus léger — aucun crédit n'a été utilisé.",
     "socialVideoUnreadable": "Nous n'avons pas pu lire la durée de cette vidéo. Essayez de l'exporter à nouveau en MP4 — aucun crédit n'a été utilisé.",
     "socialResizeBadType": "Utilisez une image JPG, PNG, WebP, AVIF, GIF ou TIFF, ou une vidéo MP4, MOV, M4V, 3GP ou WebM.",
-    "socialImageTooLarge": "Les images ne peuvent pas dépasser 200 MB.",
+    "socialImageTooLarge": "Les images ne peuvent pas dépasser 200 Mo.",
     "confirmSingleFileCredits": "Cette opération convertira 1 fichier et utilisera {{credits}} crédits. Il vous reste {{remaining}} crédits."
   },
   "pack": {
@@ -25,7 +25,7 @@
         "steps.social-resize.1": "Déposez votre photo ou votre vidéo sur la zone d’envoi en haut de cette page, ou cliquez dessus pour choisir un fichier sur votre appareil.",
         "steps.social-resize.2": "Choisissez le format de la plateforme, puis décidez s’il faut recadrer pour remplir le cadre ou ajuster l’image entière.",
         "shapeFaq.social-resize.q2": "Puis-je aussi redimensionner des vidéos, et combien cela coûte-t-il ?",
-        "shapeFaq.social-resize.a2": "Oui. Les clips MP4, MOV, M4V, 3GP et WebM jusqu’à 3 minutes et 500 MB sont convertis en MP4 H.264 en 1080 × 1920, 1080 × 1080, 1080 × 1350 ou 1920 × 1080 pixels. Le recadrage est centré sur le milieu de l’image et l’ajustement ajoute des bandes noires. Une vidéo utilise 2 crédits au lieu de 1, car le traitement vidéo demande bien plus de temps de calcul qu’une photo ; si la conversion échoue, les crédits sont remboursés.",
+        "shapeFaq.social-resize.a2": "Oui. Les clips MP4, MOV, M4V, 3GP et WebM jusqu’à 3 minutes et 500 Mo sont convertis en MP4 H.264 en 1080 × 1920, 1080 × 1080, 1080 × 1350 ou 1920 × 1080 pixels. Le recadrage est centré sur le milieu de l’image et l’ajustement ajoute des bandes noires. Une vidéo utilise 2 crédits au lieu de 1, car le traitement vidéo demande bien plus de temps de calcul qu’une photo ; si la conversion échoue, les crédits sont remboursés.",
         "steps.social-resize.3": "Cliquez sur Convertir et téléchargez la photo ou la vidéo recadrée. Le lien de téléchargement reste actif 24 heures."
       }
     }

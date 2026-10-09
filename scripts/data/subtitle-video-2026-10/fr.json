@@ -22,22 +22,22 @@
     "confirmSmartCostUnknown": "Crédits nécessaires : au moins {{credits}} — le montant exact dépend de la durée. Crédits restants : {{remaining}}.",
     "subtitleTooLongVideo": "Cette vidéo dure plus de 10 minutes, la limite pour les vidéos avec sous-titres. Choisissez une vidéo plus courte ou le fichier de sous-titres seul (jusqu'à 30 minutes) — aucun crédit n'a été utilisé.",
     "subtitleTooLongFile": "Cette vidéo dure plus de 30 minutes, la limite pour les fichiers de sous-titres. Veuillez utiliser une vidéo plus courte — aucun crédit n'a été utilisé.",
-    "subtitleTooLarge": "Les vidéos ne peuvent pas dépasser 500 MB — aucun crédit n'a été utilisé.",
+    "subtitleTooLarge": "Les vidéos ne peuvent pas dépasser 500 Mo — aucun crédit n'a été utilisé.",
     "subtitleUnreadable": "Nous n'avons pas pu lire la durée de cette vidéo, son prix ne peut donc pas être calculé pour cette sortie. Exportez-la à nouveau en MP4 et réessayez — aucun crédit n'a été utilisé.",
     "subtitleBadType": "Utilisez une vidéo MP4, MOV, M4V, 3GP ou WebM.",
     "subtitleUnavailable": "Les vidéos avec sous-titres ne sont pas disponibles pour le moment. Le fichier de sous-titres fonctionne toujours — aucun crédit n'a été utilisé.",
-    "smartFileTooLarge": "Ce fichier dépasse 25 MB, la limite de cet outil — aucun crédit n'a été utilisé.",
+    "smartFileTooLarge": "Ce fichier dépasse 25 Mo, la limite de cet outil — aucun crédit n'a été utilisé.",
     "smartBadType": "Ce type de fichier n'est pas pris en charge par cet outil — aucun crédit n'a été utilisé."
   },
   "pack": {
     "t": {
       "faq.cost.a.subtitle": "La facturation se fait à la durée plutôt qu’au fichier, par tranche de 5 minutes de vidéo entamée : 1 crédit pour le fichier de sous-titres seul, 2 crédits pour une vidéo avec sous-titres activables et 3 crédits pour une vidéo avec sous-titres incrustés, car ces deux dernières doivent être retraitées en tant que vidéo. Pas d’abonnement : les crédits s’achètent par petits lots prépayés, n’expirent jamais, et une conversion qui échoue ne coûte jamais rien.",
-      "faq.time.suffix.subtitle": " Les vidéos peuvent peser jusqu’à 500 MB — jusqu’à 30 minutes pour le fichier de sous-titres et jusqu’à 10 minutes pour les vidéos avec sous-titres."
+      "faq.time.suffix.subtitle": " Les vidéos peuvent peser jusqu’à 500 Mo — jusqu’à 30 minutes pour le fichier de sous-titres et jusqu’à 10 minutes pour les vidéos avec sous-titres."
     },
     "replace": {
       "t": {
         "intro.lead.subtitle": "Le générateur de sous-titres transcrit la parole d’une vidéo et l’écrit avec des time-codes. Vous obtenez soit un fichier de sous-titres normalisé, soit directement la vidéo finale — avec une piste de sous-titres que les spectateurs peuvent activer ou désactiver, ou avec les sous-titres incrustés dans l’image pour qu’ils s’affichent partout.",
-        "steps.subtitle.1": "Envoyez la vidéo que vous voulez sous-titrer — MP4, MOV, M4V, 3GP ou WebM, jusqu’à 500 MB.",
+        "steps.subtitle.1": "Envoyez la vidéo que vous voulez sous-titrer — MP4, MOV, M4V, 3GP ou WebM, jusqu’à 500 Mo.",
         "steps.subtitle.2": "Choisissez la sortie — fichier de sous-titres, vidéo avec sous-titres activables ou vidéo avec sous-titres incrustés — et indiquez la langue parlée si vous la connaissez. Le prix s’affiche avant la conversion.",
         "steps.subtitle.3": "Cliquez sur Convertir et téléchargez le fichier de sous-titres ou le MP4 final.",
         "shapeFaq.subtitle.a1": "Une parole nette se transcrit très précisément, y compris avec des accents. La musique de fond, les conversations qui se chevauchent et la terminologie spécialisée sont les endroits où les erreurs se glissent, et indiquer la langue parlée plutôt que de la détecter automatiquement aide. Si chaque mot doit être parfait, choisissez d’abord le fichier de sous-titres : c’est du texte brut, donc corriger un mot de temps en temps prend quelques secondes dans n’importe quel éditeur de texte.",
