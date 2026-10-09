@@ -1,0 +1,49 @@
+{
+  "replace": {
+    "toolDescriptions": {
+      "auto-subtitle": "Genereer nauwkeurige, getimede ondertitels van elke video — als SRT- of VTT-bestand, als video met een schakelbaar ondertitelspoor of als video met ingebrande ondertitels voor TikTok, Reels en Shorts."
+    }
+  },
+  "tool": {
+    "subtitleOutputLabel": "Wat wil je ontvangen?",
+    "subtitleMode_file": "Alleen ondertitelbestand",
+    "subtitleMode_fileDesc": "Een SRT- of VTT-bestand met de tekst en de timing — om naar YouTube te uploaden of zelf te bewerken.",
+    "subtitleMode_fileCost": "1 credit per begonnen 5 minuten · tot 30 minuten",
+    "subtitleMode_soft": "Video met schakelbare ondertitels",
+    "subtitleMode_softDesc": "Een MP4 met een ondertitelspoor dat kijkers kunnen in- en uitschakelen in spelers zoals VLC of QuickTime.",
+    "subtitleMode_softCost": "2 credits per begonnen 5 minuten · tot 10 minuten",
+    "subtitleMode_burn": "Video met ingebrande ondertitels",
+    "subtitleMode_burnDesc": "Een MP4 met de ondertitels in het beeld getekend — altijd zichtbaar, ook zonder geluid.",
+    "subtitleMode_burnCost": "3 credits per begonnen 5 minuten · tot 10 minuten",
+    "subtitleSocialNote": "Post je op TikTok, Reels of Shorts? Kies ingebrande ondertitels — deze platforms negeren schakelbare ondertitelsporen.",
+    "smartCostKnown": "Benodigde credits: {{credits}} (lengte {{length}})",
+    "smartCostUnknown": "Benodigde credits: minstens {{credits}} — het exacte aantal volgt uit de lengte zodra het bestand verwerkt is.",
+    "confirmSmartCost": "Benodigde credits: {{credits}}. Resterende credits: {{remaining}}.",
+    "confirmSmartCostUnknown": "Benodigde credits: minstens {{credits}} — het exacte aantal volgt uit de lengte. Resterende credits: {{remaining}}.",
+    "subtitleTooLongVideo": "Deze video is langer dan 10 minuten, de limiet voor video met ondertitels. Kies een kortere video of alleen het ondertitelbestand (tot 30 minuten) — er zijn geen credits gebruikt.",
+    "subtitleTooLongFile": "Deze video is langer dan 30 minuten, de limiet voor ondertitelbestanden. Gebruik een kortere video — er zijn geen credits gebruikt.",
+    "subtitleTooLarge": "Video's mogen maximaal 500 MB groot zijn — er zijn geen credits gebruikt.",
+    "subtitleUnreadable": "We konden de lengte van deze video niet lezen, dus kunnen we de prijs voor deze uitvoer niet bepalen. Exporteer hem opnieuw als MP4 en probeer het nog eens — er zijn geen credits gebruikt.",
+    "subtitleBadType": "Gebruik een MP4-, MOV-, M4V-, 3GP- of WebM-video.",
+    "subtitleUnavailable": "Video met ondertitels is op dit moment niet beschikbaar. Het ondertitelbestand werkt nog wel — er zijn geen credits gebruikt.",
+    "smartFileTooLarge": "Dit bestand is groter dan 25 MB, de limiet voor deze tool — er zijn geen credits gebruikt.",
+    "smartBadType": "Dit bestandstype wordt niet ondersteund door deze tool — er zijn geen credits gebruikt."
+  },
+  "pack": {
+    "t": {
+      "faq.cost.a.subtitle": "Er wordt afgerekend op lengte in plaats van per bestand, per begonnen 5 minuten video: 1 tegoed voor alleen het ondertitelbestand, 2 tegoeden voor een video met schakelbare ondertitels en 3 tegoeden voor een video met ingebrande ondertitels, omdat die laatste twee opnieuw als video verwerkt moeten worden. Er is geen abonnement: tegoeden koopt u in kleine vooruitbetaalde pakketten, ze verlopen nooit, en een mislukte omzetting kost nooit iets.",
+      "faq.time.suffix.subtitle": " Video's mogen tot 500 MB groot zijn — tot 30 minuten voor het ondertitelbestand en tot 10 minuten voor video met ondertitels."
+    },
+    "replace": {
+      "t": {
+        "intro.lead.subtitle": "De ondertitelgenerator transcribeert de spraak in een video en schrijft die weg met tijdcodes. U krijgt een gangbaar ondertitelbestand of de kant-en-klare video zelf — met een ondertitelspoor dat kijkers kunnen in- en uitschakelen, of met de ondertitels in het beeld ingebrand zodat ze overal te zien zijn.",
+        "steps.subtitle.1": "Upload de video die u wilt ondertitelen — MP4, MOV, M4V, 3GP of WebM, tot 500 MB.",
+        "steps.subtitle.2": "Kies de uitvoer — ondertitelbestand, video met schakelbare ondertitels of video met ingebrande ondertitels — en stel de gesproken taal in als u die kent. De prijs ziet u voordat u converteert.",
+        "steps.subtitle.3": "Klik op Converteren en download het ondertitelbestand of de kant-en-klare MP4.",
+        "shapeFaq.subtitle.a1": "Duidelijke spraak wordt zeer nauwkeurig getranscribeerd, ook bij accenten. Achtergrondmuziek, door elkaar heen praten en specialistische terminologie zijn de plekken waar fouten binnensluipen, en de gesproken taal instellen in plaats van hem automatisch te detecteren helpt. Moet elk woord perfect zijn, kies dan eerst het ondertitelbestand: dat is platte tekst, dus een enkel woord corrigeren kost in elke teksteditor seconden.",
+        "shapeFaq.subtitle.q2": "Moet ik schakelbare of ingebrande ondertitels kiezen?",
+        "shapeFaq.subtitle.a2": "Ingebrande ondertitels maken deel uit van het beeld en zijn dus overal te zien — de juiste keuze voor TikTok, Instagram Reels en YouTube Shorts, waar de meeste mensen zonder geluid kijken en schakelbare sporen worden genegeerd. Schakelbare ondertitels blijven een apart spoor dat kijkers in- of uitschakelen in spelers zoals VLC of QuickTime; voor YouTube zelf uploadt u beter het ondertitelbestand. Hebt u SRT of VTT nodig, dan werkt SRT vrijwel overal, terwijl VTT het formaat is voor HTML5-spelers op websites."
+      }
+    }
+  }
+}

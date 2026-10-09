@@ -1,0 +1,49 @@
+{
+  "replace": {
+    "toolDescriptions": {
+      "auto-subtitle": "Herhangi bir videodan doğru, zaman kodlu altyazılar oluşturun — SRT veya VTT dosyası olarak, açılıp kapatılabilir altyazı izi olan bir video olarak ya da TikTok, Reels ve Shorts için altyazıları görüntüye gömülü bir video olarak."
+    }
+  },
+  "tool": {
+    "subtitleOutputLabel": "Ne almak istiyorsunuz?",
+    "subtitleMode_file": "Yalnızca altyazı dosyası",
+    "subtitleMode_fileDesc": "Metni ve zamanlamaları içeren bir SRT veya VTT dosyası — YouTube’a yüklemek ya da kendiniz düzenlemek için.",
+    "subtitleMode_fileCost": "Başlayan her 5 dakika için 1 kredi · en fazla 30 dakika",
+    "subtitleMode_soft": "Açılıp kapatılabilir altyazılı video",
+    "subtitleMode_softDesc": "İzleyicilerin VLC veya QuickTime gibi oynatıcılarda açıp kapatabileceği bir altyazı izi içeren MP4.",
+    "subtitleMode_softCost": "Başlayan her 5 dakika için 2 kredi · en fazla 10 dakika",
+    "subtitleMode_burn": "Görüntüye gömülü altyazılı video",
+    "subtitleMode_burnDesc": "Altyazıların görüntünün içine çizildiği bir MP4 — ses kapalıyken bile her zaman görünür.",
+    "subtitleMode_burnCost": "Başlayan her 5 dakika için 3 kredi · en fazla 10 dakika",
+    "subtitleSocialNote": "TikTok, Reels veya Shorts’ta mı paylaşacaksınız? Görüntüye gömülü altyazıyı seçin — bu platformlar açılıp kapatılabilir altyazı izlerini yok sayar.",
+    "smartCostKnown": "Gereken kredi: {{credits}} (süre {{length}})",
+    "smartCostUnknown": "Gereken kredi: en az {{credits}} — kesin miktar, dosya işlendikten sonra süreye göre belirlenir.",
+    "confirmSmartCost": "Gereken kredi: {{credits}}. Kalan kredi: {{remaining}}.",
+    "confirmSmartCostUnknown": "Gereken kredi: en az {{credits}} — kesin miktar süreye göre belirlenir. Kalan kredi: {{remaining}}.",
+    "subtitleTooLongVideo": "Bu video, altyazılı video sınırı olan 10 dakikadan uzun. Daha kısa bir video ya da yalnızca altyazı dosyasını (en fazla 30 dakika) seçin — hiç kredi kullanılmadı.",
+    "subtitleTooLongFile": "Bu video, altyazı dosyası sınırı olan 30 dakikadan uzun. Lütfen daha kısa bir video kullanın — hiç kredi kullanılmadı.",
+    "subtitleTooLarge": "Videolar en fazla 500 MB olabilir — hiç kredi kullanılmadı.",
+    "subtitleUnreadable": "Bu videonun süresini okuyamadık, bu yüzden bu çıktı için fiyatlandırılamıyor. Videoyu MP4 olarak yeniden dışa aktarıp bir kez daha deneyin — hiç kredi kullanılmadı.",
+    "subtitleBadType": "MP4, MOV, M4V, 3GP veya WebM video kullanın.",
+    "subtitleUnavailable": "Altyazılı video şu anda kullanılamıyor. Altyazı dosyası yine de çalışıyor — hiç kredi kullanılmadı.",
+    "smartFileTooLarge": "Bu dosya, bu aracın sınırı olan 25 MB’tan büyük — hiç kredi kullanılmadı.",
+    "smartBadType": "Bu dosya türü bu araç tarafından desteklenmiyor — hiç kredi kullanılmadı."
+  },
+  "pack": {
+    "t": {
+      "faq.cost.a.subtitle": "Dosya başına değil süreye göre, videonun başlayan her 5 dakikası için ücretlendirilir: yalnızca altyazı dosyası için 1 kredi, açılıp kapatılabilir altyazılı video için 2 kredi ve görüntüye gömülü altyazılı video için 3 kredi, çünkü son ikisinin video olarak yeniden işlenmesi gerekir. Abonelik yok: krediler küçük ön ödemeli paketlerle alınır, asla sona ermez ve başarısız bir dönüştürme hiçbir zaman hiçbir şeye mal olmaz.",
+      "faq.time.suffix.subtitle": " Videolar en fazla 500 MB olabilir — altyazı dosyası için en fazla 30 dakika, altyazılı video için en fazla 10 dakika."
+    },
+    "replace": {
+      "t": {
+        "intro.lead.subtitle": "Altyazı üreteci, bir videodaki konuşmayı döker ve zaman koduyla birlikte yazar. Ya standart bir altyazı dosyası ya da bitmiş videonun kendisini alırsın — izleyicilerin açıp kapatabileceği bir altyazı iziyle ya da her yerde görünsün diye altyazıları görüntüye gömülü olarak.",
+        "steps.subtitle.1": "Altyazı istediğin videoyu yükle — MP4, MOV, M4V, 3GP ya da WebM, en fazla 500 MB.",
+        "steps.subtitle.2": "Çıktıyı seç — altyazı dosyası, açılıp kapatılabilir altyazılı video ya da görüntüye gömülü altyazılı video — ve biliyorsan konuşulan dili belirt. Fiyat, dönüştürmeden önce gösterilir.",
+        "steps.subtitle.3": "Dönüştür’e tıkla ve altyazı dosyasını ya da bitmiş MP4’ü indir.",
+        "shapeFaq.subtitle.a1": "Net konuşma, aksanla bile olsa çok isabetli dökülür. Fon müziği, üst üste konuşmalar ve uzmanlık terimleri hataların sızdığı yerlerdir; konuşulan dili kendiliğinden algılatmak yerine belirlemek yardımcı olur. Her sözcüğün kusursuz olması gerekiyorsa önce altyazı dosyasını seç: düz metindir, dolayısıyla arada bir sözcüğü düzeltmek herhangi bir metin düzenleyicide saniyeler alır.",
+        "shapeFaq.subtitle.q2": "Açılıp kapatılabilir altyazı mı, görüntüye gömülü altyazı mı seçmeliyim?",
+        "shapeFaq.subtitle.a2": "Görüntüye gömülü altyazılar resmin bir parçasıdır, bu yüzden her yerde görünür — çoğu kişinin sessiz izlediği ve açılıp kapatılabilir izlerin yok sayıldığı TikTok, Instagram Reels ve YouTube Shorts için doğru seçimdir. Açılıp kapatılabilir altyazılar, izleyicilerin VLC ya da QuickTime gibi oynatıcılarda açıp kapattığı ayrı bir iz olarak kalır; YouTube’un kendisi için ise bunun yerine altyazı dosyasını yükle. SRT ya da VTT gerekiyorsa SRT neredeyse her yerde çalışır, VTT ise sitelerdeki HTML5 oynatıcılarının biçimidir."
+      }
+    }
+  }
+}

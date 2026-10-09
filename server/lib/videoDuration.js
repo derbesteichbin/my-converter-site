@@ -11,7 +11,7 @@
 
 const fs = require('fs');
 
-const ISO_BMFF = new Set(['mp4', 'mov', 'm4v', '3gp']);
+const ISO_BMFF = new Set(['mp4', 'mov', 'm4v', '3gp', 'm4a']);
 
 async function readAt(fd, position, length) {
   const buf = Buffer.alloc(length);
@@ -79,4 +79,19 @@ async function videoDuration(filePath, ext) {
   }
 }
 
-module.exports = { videoDuration };
+// Any audio or video file the Smart Functions accept: ISO media via the
+// mvhd box, everything else (MP3, WAV, OGG, FLAC, WebM, …) via
+// music-metadata. Same contract: seconds, or null when unknown — notably for
+// browser microphone recordings, whose WebM header carries no duration.
+async function mediaDuration(filePath, ext) {
+  try {
+    if (ISO_BMFF.has(ext)) return await isoDuration(filePath);
+    const mm = require('music-metadata');
+    const meta = await mm.parseFile(filePath, { duration: true, skipCovers: true });
+    return meta.format.duration || null;
+  } catch {
+    return null;
+  }
+}
+
+module.exports = { videoDuration, mediaDuration };

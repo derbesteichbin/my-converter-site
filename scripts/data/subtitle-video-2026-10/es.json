@@ -1,0 +1,49 @@
+{
+  "replace": {
+    "toolDescriptions": {
+      "auto-subtitle": "Genera subtítulos precisos y sincronizados desde cualquier vídeo: como archivo SRT o VTT, como vídeo con una pista de subtítulos activable o como vídeo con los subtítulos incrustados para TikTok, Reels y Shorts."
+    }
+  },
+  "tool": {
+    "subtitleOutputLabel": "¿Qué quieres obtener?",
+    "subtitleMode_file": "Solo archivo de subtítulos",
+    "subtitleMode_fileDesc": "Un archivo SRT o VTT con el texto y los tiempos, para subirlo a YouTube o editarlo tú mismo.",
+    "subtitleMode_fileCost": "1 crédito por cada 5 minutos o fracción · hasta 30 minutos",
+    "subtitleMode_soft": "Vídeo con subtítulos activables",
+    "subtitleMode_softDesc": "Un MP4 con una pista de subtítulos que los espectadores pueden activar o desactivar en reproductores como VLC o QuickTime.",
+    "subtitleMode_softCost": "2 créditos por cada 5 minutos o fracción · hasta 10 minutos",
+    "subtitleMode_burn": "Vídeo con subtítulos incrustados",
+    "subtitleMode_burnDesc": "Un MP4 con los subtítulos incrustados en la imagen: siempre visibles, incluso sin sonido.",
+    "subtitleMode_burnCost": "3 créditos por cada 5 minutos o fracción · hasta 10 minutos",
+    "subtitleSocialNote": "¿Publicas en TikTok, Reels o Shorts? Elige subtítulos incrustados: estas plataformas ignoran las pistas de subtítulos activables.",
+    "smartCostKnown": "Créditos necesarios: {{credits}} (duración {{length}})",
+    "smartCostUnknown": "Créditos necesarios: al menos {{credits}} — la cantidad exacta depende de la duración y se conocerá una vez procesado el archivo.",
+    "confirmSmartCost": "Créditos necesarios: {{credits}}. Créditos restantes: {{remaining}}.",
+    "confirmSmartCostUnknown": "Créditos necesarios: al menos {{credits}} — la cantidad exacta depende de la duración. Créditos restantes: {{remaining}}.",
+    "subtitleTooLongVideo": "Este vídeo dura más de 10 minutos, el límite para vídeo con subtítulos. Elige un vídeo más corto o solo el archivo de subtítulos (hasta 30 minutos) — no se ha usado ningún crédito.",
+    "subtitleTooLongFile": "Este vídeo dura más de 30 minutos, el límite para archivos de subtítulos. Usa un vídeo más corto — no se ha usado ningún crédito.",
+    "subtitleTooLarge": "Los vídeos pueden ocupar como máximo 500 MB — no se ha usado ningún crédito.",
+    "subtitleUnreadable": "No hemos podido leer la duración de este vídeo, así que no se puede calcular su precio para esta salida. Expórtalo de nuevo como MP4 y vuelve a intentarlo — no se ha usado ningún crédito.",
+    "subtitleBadType": "Usa un vídeo MP4, MOV, M4V, 3GP o WebM.",
+    "subtitleUnavailable": "El vídeo con subtítulos no está disponible en este momento. El archivo de subtítulos sigue funcionando — no se ha usado ningún crédito.",
+    "smartFileTooLarge": "Este archivo supera los 25 MB, el límite de esta herramienta — no se ha usado ningún crédito.",
+    "smartBadType": "Esta herramienta no admite este tipo de archivo — no se ha usado ningún crédito."
+  },
+  "pack": {
+    "t": {
+      "faq.cost.a.subtitle": "Se factura por duración en lugar de por archivo, por cada 5 minutos de vídeo o fracción: 1 crédito por el archivo de subtítulos solo, 2 créditos por un vídeo con subtítulos activables y 3 créditos por un vídeo con subtítulos incrustados, porque estos dos últimos tienen que procesarse de nuevo como vídeo. No hay suscripción: los créditos se compran en pequeños paquetes prepago, nunca caducan y una conversión fallida nunca cuesta nada.",
+      "faq.time.suffix.subtitle": " Los vídeos pueden ocupar hasta 500 MB: hasta 30 minutos para el archivo de subtítulos y hasta 10 minutos para el vídeo con subtítulos."
+    },
+    "replace": {
+      "t": {
+        "intro.lead.subtitle": "El generador de subtítulos transcribe el habla de un vídeo y la escribe con códigos de tiempo. Obtiene un archivo de subtítulos estándar o directamente el vídeo terminado: con una pista de subtítulos que los espectadores pueden activar y desactivar, o con los subtítulos incrustados en la imagen para que se vean en todas partes.",
+        "steps.subtitle.1": "Suba el vídeo que quiere subtitular: MP4, MOV, M4V, 3GP o WebM, hasta 500 MB.",
+        "steps.subtitle.2": "Elija la salida (archivo de subtítulos, vídeo con subtítulos activables o vídeo con subtítulos incrustados) e indique el idioma hablado si lo conoce. El precio se muestra antes de convertir.",
+        "steps.subtitle.3": "Haga clic en Convertir y descargue el archivo de subtítulos o el MP4 terminado.",
+        "shapeFaq.subtitle.a1": "El habla clara se transcribe con mucha precisión, también con acentos. La música de fondo, las conversaciones solapadas y la terminología especializada son donde se cuelan los errores, e indicar el idioma hablado en vez de detectarlo automáticamente ayuda. Si cada palabra tiene que ser perfecta, elija primero el archivo de subtítulos: es texto plano, así que corregir alguna palabra suelta lleva segundos en cualquier editor de texto.",
+        "shapeFaq.subtitle.q2": "¿Debería elegir subtítulos activables o incrustados?",
+        "shapeFaq.subtitle.a2": "Los subtítulos incrustados forman parte de la imagen, así que se ven en todas partes: la opción adecuada para TikTok, Instagram Reels y YouTube Shorts, donde la mayoría mira sin sonido y las pistas activables se ignoran. Los subtítulos activables siguen siendo una pista aparte que los espectadores activan o desactivan en reproductores como VLC o QuickTime; para YouTube en sí, suba mejor el archivo de subtítulos. Si necesita SRT o VTT, SRT funciona casi en todas partes, mientras que VTT es el formato para reproductores HTML5 en sitios web."
+      }
+    }
+  }
+}

@@ -4,7 +4,7 @@ import { useDropzone } from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
 import SEO from '../components/SEO';
 import { api, API_URL } from '../api';
-import { getToolBySlug, getToolLabel, getToolDescription, ADVANCED_SETTINGS, COLLAGE_LAYOUTS, COLLAGE_FITS, COLLAGE_MIN_PHOTOS, SOCIAL_OPTIONS, socialOptionDefaults, SOCIAL_VIDEO_INPUTS, SOCIAL_VIDEO_MAX_BYTES, SOCIAL_VIDEO_MAX_SECONDS, SOCIAL_VIDEO_CREDITS } from '../toolsConfig';
+import { getToolBySlug, getToolLabel, getToolDescription, ADVANCED_SETTINGS, COLLAGE_LAYOUTS, COLLAGE_FITS, COLLAGE_MIN_PHOTOS, SOCIAL_OPTIONS, socialOptionDefaults, SOCIAL_VIDEO_INPUTS, SOCIAL_VIDEO_MAX_BYTES, SOCIAL_VIDEO_MAX_SECONDS, SOCIAL_VIDEO_CREDITS, SUBTITLE_MODES, SUBTITLE_MAX_BYTES, WHISPER_MAX_BYTES, SECONDS_PER_SMART_CREDIT } from '../toolsConfig';
 import { useToast } from '../components/Toast';
 import CropPicker from '../components/CropPicker';
 
@@ -112,6 +112,15 @@ function validateFileType(file, toolDef) {
   const ext = file.name.split('.').pop().toLowerCase();
   if (toolDef.inputFormats.includes(ext)) return null;
   return `"${file.name}" is not a supported file type. Expected: ${toolDef.inputFormats.map((f) => '.' + f).join(', ')}`;
+}
+
+function hasFilesForCost(files) {
+  return files.length > 0;
+}
+
+function formatLength(seconds) {
+  const s = Math.round(seconds);
+  return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
 }
 
 function isSocialVideo(file) {
@@ -259,6 +268,13 @@ export default function ToolPage() {
   const [error, setError] = useState('');
   const pollRefs = useRef([]);
 
+  // Auto Subtitle output (file | soft | burn), and the length of the media
+  // for Speech to Text / Auto Subtitle — read in the browser so the price
+  // can be shown before converting. null = not known (yet).
+  const [subtitleMode, setSubtitleMode] = useState('file');
+  const [mediaSeconds, setMediaSeconds] = useState(null);
+  const recordStartRef = useRef(0);
+
   // Credit cost = one credit per file for standard batch conversion. PDF
   // operations and Smart Functions run as a single job, so they cost 1.
   // A collage is likewise one job however many photos go into it.
@@ -266,6 +282,26 @@ export default function ToolPage() {
     // Resize for Social Media: a video costs more than a photo.
     : isSocialResize ? files.reduce((sum, f) => sum + (isSocialVideo(f) ? SOCIAL_VIDEO_CREDITS : 1), 0)
       : files.length;
+  // Speech to Text and Auto Subtitle are priced per started 5 minutes of
+  // media (Auto Subtitle at the chosen output's rate). With the length
+  // unknown, the minimum is shown and the server settles the rest.
+  const isSubtitle = toolName === 'auto-subtitle';
+  const isTimedSmart = isStt || isSubtitle;
+  const subtitleDef = SUBTITLE_MODES.find((m) => m.id === subtitleMode) || SUBTITLE_MODES[0];
+  const smartRate = isSubtitle ? subtitleDef.rate : 1;
+  const smartCost = mediaSeconds
+    ? Math.max(1, Math.ceil(mediaSeconds / SECONDS_PER_SMART_CREDIT)) * smartRate
+    : smartRate;
+  const effectiveCost = isTimedSmart && hasFilesForCost(files) ? smartCost : creditCost;
+  // Limits the server would refuse, caught before anything is uploaded.
+  let smartProblem = null;
+  if (isTimedSmart && files[0]) {
+    if (isSubtitle && files[0].size > SUBTITLE_MAX_BYTES) smartProblem = t('tool.subtitleTooLarge');
+    else if (isStt && files[0].size > WHISPER_MAX_BYTES) smartProblem = t('tool.smartFileTooLarge');
+    else if (isSubtitle && mediaSeconds && mediaSeconds > subtitleDef.maxSeconds) {
+      smartProblem = subtitleMode === 'file' ? t('tool.subtitleTooLongFile') : t('tool.subtitleTooLongVideo');
+    }
+  }
   const batchHasVideo = isSocialResize && files.some(isSocialVideo);
   const batchHasImage = files.some((f) => !isSocialVideo(f));
   const videoOnly = batchHasVideo && !batchHasImage;
@@ -414,6 +450,8 @@ export default function ToolPage() {
     setCollageFit('cover');
     setSocialValues(socialOptionDefaults(toolDef?.toolType));
     setCropFocus(new Map());
+    setSubtitleMode('file');
+    setMediaSeconds(null);
     setResultPreview('');
     setTtsText('');
     setTtsVoice('alloy');
@@ -653,6 +691,8 @@ export default function ToolPage() {
           return;
         }
         const file = new File([blob], `recording-${Date.now()}.${ext}`, { type: mimeType });
+        // Browser recordings carry no length in their header; we know it.
+        file.recordedSeconds = Math.max(1, Math.round((Date.now() - recordStartRef.current) / 1000));
         setFiles([file]);
         setRecording(false);
         setRecordSeconds(0);
@@ -661,6 +701,7 @@ export default function ToolPage() {
         setError('');
       };
       recorder.start();
+      recordStartRef.current = Date.now();
       recorderRef.current = recorder;
       setRecording(true);
       setRecordSeconds(0);
@@ -706,6 +747,16 @@ export default function ToolPage() {
     return () => URL.revokeObjectURL(resultPreview);
   }, [resultPreview]);
 
+  useEffect(() => {
+    if (!isTimedSmart || !files[0]) { setMediaSeconds(null); return undefined; }
+    const file = files[0];
+    if (file.recordedSeconds) { setMediaSeconds(file.recordedSeconds); return undefined; }
+    let live = true;
+    setMediaSeconds(null);
+    readVideoDuration(file).then((sec) => { if (live) setMediaSeconds(sec); });
+    return () => { live = false; };
+  }, [files, isTimedSmart]);
+
   function collageErrorText(code, fileName) {
     switch (code) {
       case 'collage_too_few':
@@ -728,6 +779,24 @@ export default function ToolPage() {
         return t('tool.socialVideoUnreadable');
       case 'social_image_too_large':
         return t('tool.socialImageTooLarge');
+      case 'subtitle_too_long_video':
+        return t('tool.subtitleTooLongVideo');
+      case 'subtitle_too_long_file':
+        return t('tool.subtitleTooLongFile');
+      case 'subtitle_too_large':
+        return t('tool.subtitleTooLarge');
+      case 'subtitle_unreadable':
+        return t('tool.subtitleUnreadable');
+      case 'subtitle_bad_type':
+        return t('tool.subtitleBadType');
+      case 'subtitle_bad_option':
+        return t('tool.socialBadOption');
+      case 'subtitle_unavailable':
+        return t('tool.subtitleUnavailable');
+      case 'smart_file_too_large':
+        return t('tool.smartFileTooLarge');
+      case 'smart_bad_type':
+        return t('tool.smartBadType');
       default:
         return null;
     }
@@ -746,13 +815,13 @@ export default function ToolPage() {
     // TTS allows submitting typed text without uploading a file. All other
     // tools require at least one file.
     if (files.length === 0 && !(isTts && ttsText.trim())) return;
-    if (collageProblem) return;
+    if (collageProblem || smartProblem) return;
 
     if (authState.status === 'loading') return;
     if (authState.status === 'guest') { setModal('guest'); return; }
     // Need one credit per file — if the folder/batch costs more credits than
     // the user has, send them to the pricing modal instead of the confirm.
-    if ((authState.credits ?? 0) < creditCost) { setModal('no_credits'); return; }
+    if ((authState.credits ?? 0) < effectiveCost) { setModal('no_credits'); return; }
 
     // Resize for Social Media: check video length before asking to confirm,
     // so a too-long clip is caught before it is uploaded or charged.
@@ -821,7 +890,8 @@ export default function ToolPage() {
           if (languageHint && languageHint !== 'auto') formData.append('languageHint', languageHint);
         }
         if (toolName === 'auto-subtitle') {
-          formData.append('subtitleFormat', outputFormat);  // srt / vtt
+          formData.append('subtitleMode', subtitleMode);    // file / soft / burn
+          if (subtitleMode === 'file') formData.append('subtitleFormat', outputFormat);  // srt / vtt
           if (languageHint && languageHint !== 'auto') formData.append('languageHint', languageHint);
         }
 
@@ -835,7 +905,7 @@ export default function ToolPage() {
             setModal('no_credits');
             return;
           }
-          throw new Error(data.error || 'Upload failed');
+          throw new Error(collageErrorText(data.code, files[0]?.name) || data.error || 'Upload failed');
         }
         const { jobId } = await res.json();
         setBatchJobs([{ ...job0, status: 'processing', jobId }]);
@@ -1291,6 +1361,46 @@ export default function ToolPage() {
         </div>
       )}
 
+      {/* Auto Subtitle: which output — subtitle file, soft track or burned in. */}
+      {isSubtitle && overallStatus === 'idle' && batchJobs.length === 0 && (
+        <div className="voice-section subtitle-modes">
+          <span className="voice-section-label">{t('tool.subtitleOutputLabel')}</span>
+          <div className="voice-cards subtitle-mode-cards" role="radiogroup" aria-label={t('tool.subtitleOutputLabel')}>
+            {SUBTITLE_MODES.map((m) => {
+              const selected = subtitleMode === m.id;
+              return (
+                <label key={m.id} className={`voice-card ${selected ? 'voice-card-selected' : ''}`}>
+                  <input
+                    type="radio"
+                    name="subtitle-mode"
+                    value={m.id}
+                    checked={selected}
+                    onChange={() => setSubtitleMode(m.id)}
+                    className="voice-card-input"
+                  />
+                  <span className="voice-card-name">{t(`tool.subtitleMode_${m.id}`)}</span>
+                  <span className="voice-card-desc">{t(`tool.subtitleMode_${m.id}Desc`)}</span>
+                  <span className="subtitle-mode-cost">{t(`tool.subtitleMode_${m.id}Cost`)}</span>
+                </label>
+              );
+            })}
+          </div>
+          <p className="tool-options-note subtitle-social-note">{t('tool.subtitleSocialNote')}</p>
+        </div>
+      )}
+
+      {/* Speech to Text / Auto Subtitle: the price, from the media length. */}
+      {isTimedSmart && hasFiles && overallStatus === 'idle' && batchJobs.length === 0 && (
+        <div className="batch-summary">
+          <span className="batch-summary-cost">
+            {mediaSeconds
+              ? t('tool.smartCostKnown', { credits: smartCost, length: formatLength(mediaSeconds) })
+              : t('tool.smartCostUnknown', { credits: smartCost })}
+          </span>
+        </div>
+      )}
+      {smartProblem && overallStatus === 'idle' && <p className="convert-error" role="alert">{smartProblem}</p>}
+
       {/* Text to Speech: text input + voice selector. Shown only when no
           file is uploaded so the user can either type OR drop a .txt file. */}
       {isTts && overallStatus === 'idle' && !files.length && (
@@ -1492,7 +1602,7 @@ export default function ToolPage() {
           </label>
 
           <div className="tool-controls">
-            {formats.length > 1 && !(isProfilePicture && socialValues.shape === 'circle') && !videoOnly && (
+            {formats.length > 1 && !(isProfilePicture && socialValues.shape === 'circle') && !videoOnly && !(isSubtitle && subtitleMode !== 'file') && (
               <div className="format-select">
                 <label htmlFor="format">{t('tool.output')}</label>
                 <select id="format" value={outputFormat} onChange={(e) => setOutputFormat(e.target.value)} disabled={busy}>
@@ -1525,7 +1635,7 @@ export default function ToolPage() {
               </span>
             )}
 
-            <button className="btn-primary convert-btn" disabled={!hasFiles || busy || !!collageProblem} onClick={handleConvert} aria-label={t('tool.convert')}>
+            <button className="btn-primary convert-btn" disabled={!hasFiles || busy || !!collageProblem || !!smartProblem} onClick={handleConvert} aria-label={t('tool.convert')}>
               {busy && <span className="spinner" />}
               {busy ? t('tool.converting') : isCollage ? t('tool.collageCreate') : files.length > 1 ? `${t('tool.convert')} ${files.length}` : t('tool.convert')}
             </button>
@@ -1672,7 +1782,11 @@ export default function ToolPage() {
               <>
                 <h2 style={{ margin: '0 0 0.5rem' }}>{t('tool.confirmModalTitle')}</h2>
                 <p style={{ margin: '0 0 1.25rem', color: 'var(--text)' }}>
-                  {isCollage
+                  {isTimedSmart && files[0]
+                    ? (mediaSeconds
+                      ? t('tool.confirmSmartCost', { credits: smartCost, remaining: authState.credits ?? 0 })
+                      : t('tool.confirmSmartCostUnknown', { credits: smartCost, remaining: authState.credits ?? 0 }))
+                    : isCollage
                     ? t('tool.confirmCollageBody', { count: files.length, remaining: authState.credits ?? 0 })
                     : files.length === 1 && creditCost > 1
                     ? t('tool.confirmSingleFileCredits', { credits: creditCost, remaining: authState.credits ?? 0 })

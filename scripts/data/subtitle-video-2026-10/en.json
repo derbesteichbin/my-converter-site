@@ -1,0 +1,49 @@
+{
+  "replace": {
+    "toolDescriptions": {
+      "auto-subtitle": "Generate accurate, time-coded subtitles from any video — as an SRT or VTT file, as a video with a switchable subtitle track, or as a video with the subtitles burned in for TikTok, Reels and Shorts."
+    }
+  },
+  "tool": {
+    "subtitleOutputLabel": "What do you want to get?",
+    "subtitleMode_file": "Subtitle file only",
+    "subtitleMode_fileDesc": "An SRT or VTT file with the text and timings — to upload to YouTube or edit yourself.",
+    "subtitleMode_fileCost": "1 credit per started 5 minutes · up to 30 minutes",
+    "subtitleMode_soft": "Video with switchable subtitles",
+    "subtitleMode_softDesc": "An MP4 with a subtitle track viewers can turn on or off in players such as VLC or QuickTime.",
+    "subtitleMode_softCost": "2 credits per started 5 minutes · up to 10 minutes",
+    "subtitleMode_burn": "Video with burned-in subtitles",
+    "subtitleMode_burnDesc": "An MP4 with the subtitles drawn into the picture — always visible, even with the sound off.",
+    "subtitleMode_burnCost": "3 credits per started 5 minutes · up to 10 minutes",
+    "subtitleSocialNote": "Posting on TikTok, Reels or Shorts? Choose burned-in subtitles — these platforms ignore switchable subtitle tracks.",
+    "smartCostKnown": "Credits needed: {{credits}} (length {{length}})",
+    "smartCostUnknown": "Credits needed: at least {{credits}} — the exact amount follows from the length once the file has been processed.",
+    "confirmSmartCost": "Credits needed: {{credits}}. Credits remaining: {{remaining}}.",
+    "confirmSmartCostUnknown": "Credits needed: at least {{credits}} — the exact amount follows from the length. Credits remaining: {{remaining}}.",
+    "subtitleTooLongVideo": "This video is longer than 10 minutes, the limit for video with subtitles. Choose a shorter video or the subtitle file only (up to 30 minutes) — no credits were used.",
+    "subtitleTooLongFile": "This video is longer than 30 minutes, the limit for subtitle files. Please use a shorter video — no credits were used.",
+    "subtitleTooLarge": "Videos can be at most 500 MB — no credits were used.",
+    "subtitleUnreadable": "We couldn't read the length of this video, so it can't be priced for this output. Export it again as MP4 and try once more — no credits were used.",
+    "subtitleBadType": "Use an MP4, MOV, M4V, 3GP or WebM video.",
+    "subtitleUnavailable": "Video with subtitles is not available right now. The subtitle file still works — no credits were used.",
+    "smartFileTooLarge": "This file is larger than 25 MB, the limit for this tool — no credits were used.",
+    "smartBadType": "This file type isn't supported by this tool — no credits were used."
+  },
+  "pack": {
+    "t": {
+      "faq.cost.a.subtitle": "It is billed by length rather than per file, per started 5 minutes of video: 1 credit for the subtitle file only, 2 credits for a video with switchable subtitles and 3 credits for a video with burned-in subtitles, because those last two have to be processed again as video. There is no subscription: credits are bought in small prepaid packs, they never expire, and a conversion that fails never costs you anything.",
+      "faq.time.suffix.subtitle": " Videos can be up to 500 MB — up to 30 minutes for the subtitle file and up to 10 minutes for video with subtitles."
+    },
+    "replace": {
+      "t": {
+        "intro.lead.subtitle": "The subtitle generator transcribes the speech in a video and writes it out with timecodes. You get either a standard subtitle file, or the finished video itself — with a subtitle track viewers can switch on and off, or with the subtitles burned into the picture so they show everywhere.",
+        "steps.subtitle.1": "Upload the video you want captioned — MP4, MOV, M4V, 3GP or WebM, up to 500 MB.",
+        "steps.subtitle.2": "Choose the output — subtitle file, video with switchable subtitles or video with burned-in subtitles — and set the spoken language if you know it. The price is shown before you convert.",
+        "steps.subtitle.3": "Click Convert and download the subtitle file or the finished MP4.",
+        "shapeFaq.subtitle.a1": "Clear speech transcribes very accurately, including across accents. Background music, crosstalk and specialised terminology are where errors creep in, and setting the spoken language rather than auto-detecting it helps. If every word has to be perfect, choose the subtitle file first: it is plain text, so fixing the occasional word takes seconds in any text editor.",
+        "shapeFaq.subtitle.q2": "Should I choose switchable or burned-in subtitles?",
+        "shapeFaq.subtitle.a2": "Burned-in subtitles are part of the picture, so they show everywhere — the right choice for TikTok, Instagram Reels and YouTube Shorts, where most people watch without sound and switchable tracks are ignored. Switchable subtitles stay a separate track that viewers turn on or off in players such as VLC or QuickTime; for YouTube itself, upload the subtitle file instead. If you need SRT or VTT, SRT works almost everywhere, while VTT is the format for HTML5 players on websites."
+      }
+    }
+  }
+}

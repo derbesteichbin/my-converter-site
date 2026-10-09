@@ -12,6 +12,7 @@ const archiver = require('archiver');
 const { LAYOUTS, validateCollage, buildCollage } = require('../lib/collage');
 const { OPTIONS: SOCIAL_OPTIONS, parseOptions: parseSocialOptions, resolveFormat: resolveSocialFormat, runSocialImage, PRESET_SIZE, parseFocus } = require('../lib/socialImage');
 const { videoDuration } = require('../lib/videoDuration');
+const { logCloudConvertCost } = require('../lib/ccCost');
 
 const router = express.Router();
 
@@ -262,8 +263,10 @@ async function preflightCredits(req, res, next) {
   }
 }
 
-async function downloadExportedFile(ccJob, outputFormat) {
+// costMeta is logged with CloudConvert's own figures for the job ([cc-cost]).
+async function downloadExportedFile(ccJob, outputFormat, costMeta = {}) {
   const finished = await cloudConvert.jobs.wait(ccJob.id);
+  logCloudConvertCost(finished, costMeta);
 
   const exportTask = finished.tasks.find(
     (t) => t.name === 'export-file' && t.status === 'finished'
@@ -292,8 +295,9 @@ async function downloadExportedFile(ccJob, outputFormat) {
 //
 // Each page written is pushed onto `saved` as it lands, so if a later page
 // fails the caller still knows which files to delete.
-async function downloadAllExportedFiles(ccJob, outputFormat, saved = []) {
+async function downloadAllExportedFiles(ccJob, outputFormat, saved = [], costMeta = {}) {
   const finished = await cloudConvert.jobs.wait(ccJob.id);
+  logCloudConvertCost(finished, costMeta);
   const exportTask = finished.tasks.find(
     (t) => t.name === 'export-file' && t.status === 'finished'
   );
@@ -444,7 +448,7 @@ router.post('/', protect, preflightCredits, upload.single('file'), async (req, r
         console.error(`PDF to images failed for job ${job.id}:`, err);
       });
     } else {
-      convertFile(job.id, req.file, outputFormat, advancedOptions, notifyEmail ? req.userId : null, req.userId, chargedAmount).catch((err) => {
+      convertFile(job.id, req.file, outputFormat, advancedOptions, notifyEmail ? req.userId : null, req.userId, chargedAmount, { tool: toolSlug || null }).catch((err) => {
         console.error(`Conversion failed for job ${job.id}:`, err);
       });
     }
@@ -461,7 +465,7 @@ router.post('/', protect, preflightCredits, upload.single('file'), async (req, r
   }
 });
 
-async function convertFile(jobId, file, outputFormat, advancedOptions = {}, notifyUserId = null, chargedUserId = null, chargedAmount = 0) {
+async function convertFile(jobId, file, outputFormat, advancedOptions = {}, notifyUserId = null, chargedUserId = null, chargedAmount = 0, costMeta = {}) {
   try {
     await prisma.job.update({ where: { id: jobId }, data: { status: 'processing' } });
 
@@ -485,7 +489,7 @@ async function convertFile(jobId, file, outputFormat, advancedOptions = {}, noti
     const uploadTask = ccJob.tasks.find((t) => t.name === 'upload-file');
     await cloudConvert.tasks.upload(uploadTask, fs.createReadStream(filePath), file.originalname);
 
-    const outputFilename = await downloadExportedFile(ccJob, outputFormat);
+    const outputFilename = await downloadExportedFile(ccJob, outputFormat, { jobId, creditsCharged: chargedAmount, ...costMeta });
 
     await prisma.job.update({
       where: { id: jobId },
@@ -538,7 +542,7 @@ async function optimizeFile(jobId, file, chargedUserId = null, chargedAmount = 0
     const uploadTask = ccJob.tasks.find((t) => t.name === 'upload-file');
     await cloudConvert.tasks.upload(uploadTask, fs.createReadStream(filePath), file.originalname);
 
-    const outputFilename = await downloadExportedFile(ccJob, fmt);
+    const outputFilename = await downloadExportedFile(ccJob, fmt, { tool: 'compress', jobId, creditsCharged: chargedAmount });
 
     await prisma.job.update({
       where: { id: jobId },
@@ -646,7 +650,7 @@ async function pdfToImages(jobId, file, outputFormat, notifyUserId = null, charg
     const uploadTask = ccJob.tasks.find((t) => t.name === 'upload-file');
     await cloudConvert.tasks.upload(uploadTask, fs.createReadStream(filePath), file.originalname);
 
-    const { base, files } = await downloadAllExportedFiles(ccJob, outputFormat, pages);
+    const { base, files } = await downloadAllExportedFiles(ccJob, outputFormat, pages, { tool: 'pdf-to-images', jobId, creditsCharged: chargedAmount });
 
     zipName = `${base}.zip`;
     await zipOutputs(zipName, files.map((f, i) => ({ file: f, name: pageName(i, files.length, outputFormat) })));
@@ -798,7 +802,7 @@ async function convertPdfTool(jobId, files, toolType, body, chargedUserId = null
       await cloudConvert.tasks.upload(uploadTask, fs.createReadStream(filePath), files[0].originalname);
     }
 
-    const outputFilename = await downloadExportedFile(ccJob, 'pdf');
+    const outputFilename = await downloadExportedFile(ccJob, 'pdf', { tool: toolType, jobId, creditsCharged: chargedAmount });
 
     await prisma.job.update({
       where: { id: jobId },
@@ -851,6 +855,7 @@ router.post('/social-resize', protect, preflightCredits, socialResizeUpload, asy
     const toolDef = VALID_TOOLS['resize-for-social-media'];
     const ext = path.extname(req.file.originalname).replace('.', '').toLowerCase();
     const isVideo = SOCIAL_VIDEO_INPUTS.includes(ext);
+    let videoSeconds = null; // logged with CloudConvert's cost figures
     if (!toolDef.inputFormats.includes(ext)) {
       return reject(400, { error: `"${req.file.originalname}" is not a supported image or video`, code: 'social_resize_bad_type' });
     }
@@ -863,6 +868,7 @@ router.post('/social-resize', protect, preflightCredits, socialResizeUpload, asy
     if (isVideo) {
       if (outputFormat !== 'mp4') return reject(400, { error: 'Videos are always saved as MP4' });
       const seconds = await videoDuration(path.join(UPLOAD_DIR, req.file.filename), ext);
+      videoSeconds = seconds;
       if (seconds === null) {
         return reject(400, { error: 'Could not read the video length', code: 'social_video_unreadable' });
       }
@@ -912,7 +918,9 @@ router.post('/social-resize', protect, preflightCredits, socialResizeUpload, asy
         video_codec: 'x264',
         audio_codec: 'aac',
       };
-      convertFile(job.id, req.file, 'mp4', videoOptions, notifyUserId, req.userId, charged).catch((err) => {
+      convertFile(job.id, req.file, 'mp4', videoOptions, notifyUserId, req.userId, charged, {
+        tool: 'resize-for-social-media', preset: options.preset, fit: videoOptions.fit, seconds: Math.round(videoSeconds),
+      }).catch((err) => {
         console.error(`Social video resize failed for job ${job.id}:`, err);
       });
     } else {

@@ -1,0 +1,49 @@
+{
+  "replace": {
+    "toolDescriptions": {
+      "auto-subtitle": "Generați subtitrări precise, codificate în timp, din orice video — ca fișier SRT sau VTT, ca video cu pistă de subtitrare comutabilă sau ca video cu subtitrările încorporate în imagine pentru TikTok, Reels și Shorts."
+    }
+  },
+  "tool": {
+    "subtitleOutputLabel": "Ce vrei să primești?",
+    "subtitleMode_file": "Doar fișierul de subtitrare",
+    "subtitleMode_fileDesc": "Un fișier SRT sau VTT cu textul și sincronizarea — de încărcat pe YouTube sau de editat singur.",
+    "subtitleMode_fileCost": "1 credit la fiecare 5 minute începute · până la 30 de minute",
+    "subtitleMode_soft": "Video cu subtitrări comutabile",
+    "subtitleMode_softDesc": "Un MP4 cu o pistă de subtitrare pe care spectatorii o pot activa sau dezactiva în playere precum VLC sau QuickTime.",
+    "subtitleMode_softCost": "2 credite la fiecare 5 minute începute · până la 10 minute",
+    "subtitleMode_burn": "Video cu subtitrări încorporate în imagine",
+    "subtitleMode_burnDesc": "Un MP4 cu subtitrările desenate în imagine — mereu vizibile, chiar și fără sunet.",
+    "subtitleMode_burnCost": "3 credite la fiecare 5 minute începute · până la 10 minute",
+    "subtitleSocialNote": "Postezi pe TikTok, Reels sau Shorts? Alege subtitrările încorporate în imagine — aceste platforme ignoră pistele de subtitrare comutabile.",
+    "smartCostKnown": "Credite necesare: {{credits}} (durată {{length}})",
+    "smartCostUnknown": "Credite necesare: cel puțin {{credits}} — suma exactă rezultă din durată după procesarea fișierului.",
+    "confirmSmartCost": "Credite necesare: {{credits}}. Credite rămase: {{remaining}}.",
+    "confirmSmartCostUnknown": "Credite necesare: cel puțin {{credits}} — suma exactă rezultă din durată. Credite rămase: {{remaining}}.",
+    "subtitleTooLongVideo": "Acest videoclip durează mai mult de 10 minute, limita pentru video cu subtitrări. Alege un videoclip mai scurt sau doar fișierul de subtitrare (până la 30 de minute) — nu s-au folosit credite.",
+    "subtitleTooLongFile": "Acest videoclip durează mai mult de 30 de minute, limita pentru fișierele de subtitrare. Folosește un videoclip mai scurt — nu s-au folosit credite.",
+    "subtitleTooLarge": "Videoclipurile pot avea cel mult 500 MB — nu s-au folosit credite.",
+    "subtitleUnreadable": "Nu am putut citi durata acestui videoclip, așa că nu îi putem calcula prețul pentru acest rezultat. Exportă-l din nou ca MP4 și încearcă încă o dată — nu s-au folosit credite.",
+    "subtitleBadType": "Folosește un videoclip MP4, MOV, M4V, 3GP sau WebM.",
+    "subtitleUnavailable": "Opțiunea video cu subtitrări nu este disponibilă momentan. Fișierul de subtitrare funcționează în continuare — nu s-au folosit credite.",
+    "smartFileTooLarge": "Acest fișier depășește 25 MB, limita pentru acest instrument — nu s-au folosit credite.",
+    "smartBadType": "Acest tip de fișier nu este acceptat de acest instrument — nu s-au folosit credite."
+  },
+  "pack": {
+    "t": {
+      "faq.cost.a.subtitle": "Se taxează după durată, nu pe fişier, la fiecare 5 minute de video începute: 1 credit pentru fişierul de subtitrare, 2 credite pentru un video cu subtitrări comutabile şi 3 credite pentru un video cu subtitrări încorporate în imagine, fiindcă ultimele două trebuie procesate din nou ca video. Fără abonament: creditele se cumpără în pachete mici preplătite, nu expiră niciodată, iar o conversie eşuată nu costă nimic.",
+      "faq.time.suffix.subtitle": " Videoclipurile pot avea până la 500 MB — până la 30 de minute pentru fişierul de subtitrare şi până la 10 minute pentru video cu subtitrări."
+    },
+    "replace": {
+      "t": {
+        "intro.lead.subtitle": "Generatorul de subtitrări transcrie vorbirea dintr-un videoclip şi o scrie cu coduri de timp. Primeşti fie un fişier de subtitrare standard, fie videoclipul final — cu o pistă de subtitrare pe care spectatorii o pot activa şi dezactiva sau cu subtitrările încorporate în imagine, ca să apară peste tot.",
+        "steps.subtitle.1": "Încarcă videoclipul pe care vrei să îl subtitrezi — MP4, MOV, M4V, 3GP sau WebM, până la 500 MB.",
+        "steps.subtitle.2": "Alege rezultatul — fişier de subtitrare, video cu subtitrări comutabile sau video cu subtitrări încorporate în imagine — şi indică limba vorbită dacă o cunoşti. Preţul este afişat înainte de conversie.",
+        "steps.subtitle.3": "Dă clic pe Convertire şi descarcă fişierul de subtitrare sau MP4-ul final.",
+        "shapeFaq.subtitle.a1": "Vorbirea clară se transcrie foarte exact, inclusiv cu accent. Muzica de fundal, vorbitul peste şi terminologia specializată sunt locurile unde se strecoară erorile, iar indicarea limbii vorbite în loc de detectare automată ajută. Dacă fiecare cuvânt trebuie să fie perfect, alege mai întâi fişierul de subtitrare: este text simplu, aşa că îndreptarea câte unui cuvânt ia câteva secunde în orice editor de text.",
+        "shapeFaq.subtitle.q2": "Să aleg subtitrări comutabile sau încorporate în imagine?",
+        "shapeFaq.subtitle.a2": "Subtitrările încorporate în imagine sunt parte din cadru, deci apar peste tot — alegerea potrivită pentru TikTok, Instagram Reels şi YouTube Shorts, unde majoritatea oamenilor urmăresc fără sunet, iar pistele comutabile sunt ignorate. Subtitrările comutabile rămân o pistă separată pe care spectatorii o activează sau o dezactivează în playere precum VLC sau QuickTime; pentru YouTube propriu-zis, încarcă în schimb fişierul de subtitrare. Dacă ai nevoie de SRT sau VTT, SRT merge aproape peste tot, iar VTT este formatul pentru playerele HTML5 de pe site-uri."
+      }
+    }
+  }
+}

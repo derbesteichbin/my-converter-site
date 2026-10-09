@@ -1,0 +1,49 @@
+{
+  "replace": {
+    "toolDescriptions": {
+      "auto-subtitle": "Generujte přesné, časově kódované titulky z jakéhokoli videa — jako soubor SRT nebo VTT, jako video s přepínatelnými titulky, nebo jako video s vypálenými titulky pro TikTok, Reels a Shorts."
+    }
+  },
+  "tool": {
+    "subtitleOutputLabel": "Co chcete získat?",
+    "subtitleMode_file": "Pouze titulkový soubor",
+    "subtitleMode_fileDesc": "Soubor SRT nebo VTT s textem a časováním — k nahrání na YouTube nebo k vlastní úpravě.",
+    "subtitleMode_fileCost": "1 kredit za každých započatých 5 minut · až 30 minut",
+    "subtitleMode_soft": "Video s přepínatelnými titulky",
+    "subtitleMode_softDesc": "MP4 s titulkovou stopou, kterou si diváci mohou zapnout nebo vypnout v přehrávačích jako VLC nebo QuickTime.",
+    "subtitleMode_softCost": "2 kredity za každých započatých 5 minut · až 10 minut",
+    "subtitleMode_burn": "Video s vypálenými titulky",
+    "subtitleMode_burnDesc": "MP4 s titulky vykreslenými přímo do obrazu — vždy viditelné, i bez zvuku.",
+    "subtitleMode_burnCost": "3 kredity za každých započatých 5 minut · až 10 minut",
+    "subtitleSocialNote": "Publikujete na TikTok, Reels nebo Shorts? Zvolte vypálené titulky — tyto platformy přepínatelné titulkové stopy ignorují.",
+    "smartCostKnown": "Potřebné kredity: {{credits}} (délka {{length}})",
+    "smartCostUnknown": "Potřebné kredity: alespoň {{credits}} — přesný počet vyplyne z délky po zpracování souboru.",
+    "confirmSmartCost": "Potřebné kredity: {{credits}}. Zbývající kredity: {{remaining}}.",
+    "confirmSmartCostUnknown": "Potřebné kredity: alespoň {{credits}} — přesný počet vyplyne z délky. Zbývající kredity: {{remaining}}.",
+    "subtitleTooLongVideo": "Toto video je delší než 10 minut, což je limit pro video s titulky. Zvolte kratší video nebo pouze titulkový soubor (až 30 minut) — žádné kredity nebyly využity.",
+    "subtitleTooLongFile": "Toto video je delší než 30 minut, což je limit pro titulkové soubory. Použijte prosím kratší video — žádné kredity nebyly využity.",
+    "subtitleTooLarge": "Videa mohou mít nejvýše 500 MB — žádné kredity nebyly využity.",
+    "subtitleUnreadable": "Nepodařilo se nám zjistit délku tohoto videa, takže pro tento výstup nelze určit cenu. Exportujte ho znovu jako MP4 a zkuste to ještě jednou — žádné kredity nebyly využity.",
+    "subtitleBadType": "Použijte video MP4, MOV, M4V, 3GP nebo WebM.",
+    "subtitleUnavailable": "Video s titulky teď není k dispozici. Titulkový soubor stále funguje — žádné kredity nebyly využity.",
+    "smartFileTooLarge": "Tento soubor je větší než 25 MB, což je limit tohoto nástroje — žádné kredity nebyly využity.",
+    "smartBadType": "Tento typ souboru tento nástroj nepodporuje — žádné kredity nebyly využity."
+  },
+  "pack": {
+    "t": {
+      "faq.cost.a.subtitle": "Účtuje se podle délky, ne po souborech, a to za každých započatých 5 minut videa: 1 kredit za samotný titulkový soubor, 2 kredity za video s přepínatelnými titulky a 3 kredity za video s vypálenými titulky, protože tyto dva výstupy se musí znovu zpracovat jako video. Žádné předplatné: kredity se kupují v malých předplacených balíčcích, nikdy nevyprší a neúspěšný převod nikdy nic nestojí.",
+      "faq.time.suffix.subtitle": " Videa mohou mít až 500 MB — až 30 minut pro titulkový soubor a až 10 minut pro video s titulky."
+    },
+    "replace": {
+      "t": {
+        "intro.lead.subtitle": "Generátor titulků přepíše řeč z videa a vypíše ji s časovými kódy. Získáte buď standardní titulkový soubor, nebo rovnou hotové video — s titulkovou stopou, kterou si diváci mohou zapnout a vypnout, nebo s titulky vypálenými do obrazu, aby byly vidět všude.",
+        "steps.subtitle.1": "Nahrajte video, ke kterému chcete titulky — MP4, MOV, M4V, 3GP nebo WebM, až 500 MB.",
+        "steps.subtitle.2": "Zvolte výstup — titulkový soubor, video s přepínatelnými titulky nebo video s vypálenými titulky — a nastavte mluvený jazyk, pokud ho znáte. Cenu uvidíte ještě před převodem.",
+        "steps.subtitle.3": "Klikněte na Převést a stáhněte si titulkový soubor nebo hotové MP4.",
+        "shapeFaq.subtitle.a1": "Zřetelná řeč se přepisuje velmi přesně, i s přízvukem. Hudba v pozadí, překřikování a odborná terminologie jsou místa, kde se vloudí chyby, a nastavit mluvený jazyk místo automatické detekce pomáhá. Pokud musí být každé slovo dokonalé, zvolte nejprve titulkový soubor: je to prostý text, takže opravit tu a tam slovo zabere v libovolném textovém editoru pár vteřin.",
+        "shapeFaq.subtitle.q2": "Mám zvolit přepínatelné, nebo vypálené titulky?",
+        "shapeFaq.subtitle.a2": "Vypálené titulky jsou součástí obrazu, takže jsou vidět všude — správná volba pro TikTok, Instagram Reels a YouTube Shorts, kde většina lidí sleduje videa bez zvuku a přepínatelné stopy se ignorují. Přepínatelné titulky zůstávají samostatnou stopou, kterou si diváci zapínají a vypínají v přehrávačích jako VLC nebo QuickTime; pro samotný YouTube raději nahrajte titulkový soubor. Pokud potřebujete SRT nebo VTT, SRT funguje téměř všude, zatímco VTT je formát pro HTML5 přehrávače na webech."
+      }
+    }
+  }
+}

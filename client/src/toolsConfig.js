@@ -13,6 +13,18 @@ export const SOCIAL_VIDEO_MAX_BYTES = 500 * 1024 * 1024;
 export const SOCIAL_VIDEO_MAX_SECONDS = 3 * 60;
 export const SOCIAL_VIDEO_CREDITS = 2;
 
+// Auto Subtitle outputs: credits per started 5 minutes and longest video.
+// Mirrors SUBTITLE_MODES in server/routes/smartFunctions.js, which enforces
+// them; the page uses them to show the price and refuse early.
+export const SUBTITLE_MODES = [
+  { id: 'file', rate: 1, maxSeconds: 30 * 60 },
+  { id: 'soft', rate: 2, maxSeconds: 10 * 60 },
+  { id: 'burn', rate: 3, maxSeconds: 10 * 60 },
+];
+export const SUBTITLE_MAX_BYTES = 500 * 1024 * 1024;
+export const WHISPER_MAX_BYTES = 25 * 1024 * 1024; // Speech to Text upload cap
+export const SECONDS_PER_SMART_CREDIT = 5 * 60;
+
 export const TOOLS = [
   // ── Document ──
   { slug: 'pdf-to-word',  label: 'PDF to Word',        category: 'Document', inputFormats: ['pdf'],         outputFormats: ['docx', 'doc'],       acceptMime: '.pdf' },
@@ -87,7 +99,7 @@ export const TOOLS = [
   { slug: 'document-translation', label: 'Document Translation',     category: 'Smart Functions', comingSoon: true },
   { slug: 'text-to-speech',       label: 'Text to Speech',           category: 'Smart Functions', inputFormats: ['txt'], outputFormats: ['mp3', 'opus', 'aac'], acceptMime: '.txt', toolType: 'smart' },
   { slug: 'speech-to-text',       label: 'Speech to Text',           category: 'Smart Functions', inputFormats: ['mp3', 'wav', 'm4a', 'ogg', 'mp4', 'webm'], outputFormats: ['txt', 'docx'], acceptMime: '.mp3,.wav,.m4a,.ogg,.mp4,.webm', toolType: 'smart' },
-  { slug: 'auto-subtitle',        label: 'Auto Subtitle Generator',  category: 'Smart Functions', inputFormats: ['mp4', 'mov', 'avi', 'mkv'], outputFormats: ['srt', 'vtt'], acceptMime: '.mp4,.mov,.avi,.mkv', toolType: 'smart' },
+  { slug: 'auto-subtitle',        label: 'Auto Subtitle Generator',  category: 'Smart Functions', inputFormats: ['mp4', 'mov', 'm4v', '3gp', 'webm'], outputFormats: ['srt', 'vtt'], acceptMime: '.mp4,.mov,.m4v,.3gp,.webm', toolType: 'smart' },
 
   // ── Added: Audio ──
   { slug: 'mp3-to-ogg',      label: 'MP3 to OGG',       category: 'Audio', inputFormats: ['mp3'], outputFormats: ['ogg', 'wav', 'flac', 'aac'], acceptMime: '.mp3' },

@@ -1,0 +1,49 @@
+{
+  "replace": {
+    "toolDescriptions": {
+      "auto-subtitle": "Generer nøyaktige, tidskodede undertekster fra enhver video — som SRT- eller VTT-fil, som video med valgbare undertekster eller som video med innbrente undertekster for TikTok, Reels og Shorts."
+    }
+  },
+  "tool": {
+    "subtitleOutputLabel": "Hva vil du ha?",
+    "subtitleMode_file": "Kun undertekstfil",
+    "subtitleMode_fileDesc": "En SRT- eller VTT-fil med teksten og tidspunktene — for å laste opp til YouTube eller redigere selv.",
+    "subtitleMode_fileCost": "1 kreditt per påbegynte 5 minutter · opptil 30 minutter",
+    "subtitleMode_soft": "Video med valgbare undertekster",
+    "subtitleMode_softDesc": "En MP4 med et undertekstspor som seerne kan slå av og på i spillere som VLC eller QuickTime.",
+    "subtitleMode_softCost": "2 kreditter per påbegynte 5 minutter · opptil 10 minutter",
+    "subtitleMode_burn": "Video med innbrente undertekster",
+    "subtitleMode_burnDesc": "En MP4 der undertekstene er tegnet inn i bildet — alltid synlige, selv uten lyd.",
+    "subtitleMode_burnCost": "3 kreditter per påbegynte 5 minutter · opptil 10 minutter",
+    "subtitleSocialNote": "Legger du ut på TikTok, Reels eller Shorts? Velg innbrente undertekster — disse plattformene ignorerer valgbare undertekstspor.",
+    "smartCostKnown": "Kreditter som trengs: {{credits}} (lengde {{length}})",
+    "smartCostUnknown": "Kreditter som trengs: minst {{credits}} — det nøyaktige antallet avhenger av lengden og fastsettes når filen er behandlet.",
+    "confirmSmartCost": "Kreditter som trengs: {{credits}}. Gjenværende kreditter: {{remaining}}.",
+    "confirmSmartCostUnknown": "Kreditter som trengs: minst {{credits}} — det nøyaktige antallet avhenger av lengden. Gjenværende kreditter: {{remaining}}.",
+    "subtitleTooLongVideo": "Denne videoen er lengre enn 10 minutter, som er grensen for video med undertekster. Velg en kortere video eller kun undertekstfil (opptil 30 minutter) — ingen kreditter ble brukt.",
+    "subtitleTooLongFile": "Denne videoen er lengre enn 30 minutter, som er grensen for undertekstfiler. Bruk en kortere video — ingen kreditter ble brukt.",
+    "subtitleTooLarge": "Videoer kan være på maks 500 MB — ingen kreditter ble brukt.",
+    "subtitleUnreadable": "Vi kunne ikke lese lengden på denne videoen, så prisen for dette valget kan ikke beregnes. Eksporter den på nytt som MP4 og prøv igjen — ingen kreditter ble brukt.",
+    "subtitleBadType": "Bruk en MP4-, MOV-, M4V-, 3GP- eller WebM-video.",
+    "subtitleUnavailable": "Video med undertekster er ikke tilgjengelig akkurat nå. Undertekstfilen fungerer fortsatt — ingen kreditter ble brukt.",
+    "smartFileTooLarge": "Denne filen er større enn 25 MB, som er grensen for dette verktøyet — ingen kreditter ble brukt.",
+    "smartBadType": "Denne filtypen støttes ikke av dette verktøyet — ingen kreditter ble brukt."
+  },
+  "pack": {
+    "t": {
+      "faq.cost.a.subtitle": "Det faktureres etter lengde i stedet for per fil, per påbegynte 5 minutter video: 1 kreditt for kun undertekstfil, 2 kreditter for video med valgbare undertekster og 3 kreditter for video med innbrente undertekster, fordi de to siste må behandles på nytt som video. Ingen abonnement: kreditter kjøpes i små forhåndsbetalte pakker, utløper aldri, og en mislykket konvertering koster aldri noe.",
+      "faq.time.suffix.subtitle": " Videoer kan være på opptil 500 MB — opptil 30 minutter for undertekstfilen og opptil 10 minutter for video med undertekster."
+    },
+    "replace": {
+      "t": {
+        "intro.lead.subtitle": "Undertekstgeneratoren skriver ut talen i en video og legger til tidkoder. Du får enten en standardisert undertekstfil eller selve den ferdige videoen — med et undertekstspor seerne kan slå av og på, eller med undertekstene brent inn i bildet slik at de vises overalt.",
+        "steps.subtitle.1": "Last opp videoen du vil tekste — MP4, MOV, M4V, 3GP eller WebM, opptil 500 MB.",
+        "steps.subtitle.2": "Velg resultat — undertekstfil, video med valgbare undertekster eller video med innbrente undertekster — og angi det talte språket hvis du kjenner det. Prisen vises før du konverterer.",
+        "steps.subtitle.3": "Klikk på Konverter og last ned undertekstfilen eller den ferdige MP4-filen.",
+        "shapeFaq.subtitle.a1": "Tydelig tale skrives ut svært treffsikkert, også med aksent. Bakgrunnsmusikk, overlappende prat og spesialisert terminologi er der feilene sniker seg inn, og å angi det talte språket i stedet for å oppdage det automatisk hjelper. Hvis hvert ord må være perfekt, velg undertekstfilen først: den er ren tekst, så å rette et og annet ord tar sekunder i hvilken som helst tekstredigerer.",
+        "shapeFaq.subtitle.q2": "Bør jeg velge valgbare eller innbrente undertekster?",
+        "shapeFaq.subtitle.a2": "Innbrente undertekster er en del av bildet, så de vises overalt — det riktige valget for TikTok, Instagram Reels og YouTube Shorts, der de fleste ser uten lyd og valgbare spor ignoreres. Valgbare undertekster forblir et eget spor som seerne slår av eller på i spillere som VLC eller QuickTime; for selve YouTube laster du heller opp undertekstfilen. Trenger du SRT eller VTT, fungerer SRT nesten overalt, mens VTT er formatet for HTML5-spillere på nettsteder."
+      }
+    }
+  }
+}

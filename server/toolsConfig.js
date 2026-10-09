@@ -77,7 +77,8 @@ const VALID_TOOLS = {
   'pdf-compress-ai': { inputFormats: ['pdf'], outputFormats: ['pdf'], toolType: 'pdf-compress' },
   'text-to-speech':  { inputFormats: ['txt'], outputFormats: ['mp3', 'opus', 'aac'], toolType: 'smart' },
   'speech-to-text':  { inputFormats: ['mp3', 'wav', 'm4a', 'ogg', 'mp4', 'webm'], outputFormats: ['txt', 'docx'], toolType: 'smart' },
-  'auto-subtitle':   { inputFormats: ['mp4', 'mov', 'avi', 'mkv'], outputFormats: ['srt', 'vtt'], toolType: 'smart' },
+  // Video output (soft/burned-in MP4) is chosen with subtitleMode, not here.
+  'auto-subtitle':   { inputFormats: ['mp4', 'mov', 'm4v', '3gp', 'webm'], outputFormats: ['srt', 'vtt'], toolType: 'smart' },
 
   // Added: Audio
   'mp3-to-ogg':      { inputFormats: ['mp3'], outputFormats: ['ogg', 'wav', 'flac', 'aac'] },

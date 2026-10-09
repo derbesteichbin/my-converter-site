@@ -1,0 +1,49 @@
+{
+  "replace": {
+    "toolDescriptions": {
+      "auto-subtitle": "Generáljon pontos, időkódolt feliratokat bármely videóból — SRT vagy VTT fájlként, kapcsolható feliratsávot tartalmazó videóként, vagy beégetett feliratú videóként TikTokra, Reelsre és Shortsra."
+    }
+  },
+  "tool": {
+    "subtitleOutputLabel": "Mit szeretnél kapni?",
+    "subtitleMode_file": "Csak feliratfájl",
+    "subtitleMode_fileDesc": "SRT vagy VTT fájl a szöveggel és az időzítésekkel — YouTube-ra való feltöltéshez vagy saját szerkesztéshez.",
+    "subtitleMode_fileCost": "1 kredit minden megkezdett 5 percért · legfeljebb 30 perc",
+    "subtitleMode_soft": "Videó kapcsolható felirattal",
+    "subtitleMode_softDesc": "MP4 feliratsávval, amelyet a nézők be- vagy kikapcsolhatnak például a VLC-ben vagy a QuickTime-ban.",
+    "subtitleMode_softCost": "2 kredit minden megkezdett 5 percért · legfeljebb 10 perc",
+    "subtitleMode_burn": "Videó beégetett felirattal",
+    "subtitleMode_burnDesc": "MP4, amelyben a felirat a képbe van rajzolva — mindig látható, hang nélkül is.",
+    "subtitleMode_burnCost": "3 kredit minden megkezdett 5 percért · legfeljebb 10 perc",
+    "subtitleSocialNote": "TikTokra, Reelsre vagy Shortsra posztolsz? Válaszd a beégetett feliratot — ezek a platformok figyelmen kívül hagyják a kapcsolható feliratsávokat.",
+    "smartCostKnown": "Szükséges kredit: {{credits}} (hossz: {{length}})",
+    "smartCostUnknown": "Szükséges kredit: legalább {{credits}} — a pontos összeg a hosszból adódik, miután a fájl feldolgozása megtörtént.",
+    "confirmSmartCost": "Szükséges kredit: {{credits}}. Hátralévő kredit: {{remaining}}.",
+    "confirmSmartCostUnknown": "Szükséges kredit: legalább {{credits}} — a pontos összeg a hosszból adódik. Hátralévő kredit: {{remaining}}.",
+    "subtitleTooLongVideo": "Ez a videó hosszabb 10 percnél, ami a feliratos videó korlátja. Válassz rövidebb videót vagy a csak feliratfájl lehetőséget (legfeljebb 30 perc) — nem használtunk fel kreditet.",
+    "subtitleTooLongFile": "Ez a videó hosszabb 30 percnél, ami a feliratfájlok korlátja. Használj rövidebb videót — nem használtunk fel kreditet.",
+    "subtitleTooLarge": "A videók legfeljebb 500 MB-osak lehetnek — nem használtunk fel kreditet.",
+    "subtitleUnreadable": "Nem sikerült kiolvasni a videó hosszát, így ehhez a kimenethez nem tudjuk meghatározni az árat. Exportáld újra MP4 formátumban, és próbáld meg még egyszer — nem használtunk fel kreditet.",
+    "subtitleBadType": "Használj MP4, MOV, M4V, 3GP vagy WebM videót.",
+    "subtitleUnavailable": "A feliratos videó jelenleg nem érhető el. A feliratfájl továbbra is működik — nem használtunk fel kreditet.",
+    "smartFileTooLarge": "Ez a fájl nagyobb 25 MB-nál, ami ennek az eszköznek a korlátja — nem használtunk fel kreditet.",
+    "smartBadType": "Ezt a fájltípust ez az eszköz nem támogatja — nem használtunk fel kreditet."
+  },
+  "pack": {
+    "t": {
+      "faq.cost.a.subtitle": "Hossz szerint számoljuk, nem fájlonként, a videó minden megkezdett 5 percéért: 1 kredit a csak feliratfájlért, 2 kredit a kapcsolható feliratos videóért és 3 kredit a beégetett feliratos videóért, mert az utóbbi kettőt videóként újra fel kell dolgozni. Nincs előfizetés: a krediteket kis, előre fizetett csomagokban lehet megvenni, soha nem járnak le, és egy sikertelen átalakítás soha nem kerül semmibe.",
+      "faq.time.suffix.subtitle": " A videók legfeljebb 500 MB-osak lehetnek — a feliratfájlhoz legfeljebb 30 percesek, a feliratos videóhoz legfeljebb 10 percesek."
+    },
+    "replace": {
+      "t": {
+        "intro.lead.subtitle": "A feliratgenerátor átírja a videóban elhangzó beszédet, és időkódokkal együtt írja ki. Kaphatsz szabványos feliratfájlt, vagy magát a kész videót — kapcsolható feliratsávval, amelyet a nézők be- és kikapcsolhatnak, vagy a képbe beégetett felirattal, hogy mindenhol látszódjon.",
+        "steps.subtitle.1": "Töltsd fel a videót, amelyikhez feliratot szeretnél — MP4, MOV, M4V, 3GP vagy WebM, legfeljebb 500 MB.",
+        "steps.subtitle.2": "Válaszd ki a kimenetet — feliratfájl, videó kapcsolható felirattal vagy videó beégetett felirattal —, és add meg a beszélt nyelvet, ha tudod. Az árat az átalakítás előtt látod.",
+        "steps.subtitle.3": "Kattints az Átalakítás gombra, és töltsd le a feliratfájlt vagy a kész MP4-et.",
+        "shapeFaq.subtitle.a1": "A tiszta beszéd nagyon pontosan átírható, akcentussal is. A háttérzene, az egymás szavába vágás és a szakkifejezések azok a helyek, ahol a hibák becsúsznak, és a beszélt nyelv megadása az automatikus felismerés helyett segít. Ha minden szónak tökéletesnek kell lennie, először a feliratfájlt válaszd: egyszerű szöveg, tehát egy-egy szó javítása másodpercek bármelyik szövegszerkesztőben.",
+        "shapeFaq.subtitle.q2": "Kapcsolható vagy beégetett feliratot válasszak?",
+        "shapeFaq.subtitle.a2": "A beégetett felirat a kép része, ezért mindenhol látszik — ez a jó választás a TikTokhoz, az Instagram Reelshez és a YouTube Shortshoz, ahol a legtöbben hang nélkül néznek, és a kapcsolható sávokat figyelmen kívül hagyják. A kapcsolható felirat külön sáv marad, amelyet a nézők be- vagy kikapcsolnak például a VLC-ben vagy a QuickTime-ban; magára a YouTube-ra inkább a feliratfájlt töltsd fel. Ha SRT vagy VTT kell, az SRT szinte mindenhol működik, a VTT pedig a weboldalak HTML5-lejátszóinak formátuma."
+      }
+    }
+  }
+}

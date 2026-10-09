@@ -1,0 +1,49 @@
+{
+  "replace": {
+    "toolDescriptions": {
+      "auto-subtitle": "Genera sottotitoli accurati e sincronizzati da qualsiasi video: come file SRT o VTT, come video con una traccia di sottotitoli attivabile o come video con i sottotitoli impressi per TikTok, Reels e Shorts."
+    }
+  },
+  "tool": {
+    "subtitleOutputLabel": "Cosa vuoi ottenere?",
+    "subtitleMode_file": "Solo file di sottotitoli",
+    "subtitleMode_fileDesc": "Un file SRT o VTT con testo e tempi, da caricare su YouTube o da modificare tu stesso.",
+    "subtitleMode_fileCost": "1 credito ogni 5 minuti o frazione · fino a 30 minuti",
+    "subtitleMode_soft": "Video con sottotitoli attivabili",
+    "subtitleMode_softDesc": "Un MP4 con una traccia di sottotitoli che gli spettatori possono attivare o disattivare in lettori come VLC o QuickTime.",
+    "subtitleMode_softCost": "2 crediti ogni 5 minuti o frazione · fino a 10 minuti",
+    "subtitleMode_burn": "Video con sottotitoli impressi",
+    "subtitleMode_burnDesc": "Un MP4 con i sottotitoli impressi nell'immagine: sempre visibili, anche senza audio.",
+    "subtitleMode_burnCost": "3 crediti ogni 5 minuti o frazione · fino a 10 minuti",
+    "subtitleSocialNote": "Pubblichi su TikTok, Reels o Shorts? Scegli i sottotitoli impressi: queste piattaforme ignorano le tracce di sottotitoli attivabili.",
+    "smartCostKnown": "Crediti necessari: {{credits}} (durata {{length}})",
+    "smartCostUnknown": "Crediti necessari: almeno {{credits}} — l'importo esatto dipende dalla durata e sarà noto dopo l'elaborazione del file.",
+    "confirmSmartCost": "Crediti necessari: {{credits}}. Crediti rimanenti: {{remaining}}.",
+    "confirmSmartCostUnknown": "Crediti necessari: almeno {{credits}} — l'importo esatto dipende dalla durata. Crediti rimanenti: {{remaining}}.",
+    "subtitleTooLongVideo": "Questo video dura più di 10 minuti, il limite per i video con sottotitoli. Scegli un video più breve o solo il file di sottotitoli (fino a 30 minuti) — non è stato usato nessun credito.",
+    "subtitleTooLongFile": "Questo video dura più di 30 minuti, il limite per i file di sottotitoli. Usa un video più breve — non è stato usato nessun credito.",
+    "subtitleTooLarge": "I video possono pesare al massimo 500 MB — non è stato usato nessun credito.",
+    "subtitleUnreadable": "Non siamo riusciti a leggere la durata di questo video, quindi non è possibile calcolarne il prezzo per questa uscita. Esportalo di nuovo in MP4 e riprova — non è stato usato nessun credito.",
+    "subtitleBadType": "Usa un video MP4, MOV, M4V, 3GP o WebM.",
+    "subtitleUnavailable": "I video con sottotitoli non sono disponibili in questo momento. Il file di sottotitoli funziona comunque — non è stato usato nessun credito.",
+    "smartFileTooLarge": "Questo file supera i 25 MB, il limite di questo strumento — non è stato usato nessun credito.",
+    "smartBadType": "Questo tipo di file non è supportato da questo strumento — non è stato usato nessun credito."
+  },
+  "pack": {
+    "t": {
+      "faq.cost.a.subtitle": "Si paga in base alla durata anziché a file, ogni 5 minuti di video o frazione: 1 credito per il solo file di sottotitoli, 2 crediti per un video con sottotitoli attivabili e 3 crediti per un video con sottotitoli impressi, perché questi ultimi due devono essere rielaborati come video. Nessun abbonamento: i crediti si acquistano in piccoli pacchetti prepagati, non scadono mai e una conversione fallita non costa mai nulla.",
+      "faq.time.suffix.subtitle": " I video possono pesare fino a 500 MB: fino a 30 minuti per il file di sottotitoli e fino a 10 minuti per i video con sottotitoli."
+    },
+    "replace": {
+      "t": {
+        "intro.lead.subtitle": "Il generatore di sottotitoli trascrive il parlato di un video e lo scrive con i time-code. Ottenete un file di sottotitoli standard oppure direttamente il video finito: con una traccia di sottotitoli che gli spettatori possono attivare e disattivare, o con i sottotitoli impressi nell’immagine, così da essere visibili ovunque.",
+        "steps.subtitle.1": "Caricate il video da sottotitolare: MP4, MOV, M4V, 3GP o WebM, fino a 500 MB.",
+        "steps.subtitle.2": "Scegliete l’uscita (file di sottotitoli, video con sottotitoli attivabili o video con sottotitoli impressi) e indicate la lingua parlata se la conoscete. Il prezzo viene mostrato prima della conversione.",
+        "steps.subtitle.3": "Fate clic su Converti e scaricate il file di sottotitoli o l’MP4 finito.",
+        "shapeFaq.subtitle.a1": "Il parlato chiaro viene trascritto con grande precisione, anche con gli accenti. Musica di sottofondo, voci sovrapposte e terminologia specialistica sono i punti dove si insinuano gli errori, e indicare la lingua parlata anziché rilevarla automaticamente aiuta. Se ogni parola deve essere perfetta, scegliete prima il file di sottotitoli: è testo semplice, quindi correggere qualche parola richiede secondi in un qualsiasi editor di testo.",
+        "shapeFaq.subtitle.q2": "Meglio sottotitoli attivabili o impressi?",
+        "shapeFaq.subtitle.a2": "I sottotitoli impressi fanno parte dell’immagine, quindi sono visibili ovunque: la scelta giusta per TikTok, Instagram Reels e YouTube Shorts, dove la maggior parte delle persone guarda senza audio e le tracce attivabili vengono ignorate. I sottotitoli attivabili restano una traccia separata che gli spettatori attivano o disattivano in lettori come VLC o QuickTime; per YouTube vero e proprio, caricate invece il file di sottotitoli. Se vi serve SRT o VTT, l’SRT funziona quasi ovunque, mentre il VTT è il formato per i lettori HTML5 sui siti web."
+      }
+    }
+  }
+}

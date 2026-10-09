@@ -285,10 +285,13 @@ export function buildToolContent(tool, pack, fallbackPack) {
   const steps = buildSteps(t, shape, tool, fn, tn, family, isSmart, inputs, categoryNoun).map(clean);
 
   // ── FAQ ──
+  // Auto Subtitle has its own price list (three outputs) and upload limit,
+  // so it does not share the generic Smart Functions answers.
   const costKey = isSmart
-    ? (tool.slug === 'text-to-speech' ? 'faq.cost.a.smartTts' : 'faq.cost.a.smartAv')
+    ? (tool.slug === 'text-to-speech' ? 'faq.cost.a.smartTts' : shape === 'subtitle' ? 'faq.cost.a.subtitle' : 'faq.cost.a.smartAv')
     : (isPair ? 'faq.cost.a.pair' : 'faq.cost.a.tool');
-  const timeSuffix = isSmart ? t('faq.time.suffix.smart') : t('faq.time.suffix.standard');
+  const timeSuffix = shape === 'subtitle' ? t('faq.time.suffix.subtitle')
+    : isSmart ? t('faq.time.suffix.smart') : t('faq.time.suffix.standard');
 
   const faq = [
     {

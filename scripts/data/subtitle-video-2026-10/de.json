@@ -1,0 +1,49 @@
+{
+  "replace": {
+    "toolDescriptions": {
+      "auto-subtitle": "Erstelle präzise, zeitgenaue Untertitel aus jedem Video — als SRT- oder VTT-Datei, als Video mit zuschaltbarer Untertitelspur oder als Video mit eingebrannten Untertiteln für TikTok, Reels und Shorts."
+    }
+  },
+  "tool": {
+    "subtitleOutputLabel": "Was möchten Sie erhalten?",
+    "subtitleMode_file": "Nur Untertiteldatei",
+    "subtitleMode_fileDesc": "Eine SRT- oder VTT-Datei mit Text und Zeitangaben — zum Hochladen auf YouTube oder zur eigenen Bearbeitung.",
+    "subtitleMode_fileCost": "1 Credit je angefangene 5 Minuten · bis zu 30 Minuten",
+    "subtitleMode_soft": "Video mit zuschaltbaren Untertiteln",
+    "subtitleMode_softDesc": "Ein MP4 mit einer Untertitelspur, die Zuschauer in Playern wie VLC oder QuickTime ein- und ausschalten können.",
+    "subtitleMode_softCost": "2 Credits je angefangene 5 Minuten · bis zu 10 Minuten",
+    "subtitleMode_burn": "Video mit eingebrannten Untertiteln",
+    "subtitleMode_burnDesc": "Ein MP4, in dem die Untertitel fest ins Bild eingebrannt sind — immer sichtbar, auch ohne Ton.",
+    "subtitleMode_burnCost": "3 Credits je angefangene 5 Minuten · bis zu 10 Minuten",
+    "subtitleSocialNote": "Sie posten auf TikTok, Reels oder Shorts? Wählen Sie eingebrannte Untertitel — diese Plattformen ignorieren zuschaltbare Untertitelspuren.",
+    "smartCostKnown": "Benötigte Credits: {{credits}} (Länge {{length}})",
+    "smartCostUnknown": "Benötigte Credits: mindestens {{credits}} — der genaue Betrag ergibt sich aus der Länge, sobald die Datei verarbeitet wurde.",
+    "confirmSmartCost": "Benötigte Credits: {{credits}}. Verbleibende Credits: {{remaining}}.",
+    "confirmSmartCostUnknown": "Benötigte Credits: mindestens {{credits}} — der genaue Betrag ergibt sich aus der Länge. Verbleibende Credits: {{remaining}}.",
+    "subtitleTooLongVideo": "Dieses Video ist länger als 10 Minuten, das Limit für Videos mit Untertiteln. Wählen Sie ein kürzeres Video oder nur die Untertiteldatei (bis zu 30 Minuten) — es wurden keine Credits verbraucht.",
+    "subtitleTooLongFile": "Dieses Video ist länger als 30 Minuten, das Limit für Untertiteldateien. Bitte verwenden Sie ein kürzeres Video — es wurden keine Credits verbraucht.",
+    "subtitleTooLarge": "Videos dürfen höchstens 500 MB groß sein — es wurden keine Credits verbraucht.",
+    "subtitleUnreadable": "Wir konnten die Länge dieses Videos nicht auslesen, daher lässt sich der Preis für diese Ausgabe nicht berechnen. Exportieren Sie es erneut als MP4 und versuchen Sie es noch einmal — es wurden keine Credits verbraucht.",
+    "subtitleBadType": "Verwenden Sie ein MP4-, MOV-, M4V-, 3GP- oder WebM-Video.",
+    "subtitleUnavailable": "Videos mit Untertiteln sind gerade nicht verfügbar. Die Untertiteldatei funktioniert weiterhin — es wurden keine Credits verbraucht.",
+    "smartFileTooLarge": "Diese Datei ist größer als 25 MB, das Limit für dieses Werkzeug — es wurden keine Credits verbraucht.",
+    "smartBadType": "Dieser Dateityp wird von diesem Werkzeug nicht unterstützt — es wurden keine Credits verbraucht."
+  },
+  "pack": {
+    "t": {
+      "faq.cost.a.subtitle": "Abgerechnet wird nach Länge statt pro Datei, je angefangene 5 Minuten Video: 1 Credit nur für die Untertiteldatei, 2 Credits für ein Video mit zuschaltbaren Untertiteln und 3 Credits für ein Video mit eingebrannten Untertiteln, weil die beiden letzten noch einmal als Video verarbeitet werden müssen. Es gibt kein Abo: Credits werden in kleinen Prepaid-Paketen gekauft, verfallen nie, und eine fehlgeschlagene Umwandlung kostet nie etwas.",
+      "faq.time.suffix.subtitle": " Videos dürfen bis zu 500 MB groß sein — bis zu 30 Minuten für die Untertiteldatei und bis zu 10 Minuten für Videos mit Untertiteln."
+    },
+    "replace": {
+      "t": {
+        "intro.lead.subtitle": "Der Untertitelgenerator transkribiert die Sprache in einem Video und schreibt sie mit Zeitcodes heraus. Sie erhalten entweder eine normgerechte Untertiteldatei oder direkt das fertige Video — mit einer Untertitelspur, die Zuschauer ein- und ausschalten können, oder mit fest ins Bild eingebrannten Untertiteln, die überall sichtbar sind.",
+        "steps.subtitle.1": "Laden Sie das Video hoch, das Untertitel bekommen soll — MP4, MOV, M4V, 3GP oder WebM, bis zu 500 MB.",
+        "steps.subtitle.2": "Wählen Sie die Ausgabe — Untertiteldatei, Video mit zuschaltbaren Untertiteln oder Video mit eingebrannten Untertiteln — und geben Sie die gesprochene Sprache an, wenn Sie sie kennen. Der Preis wird vor dem Konvertieren angezeigt.",
+        "steps.subtitle.3": "Klicken Sie auf Konvertieren und laden Sie die Untertiteldatei oder das fertige MP4 herunter.",
+        "shapeFaq.subtitle.a1": "Deutliche Sprache wird sehr genau transkribiert, auch über Akzente hinweg. Hintergrundmusik, Durcheinanderreden und Fachbegriffe sind die Stellen, an denen sich Fehler einschleichen; die gesprochene Sprache festzulegen statt sie automatisch erkennen zu lassen, hilft. Wenn jedes Wort perfekt sein muss, wählen Sie zuerst die Untertiteldatei: Sie ist reiner Text, ein gelegentliches Wort zu korrigieren dauert also in jedem Texteditor Sekunden.",
+        "shapeFaq.subtitle.q2": "Sollte ich zuschaltbare oder eingebrannte Untertitel wählen?",
+        "shapeFaq.subtitle.a2": "Eingebrannte Untertitel sind Teil des Bildes und daher überall sichtbar — die richtige Wahl für TikTok, Instagram Reels und YouTube Shorts, wo die meisten ohne Ton schauen und zuschaltbare Spuren ignoriert werden. Zuschaltbare Untertitel bleiben eine eigene Spur, die Zuschauer in Playern wie VLC oder QuickTime ein- und ausschalten; für YouTube selbst laden Sie besser die Untertiteldatei hoch. Wenn Sie SRT oder VTT brauchen: SRT funktioniert fast überall, VTT ist das Format für HTML5-Player auf Websites."
+      }
+    }
+  }
+}

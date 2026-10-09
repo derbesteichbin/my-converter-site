@@ -96,12 +96,18 @@ function replaceInSection(block, section, entries, label) {
   const close = objectEnd(block, open);
   let body = block.slice(open, close);
   for (const [key, value] of Object.entries(entries)) {
-    const keyAt = body.indexOf(`${lit(key)}:`);
-    if (keyAt === -1) throw new Error(`${label}: ${section}.${key} not found to replace`);
-    // The value is the next "…" string literal; walk it to its closing quote.
-    const start = body.indexOf('"', keyAt + lit(key).length + 1);
+    // The original site wrote its entries single-quoted, this script writes
+    // them double-quoted; accept either for the key and the value.
+    const keyText = [lit(key) + ':', `'${key}':`].find((k) => body.includes(k));
+    if (!keyText) throw new Error(`${label}: ${section}.${key} not found to replace`);
+    const keyAt = body.indexOf(keyText);
+    // The value is the next string literal; walk it to its closing quote.
+    const dq = body.indexOf('"', keyAt + keyText.length);
+    const sq = body.indexOf("'", keyAt + keyText.length);
+    const start = [dq, sq].filter((i) => i !== -1).sort((a, b) => a - b)[0];
+    const quote = body[start];
     let end = start + 1;
-    while (body[end] !== '"') end += body[end] === '\\' ? 2 : 1;
+    while (body[end] !== quote) end += body[end] === '\\' ? 2 : 1;
     body = body.slice(0, start) + lit(value) + body.slice(end + 1);
     added++;
   }

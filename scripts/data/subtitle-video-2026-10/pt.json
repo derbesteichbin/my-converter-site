@@ -1,0 +1,49 @@
+{
+  "replace": {
+    "toolDescriptions": {
+      "auto-subtitle": "Gere legendas precisas e sincronizadas a partir de qualquer vídeo — como ficheiro SRT ou VTT, como vídeo com uma faixa de legendas ativáveis, ou como vídeo com as legendas incrustadas para TikTok, Reels e Shorts."
+    }
+  },
+  "tool": {
+    "subtitleOutputLabel": "O que pretende obter?",
+    "subtitleMode_file": "Só o ficheiro de legendas",
+    "subtitleMode_fileDesc": "Um ficheiro SRT ou VTT com o texto e os tempos — para carregar no YouTube ou editar por si.",
+    "subtitleMode_fileCost": "1 crédito por cada 5 minutos ou fração · até 30 minutos",
+    "subtitleMode_soft": "Vídeo com legendas ativáveis",
+    "subtitleMode_softDesc": "Um MP4 com uma faixa de legendas que os espectadores podem ativar ou desativar em leitores como o VLC ou o QuickTime.",
+    "subtitleMode_softCost": "2 créditos por cada 5 minutos ou fração · até 10 minutos",
+    "subtitleMode_burn": "Vídeo com legendas incrustadas",
+    "subtitleMode_burnDesc": "Um MP4 com as legendas desenhadas na imagem — sempre visíveis, mesmo sem som.",
+    "subtitleMode_burnCost": "3 créditos por cada 5 minutos ou fração · até 10 minutos",
+    "subtitleSocialNote": "Vai publicar no TikTok, Reels ou Shorts? Escolha legendas incrustadas — estas plataformas ignoram faixas de legendas ativáveis.",
+    "smartCostKnown": "Créditos necessários: {{credits}} (duração {{length}})",
+    "smartCostUnknown": "Créditos necessários: pelo menos {{credits}} — o valor exato depende da duração e fica definido assim que o ficheiro for processado.",
+    "confirmSmartCost": "Créditos necessários: {{credits}}. Créditos restantes: {{remaining}}.",
+    "confirmSmartCostUnknown": "Créditos necessários: pelo menos {{credits}} — o valor exato depende da duração. Créditos restantes: {{remaining}}.",
+    "subtitleTooLongVideo": "Este vídeo tem mais de 10 minutos, o limite para vídeo com legendas. Escolha um vídeo mais curto ou só o ficheiro de legendas (até 30 minutos) — não foram usados créditos.",
+    "subtitleTooLongFile": "Este vídeo tem mais de 30 minutos, o limite para ficheiros de legendas. Use um vídeo mais curto — não foram usados créditos.",
+    "subtitleTooLarge": "Os vídeos podem ter no máximo 500 MB — não foram usados créditos.",
+    "subtitleUnreadable": "Não foi possível ler a duração deste vídeo, por isso não é possível calcular o preço desta opção. Exporte-o novamente em MP4 e tente outra vez — não foram usados créditos.",
+    "subtitleBadType": "Use um vídeo MP4, MOV, M4V, 3GP ou WebM.",
+    "subtitleUnavailable": "O vídeo com legendas não está disponível de momento. O ficheiro de legendas continua a funcionar — não foram usados créditos.",
+    "smartFileTooLarge": "Este ficheiro tem mais de 25 MB, o limite desta ferramenta — não foram usados créditos.",
+    "smartBadType": "Este tipo de ficheiro não é suportado por esta ferramenta — não foram usados créditos."
+  },
+  "pack": {
+    "t": {
+      "faq.cost.a.subtitle": "É cobrado pela duração em vez de por ficheiro, por cada 5 minutos de vídeo ou fração: 1 crédito só pelo ficheiro de legendas, 2 créditos por um vídeo com legendas ativáveis e 3 créditos por um vídeo com legendas incrustadas, porque estas duas últimas opções têm de ser processadas novamente como vídeo. Não há subscrição: os créditos compram-se em pequenos pacotes pré-pagos, nunca expiram, e uma conversão que falhe nunca custa nada.",
+      "faq.time.suffix.subtitle": " Os vídeos podem ter até 500 MB — até 30 minutos para o ficheiro de legendas e até 10 minutos para vídeo com legendas."
+    },
+    "replace": {
+      "t": {
+        "intro.lead.subtitle": "O gerador de legendas transcreve a fala de um vídeo e escreve-a com códigos de tempo. Recebe um ficheiro de legendas normalizado ou o próprio vídeo final — com uma faixa de legendas que os espectadores podem ativar e desativar, ou com as legendas incrustadas na imagem para que apareçam em todo o lado.",
+        "steps.subtitle.1": "Carregue o vídeo que quer legendar — MP4, MOV, M4V, 3GP ou WebM, até 500 MB.",
+        "steps.subtitle.2": "Escolha o resultado — ficheiro de legendas, vídeo com legendas ativáveis ou vídeo com legendas incrustadas — e indique o idioma falado se o conhecer. O preço é mostrado antes de converter.",
+        "steps.subtitle.3": "Clique em Converter e descarregue o ficheiro de legendas ou o MP4 final.",
+        "shapeFaq.subtitle.a1": "Fala clara é transcrita com muita precisão, incluindo com sotaques. Música de fundo, conversas sobrepostas e terminologia especializada são onde os erros se infiltram, e indicar o idioma falado em vez de o detectar automaticamente ajuda. Se cada palavra tiver de estar perfeita, escolha primeiro o ficheiro de legendas: é texto simples, por isso corrigir uma palavra ou outra demora segundos em qualquer editor de texto.",
+        "shapeFaq.subtitle.q2": "Devo escolher legendas ativáveis ou incrustadas?",
+        "shapeFaq.subtitle.a2": "As legendas incrustadas fazem parte da imagem, por isso aparecem em todo o lado — a escolha certa para TikTok, Instagram Reels e YouTube Shorts, onde a maioria das pessoas vê sem som e as faixas de legendas ativáveis são ignoradas. As legendas ativáveis continuam a ser uma faixa separada que os espectadores ativam ou desativam em leitores como o VLC ou o QuickTime; para o próprio YouTube, carregue antes o ficheiro de legendas. Se precisar de SRT ou VTT, o SRT funciona em quase todo o lado, enquanto o VTT é o formato para leitores HTML5 em sites."
+      }
+    }
+  }
+}
