@@ -1,0 +1,23 @@
+{
+  "sections": {
+    "feedback": {
+      "button": "Zaproponuj ulepszenie",
+      "title": "Zaproponuj ulepszenie",
+      "intro": "Masz pomysł, jak ulepszyć ConvertAnyFormat? Czytamy każdą sugestię.",
+      "messageLabel": "Twoja sugestia",
+      "messagePlaceholder": "Napisz, co chciałbyś zobaczyć…",
+      "charsLeft": "Pozostało {{n}} znaków",
+      "emailLabel": "Twój e-mail (opcjonalnie)",
+      "emailPlaceholder": "you@example.com",
+      "emailHint": "Dodaj swój e-mail, jeśli chcesz otrzymać odpowiedź.",
+      "submit": "Wyślij sugestię",
+      "submitting": "Wysyłanie…",
+      "cancel": "Anuluj",
+      "success": "Dziękujemy za sugestię! Czytamy każdą z nich.",
+      "done": "Gotowe",
+      "error": "Coś poszło nie tak. Spróbuj ponownie.",
+      "required": "Najpierw wpisz swoją sugestię.",
+      "rateLimited": "Wysłano kilka wiadomości w krótkim czasie. Spróbuj ponownie za godzinę."
+    }
+  }
+}

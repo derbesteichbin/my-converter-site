@@ -139,6 +139,11 @@ function applyI18n(block, copy, label, multiline) {
   for (const [section, entries] of Object.entries(copy.replace || {})) {
     block = replaceInSection(block, section, entries, label);
   }
+  // Whole new top-level sections (e.g. the feedback modal's strings), placed
+  // just before the 'report' section.
+  for (const [section, entries] of Object.entries(copy.sections || {})) {
+    block = addSection(block, section, entries, 'report', multiline, label);
+  }
   return block;
 }
 

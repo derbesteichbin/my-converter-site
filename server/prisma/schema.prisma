@@ -126,6 +126,22 @@ model Review {
   @@index([createdAt])
 }
 
+// Improvement ideas sent from the footer's "Suggest an improvement" link.
+// Same shape as ProblemReport, kept separate so ideas and bug reports never
+// mix. Private to the site owner: saved here and emailed, never displayed.
+model Feedback {
+  id           String   @id @default(uuid())
+  message      String
+  contactEmail String?
+  pageUrl      String
+  userAgent    String
+  userId       String?
+  userEmail    String?
+  createdAt    DateTime @default(now())
+
+  @@index([createdAt])
+}
+
 model ProblemReport {
   id           String   @id @default(uuid())
   message      String

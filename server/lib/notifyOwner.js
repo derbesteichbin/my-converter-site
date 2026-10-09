@@ -166,7 +166,29 @@ async function notifyProblemReport({ message, contactEmail, pageUrl, userAgent, 
   });
 }
 
+async function notifyFeedback({ message, contactEmail, pageUrl, userAgent, userId, userEmail, createdAt }) {
+  const html = wrapper({
+    title: 'New suggestion',
+    intro: 'Someone just sent an improvement idea for ConvertAnyFormat.',
+    body: `${table([
+      row('From', userEmail ? escapeHtml(userEmail) : '<span style="color:#9ca3af">Not logged in (guest)</span>'),
+      row('Reply-to', contactEmail ? `<a href="mailto:${escapeHtml(contactEmail)}" style="color:#2563eb">${escapeHtml(contactEmail)}</a>` : '<span style="color:#9ca3af">Not provided</span>'),
+      row('Page', escapeHtml(pageUrl)),
+      row('User ID', userId ? escapeHtml(userId) : '<span style="color:#9ca3af">—</span>'),
+      row('Browser', escapeHtml(userAgent)),
+      row('Date', escapeHtml(formatTimestamp(createdAt))),
+    ])}<p style="margin:18px 0 6px;color:#6b7280;font-size:13px;font-weight:600">Suggestion</p>
+    <div style="background:#f9f6f1;border:1px solid #e7e5e0;border-radius:8px;padding:12px 14px;white-space:pre-wrap;font-size:14px;line-height:1.55;color:#111827">${escapeHtml(message)}</div>`,
+    footer: 'Automated notification from ConvertAnyFormat.',
+  });
+  return send({
+    subject: 'New suggestion on ConvertAnyFormat',
+    html,
+  });
+}
+
 module.exports = {
+  notifyFeedback,
   notifyNewRegistration,
   notifyNewPurchase,
   notifyBusinessInquiry,

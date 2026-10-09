@@ -1,0 +1,23 @@
+{
+  "sections": {
+    "feedback": {
+      "button": "Navrhnout vylepšení",
+      "title": "Navrhnout vylepšení",
+      "intro": "Máte nápad, jak ConvertAnyFormat vylepšit? Čteme každý návrh.",
+      "messageLabel": "Váš návrh",
+      "messagePlaceholder": "Napište nám, co byste rádi viděli…",
+      "charsLeft": "Zbývá {{n}} znaků",
+      "emailLabel": "Váš e-mail (nepovinné)",
+      "emailPlaceholder": "you@example.com",
+      "emailHint": "Přidejte svůj e-mail, pokud chcete odpověď.",
+      "submit": "Odeslat návrh",
+      "submitting": "Odesílání…",
+      "cancel": "Zrušit",
+      "success": "Děkujeme za váš návrh! Čteme každý z nich.",
+      "done": "Hotovo",
+      "error": "Něco se pokazilo. Zkuste to znovu.",
+      "required": "Nejprve napište svůj návrh.",
+      "rateLimited": "V krátké době jste odeslali několik zpráv. Zkuste to znovu za hodinu."
+    }
+  }
+}

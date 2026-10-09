@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import ReportProblem from './ReportProblem';
+import SuggestImprovement from './SuggestImprovement';
 
 export default function Footer() {
   const { t } = useTranslation();
@@ -51,6 +52,7 @@ export default function Footer() {
             <Link to="/contact">{t('footer.contactUs')}</Link>
             <Link to="/pricing">{t('footer.pricing')}</Link>
             <ReportProblem />
+            <SuggestImprovement />
           </div>
         </div>
       </div>

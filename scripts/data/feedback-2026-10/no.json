@@ -1,0 +1,23 @@
+{
+  "sections": {
+    "feedback": {
+      "button": "Foreslå en forbedring",
+      "title": "Foreslå en forbedring",
+      "intro": "Har du en idé som kan gjøre ConvertAnyFormat bedre? Vi leser alle forslag.",
+      "messageLabel": "Ditt forslag",
+      "messagePlaceholder": "Fortell oss hva du ønsker deg…",
+      "charsLeft": "{{n}} tegn igjen",
+      "emailLabel": "Din e-post (valgfritt)",
+      "emailPlaceholder": "you@example.com",
+      "emailHint": "Legg til e-posten din hvis du vil ha svar.",
+      "submit": "Send forslag",
+      "submitting": "Sender…",
+      "cancel": "Avbryt",
+      "success": "Takk for forslaget! Vi leser alle sammen.",
+      "done": "Ferdig",
+      "error": "Noe gikk galt. Prøv igjen.",
+      "required": "Skriv forslaget ditt først.",
+      "rateLimited": "Du har sendt flere meldinger på kort tid. Prøv igjen om en time."
+    }
+  }
+}

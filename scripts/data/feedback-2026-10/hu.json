@@ -1,0 +1,23 @@
+{
+  "sections": {
+    "feedback": {
+      "button": "Fejlesztési javaslat",
+      "title": "Fejlesztési javaslat",
+      "intro": "Van ötlete, amellyel jobbá tehetnénk a ConvertAnyFormatot? Minden javaslatot elolvasunk.",
+      "messageLabel": "Az Ön javaslata",
+      "messagePlaceholder": "Írja meg, mit látna szívesen…",
+      "charsLeft": "{{n}} karakter maradt",
+      "emailLabel": "Az Ön e-mail-címe (opcionális)",
+      "emailPlaceholder": "you@example.com",
+      "emailHint": "Adja meg e-mail-címét, ha választ szeretne.",
+      "submit": "Javaslat küldése",
+      "submitting": "Küldés…",
+      "cancel": "Mégse",
+      "success": "Köszönjük a javaslatát! Mindegyiket elolvassuk.",
+      "done": "Kész",
+      "error": "Valami hiba történt. Próbálja újra.",
+      "required": "Először írja meg a javaslatát.",
+      "rateLimited": "Rövid idő alatt több üzenetet küldött. Próbálja újra egy óra múlva."
+    }
+  }
+}

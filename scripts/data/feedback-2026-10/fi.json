@@ -1,0 +1,23 @@
+{
+  "sections": {
+    "feedback": {
+      "button": "Ehdota parannusta",
+      "title": "Ehdota parannusta",
+      "intro": "Onko sinulla idea, joka tekisi ConvertAnyFormatista paremman? Luemme jokaisen ehdotuksen.",
+      "messageLabel": "Ehdotuksesi",
+      "messagePlaceholder": "Kerro, mitä haluaisit nähdä…",
+      "charsLeft": "{{n}} merkkiä jäljellä",
+      "emailLabel": "Sähköpostisi (valinnainen)",
+      "emailPlaceholder": "you@example.com",
+      "emailHint": "Lisää sähköpostisi, jos haluat vastauksen.",
+      "submit": "Lähetä ehdotus",
+      "submitting": "Lähetetään…",
+      "cancel": "Peruuta",
+      "success": "Kiitos ehdotuksestasi! Luemme jokaisen.",
+      "done": "Valmis",
+      "error": "Jotain meni pieleen. Yritä uudelleen.",
+      "required": "Kirjoita ensin ehdotuksesi.",
+      "rateLimited": "Olet lähettänyt useita viestejä lyhyessä ajassa. Yritä uudelleen tunnin kuluttua."
+    }
+  }
+}

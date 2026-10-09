@@ -1,0 +1,23 @@
+{
+  "sections": {
+    "feedback": {
+      "button": "Sugerează o îmbunătățire",
+      "title": "Sugerează o îmbunătățire",
+      "intro": "Ai o idee care ar face ConvertAnyFormat mai bun? Citim fiecare sugestie.",
+      "messageLabel": "Sugestia ta",
+      "messagePlaceholder": "Spune-ne ce ți-ar plăcea să vezi…",
+      "charsLeft": "{{n}} caractere rămase",
+      "emailLabel": "E-mailul tău (opțional)",
+      "emailPlaceholder": "you@example.com",
+      "emailHint": "Adaugă e-mailul dacă vrei un răspuns.",
+      "submit": "Trimite sugestia",
+      "submitting": "Se trimite…",
+      "cancel": "Anulează",
+      "success": "Mulțumim pentru sugestie! Le citim pe toate.",
+      "done": "Gata",
+      "error": "Ceva nu a mers bine. Încearcă din nou.",
+      "required": "Scrie mai întâi sugestia.",
+      "rateLimited": "Ai trimis mai multe mesaje într-un timp scurt. Încearcă din nou peste o oră."
+    }
+  }
+}

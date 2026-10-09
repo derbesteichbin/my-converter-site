@@ -1,0 +1,23 @@
+{
+  "sections": {
+    "feedback": {
+      "button": "Een verbetering voorstellen",
+      "title": "Een verbetering voorstellen",
+      "intro": "Heb je een idee om ConvertAnyFormat beter te maken? We lezen elke suggestie.",
+      "messageLabel": "Je suggestie",
+      "messagePlaceholder": "Vertel ons wat je graag zou zien…",
+      "charsLeft": "Nog {{n}} tekens",
+      "emailLabel": "Je e-mail (optioneel)",
+      "emailPlaceholder": "you@example.com",
+      "emailHint": "Voeg je e-mail toe als je een reactie wilt.",
+      "submit": "Suggestie versturen",
+      "submitting": "Versturen…",
+      "cancel": "Annuleren",
+      "success": "Bedankt voor je suggestie! We lezen ze allemaal.",
+      "done": "Klaar",
+      "error": "Er is iets misgegaan. Probeer het opnieuw.",
+      "required": "Schrijf eerst je suggestie.",
+      "rateLimited": "Je hebt in korte tijd meerdere berichten verstuurd. Probeer het over een uur opnieuw."
+    }
+  }
+}

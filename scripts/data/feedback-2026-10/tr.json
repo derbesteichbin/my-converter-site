@@ -1,0 +1,23 @@
+{
+  "sections": {
+    "feedback": {
+      "button": "İyileştirme öner",
+      "title": "İyileştirme öner",
+      "intro": "ConvertAnyFormat'ı daha iyi hale getirecek bir fikriniz mi var? Her öneriyi okuyoruz.",
+      "messageLabel": "Öneriniz",
+      "messagePlaceholder": "Görmek istediğiniz şeyi bize anlatın…",
+      "charsLeft": "{{n}} karakter kaldı",
+      "emailLabel": "E-postanız (isteğe bağlı)",
+      "emailPlaceholder": "you@example.com",
+      "emailHint": "Yanıt istiyorsanız e-postanızı ekleyin.",
+      "submit": "Öneriyi gönder",
+      "submitting": "Gönderiliyor…",
+      "cancel": "İptal",
+      "success": "Öneriniz için teşekkürler! Hepsini okuyoruz.",
+      "done": "Tamam",
+      "error": "Bir şeyler ters gitti. Lütfen tekrar deneyin.",
+      "required": "Lütfen önce önerinizi yazın.",
+      "rateLimited": "Kısa sürede birkaç mesaj gönderdiniz. Lütfen bir saat sonra tekrar deneyin."
+    }
+  }
+}

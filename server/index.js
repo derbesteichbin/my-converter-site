@@ -12,6 +12,7 @@ const profileRoutes = require('./routes/profile');
 const smartFunctionsRoutes = require('./routes/smartFunctions');
 const reviewsRoutes = require('./routes/reviews');
 const reportRoutes = require('./routes/report');
+const feedbackRoutes = require('./routes/feedback');
 const {
   loginLimiter,
   registerLimiter,
@@ -119,6 +120,7 @@ app.use('/api/auth/forgot-password', emailLimiter);
 // Endpoints that send mail on every successful call.
 app.use('/api/contact', emailLimiter);
 app.use('/api/report', emailLimiter);
+app.use('/api/feedback', emailLimiter);
 app.use('/api/billing/contact', emailLimiter);
 
 // Paid, expensive work.
@@ -156,6 +158,9 @@ app.use('/api/reviews', reviewsRoutes);
 
 // Problem reports (owner-only; never displayed publicly)
 app.use('/api/report', reportRoutes);
+
+// Improvement suggestions (owner-only; never displayed publicly)
+app.use('/api/feedback', feedbackRoutes);
 
 // Contact form
 app.post('/api/contact', async (req, res) => {
