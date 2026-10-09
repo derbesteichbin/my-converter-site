@@ -12,6 +12,7 @@ const profileRoutes = require('./routes/profile');
 const smartFunctionsRoutes = require('./routes/smartFunctions');
 const reviewsRoutes = require('./routes/reviews');
 const reportRoutes = require('./routes/report');
+const { notifyContactMessage } = require('./lib/notifyOwner');
 const feedbackRoutes = require('./routes/feedback');
 const {
   loginLimiter,
@@ -170,7 +171,10 @@ app.post('/api/contact', async (req, res) => {
       return res.status(400).json({ error: 'All fields are required' });
     }
     const prisma = require('./lib/prisma');
-    await prisma.contact.create({ data: { name, email, subject, message } });
+    const contact = await prisma.contact.create({ data: { name, email, subject, message } });
+    // Email the support inbox (SUPPORT_EMAIL). Fire-and-forget: the message
+    // is already saved, so a mail hiccup must not fail the request.
+    notifyContactMessage({ name, email, subject, message, createdAt: contact.createdAt });
     res.json({ ok: true });
   } catch (err) {
     console.error('Contact form error:', err);

@@ -37,18 +37,38 @@ function wrapper({ title, intro, body, footer }) {
   </body></html>`;
 }
 
-async function send({ subject, html }) {
-  if (!process.env.RESEND_API_KEY || !process.env.OWNER_EMAIL) {
-    console.log('[notifyOwner] Skipping — RESEND_API_KEY or OWNER_EMAIL missing');
+// Two destinations:
+//   OWNER_EMAIL   — owner notifications: signups, purchases, business
+//                   inquiries, reviews, problem reports.
+//   SUPPORT_EMAIL — messages from visitors that need an answer: the contact
+//                   form and "Suggest an improvement". Defaults to the
+//                   address the site shows publicly, so it works unset.
+const DEFAULT_SUPPORT_EMAIL = 'support@convertanyformat.com';
+
+function supportEmail() {
+  return (process.env.SUPPORT_EMAIL || '').trim() || DEFAULT_SUPPORT_EMAIL;
+}
+
+// A plausible address for Reply-To; anything else is dropped, because a
+// malformed Reply-To makes Resend reject the whole email.
+function replyToOrNull(value) {
+  const v = typeof value === 'string' ? value.trim() : '';
+  return /^[^\s@<>"]+@[^\s@<>"]+\.[^\s@<>"]+$/.test(v) && v.length <= 200 ? v : null;
+}
+
+async function send({ subject, html, to = process.env.OWNER_EMAIL, replyTo = null }) {
+  if (!process.env.RESEND_API_KEY || !to) {
+    console.log('[notifyOwner] Skipping — RESEND_API_KEY or recipient missing');
     return;
   }
   try {
     const resend = new Resend(process.env.RESEND_API_KEY);
     await resend.emails.send({
       from: FROM,
-      to: process.env.OWNER_EMAIL,
+      to,
       subject,
       html,
+      ...(replyTo ? { replyTo } : {}),
     });
   } catch (err) {
     console.error('[notifyOwner] failed:', err && err.message);
@@ -184,11 +204,41 @@ async function notifyFeedback({ message, contactEmail, pageUrl, userAgent, userI
   return send({
     subject: 'New suggestion on ConvertAnyFormat',
     html,
+    to: supportEmail(),
+    replyTo: replyToOrNull(contactEmail),
+  });
+}
+
+// Contact form (/contact): until now these were only stored in the Contact
+// table and never sent anywhere. Goes to the support inbox; Reply answers
+// the visitor directly.
+async function notifyContactMessage({ name, email, subject, message, createdAt }) {
+  const html = wrapper({
+    title: 'New contact message',
+    intro: 'Someone just sent a message through the contact form.',
+    body: `${table([
+      row('Name', escapeHtml(name)),
+      row('Email', `<a href="mailto:${escapeHtml(email)}" style="color:#2563eb">${escapeHtml(email)}</a>`),
+      row('Subject', escapeHtml(subject)),
+      row('Date', escapeHtml(formatTimestamp(createdAt))),
+    ])}<p style="margin:18px 0 6px;color:#6b7280;font-size:13px;font-weight:600">Message</p>
+    <div style="background:#f9f6f1;border:1px solid #e7e5e0;border-radius:8px;padding:12px 14px;white-space:pre-wrap;font-size:14px;line-height:1.55;color:#111827">${escapeHtml(message)}</div>`,
+    footer: 'Automated notification from ConvertAnyFormat.',
+  });
+  // Single line, bounded: the visitor's subject goes into the mail header.
+  const cleanSubject = String(subject || '').replace(/[\r\n]+/g, ' ').trim().slice(0, 120);
+  return send({
+    subject: `Contact form: ${cleanSubject}`,
+    html,
+    to: supportEmail(),
+    replyTo: replyToOrNull(email),
   });
 }
 
 module.exports = {
   notifyFeedback,
+  notifyContactMessage,
+  supportEmail,
   notifyNewRegistration,
   notifyNewPurchase,
   notifyBusinessInquiry,
