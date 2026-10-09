@@ -84,6 +84,20 @@ const SOCIAL_VIDEO_MAX_SECONDS = 3 * 60;
 const SOCIAL_VIDEO_CREDITS = 2;
 const uploadSocialResize = multer({ storage, limits: { fileSize: SOCIAL_VIDEO_MAX_BYTES } });
 
+// Tool types that must be sent to a specific route. Anything not listed is
+// handled by POST /api/convert.
+const DEDICATED_ROUTE = {
+  'pdf-merge': '/api/convert/pdf-tool',
+  'pdf-split': '/api/convert/pdf-tool',
+  'pdf-compress': '/api/convert/pdf-tool',
+  'pdf-rotate': '/api/convert/pdf-tool',
+  'pdf-protect': '/api/convert/pdf-tool',
+  'pdf-unlock': '/api/convert/pdf-tool',
+  collage: '/api/convert/collage',
+  'social-resize': '/api/convert/social-resize',
+  smart: '/api/smart',
+};
+
 const cloudConvert = new CloudConvert(process.env.CLOUDCONVERT_API_KEY);
 // Presence only — never any part of the key itself.
 console.log('CloudConvert initialized, sandbox: false, API key: ' + (process.env.CLOUDCONVERT_API_KEY ? 'SET' : 'MISSING'));
@@ -264,6 +278,9 @@ async function downloadExportedFile(ccJob, outputFormat) {
   const outputPath = path.join(OUTPUT_DIR, outputFilename);
 
   const response = await fetch(exportedFile.url);
+  // Without this, an error page from the export URL would be saved as the
+  // user's "converted file" and the job marked done (and charged).
+  if (!response.ok) throw new Error(`Export download failed: HTTP ${response.status}`);
   const buffer = Buffer.from(await response.arrayBuffer());
   fs.writeFileSync(outputPath, buffer);
 
@@ -272,7 +289,10 @@ async function downloadExportedFile(ccJob, outputFormat) {
 
 // Like downloadExportedFile, but keeps every exported file — a PDF converted
 // to images comes back as one file per page. Returned in page order.
-async function downloadAllExportedFiles(ccJob, outputFormat) {
+//
+// Each page written is pushed onto `saved` as it lands, so if a later page
+// fails the caller still knows which files to delete.
+async function downloadAllExportedFiles(ccJob, outputFormat, saved = []) {
   const finished = await cloudConvert.jobs.wait(ccJob.id);
   const exportTask = finished.tasks.find(
     (t) => t.name === 'export-file' && t.status === 'finished'
@@ -289,7 +309,6 @@ async function downloadAllExportedFiles(ccJob, outputFormat) {
   );
 
   const base = newOutputBase();
-  const saved = [];
   for (let i = 0; i < ordered.length; i++) {
     const outputFilename = `${base}-p${i + 1}.${outputFormat}`;
     const response = await fetch(ordered[i].url);
@@ -350,11 +369,15 @@ router.post('/', protect, preflightCredits, upload.single('file'), async (req, r
       if (!toolDef.outputFormats.includes(outputFormat)) {
         return reject(400, { error: `Format .${outputFormat} is not supported for this tool` });
       }
+      // Collage and Resize have their own route (own limits, pricing and
+      // worker) and must not be run through this one, where they would
+      // silently become a plain conversion. (Older tools with a dedicated
+      // route are left as they were, since API clients may rely on that.)
+      if (['collage', 'social-resize'].includes(toolDef.toolType)) {
+        return reject(400, { error: `Use ${DEDICATED_ROUTE[toolDef.toolType]} for this tool` });
+      }
       // The sharp tools decode the file themselves, so check the type and
       // the options up front — a bad request must not cost a credit.
-      if (toolDef.toolType === 'social-resize') {
-        return reject(400, { error: 'Use POST /api/convert/social-resize for this tool' });
-      }
       if (SOCIAL_OPTIONS[toolDef.toolType]) {
         const ext = path.extname(req.file.originalname).replace('.', '').toLowerCase();
         if (!toolDef.inputFormats.includes(ext)) {
@@ -599,7 +622,10 @@ async function socialImageJob(jobId, file, toolType, options, requestedFormat, n
 // individual download (extraOutputs) and also zipped; the ZIP is the job's
 // primary outputFile so the dashboard and email link still have one file.
 async function pdfToImages(jobId, file, outputFormat, notifyUserId = null, chargedUserId = null, chargedAmount = 0) {
-  let pages = [];
+  // Filled as pages are written (even if a later page fails), so the catch
+  // below can remove every file this job produced.
+  const pages = [];
+  let zipName = null;
   try {
     await prisma.job.update({ where: { id: jobId }, data: { status: 'processing' } });
 
@@ -620,10 +646,9 @@ async function pdfToImages(jobId, file, outputFormat, notifyUserId = null, charg
     const uploadTask = ccJob.tasks.find((t) => t.name === 'upload-file');
     await cloudConvert.tasks.upload(uploadTask, fs.createReadStream(filePath), file.originalname);
 
-    const { base, files } = await downloadAllExportedFiles(ccJob, outputFormat);
-    pages = files;
+    const { base, files } = await downloadAllExportedFiles(ccJob, outputFormat, pages);
 
-    const zipName = `${base}.zip`;
+    zipName = `${base}.zip`;
     await zipOutputs(zipName, files.map((f, i) => ({ file: f, name: pageName(i, files.length, outputFormat) })));
 
     await prisma.job.update({
@@ -636,9 +661,11 @@ async function pdfToImages(jobId, file, outputFormat, notifyUserId = null, charg
     }
   } catch (err) {
     console.error(`pdfToImages error for job ${jobId}:`, err);
-    // Pages written before the failure are not attached to the job, so
-    // nobody could download them — remove them now rather than at the sweep.
-    for (const f of pages) fs.promises.unlink(path.join(OUTPUT_DIR, f)).catch(() => {});
+    // Pages (and a part-written ZIP) from a failed job are not attached to
+    // it, so nobody could download them — remove them now, not at the sweep.
+    for (const f of zipName ? [...pages, zipName] : pages) {
+      fs.promises.unlink(path.join(OUTPUT_DIR, f)).catch(() => {});
+    }
     await failJob(jobId, chargedUserId, chargedAmount);
   } finally {
     discardUploads(file);
@@ -662,7 +689,10 @@ router.post('/pdf-tool', protect, preflightCredits, upload.array('files', 20), a
 
     const { toolSlug } = req.body;
     const toolDef = VALID_TOOLS[toolSlug];
-    if (!toolDef || !toolDef.toolType) {
+    // Only the PDF operations convertPdfTool implements. Any other tool with
+    // a toolType (collage, social, compress, …) used to be accepted here and
+    // run as a PDF "split" on whatever was uploaded.
+    if (!toolDef || DEDICATED_ROUTE[toolDef.toolType] !== '/api/convert/pdf-tool') {
       return reject(400, { error: 'Unknown PDF tool' });
     }
 
@@ -902,7 +932,23 @@ router.post('/social-resize', protect, preflightCredits, socialResizeUpload, asy
 // lib/collage.js), but charged, tracked and cleaned up exactly like the
 // CloudConvert tools: one credit per collage, refunded if it fails.
 
-router.post('/collage', protect, preflightCredits, upload.array('files', LAYOUTS.auto.max), async (req, res) => {
+// Turn multer's rejections into the same JSON errors as the checks below;
+// unhandled, they reached Express's default handler as an HTML 500. multer
+// has already deleted any files it wrote by the time it reports.
+function collageUpload(req, res, next) {
+  upload.array('files', LAYOUTS.auto.max)(req, res, (err) => {
+    if (!err) return next();
+    if (err.code === 'LIMIT_UNEXPECTED_FILE') {
+      return res.status(400).json({ error: 'Too many photos', code: 'collage_too_many' });
+    }
+    if (err.code === 'LIMIT_FILE_SIZE') {
+      return res.status(413).json({ error: 'A photo is larger than 200 MB', code: 'social_image_too_large' });
+    }
+    return next(err);
+  });
+}
+
+router.post('/collage', protect, preflightCredits, collageUpload, async (req, res) => {
   let charged = 0;
   const reject = (status, payload) => {
     discardUploads(req.files);

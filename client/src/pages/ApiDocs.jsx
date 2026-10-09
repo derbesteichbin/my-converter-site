@@ -40,10 +40,10 @@ function buildNavSections(t) {
       { label: t('apiDocs.navVideoConversion'), slug: 'mov-to-mp4' },
     ]},
     { id: 'specific', title: t('apiDocs.navSpecific'), items: [
-      { label: t('apiDocs.navJpgToPdf'), slug: 'jpg-to-png', format: 'pdf' },
+      { label: t('apiDocs.navJpgToPdf'), slug: 'jpg-to-pdf' },
       { label: t('apiDocs.navVideoToMp3'), slug: 'mp4-to-mp3' },
       { label: t('apiDocs.navHeicToJpg'), slug: 'heic-to-jpg' },
-      { label: t('apiDocs.navPdfToJpg'), slug: 'pdf-to-word', format: 'jpg' },
+      { label: t('apiDocs.navPdfToJpg'), slug: 'pdf-to-images' },
       { label: t('apiDocs.navWebpToPng'), slug: 'webp-to-png' },
       { label: t('apiDocs.navPdfToWord'), slug: 'pdf-to-word' },
       { label: t('apiDocs.navMp4ToMp3'), slug: 'mp4-to-mp3' },
