@@ -98,9 +98,13 @@ function replaceInSection(block, section, entries, label) {
   for (const [key, value] of Object.entries(entries)) {
     // The original site wrote its entries single-quoted, this script writes
     // them double-quoted; accept either for the key and the value.
-    const keyText = [lit(key) + ':', `'${key}':`].find((k) => body.includes(k));
-    if (!keyText) throw new Error(`${label}: ${section}.${key} not found to replace`);
-    const keyAt = body.indexOf(keyText);
+    // Keys may also be bare identifiers (`a3: "…"` in i18n.js); those only
+    // count at a word boundary, so `a3:` never matches inside `a13:`.
+    const esc = key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const m = new RegExp(`(^|[\\s{,])(${esc}|"${esc}"|'${esc}')\\s*:`).exec(body);
+    if (!m) throw new Error(`${label}: ${section}.${key} not found to replace`);
+    const keyAt = m.index + m[1].length;
+    const keyText = m[0].slice(m[1].length);
     // The value is the next string literal; walk it to its closing quote.
     const dq = body.indexOf('"', keyAt + keyText.length);
     const sq = body.indexOf("'", keyAt + keyText.length);
